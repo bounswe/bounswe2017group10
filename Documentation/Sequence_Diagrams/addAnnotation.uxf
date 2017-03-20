@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>168</x>
+      <y>216</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>Actor
+fg=black
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLActor</id>
+    <coordinates>
+      <x>152</x>
+      <y>136</y>
+      <w>112</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>Registered User</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>160</x>
+      <y>104</y>
+      <w>336</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>lt=-
+Sequence Diagram for Adding Annotation</panel_attributes>
+    <additional_attributes>10.0;20.0;400.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>208</x>
+      <y>256</y>
+      <w>240</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+addAnnotation(User,Annotation)</panel_attributes>
+    <additional_attributes>280.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>384</x>
+      <y>216</y>
+      <w>104</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>MediaItem
+fg=black
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>200</x>
+      <y>240</y>
+      <w>16</w>
+      <h>312</h>
+    </coordinates>
+    <panel_attributes>
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>432</x>
+      <y>240</y>
+      <w>16</w>
+      <h>312</h>
+    </coordinates>
+    <panel_attributes>
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>816</x>
+      <y>216</y>
+      <w>112</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>Annotation
+fg=black
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>440</x>
+      <y>280</y>
+      <w>160</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+get(User)</panel_attributes>
+    <additional_attributes>180.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>584</x>
+      <y>240</y>
+      <w>16</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>440</x>
+      <y>312</y>
+      <w>160</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+return User</panel_attributes>
+    <additional_attributes>10.0;20.0;180.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>544</x>
+      <y>216</y>
+      <w>104</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>User
+fg=black
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>864</x>
+      <y>440</y>
+      <w>16</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>720</x>
+      <y>384</y>
+      <w>128</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+
+update media
+item and add 
+annotation
+</panel_attributes>
+    <additional_attributes>10.0;70.0;50.0;70.0;50.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>440</x>
+      <y>488</y>
+      <w>440</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+set(Annotation)</panel_attributes>
+    <additional_attributes>530.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>208</x>
+      <y>512</y>
+      <w>240</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+Succesfully Adding Annotation</panel_attributes>
+    <additional_attributes>10.0;20.0;280.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>864</x>
+      <y>232</y>
+      <w>24</w>
+      <h>224</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;260.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>664</x>
+      <y>216</y>
+      <w>112</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>Database
+fg=black
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>712</x>
+      <y>240</y>
+      <w>16</w>
+      <h>248</h>
+    </coordinates>
+    <panel_attributes>
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>440</x>
+      <y>368</y>
+      <w>288</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+add Annotation and update MediaItem</panel_attributes>
+    <additional_attributes>340.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>440</x>
+      <y>440</y>
+      <w>288</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+return Annotation</panel_attributes>
+    <additional_attributes>10.0;20.0;340.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>584</x>
+      <y>352</y>
+      <w>24</w>
+      <h>208</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;240.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>712</x>
+      <y>480</y>
+      <w>24</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+</diagram>
