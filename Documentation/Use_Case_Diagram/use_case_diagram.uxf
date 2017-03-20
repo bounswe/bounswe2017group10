@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><diagram program="umlet" version="11.3">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
   <zoom_level>10</zoom_level>
   <element>
     <type>CustomElementImpl</type>
@@ -6,7 +7,7 @@
       <x>180</x>
       <y>0</y>
       <w>991</w>
-      <h>1701</h>
+      <h>1371</h>
     </coordinates>
     <panel_attributes>// Modify the text below and
 // observe the element preview.
@@ -22,7 +23,7 @@ for(String textline : textlines) {
 }</custom_code>
   </element>
   <element>
-    <type>com.umlet.element.Actor</type>
+    <type>com.baselet.element.old.element.Actor</type>
     <coordinates>
       <x>30</x>
       <y>280</y>
@@ -33,7 +34,7 @@ for(String textline : textlines) {
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.Actor</type>
+    <type>com.baselet.element.old.element.Actor</type>
     <coordinates>
       <x>20</x>
       <y>890</y>
@@ -44,30 +45,7 @@ for(String textline : textlines) {
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.Actor</type>
-    <coordinates>
-      <x>40</x>
-      <y>1510</y>
-      <w>100</w>
-      <h>120</h>
-    </coordinates>
-    <panel_attributes>Moderator</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>0</x>
-      <y>930</y>
-      <w>160</w>
-      <h>600</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;.
-&lt;&lt;extends&gt;&gt;</panel_attributes>
-    <additional_attributes>80;30;90;580</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>80</x>
       <y>110</y>
@@ -78,7 +56,7 @@ for(String textline : textlines) {
     <additional_attributes>30;190;170;30</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.UseCase</type>
+    <type>com.baselet.element.old.element.UseCase</type>
     <coordinates>
       <x>250</x>
       <y>100</y>
@@ -92,7 +70,7 @@ bg=orange</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.UseCase</type>
+    <type>com.baselet.element.old.element.UseCase</type>
     <coordinates>
       <x>600</x>
       <y>70</y>
@@ -104,7 +82,7 @@ bg=yellow</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.UseCase</type>
+    <type>com.baselet.element.old.element.UseCase</type>
     <coordinates>
       <x>600</x>
       <y>180</y>
@@ -116,7 +94,7 @@ bg=yellow</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>380</x>
       <y>60</y>
@@ -128,7 +106,7 @@ bg=yellow</panel_attributes>
     <additional_attributes>30;80;220;30</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>380</x>
       <y>120</y>
@@ -140,7 +118,7 @@ bg=yellow</panel_attributes>
     <additional_attributes>30;30;220;70</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.UseCase</type>
+    <type>com.baselet.element.old.element.UseCase</type>
     <coordinates>
       <x>230</x>
       <y>720</y>
@@ -154,7 +132,7 @@ bg=orange</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.UseCase</type>
+    <type>com.baselet.element.old.element.UseCase</type>
     <coordinates>
       <x>610</x>
       <y>700</y>
@@ -166,7 +144,7 @@ bg=yellow</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>440</x>
       <y>690</y>
@@ -178,7 +156,7 @@ bg=yellow</panel_attributes>
     <additional_attributes>30;70;170;30</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>440</x>
       <y>740</y>
@@ -190,7 +168,7 @@ bg=yellow</panel_attributes>
     <additional_attributes>30;30;170;70</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.UseCase</type>
+    <type>com.baselet.element.old.element.UseCase</type>
     <coordinates>
       <x>610</x>
       <y>800</y>
@@ -202,7 +180,7 @@ bg=yellow</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.UseCase</type>
+    <type>com.baselet.element.old.element.UseCase</type>
     <coordinates>
       <x>220</x>
       <y>280</y>
@@ -216,7 +194,7 @@ bg=orange</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>520</x>
       <y>230</y>
@@ -228,7 +206,7 @@ bg=orange</panel_attributes>
     <additional_attributes>30;90;230;30</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.UseCase</type>
+    <type>com.baselet.element.old.element.UseCase</type>
     <coordinates>
       <x>750</x>
       <y>320</y>
@@ -240,7 +218,7 @@ bg=yellow</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.UseCase</type>
+    <type>com.baselet.element.old.element.UseCase</type>
     <coordinates>
       <x>750</x>
       <y>240</y>
@@ -252,7 +230,7 @@ bg=yellow</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>520</x>
       <y>280</y>
@@ -264,7 +242,7 @@ bg=yellow</panel_attributes>
     <additional_attributes>30;40;230;60</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>80</x>
       <y>290</y>
@@ -275,19 +253,19 @@ bg=yellow</panel_attributes>
     <additional_attributes>140;30;30;30</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.UseCase</type>
+    <type>com.baselet.element.old.element.UseCase</type>
     <coordinates>
       <x>220</x>
       <y>480</y>
       <w>260</w>
       <h>60</h>
     </coordinates>
-    <panel_attributes>View Public Cultural Heritage Item
+    <panel_attributes>View Cultural Heritage Item
 bg=orange</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.UseCase</type>
+    <type>com.baselet.element.old.element.UseCase</type>
     <coordinates>
       <x>480</x>
       <y>380</y>
@@ -299,7 +277,7 @@ bg=green</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.UseCase</type>
+    <type>com.baselet.element.old.element.UseCase</type>
     <coordinates>
       <x>580</x>
       <y>460</y>
@@ -313,7 +291,7 @@ bg=green</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.UseCase</type>
+    <type>com.baselet.element.old.element.UseCase</type>
     <coordinates>
       <x>470</x>
       <y>620</y>
@@ -325,7 +303,7 @@ bg=green</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.UseCase</type>
+    <type>com.baselet.element.old.element.UseCase</type>
     <coordinates>
       <x>780</x>
       <y>610</y>
@@ -339,7 +317,7 @@ bg=green</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>80</x>
       <y>300</y>
@@ -350,7 +328,7 @@ bg=green</panel_attributes>
     <additional_attributes>170;190;30;30</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>370</x>
       <y>370</y>
@@ -362,7 +340,7 @@ bg=green</panel_attributes>
     <additional_attributes>110;30;60;120</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>450</x>
       <y>450</y>
@@ -374,7 +352,7 @@ bg=green</panel_attributes>
     <additional_attributes>130;50;30;50</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>380</x>
       <y>500</y>
@@ -386,7 +364,7 @@ bg=green</panel_attributes>
     <additional_attributes>90;140;70;30</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>0</x>
       <y>320</y>
@@ -398,7 +376,7 @@ bg=green</panel_attributes>
     <additional_attributes>80;30;80;570</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>80</x>
       <y>740</y>
@@ -409,7 +387,7 @@ bg=green</panel_attributes>
     <additional_attributes>150;30;30;190</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.UseCase</type>
+    <type>com.baselet.element.old.element.UseCase</type>
     <coordinates>
       <x>230</x>
       <y>910</y>
@@ -421,7 +399,7 @@ bg=orange</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.UseCase</type>
+    <type>com.baselet.element.old.element.UseCase</type>
     <coordinates>
       <x>600</x>
       <y>870</y>
@@ -433,7 +411,7 @@ bg=green</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.UseCase</type>
+    <type>com.baselet.element.old.element.UseCase</type>
     <coordinates>
       <x>590</x>
       <y>970</y>
@@ -446,7 +424,7 @@ bg=green</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>430</x>
       <y>870</y>
@@ -458,7 +436,7 @@ bg=green</panel_attributes>
     <additional_attributes>170;30;30;70</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>430</x>
       <y>910</y>
@@ -470,7 +448,7 @@ bg=green</panel_attributes>
     <additional_attributes>160;80;30;30</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>80</x>
       <y>910</y>
@@ -481,19 +459,19 @@ bg=green</panel_attributes>
     <additional_attributes>150;30;30;30</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.UseCase</type>
+    <type>com.baselet.element.old.element.UseCase</type>
     <coordinates>
       <x>230</x>
       <y>1160</y>
       <w>280</w>
       <h>60</h>
     </coordinates>
-    <panel_attributes>Create Private Cultural Heritage Items
+    <panel_attributes>Create Cultural Heritage Item
 bg=orange</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.UseCase</type>
+    <type>com.baselet.element.old.element.UseCase</type>
     <coordinates>
       <x>600</x>
       <y>1050</y>
@@ -505,7 +483,7 @@ bg=green</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.UseCase</type>
+    <type>com.baselet.element.old.element.UseCase</type>
     <coordinates>
       <x>600</x>
       <y>1130</y>
@@ -517,7 +495,7 @@ bg=green</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.UseCase</type>
+    <type>com.baselet.element.old.element.UseCase</type>
     <coordinates>
       <x>600</x>
       <y>1200</y>
@@ -529,7 +507,7 @@ bg=green</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.UseCase</type>
+    <type>com.baselet.element.old.element.UseCase</type>
     <coordinates>
       <x>600</x>
       <y>1280</y>
@@ -541,7 +519,7 @@ bg=green</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>80</x>
       <y>920</y>
@@ -552,7 +530,7 @@ bg=green</panel_attributes>
     <additional_attributes>150;270;30;30</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>460</x>
       <y>1050</y>
@@ -564,7 +542,7 @@ bg=green</panel_attributes>
     <additional_attributes>140;30;30;120</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>470</x>
       <y>1120</y>
@@ -576,7 +554,7 @@ bg=green</panel_attributes>
     <additional_attributes>130;30;40;60</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>470</x>
       <y>1160</y>
@@ -588,7 +566,7 @@ bg=green</panel_attributes>
     <additional_attributes>130;60;40;30</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>460</x>
       <y>1180</y>
@@ -600,7 +578,7 @@ bg=green</panel_attributes>
     <additional_attributes>140;120;30;30</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>690</x>
       <y>510</y>
@@ -612,7 +590,7 @@ bg=green</panel_attributes>
     <additional_attributes>160;100;30;30</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>530</x>
       <y>510</y>
@@ -624,7 +602,7 @@ bg=green</panel_attributes>
     <additional_attributes>30;110;140;30</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>630</x>
       <y>590</y>
@@ -636,7 +614,7 @@ bg=green</panel_attributes>
     <additional_attributes>30;50;150;50</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.UseCase</type>
+    <type>com.baselet.element.old.element.UseCase</type>
     <coordinates>
       <x>950</x>
       <y>400</y>
@@ -648,7 +626,7 @@ bg=yellow</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>770</x>
       <y>390</y>
@@ -660,7 +638,7 @@ bg=yellow</panel_attributes>
     <additional_attributes>30;90;180;30</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.UseCase</type>
+    <type>com.baselet.element.old.element.UseCase</type>
     <coordinates>
       <x>1010</x>
       <y>490</y>
@@ -672,7 +650,7 @@ bg=yellow</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>780</x>
       <y>460</y>
@@ -684,7 +662,7 @@ bg=yellow</panel_attributes>
     <additional_attributes>30;50;230;50</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>940</x>
       <y>500</y>
@@ -694,52 +672,5 @@ bg=yellow</panel_attributes>
     <panel_attributes>lt=&lt;.
 &lt;&lt;extends&gt;&gt;</panel_attributes>
     <additional_attributes>50;120;120;30</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.UseCase</type>
-    <coordinates>
-      <x>230</x>
-      <y>1370</y>
-      <w>360</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>View Private Cultural Heritage Item
-
-bg=orange</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>90</x>
-      <y>1390</y>
-      <w>160</w>
-      <h>160</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes>140;30;30;140</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.UseCase</type>
-    <coordinates>
-      <x>220</x>
-      <y>1570</y>
-      <w>370</w>
-      <h>60</h>
-    </coordinates>
-    <panel_attributes>Downvote Content
-bg=orange</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>90</x>
-      <y>1500</y>
-      <w>150</w>
-      <h>110</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes>130;90;30;30</additional_attributes>
   </element>
 </diagram>
