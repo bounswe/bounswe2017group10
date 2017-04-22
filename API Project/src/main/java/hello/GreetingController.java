@@ -4,13 +4,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
 import java.util.ArrayList;
-import com.google.maps.*;
-import com.google.maps.model.*;
-import com.google.maps.errors.*;
-import java.util.Map;
 
 @RestController
 public class GreetingController {
@@ -31,27 +25,9 @@ public class GreetingController {
     return user;
   }
 
-  @RequestMapping("/format-address")
-  public Failable<Address> formatAddress(
-    @RequestParam(value="address", defaultValue= "1600 Amphitheatre Parkway Mountain View, CA 94043") String address
-  ) {
-    String apiKey = this.getMapsApiKey();
-    GeoApiContext context = new GeoApiContext().setApiKey(apiKey);
-    try {
-      GeocodingResult[] results =  GeocodingApi.geocode(context, address).await();
-      if(results.length == 0) throw new Exception("No results could be found for provided address");
-      return new Failable(new Address(results[0].formattedAddress));
-    } catch(Exception e) {
-      return new Failable(e.getMessage(), 500);
-    }
-  }
-
   @RequestMapping("/greeting")
   public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) {
-    return new Greeting(counter.incrementAndGet(), "Hello, " + name);
-  }
-
-  private String getMapsApiKey() {
-    return System.getenv().get("MAPS_API_KEY");
+      return new Greeting(counter.incrementAndGet(),
+                          String.format(template, name));
   }
 }
