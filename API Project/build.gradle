@@ -27,5 +27,6 @@ targetCompatibility = 1.8
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     testCompile('org.springframework.boot:spring-boot-starter-test')
+    compile 'com.google.maps:google-maps-services:0.1.20'
 }
 
