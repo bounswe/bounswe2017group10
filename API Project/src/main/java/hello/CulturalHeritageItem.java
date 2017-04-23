@@ -29,10 +29,32 @@ public class CulturalHeritageItem {
 	
   }
 
-public String getName() {
-    return this.title + ": "+ this.description;
+public String getTitle() {
+    return this.title;
   }
 
-//Last commit
+public long getId() {
+    return this.id;
+  }
+
+public String getDescription() {
+	return this.description;
+}
+
+public String getCreatedTime(){
+	return this.createdTime.toString();
+}
+
+public String getContinent(){
+	return this.continent;
+}
+
+public String getCity(){
+	return this.city;
+}
+
+public String getOwner(){
+	return this.owner.getName();
+}
 
 }
