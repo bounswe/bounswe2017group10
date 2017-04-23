@@ -1,4 +1,4 @@
-package hello;
+package com.bounswe.models;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

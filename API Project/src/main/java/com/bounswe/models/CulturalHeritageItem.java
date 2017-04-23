@@ -1,4 +1,5 @@
-package hello;
+package com.bounswe.models;
+
 import java.util.Date;
 import java.util.ArrayList;
 
