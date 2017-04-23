@@ -18,7 +18,7 @@ public class CulturalHeritageItem {
 	private Date updatedTime;
 	
 
-  public CulturalHeritageItem(int id, User owner, String title, String description, String continent, String city, Date createdTime, Date updatedTime) {
+  public CulturalHeritageItem(long id,User owner,String title, String description, String continent, String city,Date createdTime) {
 	this.id = id;
 	this.owner=owner;
 	this.title = title;
@@ -26,7 +26,11 @@ public class CulturalHeritageItem {
 	this.continent = continent;
 	this.city=city;
 	this.createdTime = createdTime;
-	this.updatedTime = updatedTime;
+	
+  }
+
+public String getName() {
+    return this.title + ": "+ this.description;
   }
 
 //Last commit
