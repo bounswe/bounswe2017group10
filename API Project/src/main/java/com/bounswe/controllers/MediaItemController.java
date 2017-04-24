@@ -2,9 +2,13 @@ package com.bounswe.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,23 +24,24 @@ public class MediaItemController {
   private CulturalHeritageService culturalHeritageService;
 
   @Autowired
-  public MediaItemController(MediaItemService mediaItemService){
+  public MediaItemController(MediaItemService mediaItemService, CulturalHeritageService culturalHeritageService){
     this.mediaItemService = mediaItemService;
+    this.culturalHeritageService = culturalHeritageService;
   }
 
-  @RequestMapping("/get-media-items")
+  @GetMapping("/media-items")
   public ArrayList<MediaItem> getMediaItems() {
     return this.mediaItemService.findAll();
   }
 
-  @RequestMapping("users/{culturalHeritageID}/add-media-item")
+  @PostMapping("cultural-heritages/{culturalHeritageID}/media-items")
   public MediaItem addMediaItem(
       @PathVariable(value="culturalHeritageID") final Long culturalHeritageID,
-      @RequestParam(value="url", defaultValue="") String url) {
+      @RequestBody MediaItem mediaItem) {
     try {
-      CulturalHeritage culturalHeritage = this.culturalHeritageService.findOne(culturalHeritageID);
+      CulturalHeritage culturalHeritageItem = this.culturalHeritageService.findOne(culturalHeritageID);
 
-      MediaItem mediaItem = new MediaItem(culturalHeritage, url);
+      mediaItem.SetCulturalHeritage(culturalHeritageItem);
       this.mediaItemService.save(mediaItem);
       return mediaItem;
     } catch (Exception e) {

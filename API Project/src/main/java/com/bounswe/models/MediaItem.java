@@ -33,6 +33,10 @@ public class MediaItem {
  public String GetMediaItemasJson(){
 	 return "url: "+this.url+ ",Created Time: " + this.GetCreatedTime();
   }
-  
+ 
+ public void SetCulturalHeritage(CulturalHeritage culturalHeritageItem){
+	 this.culturalHeritageItem = culturalHeritageItem;
+	 
+ }
   
 }
