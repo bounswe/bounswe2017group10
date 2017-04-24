@@ -2,8 +2,11 @@ package com.bounswe.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import java.util.ArrayList;
 import java.lang.Iterable;
 import com.bounswe.models.User;
@@ -19,7 +22,7 @@ public class UsersController {
     this.userService = userService;
   }
 
-  @RequestMapping("/get-users")
+  @GetMapping("/users")
   public ArrayList<User> getUsers() {
     return this.userService.getAllUsers();
   }
@@ -32,10 +35,9 @@ public class UsersController {
     return count;
   }
 
-  @RequestMapping("/add-user")
-  public User addUser(@RequestParam(value="firstName", defaultValue="") String firstName,
-                      @RequestParam(value="lastName", defaultValue="") String lastName) {
-    User user = new User(firstName, lastName);
+  @PostMapping("/users")
+  public User addUser(@RequestBody User user) {
+    
     this.userService.save(user);
     return user;
   }

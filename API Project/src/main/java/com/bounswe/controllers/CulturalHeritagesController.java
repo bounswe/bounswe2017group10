@@ -2,9 +2,13 @@ package com.bounswe.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,23 +29,19 @@ public class CulturalHeritagesController {
     this.userService = userService;
   }
 
-  @RequestMapping("/get-cultural-heritages")
+  @GetMapping("/cultural-heritages")
   public ArrayList<CulturalHeritage> getCulturalHeritages() {
     return this.culturalHeritageService.findAll();
   }
 
-  @RequestMapping("users/{userId}/add-cultural-heritage")
+  @PostMapping("users/{userId}/cultural-heritages")
   public CulturalHeritage addCulturalHeritage(
-      @PathVariable(value="userId") final Long userId,
-      @RequestParam(value="title", defaultValue="") String title,
-      @RequestParam(value="description", defaultValue="") String description,
-      @RequestParam(value="continent", defaultValue="") String continent,
-      @RequestParam(value="city", defaultValue="") String city
+      @PathVariable(value="userId") String userId, @RequestBody CulturalHeritage culturalHeritage
     ) {
     try {
-      User user = this.userService.findOne(userId);
+      User user = this.userService.findOne(Long.parseLong(userId));
 
-      CulturalHeritage culturalHeritage = new CulturalHeritage(user, title, description, continent, city, new Date());
+      culturalHeritage.setOwner(user);
       this.culturalHeritageService.save(culturalHeritage);
       return culturalHeritage;
     } catch (Exception e) {

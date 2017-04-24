@@ -25,23 +25,74 @@ public class CulturalHeritage {
 	//private ArrayList<Tag> tags;
 	//private AdvancedDate startDate;
 	//private AdvancedDate endDate;
-	private Date createdTime;
-	private Date updatedTime;
+	//private Date createdTime;
+	//private Date updatedTime;
 	
 
   protected CulturalHeritage() {
 
   }
 
-  public CulturalHeritage(User owner,String title, String description, String continent, String city,Date createdTime) {
+  public CulturalHeritage(User owner,String title, String description, String continent, String city) {
     this.owner=owner;
     this.title = title;
     this.description = description;
     this.continent = continent;
     this.city=city;
-    this.createdTime = createdTime;
+    
   }
 
+
+public Long getId() {
+	return id;
+}
+
+public void setId(Long id) {
+	this.id = id;
+}
+
+public User getOwner() {
+	return owner;
+}
+
+public void setOwner(User owner) {
+	this.owner = owner;
+}
+
+public String getTitle() {
+	return title;
+}
+
+public void setTitle(String title) {
+	this.title = title;
+}
+
+public String getDescription() {
+	return description;
+}
+
+public void setDescription(String description) {
+	this.description = description;
+}
+
+public String getContinent() {
+	return continent;
+}
+
+public void setContinent(String continent) {
+	this.continent = continent;
+}
+
+public String getCity() {
+	return city;
+}
+
+public void setCity(String city) {
+	this.city = city;
+}
+
+public String getName() {
+    return this.title + ": "+ this.description;
 
   public Long getId() {
         return id;
