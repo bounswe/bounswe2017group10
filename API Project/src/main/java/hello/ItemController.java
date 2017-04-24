@@ -46,5 +46,23 @@ public CulturalHeritageItem addItem(	@RequestParam(value="title", defaultValue="
     return item;
   }
 
+@RequestMapping("/delete-item")
+    public CulturalHeritageItem deleteItem(@RequestParam(value = "id", defaultValue = "") String id) {
+
+        ListIterator<CulturalHeritageItem> itemIt = items.listIterator();
+
+        while(itemIt.hasNext()){
+            CulturalHeritageItem item = itemIt.next();
+
+            if(item.getId() == findItemById(id).getId()){
+                itemIt.remove();
+                return item;
+            }
+        }
+
+        return null;
+    }
+
+
 
 }
