@@ -49,6 +49,27 @@ public class CulturalHeritagesController {
       return null;
     }
   }
+
+  @RequestMapping("/delete-item/{itemId}")
+  public CulturalHeritage deleteItem(@PathVariable(value = "itemId") final Long itemId) {
+
+
+    try {
+
+      CulturalHeritage deletedItem = culturalHeritageService.findOne(itemId);
+      this.culturalHeritageService.delete(deletedItem);
+
+      return deletedItem;
+
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
+
+
+  }
+
+
 }
 
 
