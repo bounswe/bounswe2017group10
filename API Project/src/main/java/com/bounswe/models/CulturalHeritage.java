@@ -93,6 +93,7 @@ public void setCity(String city) {
 
 public String getName() {
     return this.title + ": "+ this.description;
+}
 
   public Long getId() {
         return id;
