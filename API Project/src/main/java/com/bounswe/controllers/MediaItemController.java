@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.bounswe.models.User;
 import com.bounswe.models.MediaItem;
 import com.bounswe.models.CulturalHeritage;
+import com.bounswe.services.UserService;
 import com.bounswe.services.MediaItemService;
 import com.bounswe.services.CulturalHeritageService;
 
@@ -22,26 +24,32 @@ import com.bounswe.services.CulturalHeritageService;
 public class MediaItemController {
   private MediaItemService mediaItemService;
   private CulturalHeritageService culturalHeritageService;
-
+  private UserService userService;
+  
   @Autowired
-  public MediaItemController(MediaItemService mediaItemService, CulturalHeritageService culturalHeritageService){
+  public MediaItemController(MediaItemService mediaItemService, CulturalHeritageService culturalHeritageService, UserService userService){
     this.mediaItemService = mediaItemService;
     this.culturalHeritageService = culturalHeritageService;
+    this.userService = userService;
   }
 
   @GetMapping("/media-items")
   public ArrayList<MediaItem> getMediaItems() {
+	  
     return this.mediaItemService.findAll();
   }
 
-  @PostMapping("cultural-heritages/{culturalHeritageID}/media-items")
+  @PostMapping("users/{userID}/cultural-heritages/{culturalHeritageID}/media-items")
   public MediaItem addMediaItem(
-      @PathVariable(value="culturalHeritageID") final Long culturalHeritageID,
-      @RequestBody MediaItem mediaItem) {
+		  @PathVariable(value="userID") String userID,
+		  @PathVariable(value="culturalHeritageID") String culturalHeritageID,
+		  @RequestBody MediaItem mediaItem) {
     try {
-      CulturalHeritage culturalHeritageItem = this.culturalHeritageService.findOne(culturalHeritageID);
-
-      mediaItem.SetCulturalHeritage(culturalHeritageItem);
+      User owner = this.userService.findOne(Long.parseLong(userID));
+      CulturalHeritage culturalHeritageItem = this.culturalHeritageService.findOne(Long.parseLong(culturalHeritageID));
+      
+      mediaItem.setOwner(owner);
+      mediaItem.setCulturalHeritage(culturalHeritageItem);
       this.mediaItemService.save(mediaItem);
       return mediaItem;
     } catch (Exception e) {
