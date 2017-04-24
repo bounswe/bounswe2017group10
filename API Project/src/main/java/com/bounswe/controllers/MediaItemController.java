@@ -10,14 +10,17 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.bounswe.models.MediaItem;
+import com.bounswe.models.CulturalHeritage;
 import com.bounswe.services.MediaItemService;
+import com.bounswe.services.CulturalHeritageService;
 
 @RestController
 public class MediaItemController {
   private MediaItemService mediaItemService;
+  private CulturalHeritageService culturalHeritageService;
 
   @Autowired
-  public MediaItemController(MediaItemService mediaItemService{
+  public MediaItemController(MediaItemService mediaItemService){
     this.mediaItemService = mediaItemService;
   }
 
@@ -27,19 +30,15 @@ public class MediaItemController {
   }
 
   @RequestMapping("users/{culturalHeritageID}/add-media-item")
-  public CulturalHeritage addCulturalHeritage(
-      @PathVariable(value="userId") final Long userId,
-      @RequestParam(value="title", defaultValue="") String title,
-      @RequestParam(value="description", defaultValue="") String description,
-      @RequestParam(value="continent", defaultValue="") String continent,
-      @RequestParam(value="city", defaultValue="") String city
-    ) {
+  public MediaItem addMediaItem(
+      @PathVariable(value="culturalHeritageID") final Long culturalHeritageID,
+      @RequestParam(value="url", defaultValue="") String url) {
     try {
-      User user = this.userService.findOne(userId);
+      CulturalHeritage culturalHeritage = this.culturalHeritageService.findOne(culturalHeritageID);
 
-      CulturalHeritage culturalHeritage = new CulturalHeritage(user, title, description, continent, city, new Date());
-      this.culturalHeritageService.save(culturalHeritage);
-      return culturalHeritage;
+      MediaItem mediaItem = new MediaItem(culturalHeritage, url);
+      this.mediaItemService.save(mediaItem);
+      return mediaItem;
     } catch (Exception e) {
       e.printStackTrace();
       return null;
