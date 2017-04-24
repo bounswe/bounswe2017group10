@@ -69,6 +69,45 @@ public class CulturalHeritagesController {
 
   }
 
+  
+  @RequestMapping("/update-item/{itemId}")
+  public CulturalHeritage updateItem(
+          @PathVariable(value="itemId") final Long itemId,
+          @RequestParam(value="title", defaultValue="") String title,
+          @RequestParam(value="description", defaultValue="") String description,
+          @RequestParam(value="continent", defaultValue="") String continent,
+          @RequestParam(value="city", defaultValue="") String city
+  ) {
+
+
+    try {
+
+      CulturalHeritage updatedItem = culturalHeritageService.findOne(itemId);
+
+      if(!title.equals("")){
+        updatedItem.setTitle(title);
+      }
+      if(!description.equals("")){
+        updatedItem.setDescription(description);
+      }
+      if(!continent.equals("")){
+        updatedItem.setContinent(continent);
+      }
+      if(!city.equals("")){
+          updatedItem.setCity(city);
+      }
+
+      this.culturalHeritageService.save(updatedItem);
+
+      return updatedItem;
+
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
+
+
+  }
 
 }
 
