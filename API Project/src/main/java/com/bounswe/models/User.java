@@ -15,7 +15,7 @@ public class User {
   private String email;
   private String userName;
   private String password;
-  //private long id?
+  private long id;
 
   public User(String firstName, String lastName) {
     this.firstName = firstName;
@@ -81,14 +81,7 @@ public class User {
 	  return this.password;
   }
   
-  /*
-  Returns all user object informations as a string
-  */
-  @Override
-  public String toString(){
-    return "Username: "+this.userName+ ",Fullname: " + this.getName() 
-          +",Email: " +this.email + ",Password: " + this.getPassword();
-  }
+ 
   
   
 }
