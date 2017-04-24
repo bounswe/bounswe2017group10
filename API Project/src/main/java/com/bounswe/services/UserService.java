@@ -35,4 +35,8 @@ public class UserService {
     while(it.hasNext()) users.add(it.next());
     return users;
   }
+
+  public User findOne(Long id) {
+    return this.userRepository.findOne(id);
+  }
 }
