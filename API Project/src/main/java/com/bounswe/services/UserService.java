@@ -24,6 +24,12 @@ public class UserService {
   }
 
   public void save(User user) {
+	 ArrayList<User> users = getAllUsers();
+	 for(User u:users){
+		 if(u.getEmail().equals(user.getEmail())&&user.getEmail()!=null){
+			 return;
+		 }
+	 }
     this.userRepository.save(user);
   }
 

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class CulturalHeritagesController {
   public ArrayList<CulturalHeritage> getCulturalHeritages() {
     return this.culturalHeritageService.findAll();
   }
+  
 
   @PostMapping("users/{userId}/cultural-heritages")
   public CulturalHeritage addCulturalHeritage(
