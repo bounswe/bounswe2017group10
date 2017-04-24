@@ -77,13 +77,17 @@ public class User {
     return this.firstName +" "+ this.lastName;
   }
   
+  public String getPassword(){
+	  return this.password;
+  }
+  
   /*
   Returns all user object informations as a string
   */
   @Override
   public String toString(){
-    return "\Username: "+this.userName+ ",Fullname: " + this.getName() 
-          +",Email: " +this.email + ",Password: " + this.password();
+    return "Username: "+this.userName+ ",Fullname: " + this.getName() 
+          +",Email: " +this.email + ",Password: " + this.getPassword();
   }
   
   
