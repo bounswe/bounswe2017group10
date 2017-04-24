@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,12 +28,12 @@ public class CulturalHeritagesController {
     this.userService = userService;
   }
 
-  @RequestMapping("/get-cultural-heritages")
+  @GetMapping("/cultural-heritages")
   public ArrayList<CulturalHeritage> getCulturalHeritages() {
     return this.culturalHeritageService.findAll();
   }
 
-  @RequestMapping("users/{userId}/add-cultural-heritage")
+  @PostMapping("users/{userId}/cultural-heritages")
   public CulturalHeritage addCulturalHeritage(
       @PathVariable(value="userId") final Long userId,
       @RequestParam(value="title", defaultValue="") String title,
