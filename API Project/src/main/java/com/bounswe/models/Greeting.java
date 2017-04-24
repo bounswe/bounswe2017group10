@@ -1,4 +1,4 @@
-package hello;
+package com.bounswe.models;
 
 public class Greeting {
   private final long id;
