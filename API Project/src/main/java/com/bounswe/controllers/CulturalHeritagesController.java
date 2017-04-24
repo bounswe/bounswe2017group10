@@ -56,22 +56,15 @@ public class CulturalHeritagesController {
 
 
 	try {
-      CulturalHeritage deleteditem = this.culturalHeritageService.findOne(itemId);
-		ListIterator<CulturalHeritage> itemIt = items.listIterator();
+      
+	    CulturalHeritage deletedItem = culturalHeritageService.findOne(itemId);
+            this.culturalHeritageService.delete(deletedItem);
 
-        while(itemIt.hasNext()){
-            CulturalHeritage item = itemIt.next();
-
-            if(item.getId() == deletedItem.getId()){
-                itemIt.remove();
-                return item;
-            }
-        }
-
-        return item;
+	    return deletedItem;
+       
        } catch (Exception e) {
             e.printStackTrace();
-            return null;
+	    return null;
        }
         
        

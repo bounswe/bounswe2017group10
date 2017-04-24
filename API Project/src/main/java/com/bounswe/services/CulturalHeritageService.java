@@ -35,5 +35,10 @@ public class CulturalHeritageService {
     while(it.hasNext()) culturalHeritages.add(it.next());
     return culturalHeritages;
   }
+
+  public void delete(CulturalHeritage culturalHeritage){
+	this.culturalHeritageRepository.delete(culturalHeritage);
+ }
+
 }
 
