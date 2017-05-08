@@ -87,4 +87,74 @@ public class MediaItemTests {
     }
   }
 
+  @Test
+  public void getCulturalHeritage_whenSetCulturalHeritageCalled_thenGetCulturalHeritage() {
+
+    try
+    {
+      // Given
+      User cUser = new User("Name", "Surname");
+      CulturalHeritage cCulturalHeritage1 = new CulturalHeritage(cUser,
+                                                                "Title1",
+                                                                "Description1",
+                                                                "Continent1",
+                                                                "City1"
+                                                                );
+
+      MediaItem cMediaItem = new MediaItem(cUser, cCulturalHeritage1, "Url");
+
+      CulturalHeritage cCulturalHeritage2 = new CulturalHeritage(cUser,
+                                                                "Title2",
+                                                                "Description2",
+                                                                "Continent2",
+                                                                "City2"
+                                                                );
+
+      cMediaItem.setCulturalHeritage(cCulturalHeritage2);
+
+      // Then
+      assertThat(cMediaItem.getCulturalHeritage().getTitle()).isEqualTo("Title2");
+      assertThat(cMediaItem.getCulturalHeritage().getDescription()).isEqualTo("Description2");
+      assertThat(cMediaItem.getCulturalHeritage().getContinent()).isEqualTo("Continent2");
+      assertThat(cMediaItem.getCulturalHeritage().getCity()).isEqualTo("City2");
+
+    }
+    catch(Exception e)
+    {
+      assertTrue("Exception caught",false);
+    }
+  }
+
+  @Test
+  public void getOwner_whenSetOwnerCalled_thenGetOwner() {
+
+    try
+    {
+      // Given
+      User cUser1 = new User("Name1", "Surname1");
+
+      CulturalHeritage cCulturalHeritage = new CulturalHeritage(cUser1,
+                                                                "Title",
+                                                                "Description",
+                                                                "Continent",
+                                                                "City"
+                                                                );
+
+      MediaItem cMediaItem = new MediaItem(cUser1, cCulturalHeritage, "Url");
+
+      User cUser2 = new User("Name2", "Surname2");
+
+      cMediaItem.setOwner(cUser2);
+
+      // Then
+      assertThat(cMediaItem.getOwner().getName()).isEqualTo("Name2 Surname2");
+
+    }
+    catch(Exception e)
+    {
+      assertTrue("Exception caught",false);
+    }
+  }
+
+
 }
