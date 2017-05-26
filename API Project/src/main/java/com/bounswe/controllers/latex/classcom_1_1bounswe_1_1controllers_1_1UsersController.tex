@@ -1,0 +1,77 @@
+\hypertarget{classcom_1_1bounswe_1_1controllers_1_1UsersController}{}\section{com.\+bounswe.\+controllers.\+Users\+Controller Class Reference}
+\label{classcom_1_1bounswe_1_1controllers_1_1UsersController}\index{com.\+bounswe.\+controllers.\+Users\+Controller@{com.\+bounswe.\+controllers.\+Users\+Controller}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classcom_1_1bounswe_1_1controllers_1_1UsersController_a0a3434f97661f9d83af2c67521b9b392}{Users\+Controller} (User\+Service user\+Service)
+\item 
+Array\+List$<$ User $>$ \hyperlink{classcom_1_1bounswe_1_1controllers_1_1UsersController_ab45fc9120845ffb355d2f1cd901ec364}{get\+Users} ()
+\item 
+Long \hyperlink{classcom_1_1bounswe_1_1controllers_1_1UsersController_a355d0a44de6f7d90145c87f17da675b4}{test} ()
+\item 
+User \hyperlink{classcom_1_1bounswe_1_1controllers_1_1UsersController_aad6568d2679b1ca7b6608ecb53ed99fe}{add\+User} (@Request\+Body User user)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class for handling the http methods for User instances. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classcom_1_1bounswe_1_1controllers_1_1UsersController_a0a3434f97661f9d83af2c67521b9b392}{}\index{com\+::bounswe\+::controllers\+::\+Users\+Controller@{com\+::bounswe\+::controllers\+::\+Users\+Controller}!Users\+Controller@{Users\+Controller}}
+\index{Users\+Controller@{Users\+Controller}!com\+::bounswe\+::controllers\+::\+Users\+Controller@{com\+::bounswe\+::controllers\+::\+Users\+Controller}}
+\subsubsection[{Users\+Controller}]{\setlength{\rightskip}{0pt plus 5cm}com.\+bounswe.\+controllers.\+Users\+Controller.\+Users\+Controller (
+\begin{DoxyParamCaption}
+\item[{User\+Service}]{user\+Service}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classcom_1_1bounswe_1_1controllers_1_1UsersController_a0a3434f97661f9d83af2c67521b9b392}
+A constructor. Sets the user service instance upon creation. 
+\begin{DoxyParams}{Parameters}
+{\em user\+Service} & Instance \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classcom_1_1bounswe_1_1controllers_1_1UsersController_aad6568d2679b1ca7b6608ecb53ed99fe}{}\index{com\+::bounswe\+::controllers\+::\+Users\+Controller@{com\+::bounswe\+::controllers\+::\+Users\+Controller}!add\+User@{add\+User}}
+\index{add\+User@{add\+User}!com\+::bounswe\+::controllers\+::\+Users\+Controller@{com\+::bounswe\+::controllers\+::\+Users\+Controller}}
+\subsubsection[{add\+User}]{\setlength{\rightskip}{0pt plus 5cm}User com.\+bounswe.\+controllers.\+Users\+Controller.\+add\+User (
+\begin{DoxyParamCaption}
+\item[{@Request\+Body User}]{user}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classcom_1_1bounswe_1_1controllers_1_1UsersController_aad6568d2679b1ca7b6608ecb53ed99fe}
+Post method for creating a user. 
+\begin{DoxyParams}{Parameters}
+{\em user} & The body of user \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the created user 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1bounswe_1_1controllers_1_1UsersController_ab45fc9120845ffb355d2f1cd901ec364}{}\index{com\+::bounswe\+::controllers\+::\+Users\+Controller@{com\+::bounswe\+::controllers\+::\+Users\+Controller}!get\+Users@{get\+Users}}
+\index{get\+Users@{get\+Users}!com\+::bounswe\+::controllers\+::\+Users\+Controller@{com\+::bounswe\+::controllers\+::\+Users\+Controller}}
+\subsubsection[{get\+Users}]{\setlength{\rightskip}{0pt plus 5cm}Array\+List$<$User$>$ com.\+bounswe.\+controllers.\+Users\+Controller.\+get\+Users (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classcom_1_1bounswe_1_1controllers_1_1UsersController_ab45fc9120845ffb355d2f1cd901ec364}
+Get method for getting all the users. \begin{DoxySeeAlso}{See also}
+\hyperlink{classcom_1_1bounswe_1_1controllers_1_1UsersController_a355d0a44de6f7d90145c87f17da675b4}{test()} 
+\end{DoxySeeAlso}
+\begin{DoxyReturn}{Returns}
+The array\+List of users 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1bounswe_1_1controllers_1_1UsersController_a355d0a44de6f7d90145c87f17da675b4}{}\index{com\+::bounswe\+::controllers\+::\+Users\+Controller@{com\+::bounswe\+::controllers\+::\+Users\+Controller}!test@{test}}
+\index{test@{test}!com\+::bounswe\+::controllers\+::\+Users\+Controller@{com\+::bounswe\+::controllers\+::\+Users\+Controller}}
+\subsubsection[{test}]{\setlength{\rightskip}{0pt plus 5cm}Long com.\+bounswe.\+controllers.\+Users\+Controller.\+test (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classcom_1_1bounswe_1_1controllers_1_1UsersController_a355d0a44de6f7d90145c87f17da675b4}
+A test method. Connects to the userservice and gets the count of the users. \begin{DoxyReturn}{Returns}
+user count 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Users\+Controller.\+java\end{DoxyCompactItemize}
