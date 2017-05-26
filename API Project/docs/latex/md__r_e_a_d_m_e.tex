@@ -1,0 +1,5 @@
+This is just a dummy Spring application to get you started with the implementation of the actual api project. To build and serve the application, just type {\ttfamily gradle boot\+Run} from the console while you are in the project folder.
+
+This will compile the project into {\ttfamily build/} directory and start serving it from {\ttfamily localhost\+:8080}. After you run the application, don\textquotesingle{}t close the console and go to {\ttfamily \href{http://localhost:8080/greeting?name=yigit}{\tt http\+://localhost\+:8080/greeting?name=yigit}} from your browser, you should see a small json object with {\ttfamily content} key being \char`\"{}\+Hello, yigit!\char`\"{}. You can change the {\ttfamily G\+ET} parameter to manipulate the response.
+
+You can find the code managing the {\ttfamily /greeting} endpoint in {\ttfamily src/main/java/hello/\+Greeting\+Controller.\+java}. There are also {\ttfamily /get-\/users} and {\ttfamily add-\/user} controller methods, which eventually resolve into endpoints you can use just like {\ttfamily /greeting}. 
