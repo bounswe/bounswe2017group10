@@ -1,3 +1,7 @@
+# Atlas Backend
+Project can be visited here:
+http://174.129.64.109/
+
 # Setting up the development environment
 
 ## OS X
