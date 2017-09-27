@@ -56,6 +56,14 @@ GRANT ALL PRIVILEGES ON DATABASE atlas TO atlas;
 \q
 ```
 
+### Run database migrations
+Migrations are like commits for database schemas. If you want to make a change to database schema,
+you don't do it by writing SQL, instead, you prepare migrations and run them so that everyone working on
+the project has the same database schemas.
+```bash
+./manage.py migrate
+```
+
 ### Finally, run the development server
 ```bash
 ./manage.py runserver 0.0.0.0:8000
