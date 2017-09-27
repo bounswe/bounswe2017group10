@@ -14,9 +14,14 @@ python3
 export PATH=$PATH/Library/Frameworks/Python.framework/Versions/3.6/bin
 ```
 
-### In project directory, run the following:
+### Go to backend directory
 ```bash
-pip3 install -r requirements.txt
+cd Atlas/backend
+```
+
+### Run the following:
+```bash
+pip3 install virtualenv
 ```
 
 ### Create the virtual environment
@@ -31,12 +36,11 @@ source atlasenv/bin/activate
 
 ### Install Django
 ```bash
-pip install django # We always use pip inside virtualenv, not pip3
+pip install -r requirements.txt # We always use pip inside virtualenv, not pip3
 ```
 
 ### Get postgres database
-Download from [here](https://postgresapp.com/)
-Make sure `psql` from commandline works
+Download from [here](https://postgresapp.com/). Make sure `psql` from commandline works afterwards
 
 ### Perform initial database setup
 Enter postgresql prompt by typing `psql`
@@ -50,4 +54,9 @@ ALTER ROLE atlas SET default_transaction_isolation TO 'read committed';
 ALTER ROLE atlas SET timezone TO 'UTC';
 GRANT ALL PRIVILEGES ON DATABASE atlas TO atlas;
 \q
+```
+
+### Finally, run the development server
+```bash
+./manage.py runserver 0.0.0.0:8000
 ```
