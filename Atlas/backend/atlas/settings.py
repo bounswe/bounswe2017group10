@@ -26,7 +26,8 @@ SECRET_KEY = 'b!ydx6z#0z%59+*@%(sfj&fynlk&73eyh4$+58%*ft%kfm43-c'
 DEBUG = True
 
 ALLOWED_HOSTS = ['174.129.64.109',
-                 '0.0.0.0']
+                 '0.0.0.0',
+                 'localhost']
 
 
 # Application definition
@@ -38,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'atlas.apps.AtlasConfig'
+    'atlas.apps.AtlasConfig '
 ]
 
 MIDDLEWARE = [
