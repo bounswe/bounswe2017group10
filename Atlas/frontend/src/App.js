@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import { SuccessButton, AtlasNavbar } from './Components';
-import './App.css';
+import atlas from './assets/images/atlas.jpeg';
+import logo from './assets/images/logo.png';
+import { AtlasNavbar } from './Components';
+import './css/App.css';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <AtlasNavbar />
+        <img src={atlas} className="background-image" alt="background" />
+        <AtlasNavbar logo={logo} />
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to Atlas Project</h1>
+          <h1 className="App-title">Enhance The Culture</h1>
+          <h1 className="App-title">Together.</h1>
         </header>
+        <footer className="App-footer">
+          <a href="#cultural-heritages">See More</a>
+        </footer>
       </div>
     );
   }
