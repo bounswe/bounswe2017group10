@@ -1,3 +1,5 @@
+@import './fonts.scss';
+
 .App {
   text-align: center;
 }
@@ -41,17 +43,21 @@ $logo-size: 40px;
   color: white;
 }
 
-.App-header {
+header.App-header {
   margin-top: 150px;
 }
 
-@font-face {
-  font-family: 'Open Sans';
-  src: url('fonts/Open_Sans/OpenSans-Regular.ttf');
-}
-
-.App-title {
+h1.App-title {
   color: white;
   font-size: 100px;
   font-family: 'Open Sans';
+}
+
+footer.App-footer {
+  margin-top: 100px;
+  a {
+    color: gray;
+    font-size: 30px;
+    text-decoration: underline;
+  }
 }

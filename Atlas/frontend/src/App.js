@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import atlas from './assets/images/atlas.jpeg';
 import logo from './assets/images/logo.png';
-import { AtlasNavbar, AtlasHeading } from './Components';
-import './App.css';
+import { AtlasNavbar } from './Components';
+import './css/App.css';
 
 class App extends Component {
   render() {
@@ -14,6 +14,9 @@ class App extends Component {
           <h1 className="App-title">Enhance The Culture</h1>
           <h1 className="App-title">Together.</h1>
         </header>
+        <footer className="App-footer">
+          <a href="#cultural-heritages">See More</a>
+        </footer>
       </div>
     );
   }
