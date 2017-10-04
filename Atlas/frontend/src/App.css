@@ -19,11 +19,11 @@
   left: -10px;
   top: -10px;
   z-index: -1;
-  -webkit-filter: blur(2px) contrast(90%);
-  -moz-filter: blur(2px) contrast(90%);
-  -o-filter: blur(2px) contrast(90%);
-  -ms-filter: blur(2px) contrast(90%);
-  filter: blur(2px) contrast(90%); }
+  -webkit-filter: blur(2px) brightness(95%);
+  -moz-filter: blur(2px) brightness(95%);
+  -o-filter: blur(2px) brightness(95%);
+  -ms-filter: blur(2px) brightness(95%);
+  filter: blur(2px) brightness(95%); }
 
 .logo {
   width: 40px;
