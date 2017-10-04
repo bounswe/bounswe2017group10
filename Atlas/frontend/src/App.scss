@@ -7,17 +7,6 @@
   height: 80px;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-title {
-  font-size: 1.5em;
-}
-
 .App-intro {
   font-size: large;
 }
@@ -28,6 +17,7 @@
 }
 
 $background-blur: 2px;
+$background-contrast: 90%;
 $logo-size: 40px;
 
 .background-image {
@@ -35,11 +25,11 @@ $logo-size: 40px;
   left: -10px;
   top: -10px;
   z-index: -1;
-  -webkit-filter: blur($background-blur);
-  -moz-filter: blur($background-blur);
-  -o-filter: blur($background-blur);
-  -ms-filter: blur($background-blur);
-  filter: blur($background-blur);
+  -webkit-filter: blur($background-blur) contrast($background-contrast);;
+  -moz-filter: blur($background-blur) contrast($background-contrast);;
+  -o-filter: blur($background-blur) contrast($background-contrast);;
+  -ms-filter: blur($background-blur) contrast($background-contrast);;
+  filter: blur($background-blur) contrast($background-contrast);
 }
 
 .logo {
@@ -49,4 +39,19 @@ $logo-size: 40px;
 
 .navbar a {
   color: white;
+}
+
+.App-header {
+  margin-top: 150px;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('fonts/Open_Sans/OpenSans-Regular.ttf');
+}
+
+.App-title {
+  color: white;
+  font-size: 100px;
+  font-family: 'Open Sans';
 }
