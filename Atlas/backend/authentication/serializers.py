@@ -38,8 +38,17 @@ class AccountSerializer(serializers.ModelSerializer):
         return instance
 
     def validate(self, data):
+
+        email = data['email']
+        #Ensure email exists
+        if not email:
+            raise serializers.ValidationError('Users must have a valid e-mail address')
+        password = data['password']
+        #Ensure password consists of at least 1 capital letter, digit and 7 chars
+        if not (any(x.isupper() for x in password) and any(x.isdigit() for x in password) and len(password) >= 7):
+            raise serializers.ValidationError('Password should contain at least one capital letter and digit and 7 chars.')
         '''
-        Ensure the passwords are the same
+            Ensure the passwords are the same
         '''
         if data['password']:
             if data['password'] != data['confirm_password']:

@@ -24,7 +24,7 @@ class JSONWebTokenAuthTestCase(TestCase):
             'password': self.password,
             'confirm_password' :self.password,
         }
-        
+
         self.client = Client()
 
     def test_jwt_login_json(self):
@@ -134,7 +134,7 @@ class JSONWebTokenAuthTestCase(TestCase):
 
     def test_signupWithInvalidPassword(self):
         """
-        Ensure JWT signup works using JSON POST .
+        Ensure JWT signup fails with password less than 7 chars
         """
         data = {
             'email': "testing@gmail.com",
@@ -142,36 +142,29 @@ class JSONWebTokenAuthTestCase(TestCase):
             'password': "asd",
             'confirm_password': "asd",
         }
-        try :
-            response = self.client.post(
-                self.sigun_url,
-                json.dumps(data),
-                content_type='application/json'
-            )
-            self.assertFail()
-        except ValueError :
-            pass
+        response = self.client.post(
+            self.sigun_url,
+            json.dumps(data),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code,400)
 
+        #Ensure JWT fails with password that does not have any capital letter
         data['password'] = "askljqwlkeqj1312"
         data['confirm_password'] = "askljqwlkeqj1312"
-        try :
-            response = self.client.post(
-                self.sigun_url,
-                json.dumps(data),
-                content_type='application/json'
-            )
-            self.assertFail()
-        except ValueError :
-            pass
+        response = self.client.post(
+            self.sigun_url,
+            json.dumps(data),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code,400)
+
         data['password'] = "AA123"
         data['confirm_password'] = "AA123"
-        try:
-            response = self.client.post(
-                self.sigun_url,
-                json.dumps(data),
-                content_type='application/json'
-            )
-            self.assertFail()
-        except ValueError:
-            pass
+        response = self.client.post(
+            self.sigun_url,
+            json.dumps(data),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code,400)
 

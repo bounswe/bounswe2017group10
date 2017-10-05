@@ -1,21 +1,10 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
+from django.http import HttpResponseBadRequest
 
 
 class AccountManager(BaseUserManager):
     def create_user(self, email, password=None, **kwargs):
-        # Ensure that an email address is set
-        if not email:
-            raise ValueError('Users must have a valid e-mail address')
-
-        # Ensure that a username is set
-        username = kwargs.get('username')
-        if not username:
-            raise ValueError('Users must have a valid username')
-        if not password:
-            raise ValueError('Users must have a password')
-        if not (any(x.isupper() for x in password) and any(x.isdigit() for x in password) and len(password) >= 7):
-            raise ValueError('Password should contain at least one capital letter and digit and 7 chars.')
         account = self.model(
             email=self.normalize_email(email),
             username=kwargs.get('username'),
