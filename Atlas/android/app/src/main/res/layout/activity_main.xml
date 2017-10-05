@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="serif"
-        android:text="Enhance the Culture"
+        android:text="@string/enhance_the_culture"
         android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="30sp"
@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="serif"
-        android:text="Together."
+        android:text="@string/together"
         android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="36sp"
@@ -49,7 +49,7 @@
         android:layout_weight="1"
         android:background="@android:color/transparent"
         android:fontFamily="serif"
-        android:text="Learn more"
+        android:text="@string/learn_more_button"
         android:textAllCaps="false"
         android:textColor="@color/url_link_color"
         android:textSize="18sp"
@@ -63,7 +63,7 @@
         android:layout_weight="1"
         android:background="@android:color/background_light"
         android:fontFamily="serif"
-        android:text="Login"
+        android:text="@string/login_button"
         android:textAlignment="center" />
 
     <TextView
@@ -74,7 +74,7 @@
         android:layout_weight="1"
         android:fontFamily="serif"
         android:gravity="center_vertical"
-        android:text="or"
+        android:text="@string/or"
         android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="18sp"
@@ -88,6 +88,6 @@
         android:layout_weight="1"
         android:background="@android:color/background_light"
         android:fontFamily="serif"
-        android:text="Register" />
+        android:text="@string/register_button" />
 
 </LinearLayout>
