@@ -2,13 +2,11 @@
 <!-- TODO: create multiple dpi versions of background image in png format -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_page_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
     android:orientation="vertical">
-
-    <!-- TODO: This is a simplistic way of blurring background image; consider doing
-               this programmatically or use a third-party library-->
 
     <Space
         android:layout_width="match_parent"
