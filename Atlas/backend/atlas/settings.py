@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'b!ydx6z#0z%59+*@%(sfj&fynlk&73eyh4$+58%*ft%kfm43-c'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.getenv('ATLAS_DEBUG', False)
 
 ALLOWED_HOSTS = ['34.234.93.208',
                  '0.0.0.0',
@@ -79,9 +79,9 @@ WSGI_APPLICATION = 'atlas.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'atlas',
-        'USER': 'atlas',
-        'PASSWORD': 'atlas',
+        'NAME': os.getenv('ATLAS_DB_NAME', 'atlas'),
+        'USER': os.getenv('ATLAS_DB_USER', 'atlas'),
+        'PASSWORD': os.getenv('ATLAS_DB_PASSWORD', 'atlas'),
         'HOST': 'localhost',
         'PORT': '',
     }
