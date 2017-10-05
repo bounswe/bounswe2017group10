@@ -6,12 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
+    android:weightSum="1"
     android:orientation="vertical">
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="@android:dimen/app_icon_size"
-        android:layout_weight="1" />
+        android:layout_height="wrap_content"
+        android:layout_weight="0.2" />
 
     <TextView
         android:id="@+id/enhance_culture_textview"
@@ -39,14 +40,14 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="@android:dimen/app_icon_size"
-        android:layout_weight="1" />
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5" />
 
     <Button
         android:id="@+id/learn_more_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="0.025"
         android:background="@android:color/transparent"
         android:fontFamily="serif"
         android:text="@string/learn_more_button"
@@ -57,12 +58,14 @@
 
     <Button
         android:id="@+id/login_button"
-        android:layout_width="200dp"
-        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="1"
+        android:layout_weight="0.025"
         android:background="@android:color/background_light"
         android:fontFamily="serif"
+        android:paddingLeft="@dimen/button_padding_size"
+        android:paddingRight="@dimen/button_padding_size"
         android:text="@string/login_button"
         android:textAlignment="center" />
 
@@ -71,7 +74,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_weight="1"
+        android:layout_weight="0.1"
         android:fontFamily="serif"
         android:gravity="center_vertical"
         android:text="@string/or"
@@ -82,12 +85,18 @@
 
     <Button
         android:id="@+id/register_button"
-        android:layout_width="200dp"
-        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="1"
+        android:layout_weight="0.025"
         android:background="@android:color/background_light"
         android:fontFamily="serif"
+        android:paddingLeft="@dimen/button_padding_size"
+        android:paddingRight="@dimen/button_padding_size"
         android:text="@string/register_button" />
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.1" />
 </LinearLayout>
