@@ -24,3 +24,4 @@ psycopg2==2.7.3.1
 djangorestframework==3.3.2
 djangorestframework-jwt==1.8.0
 pytest == 3.2.2
+django-jwt-auth == 0.0.2
