@@ -79,9 +79,9 @@ WSGI_APPLICATION = 'atlas.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.getenv('DB_NAME', 'atlas'),
-        'USER': os.getenv('DB_USER', 'atlas'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'atlas'),
+        'NAME': os.getenv('ATLAS_DB_NAME', 'atlas'),
+        'USER': os.getenv('ATLAS_DB_USER', 'atlas'),
+        'PASSWORD': os.getenv('ATLAS_DB_PASSWORD', 'atlas'),
         'HOST': 'localhost',
         'PORT': '',
     }
