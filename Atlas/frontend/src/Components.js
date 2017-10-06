@@ -1,7 +1,7 @@
 
 import AtlasNavbar from './components/AtlasNavbar'
-import MyLogin from './components/MyLogin'
+import AtlasLogin from './components/AtlasLogin'
 import Home from './components/Home'
-import MySignup from './components/MySignup'
+import AtlasSignup from './components/AtlasSignup'
 
-export { Home, AtlasNavbar, MyLogin, MySignup };
+export { Home, AtlasNavbar, AtlasLogin, AtlasSignup };
