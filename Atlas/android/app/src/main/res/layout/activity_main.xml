@@ -58,14 +58,14 @@
 
     <Button
         android:id="@+id/login_button"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="@dimen/button_margin_size"
+        android:layout_marginRight="@dimen/button_margin_size"
         android:layout_weight="0.025"
         android:background="@android:color/background_light"
         android:fontFamily="serif"
-        android:paddingLeft="@dimen/button_padding_size"
-        android:paddingRight="@dimen/button_padding_size"
         android:text="@string/login_button"
         android:textAlignment="center" />
 
@@ -85,14 +85,14 @@
 
     <Button
         android:id="@+id/register_button"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="@dimen/button_margin_size"
+        android:layout_marginRight="@dimen/button_margin_size"
         android:layout_weight="0.025"
         android:background="@android:color/background_light"
         android:fontFamily="serif"
-        android:paddingLeft="@dimen/button_padding_size"
-        android:paddingRight="@dimen/button_padding_size"
         android:text="@string/register_button" />
 
     <Space
