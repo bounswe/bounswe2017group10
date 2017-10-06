@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Navbar, NavbarBrand, Collapse, NavItem, NavLink, NavbarToggler, Nav } from 'reactstrap';
 
 export default class AtlasNavbar extends Component {
+
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
