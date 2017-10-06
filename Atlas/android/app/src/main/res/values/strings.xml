@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Atlas</string>
+    <string name="enhance_the_culture">Enhance the Culture</string>
+    <string name="together">Together</string>
+    <string name="learn_more_button">Learn more</string>
+    <string name="login_button">Login</string>
+    <string name="or">or</string>
+    <string name="register_button">Register</string>
 </resources>
