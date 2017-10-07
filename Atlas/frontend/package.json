@@ -8,7 +8,13 @@
     "npm-run-all": "^4.1.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
+    "react-facebook": "^4.0.16",
+    "react-fontawesome": "^1.6.1",
+    "react-icons": "^2.2.7",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.14",
+    "react-share-icons": "^1.1.2",
     "reactstrap": "^5.0.0-alpha.3"
   },
   "scripts": {
@@ -16,7 +22,7 @@
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-js": "react-scripts start",
     "start": "npm-run-all -p watch-css start-js",
-    "build": "npm run build-css && react-scripts build", 
+    "build": "npm run build-css && react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
