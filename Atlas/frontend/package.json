@@ -2,6 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://54.235.57.209/",
   "dependencies": {
     "bootstrap": "^4.0.0-beta",
     "node-sass-chokidar": "0.0.3",
