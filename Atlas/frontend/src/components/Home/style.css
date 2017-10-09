@@ -1,6 +1,7 @@
 @font-face {
   font-family: 'Open Sans';
-  src: url("../assets/fonts/Open_Sans/OpenSans-Regular.ttf"); }
+  /* Here is the thing with the path: when Home.scss imports this file, it hardcodes this path, hence we need to put path relative TO Home.scss. */
+  src: url("../../assets/fonts/Open_Sans/OpenSans-Regular.ttf"); }
 
 .Home {
   text-align: center; }
