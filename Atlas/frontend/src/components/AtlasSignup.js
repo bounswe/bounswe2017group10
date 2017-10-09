@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Button, Form, FormGroup, Input, Col, Row, Container, Badge} from 'reactstrap';
+import {Button, Form, FormGroup, Input, Col, Row, Badge} from 'reactstrap';
 import '../css/AtlasSignup.css';
 
 export default class AtlasSignup extends Component {
@@ -50,10 +50,7 @@ export default class AtlasSignup extends Component {
 
     render() {
         return (
-                <Form  className="signup-panel"  onSubmit={this.handleSubmit}>
-                    <Row><h1></h1></Row>
-                    <Row><h1></h1></Row>
-                    <Row><h1></h1></Row>
+                <Form className="signup-panel"  onSubmit={this.handleSubmit}>
                     <h3>Sign-up</h3>
                     <hr/>
                     <FormGroup>
@@ -68,8 +65,6 @@ export default class AtlasSignup extends Component {
                             </Col>
                         </Row>
                     </FormGroup>
-                    <Row ><h1></h1> </Row>
-                    <Row ><h1></h1> </Row>
                     <FormGroup>
                         <Row>
                             <Col xs="2">
@@ -82,8 +77,6 @@ export default class AtlasSignup extends Component {
                             </Col>
                         </Row>
                     </FormGroup>
-                    <Row ><h1></h1> </Row>
-                    <Row ><h1></h1> </Row>
                     <FormGroup>
                         <Row>
                             <Col xs="2">
@@ -96,8 +89,6 @@ export default class AtlasSignup extends Component {
                             </Col>
                         </Row>
                     </FormGroup>
-                    <Row ><h1></h1> </Row>
-                    <Row ><h1></h1> </Row>
                     <FormGroup>
                         <Row>
                             <Col xs="2">
@@ -110,8 +101,6 @@ export default class AtlasSignup extends Component {
                             </Col>
                         </Row>
                     </FormGroup>
-                    <Row ><h1></h1> </Row>
-                    <Row ><h1></h1> </Row>
                     <FormGroup>
                         <Row>
                             <Col xs="2">
@@ -124,8 +113,6 @@ export default class AtlasSignup extends Component {
                             </Col>
                         </Row>
                     </FormGroup>
-                    <Row ><h1></h1> </Row>
-                    <Row ><h1></h1> </Row>
                     <FormGroup>
                         <Row>
                             <Col xs="2">
@@ -138,8 +125,6 @@ export default class AtlasSignup extends Component {
                             </Col>
                         </Row>
                     </FormGroup>
-                    <Row ><h1></h1> </Row>
-                    <Row ><h1></h1> </Row>
                     <Row>
                         <Col xs="2"></Col>
                         <Col xs="5">

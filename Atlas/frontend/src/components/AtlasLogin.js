@@ -44,39 +44,9 @@ export default class AtlasLogin extends Component {
         <Container>
             <img src={atlas} className="background-image" alt="background" />
             <LoginSearch logo={logo} />
-            <Row><h1></h1></Row>
-            <Row><h1></h1></Row>
-            <Row><h1></h1></Row>
-            <Row><h1></h1></Row>
-            <Row><h1></h1></Row>
-            <Row><h1></h1></Row>
-            <Row><h1></h1></Row>
-            <Row><h1></h1></Row>
-            <Row><h1></h1></Row>
-            <Row><h1></h1></Row>
-            <Row><h1></h1></Row>
-            <Row><h1></h1></Row>
-            <Row><h1></h1></Row>
-            <Row><h1></h1></Row>
-            <Row><h1></h1></Row>
-            <Row><h1></h1></Row>
-            <Row><h1></h1></Row>
-            <Row><h1></h1></Row>
-            <Row><h1></h1></Row>
-            <Row><h1></h1></Row>
-            <Row><h1></h1></Row>
-            <Row><h1></h1></Row>
-            <Row><h1></h1></Row>
-            <Row><h1></h1></Row>
-            <Row><h1></h1></Row>
-            <Row><h1></h1></Row>
-            <Row><h1></h1></Row>
             <Row>
                 <Col xs="5" className="login-column">
                     <Form className="login-panel" onSubmit={this.handleSubmit}>
-                        <Row><h1></h1></Row>
-                        <Row><h1></h1></Row>
-                        <Row><h1></h1></Row>
                         <Row>
                             <h3>Log-in</h3>
                         </Row>
@@ -93,12 +63,6 @@ export default class AtlasLogin extends Component {
                                 </Col>
                             </Row>
                         </FormGroup>
-                        <Row ><h1></h1> </Row>
-                        <Row ><h1></h1> </Row>
-                        <Row ><h1></h1> </Row>
-                        <Row ><h1></h1> </Row>
-                        <Row ><h1></h1> </Row>
-                        <Row ><h1></h1> </Row>
                         <FormGroup>
                             <Row>
                                 <Col xs="2">
@@ -117,12 +81,6 @@ export default class AtlasLogin extends Component {
                                 <a href="">Forgot my password</a><br/>
                             </Col>
                         </Row>
-                        <Row ><h1></h1> </Row>
-                        <Row ><h1></h1> </Row>
-                        <Row ><h1></h1> </Row>
-                        <Row ><h1></h1> </Row>
-                        <Row ><h1></h1> </Row>
-                        <Row ><h1></h1> </Row>
                         <Row>
                             <Col xs="1"></Col>
                             <Col xs="6">
