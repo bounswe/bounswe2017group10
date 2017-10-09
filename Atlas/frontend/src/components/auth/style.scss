@@ -1,0 +1,39 @@
+.login-column{
+    border: 2px solid;
+}
+
+.facebook-button{
+    background: blue;
+}
+
+.login-search{
+    background: white;
+}
+
+.signup-column, .login-column {
+    border: 2px solid;
+    border-radius: 2px;
+}
+
+.square-box {
+  padding: 20px;
+
+  .small-text {
+    &, a {
+      color: rgba(0, 0, 0, 0.6);
+      font-size: 15px;
+    }
+  }
+}
+
+.login-buttons {
+  margin-top: 10px;
+}
+
+.background-image {
+  opacity: 0.6;
+}
+
+.errors {
+  margin-top: 10px;
+}

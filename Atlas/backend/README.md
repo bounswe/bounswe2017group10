@@ -1,6 +1,6 @@
 # Atlas Backend
 Project can be visited here:
-http://34.234.93.208/
+http://54.235.57.209/
 
 # Setting up the development environment
 

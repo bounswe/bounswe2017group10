@@ -2,21 +2,33 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://54.235.57.209/",
   "dependencies": {
+    "axios": "^0.16.2",
     "bootstrap": "^4.0.0-beta",
+    "isomorphic-fetch": "^2.2.1",
     "node-sass-chokidar": "0.0.3",
     "npm-run-all": "^4.1.1",
     "react": "^16.0.0",
+    "react-alerts": "^0.3.0",
     "react-dom": "^16.0.0",
+    "react-facebook": "^4.0.16",
+    "react-fontawesome": "^1.6.1",
+    "react-icons": "^2.2.7",
+    "react-redux": "^5.0.6",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.14",
-    "reactstrap": "^5.0.0-alpha.3"
+    "react-share-icons": "^1.1.2",
+    "reactstrap": "^5.0.0-alpha.3",
+    "redux": "^3.7.2"
   },
   "scripts": {
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-js": "react-scripts start",
     "start": "npm-run-all -p watch-css start-js",
-    "build": "npm run build-css && react-scripts build", 
+    "build": "npm run build-css && react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }

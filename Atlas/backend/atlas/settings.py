@@ -26,7 +26,7 @@ SECRET_KEY = 'b!ydx6z#0z%59+*@%(sfj&fynlk&73eyh4$+58%*ft%kfm43-c'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('ATLAS_DEBUG', False)
 
-ALLOWED_HOSTS = ['34.234.93.208',
+ALLOWED_HOSTS = ['54.235.57.209',
                  '0.0.0.0',
                  'localhost']
 
@@ -43,9 +43,11 @@ INSTALLED_APPS = [
     'atlas.apps.AtlasConfig',
     'rest_framework',
     'authentication',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -54,6 +56,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'atlas.urls'
 
