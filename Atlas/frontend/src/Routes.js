@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import Routes from './components/Routes';
 import { updateUser } from './actions/index';
+import { API_URL } from './constants';
 
 const mapStateToProps = state => {
   return {
@@ -12,7 +13,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchUser: () => {
-      axios.get('localhost:8000/api/auth/me')
+      axios.get(API_URL + '/api/auth/me')
         .then(data => {
            dispatch(updateUser(data.response.data));
         })
