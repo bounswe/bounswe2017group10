@@ -6,7 +6,8 @@ const initState = {
   loginError: null,
   signupFetching: false,
   signupErrors: null,
-  signupSuccess: false
+  signupSuccess: false,
+  user: {}
 };
 const atlas = (state = initState, action) => {
   switch(action.type) {
@@ -57,6 +58,11 @@ const atlas = (state = initState, action) => {
         ...state,
         signupErrors: action.errors,
         signupFetching: false
+      }
+    case 'USER_UPDATED':
+      return {
+        ...state,
+        user: action.data
       }
     default:
       return state;

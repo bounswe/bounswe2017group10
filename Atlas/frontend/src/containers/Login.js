@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Login from '../components/auth/Login';
-import { saveToken, updateLoginInput, fetchingLogin, loginFailed } from '../actions/index.js';
+import { saveToken, updateLoginInput, fetchingLogin, loginFailed, updateUser } from '../actions/index.js';
 import axios from 'axios';
 
 const mapStateToProps = state => {
@@ -20,11 +20,19 @@ const mapDispatchToProps = dispatch => {
         .post('http://localhost:8000/api/auth/login/', {
           username,
           password
-        })
-        .then(function(resp) {
-          saveToken(resp.data.token)
-        })
-        .catch(function(err) {
+        }).then(resp => {
+          const token = resp.data.token;
+          dispatch(saveToken(token));
+          axios({
+            method: 'get',
+            url: 'http://localhost:8000/api/auth/me',
+            headers: { 'Authorization': 'JWT ' + token }
+          }).then(resp => {
+            dispatch(updateUser(resp.response.data));
+          }).catch(err => {
+            console.log('There is an error with /api/auth/me endpoint: ' + err.response.data);
+          });
+        }).catch(err => {
           dispatch(loginFailed(err.response.data.non_field_errors[0]));
         });
     },

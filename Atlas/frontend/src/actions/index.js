@@ -52,3 +52,10 @@ export const signupFailed = (err) => {
     errors: err
   }
 }
+
+export const updateUser = (data) => {
+  return {
+    type: 'USER_UPDATED',
+    data
+  }
+}

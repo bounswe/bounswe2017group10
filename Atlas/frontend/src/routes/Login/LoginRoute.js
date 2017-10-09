@@ -16,7 +16,7 @@ export default class LoginRoute extends Component {
         <Container>
             <Row className="login-container">
                 <Col xs="5" className="login-column">
-                  <Login saveToken={ this.props.saveToken.bind(this) }/>
+                  <Login />
                 </Col>
                 <Col xs="2" /> { /* reactstrap's offsets don't work */ }
                 <Col xs="5" className="signup-column">

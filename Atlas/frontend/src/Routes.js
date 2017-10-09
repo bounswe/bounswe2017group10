@@ -1,52 +1,31 @@
-import React, { Component } from 'react';
-import {
-    BrowserRouter as Router,
-    Route
-} from 'react-router-dom'
-import Home from "./components/Home/Home";
-import LoginRoute from "./routes/Login/LoginRoute";
-import Navbar from './components/Navbar/Navbar';
-import atlas from './assets/images/atlas.jpeg';
-import logo from './assets/images/logo.png';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import Routes from './components/Routes';
+import { updateUser } from './actions/index';
 
-export default class Routes extends Component {
-    constructor(props) {
-      super(props);
-      this.state = { token: null }
-    }
-    
-    componentDidMount() {
-      this.state = localStorage.getItem('data');
-    }
+const mapStateToProps = state => {
+  return {
+    token: state.token
+  };
+}
 
-    saveToken(token) {
-      this.setState({ token: token });
-      localStorage.setItem('data', { token: token });
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchUser: () => {
+      axios.get('localhost:8000/api/auth/me')
+        .then(data => {
+           dispatch(updateUser(data.response.data));
+        })
+        .catch(err => {
+          console.log(err.response.data)
+        });
     }
+  };
+}
 
-    render(){
-        return (
-            <div>
-              <img src={atlas} className="background-image" alt="background" />
-              <Navbar logo={ logo } token={ this.state.token }/>
-              <Router>
-                  <div>
-                      <Route
-                        exact
-                        path="/"
-                        render={ (props) => (
-                          <Home token={ this.state.token }  />
-                        )}
-                      />
-                      <Route
-                        path="/login"
-                        render={(props) => (
-                          <LoginRoute saveToken={ this.saveToken.bind(this) } />
-                        )}
-                      />
-                  </div>
-              </Router>
-            </div>
-        );
-    }
-};
+const RoutesContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Routes);
+
+export default RoutesContainer;
