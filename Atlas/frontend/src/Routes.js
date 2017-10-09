@@ -3,18 +3,17 @@ import {
     BrowserRouter as Router,
     Route
 } from 'react-router-dom'
-import {Home} from "./Components";
-import AtlasLogin from "./components/AtlasLogin";
+import Home from "./components/Home";
+import Login from "./routes/Login";
 
 
-export default class MyRouter extends Component {
-
+export default class Routes extends Component {
     render(){
         return (
             <Router>
                 <div>
                     <Route exact path="/" component={Home}/>
-                    <Route path="/login" component={AtlasLogin}/>
+                    <Route path="/login" component={Login}/>
                 </div>
             </Router>
         );

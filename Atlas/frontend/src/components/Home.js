@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import atlas from '../assets/images/atlas.jpeg';
 import logo from '../assets/images/logo.png';
-import { AtlasNavbar } from '../Components';
+import AtlasNavbar from './AtlasNavbar';
 import '../css/Home.css';
 
 

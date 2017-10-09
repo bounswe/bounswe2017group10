@@ -1,8 +1,3 @@
-
-.background-image {
-    opacity: 0.6;
-}
-
 .login-column{
     border: 2px solid;
 }
@@ -13,4 +8,17 @@
 
 .login-search{
     background: white;
+}
+
+.signup-column{
+    border: 2px solid;
+}
+
+h3{
+    margin-bottom: 0px;
+
+}
+
+hr{
+    margin-top: 0px;
 }

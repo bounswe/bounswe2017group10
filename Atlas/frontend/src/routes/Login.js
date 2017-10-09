@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import {Button, Form, FormGroup, Input, Col, Row, Container, Badge} from 'reactstrap';
-import '../css/AtlasLogin.css';
 import atlas from '../assets/images/atlas.jpeg';
-import {AtlasSignup} from "../Components";
+import Signup from "../components/auth/Signup";
 import logo from '../assets/images/logo.png';
-import LoginSearch from "./LoginSearch";
+import Search from "../components/Search";
 
-export default class AtlasLogin extends Component {
+export default class Login extends Component {
 
     constructor(props){
         super(props);
@@ -43,7 +42,7 @@ export default class AtlasLogin extends Component {
         return (
         <Container>
             <img src={atlas} className="background-image" alt="background" />
-            <LoginSearch logo={logo} />
+            <Search logo={logo} />
             <Row>
                 <Col xs="5" className="login-column">
                     <Form className="login-panel" onSubmit={this.handleSubmit}>
@@ -97,7 +96,7 @@ export default class AtlasLogin extends Component {
                 <Col xs="2"></Col>
 
                 <Col xs="5" className="signup-column">
-                    <AtlasSignup/>
+                    <Signup/>
                 </Col>
             </Row>
 
@@ -105,4 +104,3 @@ export default class AtlasLogin extends Component {
         );
     }
 };
-

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {Button, Form, FormGroup, Input, Col, Row, Badge} from 'reactstrap';
-import '../css/AtlasSignup.css';
+import './style.css';
 
-export default class AtlasSignup extends Component {
+export default class Signup extends Component {
 
     constructor(props){
         super(props);
