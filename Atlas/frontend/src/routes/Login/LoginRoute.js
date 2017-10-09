@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Col, Row, Container} from 'reactstrap';
 import Signup from "../../components/auth/Signup";
-import Login from "../../components/auth/Login";
+import Login from "../../containers/Login";
 import './style.css';
 
 export default class LoginRoute extends Component {

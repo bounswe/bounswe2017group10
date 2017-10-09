@@ -12,11 +12,13 @@
     "react-facebook": "^4.0.16",
     "react-fontawesome": "^1.6.1",
     "react-icons": "^2.2.7",
+    "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.14",
     "react-share-icons": "^1.1.2",
-    "reactstrap": "^5.0.0-alpha.3"
+    "reactstrap": "^5.0.0-alpha.3",
+    "redux": "^3.7.2"
   },
   "scripts": {
     "build-css": "node-sass-chokidar src/ -o src/",
