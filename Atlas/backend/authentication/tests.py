@@ -215,6 +215,20 @@ class JSONWebTokenAuthTestCase(TestCase):
             HTTP_AUTHORIZATION='JWT ' + token
         )
         self.assertEqual(response.status_code,403)
+    def test_me_regex(self):
+        response = self.client.post(
+            self.login_url,
+            json.dumps(self.data),
+            content_type='application/json',
+        )
+        self.assertEqual(response.status_code, 200)
+        response_content = json.loads(smart_text(response.content))
+        token = response_content['token']
+        response = APIClient().get(
+            '/api/auth/me',
+            HTTP_AUTHORIZATION='JWT ' + token
+        )
+        self.assertEqual(response.status_code, 200)
 
 
 
