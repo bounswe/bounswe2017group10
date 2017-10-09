@@ -12,7 +12,9 @@ import { loadState, saveState } from './localStorage';
 const persistedState = loadState();
 const store = createStore(atlas, {
   ...persistedState,
-  loginError: null // Don't persist login failure
+  loginError: null,
+  signupInputs: {},
+  signupErrors: {}
 });
 
 store.subscribe(() => {

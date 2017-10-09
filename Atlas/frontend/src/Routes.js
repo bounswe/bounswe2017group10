@@ -20,7 +20,6 @@ export default class Routes extends Component {
     }
 
     saveToken(token) {
-      console.log("Saving token: " + token);
       this.setState({ token: token });
       localStorage.setItem('data', { token: token });
     }

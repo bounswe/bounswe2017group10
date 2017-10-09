@@ -49,6 +49,6 @@ export const signupSuccess = () => {
 export const signupFailed = (err) => {
   return {
     type: 'SIGNUP_FAILED',
-    text: err
+    errors: err
   }
 }

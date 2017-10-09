@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, FormGroup, Input, Col, Row, Container, Badge } from 'reactstrap';
+import { Button, Form, FormGroup, Input, Col, Row, Container, Badge, Alert } from 'reactstrap';
 import './style.css';
 
 const Login = ({ token, username, password, loginError, attemptLogin, handleInputChange }) => (
@@ -29,7 +29,7 @@ const Login = ({ token, username, password, loginError, attemptLogin, handleInpu
               <Col xs="9">
                 <Input
                   name="password"
-                  type="text"
+                  type="password"
                   onChange={handleInputChange}
                 />
               </Col>
@@ -46,9 +46,11 @@ const Login = ({ token, username, password, loginError, attemptLogin, handleInpu
               <Button onClick={ () => { attemptLogin(username, password) } } style={{ float: 'right' }}>Log-in</Button>
           </Col>
       </Row>
-      <span>
-        { loginError || '' }
-      </span>
+      <Row className="errors">
+        <Col xs="12">
+          { loginError === null ? '' : <Alert color="danger">Login failed.</Alert> }
+        </Col>
+      </Row>
     </Form>
   </Container>
 );

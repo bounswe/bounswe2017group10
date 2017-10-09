@@ -17,7 +17,7 @@ const mapDispatchToProps = dispatch => {
     attemptLogin: (username, password) => {
       dispatch(fetchingLogin());
       axios
-        .post('http://localhost:8000/api/auth/login', {
+        .post('http://localhost:8000/api/auth/login/', {
           username,
           password
         })

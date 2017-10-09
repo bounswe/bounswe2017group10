@@ -1,8 +1,9 @@
 import React from 'react';
 import { Button, Form, FormGroup, Input, Col, Row, Container, Badge } from 'reactstrap';
 import './style.css';
+import { Alert } from 'reactstrap';
 
-const Signup = ({ inputChanged, attemptSignup }) => (
+const Signup = ({ signupInputs, signupErrors, inputChanged, attemptSignup }) => (
   <Container className="square-box">
     <Form className="signup-panel"  onSubmit={attemptSignup}>
       <h3>Sign-up</h3>
@@ -82,8 +83,20 @@ const Signup = ({ inputChanged, attemptSignup }) => (
       <Row>
           <Col xs="12">
               <Button className="facebook-button"><Badge >f</Badge> Sign-up with Facebook</Button>
-              <Button onClick={ attemptSignup } style={{ float: 'right' }}>Sign-up</Button>
+              <Button onClick={ () => { attemptSignup(signupInputs) } } style={{ float: 'right' }}>Sign-up</Button>
           </Col>
+      </Row>
+      <Row className="errors">
+        <Col xs="12">
+          { signupErrors === null
+          ? ''
+          : Object.entries(signupErrors).map(entr => {
+            return (
+              <Alert key={ entr[0] } color="danger">{ entr[0] }: { entr[1][0] }</Alert>
+            )
+            })
+          }
+        </Col>
       </Row>
     </Form>
   </Container>

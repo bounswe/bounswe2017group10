@@ -5,7 +5,7 @@ const initState = {
   loginFetching: false,
   loginError: null,
   signupFetching: false,
-  signupError: null,
+  signupErrors: null,
   signupSuccess: false
 };
 const atlas = (state = initState, action) => {
@@ -37,7 +37,7 @@ const atlas = (state = initState, action) => {
       return {
         ...state,
         signupInputs: {
-          ...state.signupInputs,
+          ...(state.signupInputs),
           [action.name]: action.value // TODO(Yigit): Do name checking
         }
       }
@@ -55,7 +55,7 @@ const atlas = (state = initState, action) => {
     case 'SIGNUP_FAILED':
       return {
         ...state,
-        signupError: action.text,
+        signupErrors: action.errors,
         signupFetching: false
       }
     default:
