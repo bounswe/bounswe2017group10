@@ -168,6 +168,29 @@ class JSONWebTokenAuthTestCase(TestCase):
             content_type='application/json'
         )
         self.assertEqual(response.status_code,400)
+
+    def test_login_regex(self):
+        response = self.client.post(
+            '/api/auth/login',
+            json.dumps(self.data),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_signup_regex(self):
+        data = {
+            'email': "testingaa@gmail.com",
+            'username': "Shannon2",
+            'password': self.password,
+            'confirm_password': self.password,
+        }
+        response = self.client.post(
+            '/api/auth/signup',
+            json.dumps(data),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 201)
+
     def test_me_endpoint_with_loggedin_user(self):
         response = self.client.post(
             self.login_url,
@@ -192,5 +215,20 @@ class JSONWebTokenAuthTestCase(TestCase):
             HTTP_AUTHORIZATION='JWT ' + token
         )
         self.assertEqual(response.status_code,403)
+    def test_me_regex(self):
+        response = self.client.post(
+            self.login_url,
+            json.dumps(self.data),
+            content_type='application/json',
+        )
+        self.assertEqual(response.status_code, 200)
+        response_content = json.loads(smart_text(response.content))
+        token = response_content['token']
+        response = APIClient().get(
+            '/api/auth/me',
+            HTTP_AUTHORIZATION='JWT ' + token
+        )
+        self.assertEqual(response.status_code, 200)
+
 
 
