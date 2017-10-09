@@ -1,24 +1,17 @@
-.login-column{
-    border: 2px solid;
-}
+.login-column {
+  border: 2px solid; }
 
-.facebook-button{
-    background: blue;
-}
+.facebook-button {
+  background: blue; }
 
-.login-search{
-    background: white;
-}
+.login-search {
+  background: white; }
 
-.signup-column{
-    border: 2px solid;
-}
+.signup-column {
+  border: 2px solid; }
 
-h3{
-    margin-bottom: 0px;
+h3 {
+  margin-bottom: 0px; }
 
-}
-
-hr{
-    margin-top: 0px;
-}
+hr {
+  margin-top: 0px; }

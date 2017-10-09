@@ -4,7 +4,7 @@ import {
     Route
 } from 'react-router-dom'
 import Home from "./components/Home";
-import Login from "./routes/Login";
+import LoginRoute from "./routes/Login";
 
 
 export default class Routes extends Component {
@@ -13,7 +13,7 @@ export default class Routes extends Component {
             <Router>
                 <div>
                     <Route exact path="/" component={Home}/>
-                    <Route path="/login" component={Login}/>
+                    <Route path="/login" component={LoginRoute}/>
                 </div>
             </Router>
         );

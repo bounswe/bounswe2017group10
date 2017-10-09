@@ -32,7 +32,7 @@ export default class LoginSearch extends Component {
                     <Input type="search" name="search" value={this.state.searchvalue} placeholder="Search" onChange={this.handleChange} />
                 </Col>
                 <Col xs="2">
-                    <Button onClick="handleSubmit">Search</Button>
+                    <Button onClick={ this.handleSubmit }>Search</Button>
                 </Col>
             </Row>
         );
