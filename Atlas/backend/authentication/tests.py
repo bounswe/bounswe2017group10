@@ -5,6 +5,7 @@ from django.test.client import Client
 from jwt_auth import utils
 from jwt_auth.compat import json, smart_text
 from authentication.models import Account
+from rest_framework.test import APIClient
 
 
 @pytest.mark.django_db
@@ -167,4 +168,29 @@ class JSONWebTokenAuthTestCase(TestCase):
             content_type='application/json'
         )
         self.assertEqual(response.status_code,400)
+    def test_me_endpoint_with_loggedin_user(self):
+        response = self.client.post(
+            self.login_url,
+            json.dumps(self.data),
+            content_type ='application/json',
+        )
+        self.assertEqual(response.status_code, 200)
+        response_content = json.loads(smart_text(response.content))
+        token = response_content['token']
+        response = APIClient().get(
+            '/api/auth/me/',
+            HTTP_AUTHORIZATION='JWT ' + token
+        )
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(response.status_code,200)
+        self.assertEqual(response_content['username'], self.username)
+        self.assertEqual(response_content['email'], self.email)
+    def test_me_endpoint_with_guest_user(self):
+        token = "asdasd21312321j12jk312"
+        response = APIClient().get(
+            '/api/auth/me/',
+            HTTP_AUTHORIZATION='JWT ' + token
+        )
+        self.assertEqual(response.status_code,403)
+
 
