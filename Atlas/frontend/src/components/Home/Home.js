@@ -7,8 +7,6 @@ class Home extends Component {
     return (
 
       <div className="Home">
-        <span>Token:</span>
-        <span>{ this.props.token }</span>
         <header className="Home-header">
           <h1 className="Home-title">Enhance The Culture</h1>
           <h1 className="Home-title">Together.</h1>
