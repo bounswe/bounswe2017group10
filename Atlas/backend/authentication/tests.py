@@ -167,4 +167,26 @@ class JSONWebTokenAuthTestCase(TestCase):
             content_type='application/json'
         )
         self.assertEqual(response.status_code,400)
+    def test_login_regex(self):
+        response = self.client.post(
+            '/api/auth/login',
+            json.dumps(self.data),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_signup_regex(self):
+        data = {
+            'email': "testingaa@gmail.com",
+            'username': "Shannon2",
+            'password': self.password,
+            'confirm_password': self.password,
+        }
+        response = self.client.post(
+            '/api/auth/signup',
+            json.dumps(data),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 201)
+
 
