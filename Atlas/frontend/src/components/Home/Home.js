@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import atlas from '../../assets/images/atlas.jpeg';
-import logo from '../../assets/images/logo.png';
-import Navbar from '../Navbar/Navbar';
 import './style.css';
 
 
@@ -10,8 +7,8 @@ class Home extends Component {
     return (
 
       <div className="Home">
-        <img src={atlas} className="background-image" alt="background" />
-        <Navbar logo={logo} />
+        <span>Token:</span>
+        <span>{ this.props.token }</span>
         <header className="Home-header">
           <h1 className="Home-title">Enhance The Culture</h1>
           <h1 className="Home-title">Together.</h1>

@@ -8,33 +8,23 @@ export default class Login extends Component {
         super(props);
         this.state = {username: '', password: ''};
 
-        this.handleNameChange = this.handleNameChange.bind(this);
-        this.handlePasswordChange = this.handlePasswordChange.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-
     handleSubmit(){
         //request server and redirect to main page or fail to log in
+      this.props.saveToken("wowtoken");
     }
 
-    handleNameChange(event){
-        this.setState({username: event.target.username});
+    handleInputChange(event){
+      const target = event.target;
+      const name = target.name;
+      this.setState({
+        [name]: target.value
+      });
     }
 
-    handlePasswordChange(event){
-        this.setState({password: event.target.password});
-    }
-
-    handleResponse = (data) => {
-        console.log(data);
-    }
-
-    handleError = (error) => {
-        this.setState({ error });
-    }
-
-1
     render() {
         return (
         <Container className="square-box">
@@ -44,24 +34,30 @@ export default class Login extends Component {
             <FormGroup>
                 <Row>
                     <Col xs="3">
-                        <label>
-                            Username:
-                        </label>
+                        <label>Username:</label>
                     </Col>
                     <Col xs="9">
-                        <Input className="username-input" type="text" value={this.state.username} onChange={this.handleNameChange}/>
+                      <Input
+                        name="username"
+                        type="text"
+                        value={this.state.username}
+                        onChange={this.handleInputChange}
+                      />
                     </Col>
                 </Row>
             </FormGroup>
             <FormGroup>
                 <Row>
                     <Col xs="3">
-                        <label>
-                            Password:
-                        </label>
+                        <label>Password:</label>
                     </Col>
                     <Col xs="9">
-                        <Input className="password-input" type="text" value={this.state.password} onChange={this.handlePasswordChange}/>
+                      <Input
+                        name="password"
+                        type="text"
+                        value={this.state.password}
+                        onChange={this.handleInputChange}
+                      />
                     </Col>
                 </Row>
             </FormGroup>

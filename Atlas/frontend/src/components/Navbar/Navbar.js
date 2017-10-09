@@ -12,10 +12,11 @@ export default class AtlasNavbar extends Component {
     return (
       <div>
         <Navbar color="transparent" expand="md">
-          <NavbarBrand href="/">
-            <img src={ this.props.logo } alt="logo" className="logo" />
-            Atlas
-          </NavbarBrand>
+            <NavbarBrand href="/">
+              <img src={ this.props.logo } alt="logo" className="logo" />
+              Atlass
+              token: { this.props.token }
+            </NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={true} navbar>
             <Nav className="ml-auto" navbar>
