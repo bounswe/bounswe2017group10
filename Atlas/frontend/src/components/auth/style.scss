@@ -10,20 +10,26 @@
     background: white;
 }
 
-.signup-column{
+.signup-column, .login-column {
     border: 2px solid;
+    border-radius: 2px;
 }
 
-h3{
-    margin-bottom: 0px;
-
-}
-
-hr{
-    margin-top: 0px;
-}
-
-
-.login-panel {
+.square-box {
   padding: 20px;
+
+  .small-text {
+    &, a {
+      color: rgba(0, 0, 0, 0.6);
+      font-size: 15px;
+    }
+  }
+}
+
+.login-buttons {
+  margin-top: 10px;
+}
+
+.background-image {
+  opacity: 0.6;
 }

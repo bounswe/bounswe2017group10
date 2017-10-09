@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Button, Form, FormGroup, Input, Col, Row, Container, Badge} from 'reactstrap';
+import { Button, Form, FormGroup, Input, Col, Row, Container, Badge } from 'reactstrap';
 import './style.css';
 
 export default class Login extends Component {
@@ -34,18 +34,16 @@ export default class Login extends Component {
         this.setState({ error });
     }
 
-
+1
     render() {
         return (
-        <Container>
-          <Form className="login-panel" onSubmit={this.handleSubmit}>
-            <Row>
-                <h3>Log-in</h3>
-            </Row>
-            <hr/>
+        <Container className="square-box">
+          <Form onSubmit={this.handleSubmit}>
+            <h3>Log-in</h3>
+            <hr />
             <FormGroup>
                 <Row>
-                    <Col xs="2">
+                    <Col xs="3">
                         <label>
                             Username:
                         </label>
@@ -57,7 +55,7 @@ export default class Login extends Component {
             </FormGroup>
             <FormGroup>
                 <Row>
-                    <Col xs="2">
+                    <Col xs="3">
                         <label>
                             Password:
                         </label>
@@ -67,18 +65,15 @@ export default class Login extends Component {
                     </Col>
                 </Row>
             </FormGroup>
-            <Row>
-                <Col xs="7"></Col>
-                <Col xs="5">
+            <Row className="small-text">
+                <Col xs="12">
                     <a href="">Forgot my password</a><br/>
                 </Col>
             </Row>
-            <Row>
-                <Col xs="6">
-                    <Button className="facebook-button"><Badge >f</Badge>Login with Facebook</Button>
-                </Col>
-                <Col xs="5">
-                    <Button onClick={ this.handleSubmit } className="login-button">Log-in</Button>
+            <Row className="login-buttons">
+                <Col xs="12">
+                    <Button className="facebook-button"><Badge >f</Badge> Login with Facebook</Button>
+                    <Button onClick={ this.handleSubmit } style={{ float: 'right' }}>Log-in</Button>
                 </Col>
 
             </Row>

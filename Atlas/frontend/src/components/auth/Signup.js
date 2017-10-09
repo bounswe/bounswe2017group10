@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Button, Form, FormGroup, Input, Col, Row, Badge} from 'reactstrap';
+import { Button, Form, FormGroup, Input, Col, Row, Container, Badge } from 'reactstrap';
 import './style.css';
 
 export default class Signup extends Component {
@@ -50,92 +50,90 @@ export default class Signup extends Component {
 
     render() {
         return (
+          <Container className="square-box">
                 <Form className="signup-panel"  onSubmit={this.handleSubmit}>
                     <h3>Sign-up</h3>
                     <hr/>
                     <FormGroup>
                         <Row>
-                            <Col xs="2">
+                            <Col xs="3">
                                 <label>
                                     Email:
                                 </label>
                             </Col>
-                            <Col xs="10">
+                            <Col xs="9">
                                 <Input type="text" value={this.state.email} onChange={this.handleMailChange}/>
                             </Col>
                         </Row>
                     </FormGroup>
                     <FormGroup>
                         <Row>
-                            <Col xs="2">
+                            <Col xs="3">
                                 <label>
                                     Your Name:
                                 </label>
                             </Col>
-                            <Col xs="10">
+                            <Col xs="9">
                                 <Input type="text" value={this.state.Name} onChange={this.handleNameChange}/>
                             </Col>
                         </Row>
                     </FormGroup>
                     <FormGroup>
                         <Row>
-                            <Col xs="2">
+                            <Col xs="3">
                                 <label>
                                     Your Surname:
                                 </label>
                             </Col>
-                            <Col xs="10">
+                            <Col xs="9">
                                 <Input type="text" value={this.state.surname} onChange={this.handleSurnameChange}/>
                             </Col>
                         </Row>
                     </FormGroup>
                     <FormGroup>
                         <Row>
-                            <Col xs="2">
+                            <Col xs="3">
                                 <label>
                                     User name:
                                 </label>
                             </Col>
-                            <Col xs="10">
+                            <Col xs="9">
                                 <Input type="text" value={this.state.username} onChange={this.handleUserNameChange}/>
                             </Col>
                         </Row>
                     </FormGroup>
                     <FormGroup>
                         <Row>
-                            <Col xs="2">
+                            <Col xs="3">
                                 <label>
                                     Password:
                                 </label>
                             </Col>
-                            <Col xs="10">
+                            <Col xs="9">
                                 <Input type="password" value={this.state.password} onChange={this.handlePasswordChange}/>
                             </Col>
                         </Row>
                     </FormGroup>
                     <FormGroup>
                         <Row>
-                            <Col xs="2">
+                            <Col xs="3">
                                 <label>
                                     Confirm password:
                                 </label>
                             </Col>
-                            <Col xs="10">
+                            <Col xs="9">
                                 <Input type="password" value={this.state.confirmpassword} onChange={this.handleConfirmPasswordChange}/>
                             </Col>
                         </Row>
                     </FormGroup>
                     <Row>
-                        <Col xs="2"></Col>
-                        <Col xs="5">
-                            <Button className="facebook-button"><Badge >f</Badge>Sign-up with Facebook</Button>
-                        </Col>
-                        <Col xs="1"></Col>
-                        <Col xs="4">
-                            <Button>Sign-up</Button>
+                        <Col xs="12">
+                            <Button className="facebook-button"><Badge >f</Badge> Sign-up with Facebook</Button>
+                            <Button style={{ float: 'right' }}>Sign-up</Button>
                         </Col>
                     </Row>
                 </Form>
+            </Container>
 
         );
     }
