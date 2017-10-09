@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import Signup from '../components/auth/Signup';
 import { updateSignupInput, fetchingSignup, signupFailed, signupSuccess } from '../actions/index.js';
 import axios from 'axios';
+import { API_URL } from '../constants';
 
 const mapStateToProps = state => {
   return {
@@ -16,7 +17,7 @@ const mapDispatchToProps = dispatch => {
     attemptSignup: (signupInputs) => {
       dispatch(fetchingSignup()); 
       axios
-        .post('http://localhost:8000/api/auth/signup/', signupInputs)
+        .post(API_URL + '/api/auth/signup/', signupInputs)
         .then(function(resp) {
           dispatch(signupSuccess());
         })

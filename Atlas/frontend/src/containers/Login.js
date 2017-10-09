@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import Login from '../components/auth/Login';
 import { saveToken, updateLoginInput, fetchingLogin, loginFailed, updateUser } from '../actions/index.js';
 import axios from 'axios';
+import { API_URL } from '../constants';
 
 const mapStateToProps = state => {
   return {
@@ -17,7 +18,7 @@ const mapDispatchToProps = dispatch => {
     attemptLogin: (username, password) => {
       dispatch(fetchingLogin());
       axios
-        .post('http://localhost:8000/api/auth/login/', {
+        .post(API_URL + '/api/auth/login/', {
           username,
           password
         }).then(resp => {
@@ -25,7 +26,7 @@ const mapDispatchToProps = dispatch => {
           dispatch(saveToken(token));
           axios({
             method: 'get',
-            url: 'http://localhost:8000/api/auth/me',
+            url: API_URL + '/api/auth/me',
             headers: { 'Authorization': 'JWT ' + token }
           }).then(resp => {
             dispatch(updateUser(resp.response.data));
