@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Form, FormGroup, Input, Col, Row, Container, Badge } from 'reactstrap';
 import './style.css';
 
-const Login = ({ token, username, password, loginError, addToken, attemptLogin, handleInputChange }) => (
+const Login = ({ token, username, password, loginError, attemptLogin, handleInputChange }) => (
   <Container className="square-box">
     <Form onSubmit={this.handleSubmit}>
       <h3>Log-in</h3>

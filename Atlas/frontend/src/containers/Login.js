@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Login from '../components/auth/Login';
-import { addToken, updateInput, fetching, loginFailed } from '../actions/index.js';
+import { saveToken, updateLoginInput, fetchingLogin, loginFailed } from '../actions/index.js';
 import axios from 'axios';
 
 const mapStateToProps = state => {
@@ -14,20 +14,17 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addToken: token => { dispatch(addToken(token)) },
     attemptLogin: (username, password) => {
-      console.log('attempting login');
-      dispatch(fetching());
+      dispatch(fetchingLogin());
       axios
-        .post('http://localhost:8000/api/auth/login/', {
+        .post('http://localhost:8000/api/auth/login', {
           username,
           password
         })
         .then(function(resp) {
-          addToken(resp.data.token)
+          saveToken(resp.data.token)
         })
         .catch(function(err) {
-          console.log(err);
           dispatch(loginFailed(err.response.data.non_field_errors[0]));
         });
     },
@@ -35,7 +32,7 @@ const mapDispatchToProps = dispatch => {
       const target = event.target;
       const name = target.name;
       const value = target.value;
-      dispatch(updateInput(name, value));
+      dispatch(updateLoginInput(name, value));
     }
   }
 }
@@ -44,4 +41,5 @@ const LoginContainer = connect(
   mapStateToProps,
   mapDispatchToProps
 )(Login);
+
 export default LoginContainer;
