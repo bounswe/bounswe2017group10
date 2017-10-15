@@ -1,102 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- TODO: create multiple dpi versions of background image in png format -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/login_page_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background"
-    android:weightSum="1"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <Space
-        android:layout_width="match_parent"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/auth_container"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0.2" />
+        android:background="@drawable/background"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
-    <TextView
-        android:id="@+id/enhance_culture_textview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="serif"
-        android:text="@string/enhance_the_culture"
-        android:textAlignment="center"
-        android:textColor="@android:color/white"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:visibility="visible" />
+    </android.support.v4.view.ViewPager>
 
-    <TextView
-        android:id="@+id/together_textview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="serif"
-        android:text="@string/together"
-        android:textAlignment="center"
-        android:textColor="@android:color/white"
-        android:textSize="36sp"
-        android:textStyle="bold"
-        android:visibility="visible" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.5" />
-
-    <Button
-        android:id="@+id/learn_more_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.025"
-        android:background="@android:color/transparent"
-        android:fontFamily="serif"
-        android:text="@string/learn_more_button"
-        android:textAllCaps="false"
-        android:textColor="@color/url_link_color"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/login_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="@dimen/button_margin_size"
-        android:layout_marginRight="@dimen/button_margin_size"
-        android:layout_weight="0.025"
-        android:background="@android:color/background_light"
-        android:fontFamily="serif"
-        android:text="@string/login_button"
-        android:textAlignment="center" />
-
-    <TextView
-        android:id="@+id/or_textview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="0.1"
-        android:fontFamily="serif"
-        android:gravity="center_vertical"
-        android:text="@string/or"
-        android:textAlignment="center"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/register_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="@dimen/button_margin_size"
-        android:layout_marginRight="@dimen/button_margin_size"
-        android:layout_weight="0.025"
-        android:background="@android:color/background_light"
-        android:fontFamily="serif"
-        android:text="@string/register_button" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.1" />
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
