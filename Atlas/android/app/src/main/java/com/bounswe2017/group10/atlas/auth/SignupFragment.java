@@ -8,10 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.bounswe2017.group10.atlas.R;
-
-import retrofit2.HttpException;
+import com.bounswe2017.group10.atlas.httpbody.LoginRequest;
+import com.bounswe2017.group10.atlas.httpbody.LoginResponse;
+import com.bounswe2017.group10.atlas.httpbody.SignupRequest;
+import com.bounswe2017.group10.atlas.httpbody.SignupResponse;
+import com.bounswe2017.group10.atlas.remote.ResponseCallback;
 
 
 public class SignupFragment extends Fragment {
@@ -31,17 +35,59 @@ public class SignupFragment extends Fragment {
             // collect input from text fields
             // validate inputs
             // construct json containing user info
-            String body = "signup_json";
-            try {
-                String responseJson = AuthManager.signup(body);
-                // if success, log user in.
-                body = "login_json";
-                responseJson = AuthManager.login(body);
-                // go to another activity
-            } catch (HttpException e) {
-                // error handling
-            }
+            SignupRequest signupRequest = new SignupRequest();
+            AuthManager.signup(signupRequest, new OnSignupSuccess(signupRequest), new OnSignupFailure());
         });
         return view;
+    }
+
+    /**
+     * Implement the tasks to perform upon successful signup request.
+     */
+    class OnSignupSuccess implements ResponseCallback<SignupResponse> {
+        private SignupRequest signupRequest;
+
+        public OnSignupSuccess(SignupRequest request) {
+            this.signupRequest = request;
+        }
+
+        public void onResponse(SignupResponse response) {
+            Toast.makeText(getActivity().getApplicationContext(), "Successfully signed up", Toast.LENGTH_LONG).show();
+            LoginRequest loginRequest = new LoginRequest();
+            loginRequest.setUsername(signupRequest.getUsername());
+            loginRequest.setPassword(signupRequest.getPassword());
+            AuthManager.login(loginRequest, new OnImmediateLoginSuccess(), new OnImmediateLoginFailure());
+        }
+    }
+
+    /**
+     * Implement the tasks to perform upon failed signup request.
+     */
+    class OnSignupFailure implements ResponseCallback<SignupResponse> {
+        public void onResponse(SignupResponse response) {
+            Toast.makeText(getActivity().getApplicationContext(), "Couldn't sign up", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     * Implement the tasks to perform upon successful log in request after a successful signup request.
+     */
+    class OnImmediateLoginSuccess implements ResponseCallback<LoginResponse> {
+        public void onResponse(LoginResponse response) {
+            // handle login success view updates
+            Toast.makeText(getActivity().getApplicationContext(), "Successfully logged in", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     * Implement the tasks to perform upon failed log in request after a successful signup request.
+     *
+     * This should happen very rarely, if at all.
+     */
+    class OnImmediateLoginFailure implements  ResponseCallback<LoginResponse> {
+        public void onResponse(LoginResponse response) {
+            // handle login failure view updates
+            Toast.makeText(getActivity().getApplicationContext(), "Couldn't log in", Toast.LENGTH_LONG).show();
+        }
     }
 }
