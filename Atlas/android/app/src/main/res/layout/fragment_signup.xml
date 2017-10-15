@@ -4,8 +4,8 @@
     android:id="@+id/fragment_signup_layout"
     android:background="@android:color/transparent"
     android:orientation="vertical"
-    android:layout_marginTop="75dp"
-    android:layout_marginBottom="75dp"
+    android:layout_marginTop="@dimen/login_signup_layout_margin"
+    android:layout_marginBottom="@dimen/login_signup_layout_margin"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -15,16 +15,16 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/edittext_padding_size"
         android:paddingBottom="@dimen/edittext_padding_size"
-        android:layout_marginLeft="@dimen/edittext_margin_size"
-        android:layout_marginRight="@dimen/edittext_margin_size"
+        android:layout_marginLeft="@dimen/edittext_hor_margin_size"
+        android:layout_marginRight="@dimen/edittext_hor_margin_size"
         android:background="@color/button_gray"
         android:ems="10"
-        android:hint="Username"
+        android:hint="@string/username"
         android:inputType="textPersonName"
         android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"
-        android:textSize="24sp" />
+        android:textSize="@dimen/edittext_text_size" />
 
     <EditText
         android:id="@+id/email_edittext"
@@ -32,33 +32,33 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/edittext_padding_size"
         android:paddingBottom="@dimen/edittext_padding_size"
-        android:layout_marginLeft="@dimen/edittext_margin_size"
-        android:layout_marginRight="@dimen/edittext_margin_size"
-        android:layout_marginTop="30dp"
+        android:layout_marginLeft="@dimen/edittext_hor_margin_size"
+        android:layout_marginRight="@dimen/edittext_hor_margin_size"
+        android:layout_marginTop="@dimen/edittext_ver_margin_size"
         android:background="@color/button_gray"
         android:ems="10"
-        android:hint="Email"
+        android:hint="@string/email"
         android:inputType="textEmailAddress"
         android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"
-        android:textSize="24sp" />
+        android:textSize="@dimen/edittext_text_size" />
 
     <Button
         android:id="@+id/birthdate_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/edittext_margin_size"
-        android:layout_marginRight="@dimen/edittext_margin_size"
-        android:layout_marginTop="30dp"
+        android:layout_marginLeft="@dimen/edittext_hor_margin_size"
+        android:layout_marginRight="@dimen/edittext_hor_margin_size"
+        android:layout_marginTop="@dimen/edittext_ver_margin_size"
         android:background="@color/button_gray"
         android:ems="10"
-        android:hint="Birth Date"
+        android:hint="@string/birthdate"
         android:inputType="date"
         android:textColorHint="@android:color/white"
         android:textAlignment="center"
         android:textAllCaps="false"
-        android:textSize="24sp" />
+        android:textSize="@dimen/edittext_text_size" />
 
     <EditText
         android:id="@+id/password_edittext"
@@ -66,17 +66,17 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/edittext_padding_size"
         android:paddingBottom="@dimen/edittext_padding_size"
-        android:layout_marginLeft="@dimen/edittext_margin_size"
-        android:layout_marginRight="@dimen/edittext_margin_size"
-        android:layout_marginTop="30dp"
+        android:layout_marginLeft="@dimen/edittext_hor_margin_size"
+        android:layout_marginRight="@dimen/edittext_hor_margin_size"
+        android:layout_marginTop="@dimen/edittext_ver_margin_size"
         android:background="@color/button_gray"
         android:ems="10"
-        android:hint="Password"
+        android:hint="@string/password"
         android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"
         android:inputType="textPassword"
         android:textAlignment="center"
-        android:textSize="24sp" />
+        android:textSize="@dimen/edittext_text_size" />
 
     <EditText
         android:id="@+id/confirm_password_edittext"
@@ -84,17 +84,17 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/edittext_padding_size"
         android:paddingBottom="@dimen/edittext_padding_size"
-        android:layout_marginLeft="@dimen/edittext_margin_size"
-        android:layout_marginRight="@dimen/edittext_margin_size"
-        android:layout_marginTop="30dp"
+        android:layout_marginLeft="@dimen/edittext_hor_margin_size"
+        android:layout_marginRight="@dimen/edittext_hor_margin_size"
+        android:layout_marginTop="@dimen/edittext_ver_margin_size"
         android:background="@color/button_gray"
         android:ems="10"
-        android:hint="Confirm Password"
+        android:hint="@string/confirm_password"
         android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"
         android:inputType="textPassword"
         android:textAlignment="center"
-        android:textSize="24sp" />
+        android:textSize="@dimen/edittext_text_size" />
 
     <Space
         android:layout_width="match_parent"
@@ -102,13 +102,13 @@
         android:layout_weight="0.1" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/signup_request_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/button_margin_size"
         android:layout_marginRight="@dimen/button_margin_size"
         android:background="@android:color/background_light"
-        android:text="Sign Up"
+        android:text="@string/signup"
         android:textAlignment="center"
-        android:textSize="18sp" />
+        android:textSize="@dimen/button_text_size" />
 </LinearLayout>

@@ -4,13 +4,75 @@
     android:id="@+id/fragment_login_layout"
     android:background="@android:color/transparent"
     android:orientation="vertical"
+    android:layout_marginTop="@dimen/login_signup_layout_margin"
+    android:layout_marginBottom="@dimen/login_signup_layout_margin"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView"
+    <!-- TODO: add login via facebook button -->
+
+    <EditText
+        android:id="@+id/username_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="LOGIN"
-        android:textSize="30sp" />
+        android:layout_marginLeft="@dimen/edittext_hor_margin_size"
+        android:layout_marginRight="@dimen/edittext_hor_margin_size"
+        android:layout_marginTop="@dimen/edittext_ver_margin_size"
+        android:background="@color/button_gray"
+        android:ems="10"
+        android:hint="@string/username_email"
+        android:inputType="textEmailAddress"
+        android:paddingBottom="@dimen/edittext_padding_size"
+        android:paddingTop="@dimen/edittext_padding_size"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        android:textSize="@dimen/edittext_text_size" />
+
+    <EditText
+        android:id="@+id/password_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/edittext_hor_margin_size"
+        android:layout_marginRight="@dimen/edittext_hor_margin_size"
+        android:layout_marginTop="@dimen/edittext_ver_margin_size"
+        android:background="@color/button_gray"
+        android:ems="10"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:paddingBottom="@dimen/edittext_padding_size"
+        android:paddingTop="@dimen/edittext_padding_size"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        android:textSize="@dimen/edittext_text_size" />
+
+    <Button
+        android:id="@+id/learn_more_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.025"
+        android:background="@android:color/transparent"
+        android:fontFamily="serif"
+        android:text="@string/forgot_password"
+        android:textAllCaps="false"
+        android:textColor="@color/url_link_color"
+        android:textSize="@dimen/button_text_size"
+        android:textStyle="bold" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1" />
+
+    <Button
+        android:id="@+id/login_request_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/button_margin_size"
+        android:layout_marginRight="@dimen/button_margin_size"
+        android:background="@android:color/background_light"
+        android:text="@string/login"
+        android:textAlignment="center"
+        android:textSize="@dimen/button_text_size" />
 </LinearLayout>
