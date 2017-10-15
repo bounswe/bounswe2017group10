@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -27,21 +26,25 @@ public class AuthActivity extends FragmentActivity {
         if (savedInstanceState != null) {
             return;
         }
-        FrameLayout viewGroup = (FrameLayout) findViewById(R.id.auth_container);
+        // Do the following operations only when the activity is created for the first time
 
-        // blur viewPager background
+        // blur layout background
+        FrameLayout frameLayout = findViewById(R.id.auth_container);
         Bitmap origBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.background);
         Bitmap blurredBitmap = (new BlurBuilder()).blur(this, origBitmap);
-        viewGroup.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
+        frameLayout.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
 
         Fragment authMenuFragment = new AuthMenuFragment();
-        getSupportFragmentManager().beginTransaction()
+        getSupportFragmentManager()
+                .beginTransaction()
                 .add(R.id.auth_container, authMenuFragment)
                 .commit();
-        //setupViewPager(mViewPager);
-
     }
 
+    /**
+     * When back button is pressed on login or signup fragments,
+     * go back to the previous fragment.
+     */
     @Override
     public void onBackPressed() {
         FragmentManager fm = getSupportFragmentManager();
