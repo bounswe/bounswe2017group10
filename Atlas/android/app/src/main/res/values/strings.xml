@@ -13,4 +13,6 @@
     <string name="birthdate">Birth Date</string>
     <string name="email">Email</string>
     <string name="username">Username</string>
+    <string name="empty_username_email_field">Please enter your username or e-mail</string>
+    <string name="empty_password">Please enter your password</string>
 </resources>

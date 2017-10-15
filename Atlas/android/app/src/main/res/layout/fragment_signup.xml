@@ -61,39 +61,39 @@
         android:textSize="@dimen/edittext_text_size" />
 
     <EditText
-        android:id="@+id/password_edittext"
+        android:id="@+id/signup_pw_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/edittext_padding_size"
-        android:paddingBottom="@dimen/edittext_padding_size"
         android:layout_marginLeft="@dimen/edittext_hor_margin_size"
         android:layout_marginRight="@dimen/edittext_hor_margin_size"
         android:layout_marginTop="@dimen/edittext_ver_margin_size"
         android:background="@color/button_gray"
         android:ems="10"
         android:hint="@string/password"
+        android:inputType="textPassword"
+        android:paddingBottom="@dimen/edittext_padding_size"
+        android:paddingTop="@dimen/edittext_padding_size"
+        android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"
-        android:inputType="textPassword"
-        android:textAlignment="center"
         android:textSize="@dimen/edittext_text_size" />
 
     <EditText
-        android:id="@+id/confirm_password_edittext"
+        android:id="@+id/confirm_pw_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/edittext_padding_size"
-        android:paddingBottom="@dimen/edittext_padding_size"
         android:layout_marginLeft="@dimen/edittext_hor_margin_size"
         android:layout_marginRight="@dimen/edittext_hor_margin_size"
         android:layout_marginTop="@dimen/edittext_ver_margin_size"
         android:background="@color/button_gray"
         android:ems="10"
         android:hint="@string/confirm_password"
+        android:inputType="textPassword"
+        android:paddingBottom="@dimen/edittext_padding_size"
+        android:paddingTop="@dimen/edittext_padding_size"
+        android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"
-        android:inputType="textPassword"
-        android:textAlignment="center"
         android:textSize="@dimen/edittext_text_size" />
 
     <Space

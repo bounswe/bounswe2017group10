@@ -12,7 +12,7 @@
     <!-- TODO: add login via facebook button -->
 
     <EditText
-        android:id="@+id/username_edittext"
+        android:id="@+id/username_email_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/edittext_hor_margin_size"
@@ -30,7 +30,7 @@
         android:textSize="@dimen/edittext_text_size" />
 
     <EditText
-        android:id="@+id/password_edittext"
+        android:id="@+id/login_pw_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/edittext_hor_margin_size"
@@ -48,7 +48,7 @@
         android:textSize="@dimen/edittext_text_size" />
 
     <Button
-        android:id="@+id/forgot_password_button"
+        android:id="@+id/forgot_pw_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.025"
