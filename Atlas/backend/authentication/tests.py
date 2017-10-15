@@ -25,7 +25,7 @@ class JSONWebTokenAuthTestCase(TestCase):
             'password': self.password,
             'confirm_password' :self.password,
         }
-        self.login_data =  {
+        self.login_data_with_username =  {
             'username_or_email' : self.username,
             'password'          : self.password,
         }
@@ -39,7 +39,7 @@ class JSONWebTokenAuthTestCase(TestCase):
         """
         response = self.client.post(
             self.login_url,
-            json.dumps(self.login_data),
+            json.dumps(self.login_data_with_username),
             content_type='application/json'
         )
         self.assertEqual(response.status_code, 200)
@@ -75,8 +75,10 @@ class JSONWebTokenAuthTestCase(TestCase):
         Ensure JWT login view using JSON POST fails
         if bad credentials are used.
         """
-        self.login_data['password'] = 'wrong'
-
+        data = {
+            'username': self.username,
+            'password': 'wrongPassword'
+        }
         response = self.client.post(
             self.login_url,
             json.dumps(self.data),
@@ -107,10 +109,9 @@ class JSONWebTokenAuthTestCase(TestCase):
         token = utils.jwt_encode_handler(payload)
 
         auth = 'Bearer {0}'.format(token)
-        self.login_data['password'] = self.password
         response = self.client.post(
             self.login_url,
-            json.dumps(self.login_data),
+            json.dumps(self.login_data_with_username),
             content_type='application/json',
             HTTP_AUTHORIZATION=auth
         )
@@ -198,7 +199,7 @@ class JSONWebTokenAuthTestCase(TestCase):
     def test_login_regex(self):
         response = self.client.post(
             '/api/auth/login',
-            json.dumps(self.login_data),
+            json.dumps(self.login_data_with_username),
             content_type='application/json'
         )
         self.assertEqual(response.status_code, 200)
@@ -220,7 +221,7 @@ class JSONWebTokenAuthTestCase(TestCase):
     def test_me_endpoint_with_loggedin_user(self):
         response = self.client.post(
             self.login_url,
-            json.dumps(self.login_data),
+            json.dumps(self.login_data_with_username),
             content_type ='application/json',
         )
         self.assertEqual(response.status_code, 200)
@@ -244,7 +245,7 @@ class JSONWebTokenAuthTestCase(TestCase):
     def test_me_regex(self):
         response = self.client.post(
             self.login_url,
-            json.dumps(self.login_data),
+            json.dumps(self.login_data_with_username),
             content_type='application/json',
         )
         self.assertEqual(response.status_code, 200)
