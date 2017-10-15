@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Login from '../components/auth/Login';
-import { saveToken, updateLoginInput, fetchingLogin, loginFailed, updateUser, loginCompleted } from '../actions/index.js';
+import { saveToken, updateLoginInput, fetchingLogin, loginFailed, updateUser } from '../actions/index.js';
 import axios from 'axios';
 import { API_URL } from '../constants';
 

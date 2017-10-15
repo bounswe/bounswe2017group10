@@ -9,8 +9,6 @@ import Navbar from '../Navbar/Navbar';
 import atlas from '../../assets/images/atlas.jpeg';
 import logo from '../../assets/images/logo.png';
 import Profile from "../../containers/Profile/Profile";
-import axios from 'axios';
-import { API_URL } from '../../constants';
 import PrivateRoute from './PrivateRoute';
 
 const Routes = ({ user, token }) => ({

@@ -59,9 +59,3 @@ export const updateUser = (data) => {
     data
   }
 }
-
-export const loginCompleted = () => {
-  return {
-    type: 'LOGIN_COMPLETED'
-  }
-}
