@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="url_link_color">#0000ee</color>
+    <color name="button_gray">#454545</color>
 </resources>

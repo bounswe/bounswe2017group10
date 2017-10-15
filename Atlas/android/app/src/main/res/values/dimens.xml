@@ -2,4 +2,6 @@
 <resources>
     <dimen name="button_padding_size">50dp</dimen>
     <dimen name="button_margin_size">150dp</dimen>
+    <dimen name="edittext_padding_size">10dp</dimen>
+    <dimen name="edittext_margin_size">75dp</dimen>
 </resources>

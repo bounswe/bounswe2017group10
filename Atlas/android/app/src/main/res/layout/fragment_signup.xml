@@ -4,13 +4,111 @@
     android:id="@+id/fragment_signup_layout"
     android:background="@android:color/transparent"
     android:orientation="vertical"
+    android:layout_marginTop="75dp"
+    android:layout_marginBottom="75dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView2"
+    <EditText
+        android:id="@+id/username_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SIGNUP"
-        android:textSize="30sp" />
+        android:paddingTop="@dimen/edittext_padding_size"
+        android:paddingBottom="@dimen/edittext_padding_size"
+        android:layout_marginLeft="@dimen/edittext_margin_size"
+        android:layout_marginRight="@dimen/edittext_margin_size"
+        android:background="@color/button_gray"
+        android:ems="10"
+        android:hint="Username"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        android:textSize="24sp" />
+
+    <EditText
+        android:id="@+id/email_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/edittext_padding_size"
+        android:paddingBottom="@dimen/edittext_padding_size"
+        android:layout_marginLeft="@dimen/edittext_margin_size"
+        android:layout_marginRight="@dimen/edittext_margin_size"
+        android:layout_marginTop="30dp"
+        android:background="@color/button_gray"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/birthdate_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/edittext_margin_size"
+        android:layout_marginRight="@dimen/edittext_margin_size"
+        android:layout_marginTop="30dp"
+        android:background="@color/button_gray"
+        android:ems="10"
+        android:hint="Birth Date"
+        android:inputType="date"
+        android:textColorHint="@android:color/white"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="24sp" />
+
+    <EditText
+        android:id="@+id/password_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/edittext_padding_size"
+        android:paddingBottom="@dimen/edittext_padding_size"
+        android:layout_marginLeft="@dimen/edittext_margin_size"
+        android:layout_marginRight="@dimen/edittext_margin_size"
+        android:layout_marginTop="30dp"
+        android:background="@color/button_gray"
+        android:ems="10"
+        android:hint="Password"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        android:textSize="24sp" />
+
+    <EditText
+        android:id="@+id/confirm_password_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/edittext_padding_size"
+        android:paddingBottom="@dimen/edittext_padding_size"
+        android:layout_marginLeft="@dimen/edittext_margin_size"
+        android:layout_marginRight="@dimen/edittext_margin_size"
+        android:layout_marginTop="30dp"
+        android:background="@color/button_gray"
+        android:ems="10"
+        android:hint="Confirm Password"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        android:textSize="24sp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/button_margin_size"
+        android:layout_marginRight="@dimen/button_margin_size"
+        android:background="@android:color/background_light"
+        android:text="Sign Up"
+        android:textAlignment="center"
+        android:textSize="18sp" />
 </LinearLayout>
