@@ -2,7 +2,6 @@ from __future__ import unicode_literals
 
 from django.db import models
 
-
 # Create your models here.
 
 class User(models.Model):
@@ -15,3 +14,14 @@ class User(models.Model):
 class Item(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     item_name = models.CharField(max_length=200)
+
+class Cultural_Heritage(models.Model):
+    #user = models.ForeignKey('authentication.Account',on_delete =models.PROTECT)
+    title = models.CharField(max_length = 200)
+    description = models.TextField()
+    continent = models.CharField(max_length = 200)
+    country = models.CharField(max_length = 200)
+    city = models.CharField(max_length = 200)
+    public_accessibility = models.BooleanField()
+    created_time = models.DateField(auto_now_add =True)
+    updated_time = models.DateField(auto_now =True)

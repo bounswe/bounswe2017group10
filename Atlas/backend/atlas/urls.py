@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^users/', views.users, name='users'),
     url(r'^api/auth/', include('authentication.urls')),
+    url(r'^cultural/?$', views.cultural_heritage_item.as_view()),
 ]
