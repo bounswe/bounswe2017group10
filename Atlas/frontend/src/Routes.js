@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import axios from 'axios';
-import Routes from './components/Routes';
+import Routes from './components/Routes/Routes';
 import { updateUser } from './actions/index';
 import { API_URL } from './constants';
 
