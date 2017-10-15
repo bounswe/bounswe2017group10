@@ -26,9 +26,7 @@ SECRET_KEY = 'b!ydx6z#0z%59+*@%(sfj&fynlk&73eyh4$+58%*ft%kfm43-c'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('ATLAS_DEBUG', False)
 
-ALLOWED_HOSTS = ['54.235.57.209',
-                 '0.0.0.0',
-                 'localhost']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
