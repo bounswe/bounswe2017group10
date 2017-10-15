@@ -1,4 +1,4 @@
-package com.bounswe2017.group10.atlas.activity;
+package com.bounswe2017.group10.atlas.auth;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.util.BlurBuilder;
 
-public class MainActivity extends AppCompatActivity {
+public class AuthActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                              WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_auth);
 
         LinearLayout mContainerView = (LinearLayout)findViewById(R.id.login_page_layout);
         Bitmap origBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.background);
