@@ -5,5 +5,5 @@
     <string name="learn_more_button">Learn more</string>
     <string name="login_button">Login</string>
     <string name="or">or</string>
-    <string name="register_button">Register</string>
+    <string name="register_button">Signup</string>
 </resources>
