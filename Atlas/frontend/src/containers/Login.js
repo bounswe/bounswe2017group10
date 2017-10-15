@@ -15,7 +15,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    attemptLogin: (username, password, red) => {
+    attemptLogin: (username, password) => {
       dispatch(fetchingLogin());
       axios
         .post(API_URL + '/api/auth/login/', {
@@ -30,7 +30,8 @@ const mapDispatchToProps = dispatch => {
             headers: { 'Authorization': 'JWT ' + token }
           }).then(resp => {
             dispatch(updateUser(resp.data))
-            red();
+            // TODO: This is a bad practice for react-router. Find a better solution.
+            window.location = '/profile';
           }).catch(err => {
             console.log(err);
             console.log('There is an error with /api/auth/me endpoint: ' + err.data);

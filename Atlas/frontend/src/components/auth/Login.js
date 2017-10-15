@@ -44,7 +44,7 @@ const Login = ({ history, token, username, password, loginError, attemptLogin, h
       <Row className="login-buttons">
           <Col xs="12">
               <Button className="facebook-button"><Badge >f</Badge> Login with Facebook</Button>
-              <Button onClick={ () => { attemptLogin(username, password, () => history.push({pathname: '/profile', state: { from: 'Main' }})) } } style={{ float: 'right' }}>Log-in</Button>
+              <Button onClick={ () => { attemptLogin(username, password) } } style={{ float: 'right' }}>Log-in</Button>
           </Col>
       </Row>
       <Row className="errors">
