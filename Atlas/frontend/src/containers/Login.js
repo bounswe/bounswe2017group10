@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Login from '../components/auth/Login';
-import { saveToken, updateLoginInput, fetchingLogin, loginFailed, updateUser } from '../actions/index.js';
+import { saveToken, updateLoginInput, fetchingLogin, loginFailed, updateUser, loginCompleted } from '../actions/index.js';
 import axios from 'axios';
 import { API_URL } from '../constants';
 
@@ -15,7 +15,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    attemptLogin: (username, password) => {
+    attemptLogin: (username, password, red) => {
       dispatch(fetchingLogin());
       axios
         .post(API_URL + '/api/auth/login/', {
@@ -23,15 +23,17 @@ const mapDispatchToProps = dispatch => {
           password
         }).then(resp => {
           const token = resp.data.token;
-          dispatch(saveToken(token));
+          dispatch(saveToken(token))
           axios({
             method: 'get',
             url: API_URL + '/api/auth/me',
             headers: { 'Authorization': 'JWT ' + token }
           }).then(resp => {
-            dispatch(updateUser(resp.response.data));
+            dispatch(updateUser(resp.data))
+            red();
           }).catch(err => {
-            console.log('There is an error with /api/auth/me endpoint: ' + err.response.data);
+            console.log(err);
+            console.log('There is an error with /api/auth/me endpoint: ' + err.data);
           });
         }).catch(err => {
           dispatch(loginFailed(err.response.data.non_field_errors[0]));
