@@ -15,7 +15,11 @@ import com.bounswe2017.group10.atlas.httpbody.LoginRequest;
 import com.bounswe2017.group10.atlas.httpbody.LoginResponse;
 import com.bounswe2017.group10.atlas.httpbody.SignupRequest;
 import com.bounswe2017.group10.atlas.httpbody.SignupResponse;
-import com.bounswe2017.group10.atlas.remote.ResponseCallback;
+import com.bounswe2017.group10.atlas.remote.APIUtils;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class SignupFragment extends Fragment {
@@ -36,58 +40,56 @@ public class SignupFragment extends Fragment {
             // validate inputs
             // construct json containing user info
             SignupRequest signupRequest = new SignupRequest();
-            AuthManager.signup(signupRequest, new OnSignupSuccess(signupRequest), new OnSignupFailure());
+            APIUtils.getAPI().signup(signupRequest).enqueue(new OnSignupResponse(signupRequest));
         });
         return view;
     }
 
     /**
-     * Implement the tasks to perform upon successful signup request.
+     * Implement retrofit response callback interface to be used for signup requests.
      */
-    class OnSignupSuccess implements ResponseCallback<SignupResponse> {
-        private SignupRequest signupRequest;
+    private class OnSignupResponse implements Callback<SignupResponse> {
+        private SignupRequest origRequest;
 
-        public OnSignupSuccess(SignupRequest request) {
-            this.signupRequest = request;
+        OnSignupResponse(SignupRequest origRequest) {
+            this.origRequest = origRequest;
         }
 
-        public void onResponse(SignupResponse response) {
-            Toast.makeText(getActivity().getApplicationContext(), "Successfully signed up", Toast.LENGTH_LONG).show();
-            LoginRequest loginRequest = new LoginRequest();
-            loginRequest.setUsername(signupRequest.getUsername());
-            loginRequest.setPassword(signupRequest.getPassword());
-            AuthManager.login(loginRequest, new OnImmediateLoginSuccess(), new OnImmediateLoginFailure());
+        @Override
+        public void onResponse(Call<SignupResponse> call, Response<SignupResponse> response) {
+            if (response.isSuccessful()) {
+                Toast.makeText(getActivity().getApplicationContext(), "Successfully signed up", Toast.LENGTH_LONG).show();
+                LoginRequest loginRequest = new LoginRequest();
+                loginRequest.setUsername(origRequest.getUsername());
+                loginRequest.setPassword(origRequest.getPassword());
+                APIUtils.getAPI().login(loginRequest).enqueue(new OnLoginResponse());
+            } else {
+                Toast.makeText(getActivity().getApplicationContext(), "Couldn't sign up", Toast.LENGTH_LONG).show();
+            }
         }
-    }
 
-    /**
-     * Implement the tasks to perform upon failed signup request.
-     */
-    class OnSignupFailure implements ResponseCallback<SignupResponse> {
-        public void onResponse(SignupResponse response) {
-            Toast.makeText(getActivity().getApplicationContext(), "Couldn't sign up", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    /**
-     * Implement the tasks to perform upon successful log in request after a successful signup request.
-     */
-    class OnImmediateLoginSuccess implements ResponseCallback<LoginResponse> {
-        public void onResponse(LoginResponse response) {
-            // handle login success view updates
-            Toast.makeText(getActivity().getApplicationContext(), "Successfully logged in", Toast.LENGTH_LONG).show();
+        @Override
+        public void onFailure(Call<SignupResponse> call, Throwable t) {
         }
     }
 
     /**
-     * Implement the tasks to perform upon failed log in request after a successful signup request.
-     *
-     * This should happen very rarely, if at all.
+     * Implement retrofit response callback interface to be used for login requests
+     * made after signup requests.
      */
-    class OnImmediateLoginFailure implements  ResponseCallback<LoginResponse> {
-        public void onResponse(LoginResponse response) {
-            // handle login failure view updates
-            Toast.makeText(getActivity().getApplicationContext(), "Couldn't log in", Toast.LENGTH_LONG).show();
+    private class OnLoginResponse implements Callback<LoginResponse> {
+        @Override
+        public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+            if (response.isSuccessful()) {
+                Toast.makeText(getActivity().getApplicationContext(), "Successfully logged in", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getActivity().getApplicationContext(), "Couldn't log in", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        @Override
+        public void onFailure(Call<LoginResponse> call, Throwable t) {
+
         }
     }
 }
