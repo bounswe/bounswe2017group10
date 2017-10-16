@@ -56,6 +56,7 @@
         android:hint="@string/birthdate"
         android:inputType="date"
         android:textColorHint="@android:color/white"
+        android:textColor="@android:color/white"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textSize="@dimen/edittext_text_size" />
