@@ -60,7 +60,7 @@ public class SignupFragment extends Fragment {
             if (response.isSuccessful()) {
                 Toast.makeText(getActivity().getApplicationContext(), "Successfully signed up", Toast.LENGTH_LONG).show();
                 LoginRequest loginRequest = new LoginRequest();
-                loginRequest.setUsername(origRequest.getUsername());
+                loginRequest.setUsernameOrEmail(origRequest.getUsername());
                 loginRequest.setPassword(origRequest.getPassword());
                 APIUtils.getAPI().login(loginRequest).enqueue(new OnLoginResponse());
             } else {
