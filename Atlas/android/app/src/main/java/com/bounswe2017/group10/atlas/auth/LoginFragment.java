@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,8 @@ import retrofit2.Response;
 
 
 public class LoginFragment extends Fragment {
+
+    private static final String TAG = "LoginFragment";
 
     @Nullable
     @Override
@@ -88,8 +91,11 @@ public class LoginFragment extends Fragment {
         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
             progress.setVisibility(View.GONE);
             if (response.isSuccessful()) {
+                String token = response.body().getToken();
+                // TODO: Do something with token
                 Toast.makeText(getActivity().getApplicationContext(), "Successfully logged in", Toast.LENGTH_SHORT).show();
             } else {
+                // TODO: Implement separate response code checks
                 Toast.makeText(getActivity().getApplicationContext(), "Couldn't log in", Toast.LENGTH_SHORT).show();
             }
         }
@@ -97,6 +103,9 @@ public class LoginFragment extends Fragment {
         @Override
         public void onFailure(Call<LoginResponse> call, Throwable t) {
             progress.setVisibility(View.GONE);
+            Log.d(TAG, "LOGIN connection failure: " + t.toString());
+            Log.d(TAG, "LOGIN connection failure isExecuted: " + call.isExecuted());
+            Log.d(TAG, "LOGIN connection failure isCanceled: " + call.isCanceled());
         }
     }
 }
