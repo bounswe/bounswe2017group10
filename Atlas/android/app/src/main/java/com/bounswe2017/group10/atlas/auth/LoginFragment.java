@@ -40,11 +40,11 @@ public class LoginFragment extends Fragment {
         });
         btnLoginRequest.setOnClickListener((View btnView) -> {
             // collect input from text fields
-            String usernameEmail = etUsernameEmail.getText().toString();
+            String usernameOrEmail = etUsernameEmail.getText().toString();
             String pw = etPassword.getText().toString();
 
             // validate inputs
-            if (usernameEmail.length() == 0) {
+            if (usernameOrEmail.length() == 0) {
                 Toast.makeText(
                         getActivity().getApplicationContext(),
                         R.string.empty_username_email_field,
@@ -61,11 +61,7 @@ public class LoginFragment extends Fragment {
 
             // construct reuqest body
             LoginRequest loginRequest = new LoginRequest();
-            if (usernameEmail.contains("@")) {
-                loginRequest.setEmail(usernameEmail);
-            } else {
-                loginRequest.setUsername(usernameEmail);
-            }
+            loginRequest.setUsernameOrEmail(usernameOrEmail);
             loginRequest.setPassword(pw);
 
             // send async login request
