@@ -4,7 +4,7 @@ configobj==5.0.6
 Django==1.11.5
 django-cors-headers==2.1.0
 django-jwt-auth==0.0.2
-djangorestframework==3.3.2
+djangorestframework==3.7.1
 djangorestframework-jwt==1.8.0
 idna==2.0
 Jinja2==2.8
