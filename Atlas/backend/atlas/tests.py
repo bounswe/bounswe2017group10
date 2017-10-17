@@ -99,3 +99,16 @@ class cultural_heritage_item(TestCase):
         )
         #Ensure guest user cannot create a cultural heritage item.
         self.assertEqual(response.status_code, 403)
+
+    def test_create_cultural_heritage_item_with_empty_title(self):
+        self.client.login(username= self.username,password= self.password)
+        item_data = {
+            "title": "",
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 400)
