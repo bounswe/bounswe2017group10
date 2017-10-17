@@ -15,11 +15,19 @@ Including another URLconf
 """
 from django.conf.urls import url,include
 from django.contrib import admin
+from rest_framework_swagger.views import get_swagger_view
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from. import views
 
+schema_view = get_swagger_view(title='ATLAS API DOCUMENTS')
+
 urlpatterns = [
+
+    url(r'^swagger/', schema_view),
     url(r'^admin/', admin.site.urls),
     url(r'^users/', views.users, name='users'),
     url(r'^api/auth/', include('authentication.urls')),
 ]
+
+urlpatterns += staticfiles_urlpatterns()
