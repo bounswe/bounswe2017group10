@@ -3,17 +3,9 @@ from .models import Cultural_Heritage
 from authentication.serializers import AccountSerializer
 
 class cultural_heritage_serializer(serializers.ModelSerializer):
-    #user = serializers.PrimaryKeyRelatedField(required=False,read_only=True)
-    #user = AccountSerializer(many=False,read_only=True)
+    country = serializers.CharField(required=False)
+    city= serializers.CharField(required=False)
+    continent= serializers.CharField(required=False)
+    user = AccountSerializer
     class Meta:
         model = Cultural_Heritage
-        fields = ('title','public_accessibility')
-
-    def validate(self, data):
-        print ("ASDDASDASASADAS")
-        title = data['title']
-        # Ensure title exists
-        if not title:
-            raise serializers.ValidationError('Cultural heritage item must have a title.')
-
-        return data

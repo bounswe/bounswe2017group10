@@ -16,12 +16,12 @@ class Item(models.Model):
     item_name = models.CharField(max_length=200)
 
 class Cultural_Heritage(models.Model):
-    #user = models.ForeignKey('authentication.Account',on_delete =models.PROTECT)
+    user = models.ForeignKey('authentication.Account',on_delete =models.PROTECT)
     title = models.CharField(max_length = 200)
-    description = models.TextField()
+    description = models.TextField(blank=True)
     continent = models.CharField(max_length = 200)
     country = models.CharField(max_length = 200)
     city = models.CharField(max_length = 200)
-    public_accessibility = models.BooleanField()
+    public_accessibility = models.BooleanField(default=True)
     created_time = models.DateField(auto_now_add =True)
     updated_time = models.DateField(auto_now =True)
