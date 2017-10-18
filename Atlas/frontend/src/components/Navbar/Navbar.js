@@ -24,6 +24,7 @@ export default class AtlasNavbar extends Component {
               </NavItem>
               <NavItem>
                 <NavLink href="/login">Login</NavLink>
+                <NavLink href="/profile">Profile</NavLink>
               </NavItem>
             </Nav>
           </Collapse>

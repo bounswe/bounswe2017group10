@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
 import 'bootstrap/dist/css/bootstrap.css';
-import Routes from "./Routes";
+import Routes from "./containers/Routes";
 import './assets/css/style.css';
 import atlas from './reducers/index';
 import { Provider } from 'react-redux';
@@ -15,7 +15,7 @@ const store = createStore(atlas, {
   loginError: null,
   signupInputs: {},
   signupErrors: {}
-});
+}, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 store.subscribe(() => {
   saveState(store.getState());

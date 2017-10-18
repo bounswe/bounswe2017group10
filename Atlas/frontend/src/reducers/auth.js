@@ -62,7 +62,13 @@ const atlas = (state = initState, action) => {
     case 'USER_UPDATED':
       return {
         ...state,
-        user: action.data
+        user: action.data,
+        loginFetching: false
+      }
+    case 'LOGIN_COMPLETED':
+      return {
+        ...state,
+        loginFetching: false
       }
     default:
       return state;

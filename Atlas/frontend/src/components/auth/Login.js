@@ -1,8 +1,9 @@
 import React from 'react';
 import { Button, Form, FormGroup, Input, Col, Row, Container, Badge, Alert } from 'reactstrap';
 import './style.css';
+import { withRouter } from 'react-router-dom';
 
-const Login = ({ token, username, password, loginError, attemptLogin, handleInputChange }) => (
+const Login = ({ history, token, username, password, loginError, attemptLogin, handleInputChange }) => (
   <Container className="square-box">
     <Form onSubmit={this.handleSubmit}>
       <h3>Log-in</h3>
@@ -55,4 +56,4 @@ const Login = ({ token, username, password, loginError, attemptLogin, handleInpu
   </Container>
 );
 
-export default Login;
+export default withRouter(Login);
