@@ -17,4 +17,6 @@
     <string name="empty_password">Please enter your password</string>
     <string name="wrong_credentials">Wrong username/email or password</string>
     <string name="connection_failure">Connection failure</string>
+    <string name="different_confirm_password">Password must be same</string>
+    <string name="empty_email">Password must be same</string>
 </resources>
