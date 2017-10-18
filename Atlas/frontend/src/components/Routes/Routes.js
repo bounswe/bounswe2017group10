@@ -10,6 +10,7 @@ import atlas from '../../assets/images/atlas.jpeg';
 import logo from '../../assets/images/logo.png';
 import Profile from "../../containers/Profile/Profile";
 import PrivateRoute from './PrivateRoute';
+import CulturalHeritagesPage from '../../containers/CulturalHeritage/Page';
 
 const Routes = ({ user, token }) => ({
   render() {
@@ -21,6 +22,7 @@ const Routes = ({ user, token }) => ({
             <div>
               <Route exact path="/" component={ Home } />
               <Route path="/login" component={ LoginRoute } />
+              <PrivateRoute path="/cultural-heritages" user={ user } component={ <CulturalHeritagesPage /> } />
               <PrivateRoute path="/profile" user={ user } component={ <Profile /> } />
             </div>
         </Router>
