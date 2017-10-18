@@ -17,4 +17,6 @@
     <string name="empty_password">Please enter your password</string>
     <string name="wrong_credentials">Wrong username/email or password</string>
     <string name="connection_failure">Connection failure</string>
+    <string name="feed_button_text">Feed</string>
+    <string name="create_button_text">Create</string>
 </resources>
