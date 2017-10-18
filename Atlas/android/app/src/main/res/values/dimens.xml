@@ -12,5 +12,5 @@
     <dimen name="edittext_hor_margin_size">75dp</dimen>
     <dimen name="edittext_ver_margin_size">30dp</dimen>
 
-    <dimen name="login_signup_layout_margin">75dp</dimen>
+    <dimen name="login_signup_layout_margin">60dp</dimen>
 </resources>

@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.bounswe2017.group10.atlas.R;
@@ -43,6 +45,12 @@ public class SignupFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_signup, container, false);
 
+        // input fields
+        EditText sUsernameEmail = view.findViewById(R.id.username_edittext);
+        EditText sEmail = view.findViewById(R.id.email_edittext);
+        EditText sPassword = view.findViewById(R.id.signup_pw_edittext);
+        EditText sConfirmPassword = view.findViewById(R.id.confirm_pw_edittext);
+
         btnBirthDate = view.findViewById(R.id.birthdate_button);
         Button btnSignUpRequest = view.findViewById(R.id.signup_request_button);
 
@@ -54,10 +62,59 @@ public class SignupFragment extends Fragment {
             dateDialog.show(getFragmentManager(), "datePicker");
         });
         btnSignUpRequest.setOnClickListener((View btnView) -> {
+
+            String usernameOrEmail = sUsernameEmail.getText().toString();
+            String pw = sPassword.getText().toString();
+            String email = sEmail.getText().toString();
+            String confirmPw = sConfirmPassword.getText().toString();
+
+
+            // validate inputs
+            if (usernameOrEmail.length() == 0) {
+                Toast.makeText(
+                        getActivity().getApplicationContext(),
+                        R.string.empty_username_email_field,
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (pw.length() == 0) {
+                Toast.makeText(
+                        getActivity().getApplicationContext(),
+                        R.string.empty_password,
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (email.length() == 0) {
+                Toast.makeText(
+                        getActivity().getApplicationContext(),
+                        R.string.empty_email,
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (confirmPw.length() == 0) {
+                Toast.makeText(
+                        getActivity().getApplicationContext(),
+                        R.string.empty_password,
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!confirmPw.equals(pw)) {
+                Toast.makeText(
+                        getActivity().getApplicationContext(),
+                        R.string.different_confirm_password,
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
             // collect input from text fields
             // validate inputs
             // construct json containing user info
             SignupRequest signupRequest = new SignupRequest();
+            signupRequest.setUsername(usernameOrEmail);
+            signupRequest.setEmail(email);
+            signupRequest.setPassword(pw);
+            signupRequest.setConfirmPassword(confirmPw);
+            ProgressBar progress = view.findViewById(R.id.signup_progress_bar);
+            progress.setVisibility(View.VISIBLE);
             APIUtils.getAPI().signup(signupRequest).enqueue(new OnSignupResponse(signupRequest));
         });
         return view;
@@ -123,7 +180,7 @@ public class SignupFragment extends Fragment {
                 loginRequest.setPassword(origRequest.getPassword());
                 APIUtils.getAPI().login(loginRequest).enqueue(new OnLoginResponse());
             } else {
-                Toast.makeText(getActivity().getApplicationContext(), "Couldn't sign up", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity().getApplicationContext(),"couldn't signup", Toast.LENGTH_LONG).show();
             }
         }
 

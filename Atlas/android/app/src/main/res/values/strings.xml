@@ -15,4 +15,6 @@
     <string name="username">Username</string>
     <string name="empty_username_email_field">Please enter your username or e-mail</string>
     <string name="empty_password">Please enter your password</string>
+    <string name="empty_email">Please enter your email</string>
+    <string name="different_confirm_password">Your password and confirm password are different</string>
 </resources>

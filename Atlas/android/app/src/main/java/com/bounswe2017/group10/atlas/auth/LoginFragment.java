@@ -1,5 +1,6 @@
 package com.bounswe2017.group10.atlas.auth;
 
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
