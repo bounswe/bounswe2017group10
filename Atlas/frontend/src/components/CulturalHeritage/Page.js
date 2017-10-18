@@ -1,9 +1,15 @@
 import React from 'react';
 
-const Page = ({ user }) => ({
+const Page = ({ user, token, culturalHeritages, loadCulturalHeritages }) => ({
+  componentDidMount() {
+    loadCulturalHeritages(token);
+  },
+
   render() {
     return (
-      <div>CH: { user.username }</div>
+      <div>
+        { culturalHeritages.map(c => (<span key={ c.toString }>{ c }</span>))} 
+      </div>
       )
   }
 })

@@ -3,9 +3,8 @@ import './style.css';
 import Profile from '../../components/Profile/Profile';
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
-    user: state.user
+    user: state.auth.user
   };
 }
 

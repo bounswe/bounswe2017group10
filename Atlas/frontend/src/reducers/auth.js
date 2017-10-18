@@ -9,7 +9,7 @@ const initState = {
   signupInputs: {},
   user: {}
 };
-const atlas = (state = initState, action) => {
+const reducer = (state = initState, action) => {
   switch(action.type) {
     case 'SAVE_TOKEN':
       return {
@@ -63,6 +63,7 @@ const atlas = (state = initState, action) => {
         signupFetching: false
       }
     case 'USER_UPDATED':
+      console.log(action.data);
       return {
         ...state,
         user: action.data,
@@ -78,4 +79,4 @@ const atlas = (state = initState, action) => {
   }
 }
 
-export default atlas;
+export default reducer;
