@@ -180,3 +180,22 @@ class cultural_heritage_item(TestCase):
         self.assertEqual(response_content['title'],title)
         self.assertEqual(response_content['id'],id)
 
+
+    def test_get_cultural_heritage_item_by_invalid_id(self):
+        title = 'Very emotional thresh hook'
+        item_data = {
+            "title": title,
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        response_content = json.loads(smart_text(response.content))
+        response = self.client.get(
+            self.cultural_heritage_item_url + '12321321',
+            format='json',
+        )
+        self.assertEqual(response.status_code, 404)
