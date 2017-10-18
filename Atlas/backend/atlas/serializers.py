@@ -9,3 +9,4 @@ class cultural_heritage_serializer(serializers.ModelSerializer):
     user = AccountSerializer
     class Meta:
         model = Cultural_Heritage
+        fields = '__all__'
