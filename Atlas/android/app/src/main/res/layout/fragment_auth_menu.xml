@@ -2,10 +2,10 @@
 <!-- TODO: create multiple dpi versions of background image in png format -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/login_page_layout"
+    android:id="@+id/fragment_auth_menu_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@android:color/transparent"
     android:weightSum="1"
     android:orientation="vertical">
 
@@ -22,7 +22,7 @@
         android:text="@string/enhance_the_culture"
         android:textAlignment="center"
         android:textColor="@android:color/white"
-        android:textSize="30sp"
+        android:textSize="@dimen/header_size"
         android:textStyle="bold"
         android:visibility="visible" />
 
@@ -34,7 +34,7 @@
         android:text="@string/together"
         android:textAlignment="center"
         android:textColor="@android:color/white"
-        android:textSize="36sp"
+        android:textSize="@dimen/large_header_size"
         android:textStyle="bold"
         android:visibility="visible" />
 
@@ -50,10 +50,10 @@
         android:layout_weight="0.025"
         android:background="@android:color/transparent"
         android:fontFamily="serif"
-        android:text="@string/learn_more_button"
+        android:text="@string/learn_more"
         android:textAllCaps="false"
         android:textColor="@color/url_link_color"
-        android:textSize="18sp"
+        android:textSize="@dimen/button_text_size"
         android:textStyle="bold" />
 
     <Button
@@ -66,7 +66,7 @@
         android:layout_weight="0.025"
         android:background="@android:color/background_light"
         android:fontFamily="serif"
-        android:text="@string/login_button"
+        android:text="@string/login"
         android:textAlignment="center" />
 
     <TextView
@@ -80,11 +80,11 @@
         android:text="@string/or"
         android:textAlignment="center"
         android:textColor="@android:color/white"
-        android:textSize="18sp"
+        android:textSize="@dimen/button_text_size"
         android:textStyle="bold" />
 
     <Button
-        android:id="@+id/register_button"
+        android:id="@+id/signup_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -93,7 +93,7 @@
         android:layout_weight="0.025"
         android:background="@android:color/background_light"
         android:fontFamily="serif"
-        android:text="@string/register_button" />
+        android:text="@string/signup" />
 
     <Space
         android:layout_width="match_parent"

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_signup_layout"
+    android:background="@android:color/transparent"
+    android:orientation="vertical"
+    android:layout_marginTop="@dimen/login_signup_layout_margin"
+    android:layout_marginBottom="@dimen/login_signup_layout_margin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/username_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/edittext_padding_size"
+        android:paddingBottom="@dimen/edittext_padding_size"
+        android:layout_marginLeft="@dimen/edittext_hor_margin_size"
+        android:layout_marginRight="@dimen/edittext_hor_margin_size"
+        android:background="@color/button_gray"
+        android:ems="10"
+        android:hint="@string/username"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        android:textSize="@dimen/edittext_text_size" />
+
+    <EditText
+        android:id="@+id/email_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/edittext_padding_size"
+        android:paddingBottom="@dimen/edittext_padding_size"
+        android:layout_marginLeft="@dimen/edittext_hor_margin_size"
+        android:layout_marginRight="@dimen/edittext_hor_margin_size"
+        android:layout_marginTop="@dimen/edittext_ver_margin_size"
+        android:background="@color/button_gray"
+        android:ems="10"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        android:textSize="@dimen/edittext_text_size" />
+
+    <Button
+        android:id="@+id/birthdate_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/edittext_hor_margin_size"
+        android:layout_marginRight="@dimen/edittext_hor_margin_size"
+        android:layout_marginTop="@dimen/edittext_ver_margin_size"
+        android:background="@color/button_gray"
+        android:ems="10"
+        android:hint="@string/birthdate"
+        android:inputType="date"
+        android:textColorHint="@android:color/white"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="@dimen/edittext_text_size" />
+
+    <EditText
+        android:id="@+id/password_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/edittext_padding_size"
+        android:paddingBottom="@dimen/edittext_padding_size"
+        android:layout_marginLeft="@dimen/edittext_hor_margin_size"
+        android:layout_marginRight="@dimen/edittext_hor_margin_size"
+        android:layout_marginTop="@dimen/edittext_ver_margin_size"
+        android:background="@color/button_gray"
+        android:ems="10"
+        android:hint="@string/password"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        android:textSize="@dimen/edittext_text_size" />
+
+    <EditText
+        android:id="@+id/confirm_password_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/edittext_padding_size"
+        android:paddingBottom="@dimen/edittext_padding_size"
+        android:layout_marginLeft="@dimen/edittext_hor_margin_size"
+        android:layout_marginRight="@dimen/edittext_hor_margin_size"
+        android:layout_marginTop="@dimen/edittext_ver_margin_size"
+        android:background="@color/button_gray"
+        android:ems="10"
+        android:hint="@string/confirm_password"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        android:textSize="@dimen/edittext_text_size" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1" />
+
+    <Button
+        android:id="@+id/signup_request_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/button_margin_size"
+        android:layout_marginRight="@dimen/button_margin_size"
+        android:background="@android:color/background_light"
+        android:text="@string/signup"
+        android:textAlignment="center"
+        android:textSize="@dimen/button_text_size" />
+</LinearLayout>

@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="header_size">30sp</dimen>
+    <dimen name="large_header_size">36sp</dimen>
+
+    <dimen name="button_text_size">18sp</dimen>
     <dimen name="button_padding_size">50dp</dimen>
     <dimen name="button_margin_size">150dp</dimen>
+
+    <dimen name="edittext_text_size">24sp</dimen>
+    <dimen name="edittext_padding_size">10dp</dimen>
+    <dimen name="edittext_hor_margin_size">75dp</dimen>
+    <dimen name="edittext_ver_margin_size">30dp</dimen>
+
+    <dimen name="login_signup_layout_margin">75dp</dimen>
 </resources>
