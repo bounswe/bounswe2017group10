@@ -22,10 +22,6 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
         mTitleList.add(title);
     }
 
-    public int getIndex(String title) {
-        return mTitleList.indexOf(title);
-    }
-
     @Override
     public Fragment getItem(int position) {
         return mFragmentList.get(position);
@@ -34,6 +30,11 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return mFragmentList.size();
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return mTitleList.get(position);
     }
 }
 
