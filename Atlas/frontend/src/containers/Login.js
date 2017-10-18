@@ -7,20 +7,19 @@ import { API_URL } from '../constants';
 const mapStateToProps = state => {
   return {
     token: state.token,
-    username: state.username,
-    password: state.password,
+    loginInputs: state.loginInputs,
     loginError: state.loginError
   };
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    attemptLogin: (username, password) => {
+    attemptLogin: (loginInputs) => {
       dispatch(fetchingLogin());
       axios
         .post(API_URL + '/api/auth/login/', {
-          username,
-          password
+          username_or_email: loginInputs.username_or_email,
+          password: loginInputs.password
         }).then(resp => {
           const token = resp.data.token;
           dispatch(saveToken(token))
@@ -37,7 +36,13 @@ const mapDispatchToProps = dispatch => {
             console.log('There is an error with /api/auth/me endpoint: ' + err.data);
           });
         }).catch(err => {
-          dispatch(loginFailed(err.response.data.non_field_errors[0]));
+          const errResp = err.response.data;
+          console.log(errResp.non_field_errors === undefined);
+          if(errResp.non_field_errors === undefined) {
+            dispatch(loginFailed("Login Failed"));
+          } else {
+            dispatch(loginFailed(errResp.non_field_errors[0]));
+          }
         });
     },
     handleInputChange: (event) => {
