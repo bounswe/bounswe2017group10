@@ -2,6 +2,7 @@ package com.bounswe2017.group10.atlas.auth;
 
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.bounswe2017.group10.atlas.R;
+import com.bounswe2017.group10.atlas.home.HomeActivity;
 import com.bounswe2017.group10.atlas.httpbody.LoginRequest;
 import com.bounswe2017.group10.atlas.httpbody.LoginResponse;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
@@ -93,20 +95,29 @@ public class LoginFragment extends Fragment {
             progress.setVisibility(View.GONE);
             if (response.isSuccessful()) {
                 String token = response.body().getToken();
-                // TODO: Do something with token
-                Toast.makeText(getActivity().getApplicationContext(), "Successfully logged in", Toast.LENGTH_SHORT).show();
-            } else {
-                // TODO: Implement separate response code checks
-                Toast.makeText(getActivity().getApplicationContext(), "Couldn't log in", Toast.LENGTH_SHORT).show();
+                startHomeActivity(token);
+            } else if (response.code() == 400) {
+                Toast.makeText(getActivity().getApplicationContext(), R.string.wrong_credentials, Toast.LENGTH_SHORT).show();
             }
         }
 
         @Override
         public void onFailure(Call<LoginResponse> call, Throwable t) {
             progress.setVisibility(View.GONE);
+            Toast.makeText(getActivity().getApplicationContext(), R.string.connection_failure, Toast.LENGTH_SHORT).show();
             Log.d(TAG, "LOGIN connection failure: " + t.toString());
             Log.d(TAG, "LOGIN connection failure isExecuted: " + call.isExecuted());
             Log.d(TAG, "LOGIN connection failure isCanceled: " + call.isCanceled());
         }
+    }
+
+    /**
+     * Start home activity with the given token.
+     *
+     * @param token Access token obtained from the server.
+     */
+    private void startHomeActivity(String token) {
+        Intent intent = new Intent(getActivity(), HomeActivity.class).putExtra("token", token);
+        startActivity(intent);
     }
 }
