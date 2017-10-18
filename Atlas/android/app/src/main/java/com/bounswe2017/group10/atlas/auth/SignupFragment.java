@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.bounswe2017.group10.atlas.R;
+import com.bounswe2017.group10.atlas.home.HomeActivity;
 import com.bounswe2017.group10.atlas.httpbody.LoginRequest;
 import com.bounswe2017.group10.atlas.httpbody.LoginResponse;
 import com.bounswe2017.group10.atlas.httpbody.SignupRequest;
@@ -39,6 +40,7 @@ public class SignupFragment extends Fragment {
     private static final int BIRTHDATE_PICKER_CODE = 0;
 
     private Button btnBirthDate;
+    private Button btnSignUpRequest;
 
     @Nullable
     @Override
@@ -52,7 +54,7 @@ public class SignupFragment extends Fragment {
         EditText sConfirmPassword = view.findViewById(R.id.confirm_pw_edittext);
 
         btnBirthDate = view.findViewById(R.id.birthdate_button);
-        Button btnSignUpRequest = view.findViewById(R.id.signup_request_button);
+        btnSignUpRequest = view.findViewById(R.id.signup_request_button);
 
         btnBirthDate.setOnClickListener((View btnView) -> {
             DialogFragment dateDialog = new DatePickerFragment();
@@ -197,7 +199,8 @@ public class SignupFragment extends Fragment {
         @Override
         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
             if (response.isSuccessful()) {
-                Toast.makeText(getActivity().getApplicationContext(), "Successfully logged in", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity().getApplicationContext(), "Successfully logged in.", Toast.LENGTH_LONG).show();
+                startHomeActivity(response.body().getToken());
             } else {
                 Toast.makeText(getActivity().getApplicationContext(), "Couldn't log in", Toast.LENGTH_LONG).show();
             }
@@ -207,5 +210,10 @@ public class SignupFragment extends Fragment {
         public void onFailure(Call<LoginResponse> call, Throwable t) {
 
         }
+    }
+
+    private void startHomeActivity(String token) {
+        Intent intent = new Intent(getActivity(), HomeActivity.class).putExtra("token", token);
+        startActivity(intent);
     }
 }
