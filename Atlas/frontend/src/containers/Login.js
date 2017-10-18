@@ -32,12 +32,10 @@ const mapDispatchToProps = dispatch => {
             // TODO: This is a bad practice for react-router. Find a better solution.
             window.location = '/profile';
           }).catch(err => {
-            console.log(err);
             console.log('There is an error with /api/auth/me endpoint: ' + err.data);
           });
         }).catch(err => {
           const errResp = err.response.data;
-          console.log(errResp.non_field_errors === undefined);
           if(errResp.non_field_errors === undefined) {
             dispatch(loginFailed("Login Failed"));
           } else {
