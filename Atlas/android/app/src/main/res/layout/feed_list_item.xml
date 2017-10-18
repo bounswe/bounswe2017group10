@@ -20,9 +20,10 @@
         android:layout_alignParentRight="true"
         android:layout_toRightOf="@id/icon"
         android:ellipsize="marquee"
-        android:maxLines="1"
+        android:inputType="textMultiLine"
+        android:scrollHorizontally="false"
         android:text="Description"
-        android:textSize="12sp" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/title"
@@ -34,7 +35,9 @@
         android:layout_alignWithParentIfMissing="true"
         android:layout_toRightOf="@id/icon"
         android:gravity="center_vertical"
+        android:maxLines="1"
         android:text="Title"
+        android:textStyle="bold"
         android:textSize="16sp" />
 
 </RelativeLayout>

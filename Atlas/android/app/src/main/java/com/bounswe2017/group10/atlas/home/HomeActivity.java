@@ -1,19 +1,25 @@
 package com.bounswe2017.group10.atlas.home;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 
 import com.bounswe2017.group10.atlas.R;
+
+import static com.bounswe2017.group10.atlas.util.Utils.tokenToAuthString;
 
 
 public class HomeActivity extends FragmentActivity {
 
     private static final String TAG = "HomeActivity";
 
+
+    private String token;
     private TabPagerAdapter mAdapter;
     private ViewPager mPager;
     private TabLayout mTabs;
@@ -21,6 +27,8 @@ public class HomeActivity extends FragmentActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        token = getIntent().getStringExtra("token");
+
         setContentView(R.layout.activity_home);
 
         // set swiping
@@ -41,9 +49,17 @@ public class HomeActivity extends FragmentActivity {
     }
 
     private TabPagerAdapter initAdapter() {
+        Bundle bundle = new Bundle();
+        bundle.putString("authStr", tokenToAuthString(token));
+
+        Fragment feedFragment = new FeedFragment();
+        feedFragment.setArguments(bundle);
+        Fragment createItemFragment = new CreateItemFragment();
+        createItemFragment.setArguments(bundle);
+
         TabPagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new FeedFragment(), getResources().getString(R.string.feed));
-        adapter.addFragment(new CreateItemFragment(), getResources().getString(R.string.create));
+        adapter.addFragment(feedFragment, getResources().getString(R.string.feed));
+        adapter.addFragment(createItemFragment, getResources().getString(R.string.create));
         return adapter;
     }
 }

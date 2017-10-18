@@ -14,15 +14,15 @@
 
         <!-- AuthActivity -->
         <activity android:name=".auth.AuthActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <!-- HomeActivity -->
         <activity android:name=".home.HomeActivity"
                   android:parentActivityName=".auth.AuthActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
     </application>
