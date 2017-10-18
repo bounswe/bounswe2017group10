@@ -24,3 +24,13 @@ class cultural_heritage_item(generics.ListCreateAPIView):
         #Pk is the id of the user.
         request.data['user'] = request.user.pk
         return super(cultural_heritage_item, self).create(request,*args,**kwargs)
+
+class cultural_heritage_item_view_update_delete(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = cultural_heritage_serializer
+    lookup_field = 'id'
+    def get_queryset(self):
+        return Cultural_Heritage.objects.filter()
+
+
+
+
