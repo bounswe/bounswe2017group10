@@ -1,12 +1,12 @@
 const initState = {
-  username: '',
-  password: '',
+  loginInputs: {},
   token: null,
   loginFetching: false,
   loginError: null,
   signupFetching: false,
   signupErrors: null,
   signupSuccess: false,
+  signupInputs: {},
   user: {}
 };
 const atlas = (state = initState, action) => {
@@ -20,7 +20,10 @@ const atlas = (state = initState, action) => {
     case 'UPDATE_LOGIN_INPUT':
       return {
         ...state,
-        [action.name]: action.value // TODO(Yigit): Do name checking
+        loginInputs: {
+          ...(state.loginInputs),
+          [action.name]: action.value // TODO(Yigit): Do name checking
+        }
       }
     case 'LOGIN_FETCHING':
       return {
@@ -62,7 +65,13 @@ const atlas = (state = initState, action) => {
     case 'USER_UPDATED':
       return {
         ...state,
-        user: action.data
+        user: action.data,
+        loginFetching: false
+      }
+    case 'LOGIN_COMPLETED':
+      return {
+        ...state,
+        loginFetching: false
       }
     default:
       return state;

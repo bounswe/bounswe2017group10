@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_signup_layout"
     android:background="@android:color/transparent"
     android:orientation="vertical"
@@ -91,7 +90,6 @@
         android:background="@color/button_gray"
         android:ems="10"
         android:hint="@string/birthdate"
-        android:inputType="date"
         android:textColorHint="@android:color/white"
         android:textColor="@android:color/white"
         android:textAlignment="center"
