@@ -41,7 +41,7 @@ public class SignupFragment extends Fragment {
 
     private Button btnBirthDate;
     private Button btnSignUpRequest;
-
+    private ProgressBar progress;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -50,12 +50,15 @@ public class SignupFragment extends Fragment {
         // input fields
         EditText sUsernameEmail = view.findViewById(R.id.username_edittext);
         EditText sEmail = view.findViewById(R.id.email_edittext);
-        EditText sPassword = view.findViewById(R.id.signup_pw_edittext);
+        EditText sPassword = view.findViewById(R.id.password_pw_edittext);
         EditText sConfirmPassword = view.findViewById(R.id.confirm_pw_edittext);
+        EditText sFirstName = view.findViewById(R.id.firstname_edittext);
+        EditText sLastName = view.findViewById(R.id.lastname_edittext);
 
-        btnBirthDate = view.findViewById(R.id.birthdate_button);
+
+        //btnBirthDate = view.findViewById(R.id.birthdate_button);
         btnSignUpRequest = view.findViewById(R.id.signup_request_button);
-
+        /*
         btnBirthDate.setOnClickListener((View btnView) -> {
             DialogFragment dateDialog = new DatePickerFragment();
             // TODO: send the date written in the button to date picker dialog
@@ -63,13 +66,15 @@ public class SignupFragment extends Fragment {
             dateDialog.setTargetFragment(this, BIRTHDATE_PICKER_CODE);
             dateDialog.show(getFragmentManager(), "datePicker");
         });
+        */
         btnSignUpRequest.setOnClickListener((View btnView) -> {
 
             String usernameOrEmail = sUsernameEmail.getText().toString();
             String pw = sPassword.getText().toString();
             String email = sEmail.getText().toString();
             String confirmPw = sConfirmPassword.getText().toString();
-
+            String firstname = sFirstName.getText().toString();
+            String lastname = sLastName.getText().toString();
 
             // validate inputs
             if (usernameOrEmail.length() == 0) {
@@ -83,6 +88,20 @@ public class SignupFragment extends Fragment {
                 Toast.makeText(
                         getActivity().getApplicationContext(),
                         R.string.empty_password,
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (firstname.length() == 0) {
+                Toast.makeText(
+                        getActivity().getApplicationContext(),
+                        R.string.empty_firstname,
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (lastname.length() == 0) {
+                Toast.makeText(
+                        getActivity().getApplicationContext(),
+                        R.string.empty_lastname,
                         Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -115,7 +134,9 @@ public class SignupFragment extends Fragment {
             signupRequest.setEmail(email);
             signupRequest.setPassword(pw);
             signupRequest.setConfirmPassword(confirmPw);
-            ProgressBar progress = view.findViewById(R.id.signup_progress_bar);
+            signupRequest.setFirstname(firstname);
+            signupRequest.setLastname(lastname);
+            progress = view.findViewById(R.id.signup_progress_bar);
             progress.setVisibility(View.VISIBLE);
             APIUtils.getAPI().signup(signupRequest).enqueue(new OnSignupResponse(signupRequest));
         });
@@ -138,7 +159,7 @@ public class SignupFragment extends Fragment {
             }
         }
     }
-
+    /*
     public static class DatePickerFragment extends DialogFragment
                                 implements DatePickerDialog.OnDateSetListener {
         @Override
@@ -162,6 +183,7 @@ public class SignupFragment extends Fragment {
             getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
         }
     }
+    */
 
     /**
      * Implement retrofit response callback interface to be used for signup requests.
@@ -183,6 +205,8 @@ public class SignupFragment extends Fragment {
                 APIUtils.getAPI().login(loginRequest).enqueue(new OnLoginResponse());
             } else {
                 Toast.makeText(getActivity().getApplicationContext(),"couldn't signup", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity().getApplicationContext(),response.toString(), Toast.LENGTH_LONG).show();
+                progress.setVisibility(View.INVISIBLE);
             }
         }
 

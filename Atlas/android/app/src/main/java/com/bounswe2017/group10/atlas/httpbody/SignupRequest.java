@@ -14,6 +14,14 @@ public class SignupRequest {
     @Expose
     private String email;
 
+    @SerializedName("firstname")
+    @Expose
+    private String firstname;
+
+    @SerializedName("lastname")
+    @Expose
+    private String lastname;
+
     @SerializedName("password")
     @Expose
     private String password;
@@ -36,6 +44,22 @@ public class SignupRequest {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getPassword() {
