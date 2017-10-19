@@ -4,11 +4,29 @@ import { fetchCH, finishFetchingCH, updateCH } from '../../actions/culturalHerit
 import axios from 'axios';
 import { API_URL } from '../../constants';
 
+const initCH = [
+  { id: 1,
+    title: "Title 1",
+    description: "Description 1"
+  },
+  { id: 2,
+    title: "Title 1",
+    description: "Description 1"
+  },
+  { id: 3,
+    title: "Title 1",
+    description: "Description 1"
+  },
+  { id: 4,
+    title: "Title 1",
+    description: "Description 1"
+  }
+];
 const mapStateToProps = state => {
   return {
     user: state.auth.user,
     token: state.auth.token,
-    culturalHeritages: state.culturalHeritage.data
+    culturalHeritages: initCH
   };
 }
 

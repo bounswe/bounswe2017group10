@@ -74,6 +74,12 @@ const reducer = (state = initState, action) => {
         ...state,
         loginFetching: false
       }
+    case 'LOGOUT':
+      return {
+        ...state,
+        token: null,
+        user: null
+      }
     default:
       return state;
   }

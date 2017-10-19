@@ -60,3 +60,8 @@ export const updateUser = (data) => {
   }
 }
 
+export const logout = () => {
+  return {
+    type: 'LOGOUT'
+  }
+}

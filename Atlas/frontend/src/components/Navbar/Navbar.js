@@ -1,37 +1,37 @@
-import React, { Component } from 'react';
-import { Navbar, NavbarBrand, Collapse, NavItem, NavLink, NavbarToggler, Nav } from 'reactstrap';
+import React from 'react';
+import { Navbar, NavbarBrand, Collapse, NavItem, NavbarToggler, Nav } from 'reactstrap';
+import { NavLink } from 'react-router-dom';
+import './style.css';
 
-export default class AtlasNavbar extends Component {
+const AtlasNavbar = ({ logo, logout }) => (
+  <div>
+    <Navbar color="transparent" expand="md">
+      <NavbarBrand href="/">
+        <img src={ logo } alt="logo" className="logo" />
+        Atlas
+      </NavbarBrand>
+      <NavbarToggler onClick={this.toggle} />
+      <Collapse isOpen={true} navbar>
+        <Nav className="ml-auto" navbar>
+          <NavItem>
+            <a href="https://github.com/bounswe/bounswe2017group10/">Github</a>
+          </NavItem>
+          <NavItem>
+            <NavLink to="/login">Login</NavLink>
+          </NavItem>
+          <NavItem>
+            <a href="#" onClick={ logout }>Logout</a>
+          </NavItem>
+          <NavItem>
+            <NavLink to="/profile">Profile</NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink to="/cultural-heritages">Cultural Heritages</NavLink>
+          </NavItem>
+        </Nav>
+      </Collapse>
+    </Navbar>
+  </div>
+);
 
-  toggle() {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
-  }
-  render() {
-    return (
-      <div>
-        <Navbar color="transparent" expand="md">
-            <NavbarBrand href="/">
-              <img src={ this.props.logo } alt="logo" className="logo" />
-              Atlas
-            </NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={true} navbar>
-            <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink href="https://github.com/bounswe/bounswe2017group10/">Github</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="/login">Login</NavLink>
-                <NavLink href="/profile">Profile</NavLink>
-                <NavLink href="/cultural-heritages">Cultural Heritages</NavLink>
-              </NavItem>
-            </Nav>
-          </Collapse>
-        </Navbar>
-      </div>
-    );
-  }
-};
-
+export default AtlasNavbar;

@@ -1,5 +1,18 @@
 const initState = {
-  data: [],
+  data: [
+    { title: "Title 1",
+      description: "Description 1"
+    },
+    { title: "Title 1",
+      description: "Description 1"
+    },
+    { title: "Title 1",
+      description: "Description 1"
+    },
+    { title: "Title 1",
+      description: "Description 1"
+    }
+  ],
   fetching: false
 };
 const reducer = (state = initState, action) => {

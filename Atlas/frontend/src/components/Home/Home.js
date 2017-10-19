@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './style.css';
+import { NavLink } from 'react-router-dom';
 
 
 class Home extends Component {
@@ -12,7 +13,7 @@ class Home extends Component {
           <h1 className="Home-title">Together.</h1>
         </header>
         <footer className="Home-footer">
-          <a href="#cultural-heritages">See More</a>
+          <NavLink to="/cultural-heritages">See More</NavLink>
         </footer>
       </div>
     );
