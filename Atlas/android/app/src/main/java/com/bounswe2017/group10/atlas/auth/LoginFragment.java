@@ -1,7 +1,7 @@
 package com.bounswe2017.group10.atlas.auth;
 
 
-import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.home.HomeActivity;
@@ -24,6 +23,8 @@ import com.bounswe2017.group10.atlas.remote.APIUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.bounswe2017.group10.atlas.util.Utils.showToast;
 
 
 public class LoginFragment extends Fragment {
@@ -52,18 +53,12 @@ public class LoginFragment extends Fragment {
             String pw = etPassword.getText().toString();
 
             // validate inputs
+            Context appContext = getActivity().getApplicationContext();
             if (usernameOrEmail.length() == 0) {
-                Toast.makeText(
-                        getActivity().getApplicationContext(),
-                        R.string.empty_username_email_field,
-                        Toast.LENGTH_SHORT).show();
+                showToast(appContext, getResources().getString(R.string.empty_username_email_field));
                 return;
-            }
-            if (pw.length() == 0) {
-                Toast.makeText(
-                        getActivity().getApplicationContext(),
-                        R.string.empty_password,
-                        Toast.LENGTH_SHORT).show();
+            } else if (pw.length() == 0) {
+                showToast(appContext, getResources().getString(R.string.empty_password));
                 return;
             }
 
@@ -97,14 +92,14 @@ public class LoginFragment extends Fragment {
                 String token = response.body().getToken();
                 startHomeActivity(token);
             } else if (response.code() == 400) {
-                Toast.makeText(getActivity().getApplicationContext(), R.string.wrong_credentials, Toast.LENGTH_SHORT).show();
+                showToast(getActivity().getApplicationContext(), getResources().getString(R.string.wrong_credentials));
             }
         }
 
         @Override
         public void onFailure(Call<LoginResponse> call, Throwable t) {
             progress.setVisibility(View.GONE);
-            Toast.makeText(getActivity().getApplicationContext(), R.string.connection_failure, Toast.LENGTH_SHORT).show();
+            showToast(getActivity().getApplicationContext(), getResources().getString(R.string.connection_failure));
             Log.d(TAG, "LOGIN connection failure: " + t.toString());
             Log.d(TAG, "LOGIN connection failure isExecuted: " + call.isExecuted());
             Log.d(TAG, "LOGIN connection failure isCanceled: " + call.isCanceled());

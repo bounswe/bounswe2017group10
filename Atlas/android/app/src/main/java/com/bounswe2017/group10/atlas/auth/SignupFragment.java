@@ -1,23 +1,17 @@
 package com.bounswe2017.group10.atlas.auth;
 
 
-import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.SyncStateContract;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.home.HomeActivity;
@@ -26,23 +20,19 @@ import com.bounswe2017.group10.atlas.httpbody.LoginResponse;
 import com.bounswe2017.group10.atlas.httpbody.SignupRequest;
 import com.bounswe2017.group10.atlas.httpbody.SignupResponse;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
-import com.bounswe2017.group10.atlas.util.DateUtils;
 
 import org.json.JSONObject;
 
-import java.util.Calendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.bounswe2017.group10.atlas.util.Utils.showToast;
+
 
 public class SignupFragment extends Fragment {
 
-    private static final int BIRTHDATE_PICKER_CODE = 0;
-
-    private Button btnBirthDate;
-    private Button btnSignUpRequest;
     private ProgressBar progress;
     @Nullable
     @Override
@@ -58,17 +48,7 @@ public class SignupFragment extends Fragment {
         EditText sLastName = view.findViewById(R.id.lastname_edittext);
 
 
-        //btnBirthDate = view.findViewById(R.id.birthdate_button);
-        btnSignUpRequest = view.findViewById(R.id.signup_request_button);
-        /*
-        btnBirthDate.setOnClickListener((View btnView) -> {
-            DialogFragment dateDialog = new DatePickerFragment();
-            // TODO: send the date written in the button to date picker dialog
-            // TODO: if no date is set yet, send the current date
-            dateDialog.setTargetFragment(this, BIRTHDATE_PICKER_CODE);
-            dateDialog.show(getFragmentManager(), "datePicker");
-        });
-        */
+        Button btnSignUpRequest = view.findViewById(R.id.signup_request_button);
         btnSignUpRequest.setOnClickListener((View btnView) -> {
 
             String usernameOrEmail = sUsernameEmail.getText().toString();
@@ -79,58 +59,31 @@ public class SignupFragment extends Fragment {
             String lastname = sLastName.getText().toString();
 
             // validate inputs
+            Context appContext = getActivity().getApplicationContext();
             if (usernameOrEmail.length() == 0) {
-                Toast.makeText(
-                        getActivity().getApplicationContext(),
-                        R.string.empty_username_email_field,
-                        Toast.LENGTH_SHORT).show();
+                showToast(appContext, getResources().getString(R.string.empty_username_email_field));
+                return;
+            } else if (pw.length() == 0) {
+                showToast(appContext, getResources().getString(R.string.empty_password));
+                return;
+            } else if (firstname.length() == 0) {
+                showToast(appContext, getResources().getString(R.string.empty_firstname));
+                return;
+            } else if (lastname.length() == 0) {
+                showToast(appContext, getResources().getString(R.string.empty_lastname));
+                return;
+            } else if (email.length() == 0) {
+                showToast(appContext, getResources().getString(R.string.empty_email));
+                return;
+            } else if (confirmPw.length() == 0) {
+                showToast(appContext, getResources().getString(R.string.empty_password));
+                return;
+            } else if (!confirmPw.equals(pw)) {
+                showToast(appContext, getResources().getString(R.string.different_confirm_password));
                 return;
             }
-            if (pw.length() == 0) {
-                Toast.makeText(
-                        getActivity().getApplicationContext(),
-                        R.string.empty_password,
-                        Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (firstname.length() == 0) {
-                Toast.makeText(
-                        getActivity().getApplicationContext(),
-                        R.string.empty_firstname,
-                        Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (lastname.length() == 0) {
-                Toast.makeText(
-                        getActivity().getApplicationContext(),
-                        R.string.empty_lastname,
-                        Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (email.length() == 0) {
-                Toast.makeText(
-                        getActivity().getApplicationContext(),
-                        R.string.empty_email,
-                        Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (confirmPw.length() == 0) {
-                Toast.makeText(
-                        getActivity().getApplicationContext(),
-                        R.string.empty_password,
-                        Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (!confirmPw.equals(pw)) {
-                Toast.makeText(
-                        getActivity().getApplicationContext(),
-                        R.string.different_confirm_password,
-                        Toast.LENGTH_SHORT).show();
-                return;
-            }
-            // collect input from text fields
-            // validate inputs
-            // construct json containing user info
+
+            // construct json containing user info and send signup request
             SignupRequest signupRequest = new SignupRequest();
             signupRequest.setUsername(usernameOrEmail);
             signupRequest.setEmail(email);
@@ -145,48 +98,6 @@ public class SignupFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == BIRTHDATE_PICKER_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                Bundle bundle = data.getExtras();
-                if (bundle.containsKey("date")) {
-                    String date = bundle.getString("date");
-                    btnBirthDate.setText(date);
-                }
-            } else {
-                // TODO: Handle Result not OK
-            }
-        }
-    }
-    /*
-    public static class DatePickerFragment extends DialogFragment
-                                implements DatePickerDialog.OnDateSetListener {
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current date as the default date in the picker
-            // TODO: Set the date sent in the bundle
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-
-            // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
-        }
-
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            // display the picked date as button text
-            Bundle bundle = new Bundle();
-            bundle.putString("date", DateUtils.toStandardDate(year, month, day));
-            Intent intent = new Intent().putExtras(bundle);
-            getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
-        }
-    }
-    */
-
     /**
      * Implement retrofit response callback interface to be used for signup requests.
      */
@@ -200,7 +111,6 @@ public class SignupFragment extends Fragment {
         @Override
         public void onResponse(Call<SignupResponse> call, Response<SignupResponse> response) {
             if (response.isSuccessful()) {
-                Toast.makeText(getActivity().getApplicationContext(), "Successfully signed up", Toast.LENGTH_LONG).show();
                 progress.setVisibility(View.INVISIBLE);
                 LoginRequest loginRequest = new LoginRequest();
                 loginRequest.setUsernameOrEmail(origRequest.getUsername());
@@ -210,19 +120,19 @@ public class SignupFragment extends Fragment {
                 try {
                     JSONObject jObjError = new JSONObject(response.errorBody().string());
                     if(jObjError.has("username"))
-                        Toast.makeText(getContext(), jObjError.getString("username"), Toast.LENGTH_LONG).show();
+                        showToast(getContext(), jObjError.getString("username"));
                     else if(jObjError.has("email"))
-                        Toast.makeText(getContext(), jObjError.getString("email"), Toast.LENGTH_LONG).show();
+                        showToast(getContext(), jObjError.getString("email"));
                     else if(jObjError.has("non_field_errors"))
-                        Toast.makeText(getContext(), jObjError.getString("non_field_errors"), Toast.LENGTH_LONG).show();
+                        showToast(getContext(), jObjError.getString("non_field_errors"));
                     else if(jObjError.has("firstname"))
-                        Toast.makeText(getContext(), jObjError.getString("firstname"), Toast.LENGTH_LONG).show();
+                        showToast(getContext(), jObjError.getString("firstname"));
                     else if(jObjError.has("lastname"))
-                        Toast.makeText(getContext(), jObjError.getString("lastname"), Toast.LENGTH_LONG).show();
+                        showToast(getContext(), jObjError.getString("lastname"));
                     else
-                        Toast.makeText(getContext(),"couldn't signup", Toast.LENGTH_LONG).show();
+                        showToast(getContext(),"couldn't signup");
                 } catch (Exception e) {
-                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                    showToast(getContext(), e.getMessage());
                 }
                 progress.setVisibility(View.INVISIBLE);
             }
@@ -241,10 +151,10 @@ public class SignupFragment extends Fragment {
         @Override
         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
             if (response.isSuccessful()) {
-                Toast.makeText(getActivity().getApplicationContext(), "Successfully logged in.", Toast.LENGTH_LONG).show();
+                showToast(getActivity().getApplicationContext(), "Successfully logged in.");
                 startHomeActivity(response.body().getToken());
             } else {
-                Toast.makeText(getActivity().getApplicationContext(), "Couldn't log in", Toast.LENGTH_LONG).show();
+                showToast(getActivity().getApplicationContext(), "Couldn't log in");
             }
         }
 
