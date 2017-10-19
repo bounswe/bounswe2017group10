@@ -20,7 +20,7 @@ const AtlasNavbar = ({ logo, logout }) => (
             <NavLink to="/login">Login</NavLink>
           </NavItem>
           <NavItem>
-            <a href="#" onClick={ logout }>Logout</a>
+            <a onClick={ logout }>Logout</a>
           </NavItem>
           <NavItem>
             <NavLink to="/profile">Profile</NavLink>

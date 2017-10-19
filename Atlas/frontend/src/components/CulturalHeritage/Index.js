@@ -1,7 +1,7 @@
 import React from 'react';
 import CulturalHeritage from './CulturalHeritage';
 import './style.css';
-import { Modal, Button, Form, FormGroup, Input, Col, Row, Container, Badge, Alert } from 'reactstrap';
+import { Col, Row, Container } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 
 const Page = ({ user, token, culturalHeritages, loadCulturalHeritages }) => (

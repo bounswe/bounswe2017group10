@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import IndexPage from '../../components/CulturalHeritage/Index';
-import { fetchCH, finishFetchingCH, updatingGetCH, updateCHInput, addCHFetch, addCHSuccess, addCHFail, toggleAddCHModal } from '../../actions/culturalHeritage';
+import { fetchCH, finishFetchingCH, updatingGetCH } from '../../actions/culturalHeritage';
 import axios from 'axios';
 import { API_URL } from '../../constants';
 

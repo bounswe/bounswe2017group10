@@ -1,6 +1,6 @@
 import React from 'react';
 import './style.css';
-import { Modal, Button, Form, FormGroup, Input, Col, Row, Container, Badge, Alert } from 'reactstrap';
+import { Button, Form, FormGroup, Input, Col, Row, Container } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 
 const Page = ({ user, token, addCHInputs, handleCHInputChange, createCH }) => (

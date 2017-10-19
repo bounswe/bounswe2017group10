@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Page from '../../components/CulturalHeritage/Add';
-import { fetchCH, finishFetchingCH, updatingGetCH, updateCHInput, addCHFetch, addCHSuccess, addCHFail, toggleAddCHModal } from '../../actions/culturalHeritage';
+import { updateCHInput, addCHFetch, addCHSuccess, addCHFail } from '../../actions/culturalHeritage';
 import axios from 'axios';
 import { API_URL } from '../../constants';
 
