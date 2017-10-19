@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 
 const Login = ({ history, token, loginInputs, loginError, attemptLogin, handleInputChange }) => (
   <Container className="square-box">
-    <Form onSubmit={this.handleSubmit}>
+    <Form>
       <h3>Log-in</h3>
       <hr />
       <FormGroup>
@@ -44,7 +44,7 @@ const Login = ({ history, token, loginInputs, loginError, attemptLogin, handleIn
       <Row className="login-buttons">
           <Col xs="12">
               <Button className="facebook-button"><Badge >f</Badge> Login with Facebook</Button>
-              <Button onClick={ () => { attemptLogin(loginInputs) } } style={{ float: 'right' }}>Log-in</Button>
+              <Button onClick={ () => attemptLogin(loginInputs) } style={{ float: 'right' }}>Log-in</Button>
           </Col>
       </Row>
       <Row className="errors">

@@ -32,6 +32,34 @@ const reducer = (state = initState, action) => {
         ...state,
         fetching: false
       }
+    case 'UPDATE_CULTURAL_HERITAGE_INPUT':
+      return {
+        ...state,
+        addCHInputs: {
+          ...(state.addCHInputs),
+          [action.name]: action.value
+        }
+      }
+    case 'ADD_CH_FETCH':
+      return {
+        ...state,
+        addChFetching: true
+      }
+    case 'ADD_CH_SUCCESS':
+      return {
+        ...state,
+        addChFetching: false
+      }
+    case 'ADD_CH_FAIL':
+      return {
+        ...state,
+        addChFetching: false
+      }
+    case 'TOGGLE_ADD_CH_MODAL':
+      return {
+        ...state,
+        isModalOpen: !(state.isModalOpen)
+      }
     default:
       return state;
   }
