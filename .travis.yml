@@ -1,0 +1,6 @@
+language: python
+env:
+    - TEST_DIR="Atlas/backend"
+    - TEST_DIR="Atlas/frontend"
+    - TEST_DIR="Atlas/android"
+script: cd $TEST_DIR && ./test
