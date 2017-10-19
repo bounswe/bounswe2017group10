@@ -1,5 +1,14 @@
 #!/usr/bin/env python3
 
 import sys
+import subprocess
 
-sys.exit(0)
+
+test_file = './gradlew'
+test_args = 'check'
+args      = [test_file, test_args]
+
+child = subprocess.Popen(args, stdout=subprocess.PIPE)
+streamdata = child.communicate()[0]
+return_code = child.returncode
+sys.exit(return_code)
