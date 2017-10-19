@@ -9,11 +9,11 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { loadState, saveState } from './localStorage';
 
-const persistedState = loadState();
+const persistedState = loadState() || {};
 const store = createStore(atlas, {
   ...persistedState,
   auth: {
-    ...(persistedState.auth),
+    ...(persistedState.auth || {}),
     loginError: null,
     signupInputs: {},
     signupErrors: {}

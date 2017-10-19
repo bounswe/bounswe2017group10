@@ -6,23 +6,23 @@ import {
 import Home from "../Home/Home";
 import LoginRoute from "../../routes/Login/LoginRoute";
 import Navbar from '../../containers/Navbar/Navbar';
-import atlas from '../../assets/images/atlas.jpeg';
 import Profile from "../../containers/Profile/Profile";
 import PrivateRoute from './PrivateRoute';
-import CulturalHeritagesPage from '../../containers/CulturalHeritage/Page';
+import IndexCulturalHeritagesPage from '../../containers/CulturalHeritage/Index';
+import AddCulturalHeritagePage from '../../containers/CulturalHeritage/Add';
 
 const Routes = ({ user, token }) => ({
   render() {
     return (
       <div>
-        <img src={atlas} className="background-image" alt="background" />
         <Router>
             <div>
               <Navbar />
               <Route exact path="/" component={ Home } />
-              <Route path="/login" component={ LoginRoute } />
-              <PrivateRoute path="/cultural-heritages" user={ user } component={ <CulturalHeritagesPage /> } />
-              <PrivateRoute path="/profile" user={ user } component={ <Profile /> } />
+              <Route exact path="/login" component={ LoginRoute } />
+              <PrivateRoute exact path="/cultural-heritages/new" user={ user } component={ <AddCulturalHeritagePage /> } />
+              <PrivateRoute exact path="/cultural-heritages" user={ user } component={ <IndexCulturalHeritagesPage /> } />
+              <PrivateRoute exact path="/profile" user={ user } component={ <Profile /> } />
             </div>
         </Router>
       </div>

@@ -1,36 +1,20 @@
 import { connect } from 'react-redux';
-import Page from '../../components/CulturalHeritage/Page';
+import Page from '../../components/CulturalHeritage/Add';
 import { fetchCH, finishFetchingCH, updatingGetCH, updateCHInput, addCHFetch, addCHSuccess, addCHFail, toggleAddCHModal } from '../../actions/culturalHeritage';
 import axios from 'axios';
 import { API_URL } from '../../constants';
 
 const mapStateToProps = state => {
+  console.log(state.culturalHeritage.addCHInputs);
   return {
     user: state.auth.user,
     token: state.auth.token,
-    culturalHeritages: state.culturalHeritage.data,
     addCHInputs: state.culturalHeritage.addCHInputs,
-    isModalOpen: state.culturalHeritage.isModalOpen
   };
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadCulturalHeritages: (token) => {
-      dispatch(fetchCH());
-      axios({
-        method: 'get',
-        url: API_URL + '/cultural_heritage_item',
-        headers: { 'Authorization': 'JWT ' + token }
-      }).then(resp => {
-        dispatch(updatingGetCH(resp.data));
-        dispatch(finishFetchingCH());
-      }).catch(err => {
-        console.log("Error when fetching cultural heritage items");
-        console.log(err);
-        dispatch(finishFetchingCH());
-      });
-    },
     handleCHInputChange: (event) => {
       const target = event.target;
       const name = target.name;
@@ -38,6 +22,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(updateCHInput(name, value));
     },
     createCH: (addCHInputs, token) => {
+      console.log(addCHInputs);
       dispatch(addCHFetch());
       axios({
         method: 'post',
@@ -48,12 +33,10 @@ const mapDispatchToProps = dispatch => {
           description: addCHInputs.description
         }}).then(resp => {
           dispatch(addCHSuccess());
+          window.location = '/cultural-heritages';
         }).catch(err => {
           dispatch(addCHFail());
         });
-    },
-    toggleAddCHModal: () => {
-      dispatch(toggleAddCHModal());
     }
   }
 }
@@ -64,4 +47,5 @@ const PageContainer = connect(
 )(Page);
 
 export default PageContainer;
+
 

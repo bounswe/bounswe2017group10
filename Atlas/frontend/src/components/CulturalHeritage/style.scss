@@ -1,5 +1,6 @@
 ul.cultural-heritages {
   padding: 0;
+  margin-top: 10px;
   li {
     list-style: none;
     background-color: white;
@@ -8,4 +9,8 @@ ul.cultural-heritages {
     margin-bottom: 20px;
     width: 100%;
   }
+}
+
+body {
+  background-color: rgba(180,151, 132, 0.4);
 }
