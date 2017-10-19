@@ -13,7 +13,7 @@ matrix:
     - language: python
       python: 3.6
       before_script:
-        - cd Atlas/fronent
+        - cd Atlas/frontend
         - chmod +x test
       script:
         - ./test
@@ -42,6 +42,9 @@ matrix:
           - build-tools-$ANDROID_BUILD_TOOLS
           - extra-google-m2repository
           - extra-android-m2repository
+        licenses:
+         - android-sdk-preview-license-.+
+         - android-sdk-license-.+
       before_script:
         - cd Atlas/android
         - chmod +x gradlew
