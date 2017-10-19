@@ -1,6 +1,57 @@
-language: python
-env:
-    - TEST_DIR="Atlas/backend"
-    - TEST_DIR="Atlas/frontend"
-    - TEST_DIR="Atlas/android"
-script: cd $TEST_DIR && ./test
+matrix:
+  include:
+      # BACKEND
+    - language: python
+      python: 3.6
+      before_script:
+        - cd Atlas/backend
+        - chmod +x test
+      script:
+        - ./test
+
+      # FRONTEND
+    - language: python
+      python: 3.6
+      before_script:
+        - cd Atlas/fronent
+        - chmod +x test
+      script:
+        - ./test
+
+      # ANDROID
+    - language: android
+      jdk: oraclejdk8
+      before_cache:
+        -rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+        -rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+      cache:
+        directories:
+          -$HOME/.gradle/caches/
+          -$HOME/.gradle/wrapper/
+      env:
+        global:
+            - ANDROID_API=26
+            - EMULATOR_API=17
+            - ANDROID_BUILD_TOOLS=26.0.1
+            - ADB_INSTALL_TIMEOUT=5  # minutes
+      android:
+        components:
+          - tools
+          - platform-tools
+          - android-$ANDROID-API
+          - build-tools-$ANDROID_BUILD_TOOLS
+          - extra-google-m2repository
+          - extra-android-m2repository
+      before_script:
+        - cd Atlas/android
+        - chmod +x gradlew
+      script:
+        - ./gradlew check
+
+notifications:
+  email:
+    - yigitozkavci8@gmail.com
+    - ramazankaniturkmen@gmail.com
+    - s.talhanisanci@gmail.com
+    - aykut___1995@hotmail.com
+    - esref.ozdemir27@gmail.com
