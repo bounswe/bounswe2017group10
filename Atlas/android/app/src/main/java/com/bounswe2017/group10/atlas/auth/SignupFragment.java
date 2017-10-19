@@ -28,6 +28,8 @@ import com.bounswe2017.group10.atlas.httpbody.SignupResponse;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
 import com.bounswe2017.group10.atlas.util.DateUtils;
 
+import org.json.JSONObject;
+
 import java.util.Calendar;
 
 import retrofit2.Call;
@@ -199,13 +201,29 @@ public class SignupFragment extends Fragment {
         public void onResponse(Call<SignupResponse> call, Response<SignupResponse> response) {
             if (response.isSuccessful()) {
                 Toast.makeText(getActivity().getApplicationContext(), "Successfully signed up", Toast.LENGTH_LONG).show();
+                progress.setVisibility(View.INVISIBLE);
                 LoginRequest loginRequest = new LoginRequest();
                 loginRequest.setUsernameOrEmail(origRequest.getUsername());
                 loginRequest.setPassword(origRequest.getPassword());
                 APIUtils.getAPI().login(loginRequest).enqueue(new OnLoginResponse());
             } else {
-                Toast.makeText(getActivity().getApplicationContext(),"couldn't signup", Toast.LENGTH_LONG).show();
-                //Toast.makeText(getActivity().getApplicationContext(),response.toString(), Toast.LENGTH_LONG).show();
+                try {
+                    JSONObject jObjError = new JSONObject(response.errorBody().string());
+                    if(jObjError.has("username"))
+                        Toast.makeText(getContext(), jObjError.getString("username"), Toast.LENGTH_LONG).show();
+                    else if(jObjError.has("email"))
+                        Toast.makeText(getContext(), jObjError.getString("email"), Toast.LENGTH_LONG).show();
+                    else if(jObjError.has("non_field_errors"))
+                        Toast.makeText(getContext(), jObjError.getString("non_field_errors"), Toast.LENGTH_LONG).show();
+                    else if(jObjError.has("firstname"))
+                        Toast.makeText(getContext(), jObjError.getString("firstname"), Toast.LENGTH_LONG).show();
+                    else if(jObjError.has("lastname"))
+                        Toast.makeText(getContext(), jObjError.getString("lastname"), Toast.LENGTH_LONG).show();
+                    else
+                        Toast.makeText(getContext(),"couldn't signup", Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                }
                 progress.setVisibility(View.INVISIBLE);
             }
         }
