@@ -14,7 +14,13 @@ class User(models.Model):
 class Item(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     item_name = models.CharField(max_length=200)
-
+class image_media_item(models.Model):
+    url = models.URLField()
+    width = models.IntegerField(default=0)
+    height = models.IntegerField(default=0)
+    created_time = models.DateField(auto_now_add =True)
+    updated_time = models.DateField(auto_now =True)
+    cultural_heritage_item = models.ForeignKey('Cultural_Heritage',on_delete=models.CASCADE,null=True)
 class Cultural_Heritage(models.Model):
     user = models.ForeignKey('authentication.Account',on_delete =models.PROTECT)
     title = models.CharField(max_length = 200)
@@ -25,3 +31,6 @@ class Cultural_Heritage(models.Model):
     public_accessibility = models.BooleanField(default=True)
     created_time = models.DateField(auto_now_add =True)
     updated_time = models.DateField(auto_now =True)
+
+
+
