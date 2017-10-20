@@ -37,7 +37,7 @@ public class ViewItemFragment extends Fragment {
         viewItemDesc = view.findViewById(R.id.itemDesc);
 
         String authStr = getArguments().getString("authStr", "NO_TOKEN");
-        String itemID = getArguments().getString("id");
+        //String itemID = getArguments().getString("id");
         APIUtils.getAPI().getItem(authStr, 3).enqueue(new ViewItemFragment.OnGetItemResponse());
 
 

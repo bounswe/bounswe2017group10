@@ -21,6 +21,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.bounswe2017.group10.atlas.util.Utils.tokenToAuthString;
+
 public class FeedFragment extends ListFragment {
 
     private final ArrayList<CultureItem> mItemList = new ArrayList<>();
@@ -52,10 +54,13 @@ public class FeedFragment extends ListFragment {
 
         if (viewItemFragment == null) {
             viewItemFragment = new ViewItemFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("authStr", tokenToAuthString(authStr));
+            viewItemFragment.setArguments(bundle);
         }
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id., viewItemFragment)
+                .replace(R.id.pager, viewItemFragment)
                 .addToBackStack(null)
                 .commit();
     }
