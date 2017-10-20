@@ -37,8 +37,10 @@ public class ViewItemFragment extends Fragment {
         viewItemDesc = view.findViewById(R.id.itemDesc);
 
         String authStr = getArguments().getString("authStr", "NO_TOKEN");
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" + authStr);
         //String itemID = getArguments().getString("id");
-        APIUtils.getAPI().getItem(authStr, 3).enqueue(new ViewItemFragment.OnGetItemResponse());
+        String[] sp = authStr.split(" ");
+        APIUtils.getAPI().getItem("JWT " + sp[sp.length - 1], 3).enqueue(new ViewItemFragment.OnGetItemResponse());
 
 
 
@@ -49,10 +51,12 @@ public class ViewItemFragment extends Fragment {
         @Override
         public void onResponse(Call<CultureItem> call, Response<CultureItem> response) {
             if (response.isSuccessful()) {
-                viewItemTitle.setText(response.body().getTitle().toCharArray(),0,response.body().getTitle().length());
-                viewItemDesc.setText(response.body().getDescription().toCharArray(),0,response.body().getDescription().length());
-                viewItemImage.setText(response.body().getImageUrl().toCharArray(),0,response.body().getImageUrl().length());
-
+                ////////////////////////delete next line after
+                System.out.println("TEST/////////" + response.body().getTitle());
+                // TODO : we are getting the data from api but i couldnt manage to print it on the screen rn.
+                viewItemTitle.setText(response.body().getTitle());
+                viewItemDesc.setText(response.body().getDescription());
+                viewItemImage.setText(response.body().getImageUrl());
                 // TODO : we are only showing image url r.now.
 
             } else {
