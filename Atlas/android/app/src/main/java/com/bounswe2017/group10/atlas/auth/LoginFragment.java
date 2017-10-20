@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.bounswe2017.group10.atlas.R;
+import com.bounswe2017.group10.atlas.home.FeedFragment;
 import com.bounswe2017.group10.atlas.home.HomeActivity;
 import com.bounswe2017.group10.atlas.httpbody.LoginRequest;
 import com.bounswe2017.group10.atlas.httpbody.LoginResponse;

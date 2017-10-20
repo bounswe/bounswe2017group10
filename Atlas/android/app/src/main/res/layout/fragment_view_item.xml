@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:id="@+id/fragment_view_item"
+    android:layout_height="match_parent"
+    android:weightSum="1">
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/itemTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="View Fragment"
         android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/itemImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View Fragment"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/itemDesc"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.35"
+        android:text="TextView" />
+
 </LinearLayout>

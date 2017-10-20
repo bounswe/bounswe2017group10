@@ -1,6 +1,8 @@
 package com.bounswe2017.group10.atlas.home;
 
 
+import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
@@ -8,6 +10,8 @@ import android.view.View;
 import android.widget.ListView;
 
 
+import com.bounswe2017.group10.atlas.R;
+import com.bounswe2017.group10.atlas.auth.SignupFragment;
 import com.bounswe2017.group10.atlas.httpbody.CultureItem;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
 
@@ -41,7 +45,19 @@ public class FeedFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView listView, View view, int pos, long id) {
-        // TODO: handle list click
+        // TODO : foreign key of the item that cliked must be found.
+        String itemID = "temp";
+
+        ViewItemFragment viewItemFragment = null;
+
+        if (viewItemFragment == null) {
+            viewItemFragment = new ViewItemFragment();
+        }
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id., viewItemFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     /**

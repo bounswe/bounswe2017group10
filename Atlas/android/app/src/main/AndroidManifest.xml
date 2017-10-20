@@ -25,6 +25,7 @@
                   android:parentActivityName=".auth.AuthActivity">
         </activity>
 
+
     </application>
 
 </manifest>
