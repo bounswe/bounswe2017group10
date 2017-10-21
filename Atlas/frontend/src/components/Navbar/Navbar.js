@@ -1,11 +1,13 @@
 import React from 'react';
-import { Navbar, NavbarBrand, Collapse, NavItem, NavbarToggler, Nav } from 'reactstrap';
+import { Navbar, NavbarBrand, Collapse, NavItem, NavbarToggler, NavDropdown, DropdownToggle , DropdownMenu , DropdownItem,  Nav } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import './style.css';
 import AccIcon from 'react-icons/lib/md/account-circle';
 import PhotoIcon from 'react-icons/lib/md/photo-album';
 
-const AtlasNavbar = ({ logo, logout, loggedIn }) => (
+
+
+const AtlasNavbar = ({ logo, logout, loggedIn, user, dropDownOpen, closeDrop, openDrop }) => (
   <div>
     <Navbar color="transparent" expand="md">
       <NavbarBrand href="/">
@@ -18,20 +20,28 @@ const AtlasNavbar = ({ logo, logout, loggedIn }) => (
           <NavItem>
             <a href="https://github.com/bounswe/bounswe2017group10/">Github</a>
           </NavItem>
-          { loggedIn ? (
-              <NavItem>
-                <a href="#" onClick={ logout }>Logout</a>
-              </NavItem>
-              ) : (
+          { !loggedIn &&
+
+
               <NavItem>
                 <NavLink to="/login">Login</NavLink>
               </NavItem>
-              )
+
           }
+
             {loggedIn &&
-            <NavItem>
-              <NavLink to="/profile"><AccIcon/> Profile</NavLink>
-            </NavItem>
+            <NavDropdown isOpen={dropDownOpen} toggle={dropDownOpen ? closeDrop : openDrop}>
+              <DropdownToggle nav caret>
+                  { user.username }
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem header>Actions</DropdownItem>
+                <DropdownItem divider/>
+                <DropdownItem><NavLink to="/profile"><AccIcon/> Profile</NavLink></DropdownItem>
+
+                <DropdownItem><a href="" onClick={ logout }>Logout</a></DropdownItem>
+              </DropdownMenu>
+            </NavDropdown>
             }
           <NavItem>
             <NavLink to="/cultural-heritages"><PhotoIcon /> Cultural Heritages</NavLink>
@@ -41,5 +51,7 @@ const AtlasNavbar = ({ logo, logout, loggedIn }) => (
     </Navbar>
   </div>
 );
+
+
 
 export default AtlasNavbar;

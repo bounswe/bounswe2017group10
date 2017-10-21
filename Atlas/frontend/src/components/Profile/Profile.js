@@ -15,10 +15,10 @@ const Profile = ({ user }) => ({
             <div>
               <Card>
                 <CardBody>
-                  <CardTitle>
+                  <CardTitle>Welcome
                     { user.firstname && user.lastname
-                      ? user.firstname + " " + user.lastname + " (" + user.username + ")"
-                      : user.username
+                      ? " " + user.firstname + " " + user.lastname + " (" + user.username + ")"
+                      : " " +user.username
                     }
                   </CardTitle>
                   <CardSubtitle>{ user.email }</CardSubtitle>

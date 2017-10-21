@@ -1,12 +1,19 @@
 ul.navbar-nav {
   li.nav-item {
+    div.dropdown-menu{
+      background-color: gray;
+      h6.dropdown-header{
+        color: white;
+      }
+    }
     margin: 10px;
     background-color: gray;
     padding: 5px;
-    border-radius: 3px;
+    border-radius: 4px;
     svg {
       font-size: 18px;
       margin-top: -1px;
     }
   }
+
 }

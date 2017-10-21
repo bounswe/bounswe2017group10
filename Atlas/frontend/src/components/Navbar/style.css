@@ -2,7 +2,11 @@ ul.navbar-nav li.nav-item {
   margin: 10px;
   background-color: gray;
   padding: 5px;
-  border-radius: 3px; }
+  border-radius: 4px; }
+  ul.navbar-nav li.nav-item div.dropdown-menu {
+    background-color: gray; }
+    ul.navbar-nav li.nav-item div.dropdown-menu h6.dropdown-header {
+      color: white; }
   ul.navbar-nav li.nav-item svg {
     font-size: 18px;
     margin-top: -1px; }
