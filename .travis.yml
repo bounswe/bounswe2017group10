@@ -17,7 +17,7 @@ matrix:
       before_script:
         - psql -c "CREATE DATABASE atlas;" -U postgres
         - psql -c "CREATE ROLE atlas;" -U postgres
-        - psql -c "GRANT ALL PRIVILEGES ON DATABASE atlas TO atlas;" -u postgres
+        - psql -c "GRANT ALL PRIVILEGES ON DATABASE atlas TO atlas;" -U postgres
       script:
         - ./manage.py migrate
         - ./manage.py test
