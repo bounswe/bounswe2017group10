@@ -20,6 +20,7 @@ const mapDispatchToProps = dispatch => {
         .post(API_URL + '/api/auth/signup/', signupInputs)
         .then(function(resp) {
           dispatch(signupSuccess());
+          window.location = '/profile';
         })
         .catch(function(err) {
           dispatch(signupFailed(err.response.data));
