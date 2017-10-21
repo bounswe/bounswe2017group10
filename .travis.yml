@@ -20,7 +20,7 @@ matrix:
 
       # ANDROID
     - language: android
-      sudo: required
+      sudo: false
       jdk: oraclejdk8
       before_cache:
         - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -29,6 +29,8 @@ matrix:
         directories:
           - $HOME/.gradle/caches/
           - $HOME/.gradle/wrapper/
+          - $HOME/.gradle/native/
+          - $HOME/.gradle/daemon/
       android:
         components:
           - tools
@@ -49,8 +51,14 @@ matrix:
       before_script:
         - cd Atlas/android
         - chmod +x gradlew
+        - echo no | android create avd --force --name test --target android-17 --abi armeabi-v7a
+        - emulator -avd test -no-skin -no-audio -no-window &
       script:
-        - ./gradlew check
+        - ./gradlew check -PdisablePreDex --continue --stacktrace
+        - android-wait-for-emulator
+        - adb devices
+        - adb shell input keyevent 82 &
+        - ./gradlew connectedAndroidTest -PdisablePreDex --continue --stacktrace
 
 notifications:
   email:
