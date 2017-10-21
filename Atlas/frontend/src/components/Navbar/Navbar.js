@@ -2,8 +2,10 @@ import React from 'react';
 import { Navbar, NavbarBrand, Collapse, NavItem, NavbarToggler, Nav } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import './style.css';
+import AccIcon from 'react-icons/lib/md/account-circle';
+import PhotoIcon from 'react-icons/lib/md/photo-album';
 
-const AtlasNavbar = ({ logo, logout }) => (
+const AtlasNavbar = ({ logo, logout, loggedIn }) => (
   <div>
     <Navbar color="transparent" expand="md">
       <NavbarBrand href="/">
@@ -16,17 +18,21 @@ const AtlasNavbar = ({ logo, logout }) => (
           <NavItem>
             <a href="https://github.com/bounswe/bounswe2017group10/">Github</a>
           </NavItem>
+          { loggedIn ? (
+              <NavItem>
+                <a href="#" onClick={ logout }>Logout</a>
+              </NavItem>
+              ) : (
+              <NavItem>
+                <NavLink to="/login">Login</NavLink>
+              </NavItem>
+              )
+          }
           <NavItem>
-            <NavLink to="/login">Login</NavLink>
+            <NavLink to="/profile"><AccIcon /> Profile</NavLink>
           </NavItem>
           <NavItem>
-            <a href="#" onClick={ logout }>Logout</a>
-          </NavItem>
-          <NavItem>
-            <NavLink to="/profile">Profile</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink to="/cultural-heritages">Cultural Heritages</NavLink>
+            <NavLink to="/cultural-heritages"><PhotoIcon /> Cultural Heritages</NavLink>
           </NavItem>
         </Nav>
       </Collapse>

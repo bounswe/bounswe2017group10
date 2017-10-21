@@ -1,2 +1,8 @@
 ul.navbar-nav li.nav-item {
-  margin: 10px; }
+  margin: 10px;
+  background-color: gray;
+  padding: 5px;
+  border-radius: 3px; }
+  ul.navbar-nav li.nav-item svg {
+    font-size: 18px;
+    margin-top: -1px; }

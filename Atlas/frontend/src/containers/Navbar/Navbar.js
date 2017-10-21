@@ -2,10 +2,12 @@ import { connect } from 'react-redux';
 import Navbar from '../../components/Navbar/Navbar';
 import logo from '../../assets/images/logo.png';
 import { logout } from '../../actions/auth';
+import { isLoggedIn } from '../../utils';
 
 const mapStateToProps = state => {
   return {
-    logo
+    logo,
+    loggedIn: isLoggedIn(state.auth.user)
   };
 }
 
