@@ -63,3 +63,11 @@ matrix:
         - chmod +x gradlew
       script:
         - ./gradlew check
+
+notifications:
+  email:
+    - yigitozkavci8@gmail.com
+    - ramazankaniturkmen@gmail.com
+    - s.talhanisanci@gmail.com
+    - aykut___1995@hotmail.com
+    - esref.ozdemir27@gmail.com
