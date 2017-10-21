@@ -2,11 +2,9 @@ package com.bounswe2017.group10.atlas.auth;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +13,9 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.bounswe2017.group10.atlas.R;
-import com.bounswe2017.group10.atlas.home.HomeActivity;
 import com.bounswe2017.group10.atlas.httpbody.LoginRequest;
-import com.bounswe2017.group10.atlas.httpbody.LoginResponse;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static com.bounswe2017.group10.atlas.util.Utils.showToast;
 
@@ -70,49 +63,9 @@ public class LoginFragment extends Fragment {
             // send async login request
             ProgressBar progress = view.findViewById(R.id.login_progress_bar);
             progress.setVisibility(View.VISIBLE);
-            APIUtils.getAPI().login(loginRequest).enqueue(new OnLoginResponse(progress));
+            APIUtils.serverAPI().login(loginRequest).enqueue(new OnLoginResponse(getActivity(), progress));
         });
         return view;
     }
 
-    /**
-     * Implement retrofit response callback interface to be used for login requests.
-     */
-    private class OnLoginResponse implements Callback<LoginResponse> {
-        private ProgressBar progress;
-
-        public OnLoginResponse(ProgressBar progress) {
-            this.progress = progress;
-        }
-
-        @Override
-        public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-            progress.setVisibility(View.GONE);
-            if (response.isSuccessful()) {
-                String token = response.body().getToken();
-                startHomeActivity(token);
-            } else if (response.code() == 400) {
-                showToast(getActivity().getApplicationContext(), getResources().getString(R.string.wrong_credentials));
-            }
-        }
-
-        @Override
-        public void onFailure(Call<LoginResponse> call, Throwable t) {
-            progress.setVisibility(View.GONE);
-            showToast(getActivity().getApplicationContext(), getResources().getString(R.string.connection_failure));
-            Log.d(TAG, "LOGIN connection failure: " + t.toString());
-            Log.d(TAG, "LOGIN connection failure isExecuted: " + call.isExecuted());
-            Log.d(TAG, "LOGIN connection failure isCanceled: " + call.isCanceled());
-        }
-    }
-
-    /**
-     * Start home activity with the given token.
-     *
-     * @param token Access token obtained from the server.
-     */
-    private void startHomeActivity(String token) {
-        Intent intent = new Intent(getActivity(), HomeActivity.class).putExtra("token", token);
-        startActivity(intent);
-    }
 }

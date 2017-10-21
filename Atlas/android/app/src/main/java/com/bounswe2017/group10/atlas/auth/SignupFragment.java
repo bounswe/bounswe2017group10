@@ -2,7 +2,6 @@ package com.bounswe2017.group10.atlas.auth;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,19 +13,9 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.bounswe2017.group10.atlas.R;
-import com.bounswe2017.group10.atlas.home.HomeActivity;
-import com.bounswe2017.group10.atlas.httpbody.LoginRequest;
-import com.bounswe2017.group10.atlas.httpbody.LoginResponse;
 import com.bounswe2017.group10.atlas.httpbody.SignupRequest;
-import com.bounswe2017.group10.atlas.httpbody.SignupResponse;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
 
-import org.json.JSONObject;
-
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static com.bounswe2017.group10.atlas.util.Utils.showToast;
 
@@ -93,79 +82,8 @@ public class SignupFragment extends Fragment {
             signupRequest.setLastname(lastname);
             progress = view.findViewById(R.id.signup_progress_bar);
             progress.setVisibility(View.VISIBLE);
-            APIUtils.getAPI().signup(signupRequest).enqueue(new OnSignupResponse(signupRequest));
+            APIUtils.serverAPI().signup(signupRequest).enqueue(new OnSignupResponse(getActivity(), progress, signupRequest));
         });
         return view;
-    }
-
-    /**
-     * Implement retrofit response callback interface to be used for signup requests.
-     */
-    private class OnSignupResponse implements Callback<SignupResponse> {
-        private SignupRequest origRequest;
-
-        OnSignupResponse(SignupRequest origRequest) {
-            this.origRequest = origRequest;
-        }
-
-        @Override
-        public void onResponse(Call<SignupResponse> call, Response<SignupResponse> response) {
-            if (response.isSuccessful()) {
-                progress.setVisibility(View.INVISIBLE);
-                LoginRequest loginRequest = new LoginRequest();
-                loginRequest.setUsernameOrEmail(origRequest.getUsername());
-                loginRequest.setPassword(origRequest.getPassword());
-                APIUtils.getAPI().login(loginRequest).enqueue(new OnLoginResponse());
-            } else {
-                try {
-                    JSONObject jObjError = new JSONObject(response.errorBody().string());
-                    if(jObjError.has("username"))
-                        showToast(getContext(), jObjError.getString("username"));
-                    else if(jObjError.has("email"))
-                        showToast(getContext(), jObjError.getString("email"));
-                    else if(jObjError.has("non_field_errors"))
-                        showToast(getContext(), jObjError.getString("non_field_errors"));
-                    else if(jObjError.has("firstname"))
-                        showToast(getContext(), jObjError.getString("firstname"));
-                    else if(jObjError.has("lastname"))
-                        showToast(getContext(), jObjError.getString("lastname"));
-                    else
-                        showToast(getContext(),"couldn't signup");
-                } catch (Exception e) {
-                    showToast(getContext(), e.getMessage());
-                }
-                progress.setVisibility(View.INVISIBLE);
-            }
-        }
-
-        @Override
-        public void onFailure(Call<SignupResponse> call, Throwable t) {
-        }
-    }
-
-    /**
-     * Implement retrofit response callback interface to be used for login requests
-     * made after signup requests.
-     */
-    private class OnLoginResponse implements Callback<LoginResponse> {
-        @Override
-        public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-            if (response.isSuccessful()) {
-                showToast(getActivity().getApplicationContext(), "Successfully logged in.");
-                startHomeActivity(response.body().getToken());
-            } else {
-                showToast(getActivity().getApplicationContext(), "Couldn't log in");
-            }
-        }
-
-        @Override
-        public void onFailure(Call<LoginResponse> call, Throwable t) {
-
-        }
-    }
-
-    private void startHomeActivity(String token) {
-        Intent intent = new Intent(getActivity(), HomeActivity.class).putExtra("token", token);
-        startActivity(intent);
     }
 }
