@@ -6,9 +6,9 @@ import { API_URL } from '../constants';
 
 const mapStateToProps = state => {
   return {
-    token: state.token,
-    loginInputs: state.loginInputs,
-    loginError: state.loginError
+    token: state.auth.token,
+    loginInputs: state.auth.loginInputs,
+    loginError: state.auth.loginError
   };
 }
 

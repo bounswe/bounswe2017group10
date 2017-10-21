@@ -3,8 +3,8 @@ import Routes from '../components/Routes/Routes';
 
 const mapStateToProps = state => {
   return {
-    user: state.user,
-    token: state.token
+    user: state.auth.user,
+    token: state.auth.token
   };
 }
 

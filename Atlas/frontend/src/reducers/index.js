@@ -1,3 +1,6 @@
 import auth from './auth';
+import culturalHeritage from './culturalHeritage';
+import { combineReducers } from 'redux';
 
-export default auth;
+const reducers = combineReducers({ auth, culturalHeritage });
+export default reducers;
