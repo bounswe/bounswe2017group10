@@ -16,7 +16,7 @@ matrix:
 
       before_script:
         - psql -c "CREATE DATABASE atlas;" -U postgres
-        - psql -c "CREATE ROLE atlas;" -U postgres
+        - psql -c "CREATE USER atlas WITH SUPERUSER;" -U postgres
         - psql -c "GRANT ALL PRIVILEGES ON DATABASE atlas TO atlas;" -U postgres
       script:
         - ./manage.py migrate
@@ -63,11 +63,3 @@ matrix:
         - chmod +x gradlew
       script:
         - ./gradlew check
-
-notifications:
-  email:
-    - yigitozkavci8@gmail.com
-    - ramazankaniturkmen@gmail.com
-    - s.talhanisanci@gmail.com
-    - aykut___1995@hotmail.com
-    - esref.ozdemir27@gmail.com
