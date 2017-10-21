@@ -3,11 +3,24 @@ matrix:
       # BACKEND
     - language: python
       python: 3.6
-      before_script:
+      services: postgresql
+
+      env:
+        - DJANGO=1.4.1
+
+      install:
         - cd Atlas/backend
-        - chmod +x test
+        - virtualenv atlasenv
+        - source ./atlasenv/bin/activate
+        - pip install -r requirements.txt
+
+      before_script:
+        - psql -c "CREATE DATABASE atlas;" -U postgres
+        - psql -c "CREATE USER atlas WITH SUPERUSER;" -U postgres
+        - psql -c "GRANT ALL PRIVILEGES ON DATABASE atlas TO atlas;" -U postgres
       script:
-        - ./test
+        - ./manage.py migrate
+        - ./manage.py test
 
       # FRONTEND
     - language: python

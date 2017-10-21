@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^users/', views.users, name='users'),
     url(r'^api/auth/', include('authentication.urls')),
     url(r'^cultural_heritage_item/?$', views.cultural_heritage_item.as_view()),
+    url(r'^cultural_heritage_item/(?P<heritage_id>[0-9]+)/image/?$', views.image_media_item.as_view()),
     url(r'^cultural_heritage_item/(?P<id>\d+)/?$', views.cultural_heritage_item_view_update_delete.as_view()),
 ]
 
