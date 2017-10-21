@@ -44,6 +44,8 @@ dependencies {
     // JSON Parsing
     compile 'com.google.code.gson:gson:2.8.2'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
-
+    // Mockito for unit testing
     testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:2.7.22'
+    androidTestCompile 'org.mockito:mockito-core:2.7.22'
 }
