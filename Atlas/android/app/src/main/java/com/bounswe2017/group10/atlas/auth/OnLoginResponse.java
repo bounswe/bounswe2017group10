@@ -25,7 +25,7 @@ public class OnLoginResponse implements Callback<LoginResponse> {
     private ProgressBar progress;
     private Context context;
 
-    OnLoginResponse(Context context, ProgressBar progress) {
+    public OnLoginResponse(Context context, ProgressBar progress) {
         this.progress = progress;
         this.context = context;
     }

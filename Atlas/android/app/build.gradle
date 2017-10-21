@@ -15,6 +15,8 @@ android {
         jackOptions {
             enabled true
         }
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -44,8 +46,16 @@ dependencies {
     // JSON Parsing
     compile 'com.google.code.gson:gson:2.8.2'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
-    // Mockito for unit testing
+    // multidex
+    compile 'com.android.support:multidex:1.0.1'
+    // Test libraries
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.7.22'
-    androidTestCompile 'org.mockito:mockito-core:2.7.22'
+    // Android test libraries
+    androidTestCompile 'com.android.support.test:runner:1.0.0'
+    androidTestCompile 'com.android.support.test:rules:1.0.0'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.0'
+    androidTestCompile 'com.android.support:support-annotations:26.0.1'
+    androidTestCompile 'org.mockito:mockito-android:2.11.0'
+    androidTestCompile 'com.squareup.okhttp3:mockwebserver:3.8.0'
 }

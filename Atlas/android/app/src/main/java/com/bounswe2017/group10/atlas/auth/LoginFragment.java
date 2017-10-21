@@ -63,7 +63,8 @@ public class LoginFragment extends Fragment {
             // send async login request
             ProgressBar progress = view.findViewById(R.id.login_progress_bar);
             progress.setVisibility(View.VISIBLE);
-            APIUtils.serverAPI().login(loginRequest).enqueue(new OnLoginResponse(getActivity(), progress));
+            OnLoginResponse loginHandler = new OnLoginResponse(getActivity(), progress);
+            APIUtils.serverAPI().login(loginRequest).enqueue(loginHandler);
         });
         return view;
     }

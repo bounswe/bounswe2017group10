@@ -82,7 +82,8 @@ public class SignupFragment extends Fragment {
             signupRequest.setLastname(lastname);
             progress = view.findViewById(R.id.signup_progress_bar);
             progress.setVisibility(View.VISIBLE);
-            APIUtils.serverAPI().signup(signupRequest).enqueue(new OnSignupResponse(getActivity(), progress, signupRequest));
+            OnSignupResponse signupHandler = new OnSignupResponse(getActivity(), progress, signupRequest);
+            APIUtils.serverAPI().signup(signupRequest).enqueue(signupHandler);
         });
         return view;
     }

@@ -26,7 +26,7 @@ public class OnSignupResponse implements Callback<SignupResponse> {
     private Context context;
     private ProgressBar progress;
 
-    OnSignupResponse(Context context, ProgressBar progress, SignupRequest origRequest) {
+    public OnSignupResponse(Context context, ProgressBar progress, SignupRequest origRequest) {
         this.origRequest = origRequest;
         this.progress = progress;
         this.context = context;

@@ -37,6 +37,7 @@ matrix:
           - build-tools-26.0.1
           - extra-google-m2repository
           - extra-android-m2repository
+          - sys-img-armeabi-v7a-android-17
       install:
       # Update sdk tools to latest version and install/update components
           - echo yes | sdkmanager "tools"
