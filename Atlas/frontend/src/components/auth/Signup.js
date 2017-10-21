@@ -88,13 +88,11 @@ const Signup = ({ signupInputs, signupErrors, inputChanged, attemptSignup }) => 
       </Row>
       <Row className="errors">
         <Col xs="12">
-          { signupErrors === null
-          ? ''
-          : Object.entries(signupErrors).map(entr => {
-            return (
-              <Alert key={ entr[0] } color="danger">{ entr[0] }: { entr[1][0] }</Alert>
+          { signupErrors && typeof signupErrors === 'object'
+          ? Object.entries(signupErrors).map(entr =>
+              ( <Alert key={ entr[0] } color="danger">{ entr[0] }: { entr[1][0] }</Alert> )
             )
-            })
+          : '' 
           }
         </Col>
       </Row>

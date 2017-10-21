@@ -8,8 +8,7 @@ from authentication.models import Account
 from rest_framework.test import APIClient
 
 
-#response_content = json.loads(smart_text(response.content))
-#print(response_content)
+
 @pytest.mark.django_db
 class cultural_heritage_item(TestCase):
     def setUp(self):
@@ -112,3 +111,188 @@ class cultural_heritage_item(TestCase):
 
         )
         self.assertEqual(response.status_code, 400)
+
+    def test_get_cultural_heritage_item(self):
+        title = 'Very emotional thresh hook'
+        item_data = {
+            "title": title,
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code,201)
+        response = self.client.get(
+            self.cultural_heritage_item_url,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 200)
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(response_content[0]['title'] ,title)
+
+
+    def test_get_cultural_heritage_item_by_id(self):
+        title = 'Very emotional thresh hook'
+        item_data = {
+            "title": title,
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        response_content = json.loads(smart_text(response.content))
+        id =response_content['id']
+        response = self.client.get(
+            self.cultural_heritage_item_url + str(id),
+            format='json',
+        )
+        self.assertEqual(response.status_code,200)
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(response_content['title'],title)
+        self.assertEqual(response_content['id'],id)
+
+    def test_get_cultural_heritage_item_by_id_with_guest_user(self):
+        title = 'Very emotional thresh hook'
+        item_data = {
+            "title": title,
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        response_content = json.loads(smart_text(response.content))
+        id = response_content['id']
+        self.client.logout()
+        response = self.client.get(
+            self.cultural_heritage_item_url + str(id),
+            format='json',
+        )
+        self.assertEqual(response.status_code, 403)
+
+    def test_get_cultural_heritage_item_by_id_regex(self):
+        title = 'Very emotional thresh hook'
+        item_data = {
+            "title": title,
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        response_content = json.loads(smart_text(response.content))
+        id = response_content['id']
+        response = self.client.get(
+            self.cultural_heritage_item_url + str(id)+'/',
+            format='json',
+        )
+        self.assertEqual(response.status_code, 200 )
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(response_content['title'],title)
+        self.assertEqual(response_content['id'],id)
+
+
+    def test_get_cultural_heritage_item_by_invalid_id(self):
+        title = 'Very emotional thresh hook'
+        item_data = {
+            "title": title,
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        response_content = json.loads(smart_text(response.content))
+        response = self.client.get(
+            self.cultural_heritage_item_url + '12321321',
+            format='json',
+        )
+        self.assertEqual(response.status_code, 404)
+
+
+
+    def test_create_cultural_heritage_item_with_image_media_item(self):
+
+        item_data = {
+            "title": "Very emotional thresh hook",
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        response_content = json.loads(smart_text(response.content))
+        id = response_content['id']
+        self.assertEqual(response.status_code, 201)
+        item_data = {
+            'url': 'http://i.imgur.com/3OLTFVq.jpg',
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url + str(id) + '/image',
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code,201)
+
+
+
+    def test_get_cultural_heritage_item_by_id_with_image_media_item(self):
+        item_data = {
+            "title": "Very emotional thresh hook",
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        response_content = json.loads(smart_text(response.content))
+        id = response_content['id']
+        self.assertEqual(response.status_code, 201)
+        #First image item
+        image_item_data = {
+            'url': 'http://i.imgur.com/3OLTFVq.jpg',
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url + str(id) + '/image',
+            image_item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        #Second image item
+        image_item_data = {
+            'url': 'http://i.imgur.com/3OL28374TFVq.jpg',
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url + str(id) + '/image',
+            image_item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        id = response_content['id']
+        response = self.client.get(
+            self.cultural_heritage_item_url + str(id),
+            format='json',
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(len(response_content['images']),2)
+
