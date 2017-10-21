@@ -5,10 +5,11 @@ matrix:
       python: 3.6
       before_script:
         - cd Atlas/backend
-        - chmod +x test
+        - source atlasenv/bin/activat
+      install:
+        - pip install -r requirements.txt
       script:
-        - ./test
-
+        - ./manage.py test
       # FRONTEND
     - language: python
       python: 3.6
