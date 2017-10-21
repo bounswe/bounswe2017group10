@@ -10,6 +10,7 @@ matrix:
 
       install:
         - cd Atlas/backend
+        - virtualenv atlasenv
         - source ./atlasenv/bin/activate
         - pip install -r requirements.txt
 
