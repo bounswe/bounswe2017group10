@@ -239,8 +239,6 @@ class cultural_heritage_item(TestCase):
         self.assertEqual(response.status_code, 201)
         item_data = {
             'url': 'http://i.imgur.com/3OLTFVq.jpg',
-            'width': 10,
-            'height': 20,
         }
         response = self.client.post(
             self.cultural_heritage_item_url + str(id) + '/image',
@@ -268,8 +266,6 @@ class cultural_heritage_item(TestCase):
         #First image item
         image_item_data = {
             'url': 'http://i.imgur.com/3OLTFVq.jpg',
-            'width': 10,
-            'height': 20,
         }
         response = self.client.post(
             self.cultural_heritage_item_url + str(id) + '/image',
@@ -281,8 +277,6 @@ class cultural_heritage_item(TestCase):
         #Second image item
         image_item_data = {
             'url': 'http://i.imgur.com/3OL28374TFVq.jpg',
-            'width': 51,
-            'height': 25,
         }
         response = self.client.post(
             self.cultural_heritage_item_url + str(id) + '/image',
