@@ -25,6 +25,6 @@ main = hspec $
           loginInput <- findElem $ ByXPath "//input[@name='username']"
           passInput <- findElem $ ByXPath "//input[@name='password']"
           sendKeys "yigitozkavci" loginInput
-          sendKeys "220513Yigit" passInput
+          sendKeys "22012sY" passInput
           click =<< waitUntil 10 (findElem (ByXPath "//button[contains(text(), 'Log-in')]"))
           liftIO $ threadDelay 10000
