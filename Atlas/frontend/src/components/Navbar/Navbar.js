@@ -28,9 +28,11 @@ const AtlasNavbar = ({ logo, logout, loggedIn }) => (
               </NavItem>
               )
           }
-          <NavItem>
-            <NavLink to="/profile"><AccIcon /> Profile</NavLink>
-          </NavItem>
+            {loggedIn &&
+            <NavItem>
+              <NavLink to="/profile"><AccIcon/> Profile</NavLink>
+            </NavItem>
+            }
           <NavItem>
             <NavLink to="/cultural-heritages"><PhotoIcon /> Cultural Heritages</NavLink>
           </NavItem>
