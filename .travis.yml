@@ -16,6 +16,7 @@ matrix:
 
       before_script:
         - psql -c "CREATE DATABASE atlas;" -U postgres
+        - psql -c "CREATE ROLE atlas;" -U postgres
       script:
         - ./manage.py migrate
         - ./manage.py test
