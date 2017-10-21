@@ -3,12 +3,22 @@ matrix:
       # BACKEND
     - language: python
       python: 3.6
-      before_script:
+      services: postgresql
+
+      env:
+        - DJANGO=1.4.1
+
+      install:
         - cd Atlas/backend
-        - ./atlasenv/bin/activate
-      script:
+        - source ./atlasenv/bin/activate
         - pip install -r requirements.txt
+
+      before_script:
+        - psql -c "CREATE DATABASE atlas;" -U postgres
+      script:
+        - ./manage.py migrate
         - ./manage.py test
+
       # FRONTEND
     - language: python
       python: 3.6
