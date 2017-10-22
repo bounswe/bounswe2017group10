@@ -4,6 +4,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <item
+            android:id="@+id/profil"
+            android:icon="@drawable/side_nav_bar"
+            android:title="Profil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <item
             android:id="@+id/gallery"
             android:icon="@drawable/ic_menu_camera"
             android:title="Gallery"
@@ -12,11 +18,15 @@
     </group>
 
     <item android:title="">
-        <menu android:layout_width="wrap_content"
+        <menu
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <item
                 android:id="@+id/logout"
-                android:title="Logout" />
+                android:icon="@drawable/side_nav_bar"
+                android:title="Logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </menu>
     </item>
 </menu>
