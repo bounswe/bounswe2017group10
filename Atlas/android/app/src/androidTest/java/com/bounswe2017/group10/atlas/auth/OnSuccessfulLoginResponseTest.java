@@ -13,6 +13,9 @@ import android.widget.ProgressBar;
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.home.HomeActivity;
 import com.bounswe2017.group10.atlas.httpbody.LoginResponse;
+import com.bounswe2017.group10.atlas.response.OnLoginResponse;
+import com.bounswe2017.group10.atlas.util.Constants;
+import com.bounswe2017.group10.atlas.util.Utils;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -66,7 +69,8 @@ public class OnSuccessfulLoginResponseTest {
         assertEquals(HomeActivity.class.getName(), nextActivity.getClass().getName());
 
         // check if token is sent correctly via intent
-        assertEquals(token, nextActivity.getIntent().getStringExtra("token"));
+        String authStr = Utils.tokenToAuthString(token);
+        assertEquals(authStr, nextActivity.getIntent().getStringExtra(Constants.AUTH_STR));
     }
 
 }

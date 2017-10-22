@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_view_item"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/itemTitle"
+        android:layout_width="match_parent"
+        android:layout_height="59dp"
+        android:text="Title"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/itemDesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Desc"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/itemImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Image"
+        android:textSize="30sp" />
+
+
+</LinearLayout>

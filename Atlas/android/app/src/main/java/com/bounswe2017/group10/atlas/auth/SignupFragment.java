@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.httpbody.SignupRequest;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
+import com.bounswe2017.group10.atlas.response.OnSignupResponse;
 
 
 import static com.bounswe2017.group10.atlas.util.Utils.showToast;
