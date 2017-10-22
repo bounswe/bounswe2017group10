@@ -118,6 +118,7 @@ public class LoginFragment extends Fragment {
      */
     private void startHomeActivity(String token) {
         Intent intent = new Intent(getActivity(), HomeActivity.class).putExtra("token", token);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 }
