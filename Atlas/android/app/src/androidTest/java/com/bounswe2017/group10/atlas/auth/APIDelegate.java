@@ -7,6 +7,7 @@ import com.bounswe2017.group10.atlas.httpbody.LoginRequest;
 import com.bounswe2017.group10.atlas.httpbody.LoginResponse;
 import com.bounswe2017.group10.atlas.httpbody.SignupRequest;
 import com.bounswe2017.group10.atlas.httpbody.SignupResponse;
+import com.bounswe2017.group10.atlas.httpbody.UserResponse;
 import com.bounswe2017.group10.atlas.remote.API;
 
 import retrofit2.Call;
@@ -47,5 +48,10 @@ public class APIDelegate implements API {
     @Override
     public Call<CultureItem> getItem(@Header("Authorization") String authStr, @Path("id") long id) {
         return api.getItem(authStr, id);
+    }
+
+    @Override
+    public Call<UserResponse> getMe(@Header("Authorization") String authStr) {
+        return api.getMe(authStr);
     }
 }

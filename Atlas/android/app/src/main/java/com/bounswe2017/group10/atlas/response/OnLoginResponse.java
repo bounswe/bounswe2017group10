@@ -60,6 +60,7 @@ public class OnLoginResponse implements Callback<LoginResponse> {
     private void startHomeActivity(String token) {
         String authStr = tokenToAuthString(token);
         Intent intent = new Intent(context, HomeActivity.class).putExtra(Constants.AUTH_STR, authStr);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 }
