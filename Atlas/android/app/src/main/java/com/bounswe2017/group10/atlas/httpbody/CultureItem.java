@@ -8,6 +8,8 @@ import java.util.List;
 
 public class CultureItem {
 
+    // TODO : We need the id of the item here as a variable.
+
     @SerializedName("country")
     @Expose
     private String country;

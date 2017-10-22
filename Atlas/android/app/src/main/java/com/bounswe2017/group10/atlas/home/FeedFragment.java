@@ -49,19 +49,19 @@ public class FeedFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView listView, View view, int pos, long id) {
         // TODO : foreign key of the item that cliked must be found.
-        String itemID = "temp";
 
         ViewItemFragment viewItemFragment = null;
 
         if (viewItemFragment == null) {
             viewItemFragment = new ViewItemFragment();
             Bundle bundle = new Bundle();
-            bundle.putString("authStr", tokenToAuthString(authStr));
+            bundle.putString("authStr", authStr);
+            bundle.putString("itemId", authStr);
             viewItemFragment.setArguments(bundle);
         }
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.pager, viewItemFragment)
+                .replace(R.id.home_container, viewItemFragment)
                 .addToBackStack(null)
                 .commit();
     }

@@ -1,18 +1,21 @@
 package com.bounswe2017.group10.atlas.home;
 
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.httpbody.CultureItem;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
 import com.bounswe2017.group10.atlas.util.Constants;
+import com.bumptech.glide.Glide;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -21,8 +24,9 @@ import retrofit2.Response;
 public class ViewItemFragment extends Fragment {
 
     TextView viewItemTitle;
-    TextView viewItemImage;
+    ImageView viewItemImage;
     TextView viewItemDesc;
+
 
 
     @Nullable
@@ -36,9 +40,8 @@ public class ViewItemFragment extends Fragment {
 
         String authStr = getArguments().getString(Constants.AUTH_STR, "NO_TOKEN");
         System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" + authStr);
-        //String itemID = getArguments().getString("id");
-        String[] sp = authStr.split(" ");
-        APIUtils.serverAPI().getItem("JWT " + sp[sp.length - 1], 3).enqueue(new ViewItemFragment.OnGetItemResponse());
+        String itemID = getArguments().getString("itemId");
+        APIUtils.serverAPI().getItem(authStr, 3).enqueue(new ViewItemFragment.OnGetItemResponse());
 
 
 
@@ -52,11 +55,14 @@ public class ViewItemFragment extends Fragment {
             if (response.isSuccessful()) {
                 ////////////////////////delete next line after
                 System.out.println("TEST/////////" + response.body().getTitle());
-                // TODO : we are getting the data from api but i couldnt manage to print it on the screen rn.
                 viewItemTitle.setText(response.body().getTitle());
                 viewItemDesc.setText(response.body().getDescription());
-                viewItemImage.setText(response.body().getImageList().get(0).getUrl());
-                // TODO : we are only showing image url r.now.
+                //viewItemImage.setText(response.body().getImageList().get(0).getUrl());
+
+
+                Glide.with(getView())
+                        .load(response.body().getImageList().get(0).getUrl())
+                        .into(viewItemImage);
 
             } else {
                 // TODO: Error checking
