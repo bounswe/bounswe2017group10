@@ -7,6 +7,10 @@ ul.navbar-nav li.nav-item {
     background-color: gray; }
     ul.navbar-nav li.nav-item div.dropdown-menu h6.dropdown-header {
       color: white; }
+  ul.navbar-nav li.nav-item .dropdown-item:hover {
+    background-color: #bcbcbc; }
   ul.navbar-nav li.nav-item svg {
     font-size: 18px;
     margin-top: -1px; }
+  ul.navbar-nav li.nav-item a {
+    padding: 0; }
