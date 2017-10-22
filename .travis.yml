@@ -33,7 +33,7 @@ matrix:
 
       # ANDROID
     - language: android
-      sudo: required
+      sudo: false
       jdk: oraclejdk8
       before_cache:
         - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -42,14 +42,16 @@ matrix:
         directories:
           - $HOME/.gradle/caches/
           - $HOME/.gradle/wrapper/
+          - $HOME/.gradle/native/
+          - $HOME/.gradle/daemon/
       android:
         components:
-          - tools
-          - platform-tools
           - android-26
+          - android-17
           - build-tools-26.0.1
           - extra-google-m2repository
           - extra-android-m2repository
+          - sys-img-armeabi-v7a-android-17
       install:
       # Update sdk tools to latest version and install/update components
           - echo yes | sdkmanager "tools"
@@ -62,7 +64,15 @@ matrix:
         - cd Atlas/android
         - chmod +x gradlew
       script:
-        - ./gradlew check
+        - ./gradlew assemble -PdisablePreDex --continue --stacktrace
+        - ./gradlew check -PdisablePreDex --continue --stacktrace
+      after_script:
+          # - echo no | avdmanager create avd --force --name test --package 'system-images;android-17;default;armeabi-v7a' --abi armeabi-v7a
+          # - emulator -avd test -no-skin -no-window &
+          # - android-wait-for-emulator
+          # - adb devices
+          # - adb shell input keyevent 82 &
+          # - ./gradlew connectedAndroidTest -PdisablePreDex --continue --stacktrace
 
 notifications:
   email:
