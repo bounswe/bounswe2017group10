@@ -2,21 +2,30 @@ package com.bounswe2017.group10.atlas.auth;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.bounswe2017.group10.atlas.R;
+import com.bounswe2017.group10.atlas.home.HomeActivity;
 import com.bounswe2017.group10.atlas.httpbody.LoginRequest;
+import com.bounswe2017.group10.atlas.httpbody.LoginResponse;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
 import com.bounswe2017.group10.atlas.response.OnLoginResponse;
 
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.bounswe2017.group10.atlas.util.Utils.showToast;
 
@@ -69,5 +78,4 @@ public class LoginFragment extends Fragment {
         });
         return view;
     }
-
 }

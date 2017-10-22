@@ -4,7 +4,9 @@ package com.bounswe2017.group10.atlas.home;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 
 
@@ -34,7 +36,7 @@ public class FeedFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        authStr = getArguments().getString(Constants.AUTH_STR, "NO_TOKEN");
+        authStr = getActivity().getIntent().getStringExtra(Constants.AUTH_STR);
 
         // TODO: get all items
         // TODO: get items only when created; not always.

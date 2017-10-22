@@ -20,11 +20,15 @@
         </activity>
 
         <!-- HomeActivity -->
-        <activity android:name=".home.HomeActivity"
-                  android:parentActivityName=".auth.AuthActivity">
+        <activity
+            android:name=".home.HomeActivity"
+            android:parentActivityName=".auth.AuthActivity">
         </activity>
 
-
+        <!-- ProfileActivity-->
+        <activity
+            android:name=".profil.ProfileActivity">
+        </activity>
     </application>
 
 </manifest>
