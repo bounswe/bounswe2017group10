@@ -8,6 +8,8 @@ ul.cultural-heritages {
     padding: 20px;
     margin-bottom: 20px;
     width: 100%; }
+    ul.cultural-heritages li img {
+      width: 100%; }
 
 body {
   background-color: rgba(180, 151, 132, 0.4); }

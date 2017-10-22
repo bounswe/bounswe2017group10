@@ -1,11 +1,17 @@
 import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
+import { truncate } from '../../utils';
 
 const CulturalHeritage = ({ culturalHeritage }) => (
   <Container className="cultural-heritage">
     <Row>
       <Col xs="3">
-        <img alt="Cultural Heritage" src={ culturalHeritage.image } />
+        { culturalHeritage.images.length > 0 ? (
+          <img alt="Cultural Heritage" src={ culturalHeritage.images[0].url } />
+          ) : (
+          <span>No Image</span>
+          )
+        }
       </Col>
       <Col xs="9">
         <h2>{ culturalHeritage.title }</h2>
