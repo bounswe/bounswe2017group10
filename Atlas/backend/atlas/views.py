@@ -47,7 +47,7 @@ class image_media_item(ImageInterceptorMixin,generics.CreateAPIView):
                  request.data['cultural_heritage_item'] = self.current_heritage_item.pk
                  for k,v in image_item_data.items():
                      request.data[k] = v
-                     result =super(image_media_item, self).create(request, *args, **kwargs)
+                 result =super(image_media_item, self).create(request, *args, **kwargs)
             return result
         except:
            return Response("images must be a list.", status=status.HTTP_400_BAD_REQUEST)
