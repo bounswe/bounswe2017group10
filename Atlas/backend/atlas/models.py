@@ -10,10 +10,8 @@ class User(models.Model):
     def __str__(self):
         return self.username
 
-
-class Item(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    item_name = models.CharField(max_length=200)
+class tag(models.Model):
+    name = models.CharField(max_length=100,primary_key=True)
 class image_media_item(models.Model):
     url = models.URLField()
     created_time = models.DateField(auto_now_add =True)
@@ -30,6 +28,8 @@ class Cultural_Heritage(models.Model):
     public_accessibility = models.BooleanField(default=True)
     created_time = models.DateField(auto_now_add =True)
     updated_time = models.DateField(auto_now =True)
+    tags = models.ManyToManyField('tag',blank=True)
+
 
 
 

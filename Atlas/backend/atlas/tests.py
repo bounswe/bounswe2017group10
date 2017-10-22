@@ -384,3 +384,29 @@ class cultural_heritage_item(TestCase):
         response_content = json.loads(smart_text(response.content))
         self.assertEqual(len(response_content['images']), 2)
 
+    def test_create_cultural_heritage_item_with_tags(self):
+        item_data = {
+            "title": "Space needle",
+            'tags': [
+                {'name':'place',},
+                {'name':'Seattle'},
+                {'name':'space'},
+                {'name':'Needle'},
+                {'name':'downtown'}
+            ]
+        }
+        response = self.client.post(
+        self.cultural_heritage_item_url,
+        item_data,
+        format='json',
+        )
+        response_content = json.loads(smart_text(response.content))
+
+        self.assertEqual(response.status_code, 201)
+        id = response_content['id']
+        response = self.client.get(
+            self.cultural_heritage_item_url + str(id),
+            format='json',
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response_content['tags']),5)
