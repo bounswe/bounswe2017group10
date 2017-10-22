@@ -60,6 +60,11 @@ const reducer = (state = initState, action) => {
         ...state,
         isModalOpen: !(state.isModalOpen)
       }
+    case 'CLEAR_ADD_CH_INPUTS':
+      return {
+        ...state,
+        addCHInputs: {}
+      }
     default:
       return state;
   }
