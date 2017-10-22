@@ -33,9 +33,8 @@ matrix:
           - $HOME/.gradle/daemon/
       android:
         components:
-          - tools
-          - platform-tools
           - android-26
+          - android-17
           - build-tools-26.0.1
           - extra-google-m2repository
           - extra-android-m2repository
@@ -51,7 +50,7 @@ matrix:
       before_script:
         - cd Atlas/android
         - chmod +x gradlew
-        - echo no | android create avd --force --name test --target android-17 --abi armeabi-v7a
+        - echo no | avdmanager create avd --force --name test --package 'system-images;android-17;default;armeabi-v7a' --abi armeabi-v7a
         - emulator -avd test -no-skin -no-audio -no-window &
       script:
         - ./gradlew check -PdisablePreDex --continue --stacktrace
