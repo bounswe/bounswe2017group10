@@ -10,8 +10,7 @@ import android.support.v4.view.ViewPager;
 
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.adapter.TabPagerAdapter;
-
-import static com.bounswe2017.group10.atlas.util.Utils.tokenToAuthString;
+import com.bounswe2017.group10.atlas.util.Constants;
 
 
 public class HomeActivity extends FragmentActivity {
@@ -19,7 +18,7 @@ public class HomeActivity extends FragmentActivity {
     private static final String TAG = "HomeActivity";
 
 
-    private String token;
+    private String authStr;
     private TabPagerAdapter mAdapter;
     private ViewPager mPager;
     private TabLayout mTabs;
@@ -27,7 +26,7 @@ public class HomeActivity extends FragmentActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        token = getIntent().getStringExtra("token");
+        authStr = getIntent().getStringExtra(Constants.AUTH_STR);
 
         setContentView(R.layout.activity_home);
 
@@ -50,7 +49,7 @@ public class HomeActivity extends FragmentActivity {
 
     private TabPagerAdapter initAdapter() {
         Bundle bundle = new Bundle();
-        bundle.putString("authStr", tokenToAuthString(token));
+        bundle.putString(Constants.AUTH_STR, authStr);
 
         Fragment feedFragment = new FeedFragment();
         feedFragment.setArguments(bundle);

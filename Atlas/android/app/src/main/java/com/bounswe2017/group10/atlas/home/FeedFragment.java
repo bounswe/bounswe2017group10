@@ -13,6 +13,7 @@ import com.bounswe2017.group10.atlas.adapter.FeedListAdapter;
 import com.bounswe2017.group10.atlas.adapter.FeedRow;
 import com.bounswe2017.group10.atlas.httpbody.CultureItem;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
+import com.bounswe2017.group10.atlas.util.Constants;
 
 import java.util.ArrayList;
 
@@ -33,7 +34,7 @@ public class FeedFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        authStr = getArguments().getString("authStr", "NO_TOKEN");
+        authStr = getArguments().getString(Constants.AUTH_STR, "NO_TOKEN");
 
         // TODO: get all items
         // TODO: get items only when created; not always.

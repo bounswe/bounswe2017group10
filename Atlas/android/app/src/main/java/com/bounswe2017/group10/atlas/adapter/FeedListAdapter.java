@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bounswe2017.group10.atlas.R;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
@@ -35,7 +36,13 @@ public class FeedListAdapter extends ArrayAdapter<FeedRow> {
         FeedRow row = items.get(pos);
         etTitle.setText(row.getTitle());
         etDescr.setText(row.getDescription());
-        Glide.with(context).load(row.getImageUrl()).into(imIcon);
+        Glide.with(context)
+                .load(row.getImageUrl())
+                .apply(new RequestOptions()
+                        .placeholder(R.drawable.help)
+                        .error(R.drawable.help)
+                        .fallback(R.drawable.help))
+                .into(imIcon);
 
         return rowView;
     }

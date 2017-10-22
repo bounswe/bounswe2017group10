@@ -17,6 +17,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.bounswe2017.group10.atlas.util.Utils.showToast;
+import static com.bounswe2017.group10.atlas.util.Utils.tokenToAuthString;
 
 /**
  * Implement retrofit response callback interface to be used for login requests.
@@ -57,7 +58,8 @@ public class OnLoginResponse implements Callback<LoginResponse> {
      * @param token Access token obtained from the server.
      */
     private void startHomeActivity(String token) {
-        Intent intent = new Intent(context, HomeActivity.class).putExtra(Constants.AUTH_STR, token);
+        String authStr = tokenToAuthString(token);
+        Intent intent = new Intent(context, HomeActivity.class).putExtra(Constants.AUTH_STR, authStr);
         context.startActivity(intent);
     }
 }

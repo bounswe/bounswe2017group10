@@ -28,9 +28,9 @@ public class CultureItem {
     @Expose
     private String city;
 
-    @SerializedName("image_url")
+    @SerializedName("images")
     @Expose
-    private List<String> imageUrlList;
+    private List<Image> imageList;
 
     @SerializedName("public_accessibility")
     @Expose
@@ -76,12 +76,12 @@ public class CultureItem {
         this.city = city;
     }
 
-    public List<String> getImageUrlList() {
-        return imageUrlList;
+    public List<Image> getImageList() {
+        return imageList;
     }
 
-    public void setImageUrlList(List<String> imageUrlList) {
-        this.imageUrlList = imageUrlList;
+    public void setImageList(List<Image> imageList) {
+        this.imageList = imageList;
     }
 
     public Boolean getPublicAccessibility() {
@@ -93,7 +93,12 @@ public class CultureItem {
     }
 
     public FeedRow toFeedRow() {
-        return new FeedRow(getImageUrlList().get(0), getTitle(), getDescription());
+        List<Image> imgList = this.getImageList();
+        String url = null;
+        if (imgList.size() != 0) {
+            url = imgList.get(0).getUrl();
+        }
+        return new FeedRow(url, getTitle(), getDescription());
     }
 
 }

@@ -14,6 +14,13 @@ import retrofit2.http.Body;
 import retrofit2.http.Header;
 import retrofit2.http.Path;
 
+/**
+ * This is a delegate class for API interface and is mainly intended
+ * to be used for testing purposes. One possible way to use this class
+ * is to replace an API instance with APIDelegate and spy on the
+ * APIDelegate instance using a mocking framework such as Mockito to
+ * see if a desired function call has been made.
+ */
 public class APIDelegate implements API {
 
     private API api;

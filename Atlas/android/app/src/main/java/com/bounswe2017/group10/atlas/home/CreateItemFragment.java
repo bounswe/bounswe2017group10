@@ -22,6 +22,7 @@ import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.adapter.ImageListAdapter;
 import com.bounswe2017.group10.atlas.adapter.ImageRow;
 import com.bounswe2017.group10.atlas.httpbody.CultureItem;
+import com.bounswe2017.group10.atlas.httpbody.Image;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
 import com.bounswe2017.group10.atlas.response.OnCreateItemResponse;
 import com.bounswe2017.group10.atlas.util.Constants;
@@ -96,11 +97,13 @@ public class CreateItemFragment extends Fragment {
             item.setCity(etCity.getText().toString());
             item.setPublicAccessibility(true);
 
-            List<String> urlList = new ArrayList<>();
+            List<Image> imageList = new ArrayList<>();
             for (ImageRow row : mImageRowList) {
-                urlList.add(row.getUrl());
+                Image img = new Image();
+                img.setUrl(row.getUrl());
+                imageList.add(img);
             }
-            item.setImageUrlList(urlList);
+            item.setImageList(imageList);
             makeCreateRequest(item, progressBar);
         });
         return view;
@@ -129,7 +132,7 @@ public class CreateItemFragment extends Fragment {
      */
     private void makeCreateRequest(CultureItem item, ProgressBar progressBar) {
         progressBar.setVisibility(View.VISIBLE);
-        APIUtils.serverAPI().createItem(Constants.AUTH_STR, item).enqueue(new OnCreateItemResponse(getActivity(), progressBar));
+        APIUtils.serverAPI().createItem(authStr, item).enqueue(new OnCreateItemResponse(getActivity(), progressBar));
     }
 
     /**

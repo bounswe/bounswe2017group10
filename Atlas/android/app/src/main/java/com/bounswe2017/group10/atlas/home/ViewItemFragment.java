@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.httpbody.CultureItem;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
+import com.bounswe2017.group10.atlas.util.Constants;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,7 +37,7 @@ public class ViewItemFragment extends Fragment {
         viewItemImage = view.findViewById(R.id.itemImage);
         viewItemDesc = view.findViewById(R.id.itemDesc);
 
-        String authStr = getArguments().getString("authStr", "NO_TOKEN");
+        String authStr = getArguments().getString(Constants.AUTH_STR, "NO_TOKEN");
         System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" + authStr);
         //String itemID = getArguments().getString("id");
         String[] sp = authStr.split(" ");
@@ -57,7 +58,7 @@ public class ViewItemFragment extends Fragment {
                 // TODO : we are getting the data from api but i couldnt manage to print it on the screen rn.
                 viewItemTitle.setText(response.body().getTitle());
                 viewItemDesc.setText(response.body().getDescription());
-                viewItemImage.setText(response.body().getImageUrlList().get(0));
+                viewItemImage.setText(response.body().getImageList().get(0).getUrl());
                 // TODO : we are only showing image url r.now.
 
             } else {

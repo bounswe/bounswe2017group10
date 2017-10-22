@@ -10,6 +10,10 @@ public class FeedRow {
     private String title;
     private String description;
 
+    public FeedRow() {
+
+    }
+
     public FeedRow(String imageUrl, String title, String description) {
         this.imageUrl = imageUrl;
         this.title = title;
