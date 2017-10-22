@@ -296,3 +296,54 @@ class cultural_heritage_item(TestCase):
         response_content = json.loads(smart_text(response.content))
         self.assertEqual(len(response_content['images']),2)
 
+
+    def test_get_cultural_heritage_item_by_id_with_image_media_items(self):
+        item_data = {
+            "title": "Very emotional thresh hook",
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        response_content = json.loads(smart_text(response.content))
+        id = response_content['id']
+        self.assertEqual(response.status_code, 201)
+        # First image item
+        image_item_data1 = {
+            'url': 'http://i.imgur.com/3OLTFVq.jpg',
+            'main': True
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url + str(id) + '/image',
+            image_item_data1,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        # Second image item
+        image_item_data2 = {
+            'url': 'http://i.imgur.com/3OL28374TFVq.jpg',
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url + str(id) + '/image',
+            image_item_data2,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        id = response_content['id']
+        response = self.client.get(
+            self.cultural_heritage_item_url + str(id),
+            format='json',
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(len(response_content['images']), 2)
+        for image in response_content['images']:
+            if image['main']:
+                self.assertEqual(image['url'],image_item_data1['url'])
+
