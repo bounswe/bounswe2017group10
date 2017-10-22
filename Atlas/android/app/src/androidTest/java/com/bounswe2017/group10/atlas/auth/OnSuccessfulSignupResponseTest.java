@@ -1,9 +1,7 @@
 package com.bounswe2017.group10.atlas.auth;
 
 import android.app.Activity;
-import android.app.Instrumentation;
 import android.content.Intent;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.app.Fragment;
@@ -11,27 +9,27 @@ import android.widget.ProgressBar;
 
 
 import com.bounswe2017.group10.atlas.R;
-import com.bounswe2017.group10.atlas.home.HomeActivity;
-import com.bounswe2017.group10.atlas.httpbody.LoginResponse;
+import com.bounswe2017.group10.atlas.httpbody.LoginRequest;
 import com.bounswe2017.group10.atlas.httpbody.SignupRequest;
 import com.bounswe2017.group10.atlas.httpbody.SignupResponse;
-import com.bounswe2017.group10.atlas.remote.APIManager;
+import com.bounswe2017.group10.atlas.remote.API;
+import com.bounswe2017.group10.atlas.remote.APIDelegate;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
+import com.bounswe2017.group10.atlas.remote.RetrofitBuilder;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
 
-import java.lang.reflect.Field;
-
 import retrofit2.Call;
 import retrofit2.Response;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 
 
 @RunWith(AndroidJUnit4.class)
@@ -43,22 +41,22 @@ public class OnSuccessfulSignupResponseTest {
     private OnSignupResponse onResponse;
     private Call<SignupResponse> call;
     private Response<SignupResponse> response;
-    private SignupRequest request;
+    private SignupRequest signupRequest;
 
     @Before
     public void init() throws Exception {
-        request = new SignupRequest();
-        request.setUsername("tomhanks");
-        request.setFirstname("Tom");
-        request.setLastname("Hanks");
-        request.setEmail("tom_hanks@abc.com");
-        request.setPassword("Abcd1234");
-        request.setConfirmPassword("Abcd1234");
+        signupRequest = new SignupRequest();
+        signupRequest.setUsername("tomhanks");
+        signupRequest.setFirstname("Tom");
+        signupRequest.setLastname("Hanks");
+        signupRequest.setEmail("tom_hanks@abc.com");
+        signupRequest.setPassword("Abcd1234");
+        signupRequest.setConfirmPassword("Abcd1234");
 
         SignupResponse signupResp = new SignupResponse();
-        signupResp.setFirstname(request.getFirstname());
-        signupResp.setLastname(request.getLastname());
-        signupResp.setEmail(request.getEmail());
+        signupResp.setFirstname(signupRequest.getFirstname());
+        signupResp.setLastname(signupRequest.getLastname());
+        signupResp.setEmail(signupRequest.getEmail());
         signupResp.setDateCreated("2017-10-21T18:10:11.147134Z");
         signupResp.setDateModified("2017-10-21T18:10:11.147134Z");
 
@@ -75,10 +73,24 @@ public class OnSuccessfulSignupResponseTest {
 
         Activity authActivity = mActivityRule.getActivity();
         ProgressBar progress = new ProgressBar(authActivity);
-        onResponse = new OnSignupResponse(authActivity, progress, request);
+        onResponse = new OnSignupResponse(authActivity, progress, signupRequest);
+
+        // create a custom API object to spy on.
+        RetrofitBuilder builder = new RetrofitBuilder()
+                .baseUrl("http://0.1.2.3:12345")
+                .addConverterFactory(GsonConverterFactory.create());
+        API api = builder.build().create(API.class);
+        APIDelegate delegate = new APIDelegate(api);
+        APIDelegate spy = Mockito.spy(delegate);
+        APIUtils.setServerAPI(spy);
+
         onResponse.onResponse(call, response);
 
-        // TODO : check if a login request with correct credentials has been made
+        // check if a login request with correct credentials has been made
+        LoginRequest request = new LoginRequest();
+        request.setUsernameOrEmail(signupRequest.getUsername());
+        request.setPassword(signupRequest.getPassword());
+        Mockito.verify(spy, times(1)).login(request);
     }
 
 }
