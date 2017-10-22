@@ -1,8 +1,10 @@
 package com.bounswe2017.group10.atlas.httpbody;
 
-import com.bounswe2017.group10.atlas.home.FeedRow;
+import com.bounswe2017.group10.atlas.adapter.FeedRow;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class CultureItem {
 
@@ -28,7 +30,7 @@ public class CultureItem {
 
     @SerializedName("image_url")
     @Expose
-    private String imageUrl;
+    private List<String> imageUrlList;
 
     @SerializedName("public_accessibility")
     @Expose
@@ -74,12 +76,12 @@ public class CultureItem {
         this.city = city;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public List<String> getImageUrlList() {
+        return imageUrlList;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImageUrlList(List<String> imageUrlList) {
+        this.imageUrlList = imageUrlList;
     }
 
     public Boolean getPublicAccessibility() {
@@ -91,7 +93,7 @@ public class CultureItem {
     }
 
     public FeedRow toFeedRow() {
-        return new FeedRow(getImageUrl(), getTitle(), getDescription());
+        return new FeedRow(getImageUrlList().get(0), getTitle(), getDescription());
     }
 
 }

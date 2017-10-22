@@ -1,4 +1,4 @@
-package com.bounswe2017.group10.atlas.home;
+package com.bounswe2017.group10.atlas.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

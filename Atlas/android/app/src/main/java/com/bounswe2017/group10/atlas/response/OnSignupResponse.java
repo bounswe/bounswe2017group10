@@ -1,4 +1,4 @@
-package com.bounswe2017.group10.atlas.auth;
+package com.bounswe2017.group10.atlas.response;
 
 
 import android.content.Context;

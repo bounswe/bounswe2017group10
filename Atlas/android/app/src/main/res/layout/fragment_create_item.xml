@@ -84,6 +84,15 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true" />
 
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/create_button"
+            android:visibility="invisible" />
+
     </RelativeLayout>
 
     <ListView

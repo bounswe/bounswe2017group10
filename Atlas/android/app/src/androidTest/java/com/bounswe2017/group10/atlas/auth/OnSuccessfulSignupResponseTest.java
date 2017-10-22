@@ -15,6 +15,7 @@ import com.bounswe2017.group10.atlas.httpbody.SignupResponse;
 import com.bounswe2017.group10.atlas.remote.API;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
 import com.bounswe2017.group10.atlas.remote.RetrofitBuilder;
+import com.bounswe2017.group10.atlas.response.OnSignupResponse;
 
 import org.junit.Before;
 import org.junit.Rule;

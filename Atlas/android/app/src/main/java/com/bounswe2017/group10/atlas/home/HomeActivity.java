@@ -1,7 +1,6 @@
 package com.bounswe2017.group10.atlas.home;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -10,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 
 import com.bounswe2017.group10.atlas.R;
+import com.bounswe2017.group10.atlas.adapter.TabPagerAdapter;
 
 import static com.bounswe2017.group10.atlas.util.Utils.tokenToAuthString;
 

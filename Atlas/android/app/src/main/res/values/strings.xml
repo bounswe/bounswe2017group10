@@ -25,6 +25,7 @@
     <string name="empty_email">Please enter your email</string>
     <string name="empty_firstname">Please enter your firstname</string>
     <string name="empty_lastname">Please enter your lastname</string>
+    <string name="empty_title">Please enter a title</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
     <string name="continent">Continent</string>
@@ -34,4 +35,5 @@
     <string name="enter_url">Enter a URL</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="successful_create_item">You have successfully created a new topic!</string>
 </resources>

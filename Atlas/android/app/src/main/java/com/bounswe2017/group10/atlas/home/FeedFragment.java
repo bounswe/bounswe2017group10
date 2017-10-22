@@ -9,6 +9,8 @@ import android.widget.ListView;
 
 
 import com.bounswe2017.group10.atlas.R;
+import com.bounswe2017.group10.atlas.adapter.FeedListAdapter;
+import com.bounswe2017.group10.atlas.adapter.FeedRow;
 import com.bounswe2017.group10.atlas.httpbody.CultureItem;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
 

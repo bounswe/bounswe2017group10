@@ -1,4 +1,4 @@
-package com.bounswe2017.group10.atlas.auth;
+package com.bounswe2017.group10.atlas.response;
 
 
 import android.content.Context;
@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.home.HomeActivity;
 import com.bounswe2017.group10.atlas.httpbody.LoginResponse;
+import com.bounswe2017.group10.atlas.util.Constants;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,7 +57,7 @@ public class OnLoginResponse implements Callback<LoginResponse> {
      * @param token Access token obtained from the server.
      */
     private void startHomeActivity(String token) {
-        Intent intent = new Intent(context, HomeActivity.class).putExtra("token", token);
+        Intent intent = new Intent(context, HomeActivity.class).putExtra(Constants.AUTH_STR, token);
         context.startActivity(intent);
     }
 }
