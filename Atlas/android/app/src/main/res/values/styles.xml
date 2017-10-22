@@ -9,7 +9,7 @@
     </style>
 
     <style name="AtlasTheme" parent="Theme.AppCompat.Light.NoActionBar" >
-        <item name="android:windowBackground">@drawable/background</item>
+        <item name="android:windowBackground">@android:color/background_light</item>
     </style>
 
 </resources>

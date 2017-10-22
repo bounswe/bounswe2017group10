@@ -14,11 +14,11 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-public class FeedArrayAdapter extends ArrayAdapter<FeedRow> {
+public class FeedListAdapter extends ArrayAdapter<FeedRow> {
     private final Context context;
     private final ArrayList<FeedRow> items;
 
-    public FeedArrayAdapter(Context context, ArrayList<FeedRow> items) {
+    public FeedListAdapter(Context context, ArrayList<FeedRow> items) {
         super(context, -1, items);
         this.context = context;
         this.items = items;
