@@ -93,7 +93,11 @@ public class CultureItem {
     }
 
     public FeedRow toFeedRow() {
-        return new FeedRow(getImageUrlList().get(0), getTitle(), getDescription());
+        List<String> imageUrlList = getImageUrlList();
+        if (imageUrlList == null) {
+            return new FeedRow("","","");
+        }
+        return new FeedRow(imageUrlList.get(0), getTitle(), getDescription());
     }
 
 }
