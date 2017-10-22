@@ -18,32 +18,48 @@ import java.util.ArrayList;
 public class FeedListAdapter extends ArrayAdapter<FeedRow> {
     private final Context context;
     private final ArrayList<FeedRow> items;
+    private LayoutInflater inflater;
+
 
     public FeedListAdapter(Context context, ArrayList<FeedRow> items) {
         super(context, -1, items);
         this.context = context;
         this.items = items;
+        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    static class ViewHolder {
+        private TextView etTitle;
+        private TextView etDescr;
+        private ImageView imIcon;
     }
 
     @Override
     public View getView(int pos, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.feed_list_item, parent, false);
-        TextView etTitle = rowView.findViewById(R.id.title);
-        TextView etDescr = rowView.findViewById(R.id.description);
-        ImageView imIcon = rowView.findViewById(R.id.icon);
+        ViewHolder holder;
+
+        if (convertView == null) {
+            convertView = inflater.inflate(R.layout.feed_list_item, parent, false);
+            holder = new ViewHolder();
+            holder.etTitle = convertView.findViewById(R.id.title_textview);
+            holder.etDescr = convertView.findViewById(R.id.description_textview);
+            holder.imIcon = convertView.findViewById(R.id.icon_imageview);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
 
         FeedRow row = items.get(pos);
-        etTitle.setText(row.getTitle());
-        etDescr.setText(row.getDescription());
+        holder.etTitle.setText(row.getTitle());
+        holder.etDescr.setText(row.getDescription());
         Glide.with(context)
                 .load(row.getImageUrl())
                 .apply(new RequestOptions()
                         .placeholder(R.drawable.help)
                         .error(R.drawable.help)
                         .fallback(R.drawable.help))
-                .into(imIcon);
+                .into(holder.imIcon);
 
-        return rowView;
+        return convertView;
     }
 }

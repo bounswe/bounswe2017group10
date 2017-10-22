@@ -16,23 +16,36 @@ import java.util.ArrayList;
 public class ImageListAdapter extends ArrayAdapter<ImageRow> {
     private final Context context;
     private final ArrayList<ImageRow> items;
+    private LayoutInflater inflater;
 
     public ImageListAdapter(Context context, ArrayList<ImageRow> items) {
         super(context, -1, items);
         this.context = context;
         this.items = items;
+        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    static class ViewHolder {
+        ImageView img;
     }
 
     @Override
     public View getView(int pos, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.image_list_item, parent, false);
-        ImageView image = rowView.findViewById(R.id.image);
+        ViewHolder holder;
+
+        if (convertView == null) {
+            convertView = inflater.inflate(R.layout.image_list_item, parent, false);
+            holder = new ViewHolder();
+            holder.img = convertView.findViewById(R.id.image);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
 
         ImageRow row = items.get(pos);
-        Glide.with(context).load(row.getUrl()).into(image);
+        Glide.with(context).load(row.getUrl()).into(holder.img);
 
-        return rowView;
+        return convertView;
     }
 }
 

@@ -4,40 +4,40 @@
     android:padding="6dip" >
 
     <ImageView
-        android:id="@+id/icon"
+        android:id="@+id/icon_imageview"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="6dip"
+        android:layout_marginEnd="6dip"
         android:src="@android:drawable/ic_media_play" />
 
     <TextView
-        android:id="@+id/description"
+        android:id="@+id/description_textview"
         android:layout_width="fill_parent"
         android:layout_height="90dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_toRightOf="@id/icon"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@id/icon_imageview"
         android:ellipsize="marquee"
-        android:inputType="textMultiLine"
         android:scrollHorizontally="false"
         android:text="Description"
         android:textSize="14sp" />
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/title_textview"
         android:layout_width="fill_parent"
         android:layout_height="30dp"
-        android:layout_above="@id/description"
-        android:layout_alignParentRight="true"
+        android:layout_above="@id/description_textview"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_alignWithParentIfMissing="true"
-        android:layout_toRightOf="@id/icon"
+        android:layout_toEndOf="@id/icon_imageview"
         android:gravity="center_vertical"
         android:maxLines="1"
         android:text="Title"
-        android:textStyle="bold"
-        android:textSize="16sp" />
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>
