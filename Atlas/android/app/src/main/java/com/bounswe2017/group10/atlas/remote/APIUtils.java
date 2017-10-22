@@ -1,19 +1,36 @@
 package com.bounswe2017.group10.atlas.remote;
 
 
+import com.bounswe2017.group10.atlas.BuildConfig;
+
+import java.util.concurrent.TimeUnit;
+
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class APIUtils {
 
-    private APIUtils() {
+    private static API serverAPI  = constructServerAPI("http://54.235.57.209:81/");
+
+    public static API serverAPI() {
+        return serverAPI;
     }
 
-    public static final String BASE_URL = "http://54.235.57.209:81/";
+    public static void setServerAPI(API api) {
+        serverAPI = api;
+    }
 
-    private static API api = null;
+    private static API constructServerAPI(String baseUrl) {
+        RetrofitBuilder builder = new RetrofitBuilder()
+                .baseUrl(baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS);
 
-    public static API getAPI() {
-        if (api == null) {
-            api = RetrofitClient.getClient(BASE_URL).create(API.class);
+        if (BuildConfig.DEBUG) {
+            builder.addInterceptor();
         }
-        return api;
+
+        return builder.build().create(API.class);
     }
 }

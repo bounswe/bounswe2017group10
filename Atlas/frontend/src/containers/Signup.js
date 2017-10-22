@@ -6,8 +6,8 @@ import { API_URL } from '../constants';
 
 const mapStateToProps = state => {
   return {
-    signupInputs: state.signupInputs,
-    signupErrors: state.signupErrors 
+    signupInputs: state.auth.signupInputs,
+    signupErrors: state.auth.signupErrors 
   };
 }
 
@@ -20,6 +20,7 @@ const mapDispatchToProps = dispatch => {
         .post(API_URL + '/api/auth/signup/', signupInputs)
         .then(function(resp) {
           dispatch(signupSuccess());
+          window.location = '/profile';
         })
         .catch(function(err) {
           dispatch(signupFailed(err.response.data));

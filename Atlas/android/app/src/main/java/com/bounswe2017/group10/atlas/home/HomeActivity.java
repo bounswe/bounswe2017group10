@@ -27,6 +27,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bounswe2017.group10.atlas.R;
+import com.bounswe2017.group10.atlas.adapter.TabPagerAdapter;
 
 import static com.bounswe2017.group10.atlas.util.Utils.tokenToAuthString;
 

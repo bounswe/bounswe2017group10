@@ -40,7 +40,7 @@ public class ViewItemFragment extends Fragment {
         System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" + authStr);
         //String itemID = getArguments().getString("id");
         String[] sp = authStr.split(" ");
-        APIUtils.getAPI().getItem("JWT " + sp[sp.length - 1], 3).enqueue(new ViewItemFragment.OnGetItemResponse());
+        APIUtils.serverAPI().getItem("JWT " + sp[sp.length - 1], 3).enqueue(new ViewItemFragment.OnGetItemResponse());
 
 
 
@@ -48,6 +48,7 @@ public class ViewItemFragment extends Fragment {
     }
 
     private class OnGetItemResponse implements Callback<CultureItem> {
+        // TODO: refactor this class to its own file under response package
         @Override
         public void onResponse(Call<CultureItem> call, Response<CultureItem> response) {
             if (response.isSuccessful()) {
@@ -56,7 +57,7 @@ public class ViewItemFragment extends Fragment {
                 // TODO : we are getting the data from api but i couldnt manage to print it on the screen rn.
                 viewItemTitle.setText(response.body().getTitle());
                 viewItemDesc.setText(response.body().getDescription());
-                viewItemImage.setText(response.body().getImageUrl());
+                viewItemImage.setText(response.body().getImageUrlList().get(0));
                 // TODO : we are only showing image url r.now.
 
             } else {

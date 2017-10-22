@@ -1,3 +1,7 @@
 import auth from './auth';
+import culturalHeritage from './culturalHeritage';
+import navbar from './navbar';
+import { combineReducers } from 'redux';
 
-export default auth;
+const reducers = combineReducers({ auth, culturalHeritage, navbar });
+export default reducers;

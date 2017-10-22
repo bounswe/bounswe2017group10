@@ -12,6 +12,8 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="birthdate">Birth Date</string>
     <string name="email">Email</string>
+    <string name="firstname">Firstname</string>
+    <string name="lastname">Lastname</string>
     <string name="username">Username</string>
     <string name="empty_username_email_field">Please enter your username or e-mail</string>
     <string name="empty_password">Please enter your password</string>
@@ -19,4 +21,19 @@
     <string name="connection_failure">Connection failure</string>
     <string name="feed">Feed</string>
     <string name="create">Create</string>
+    <string name="different_confirm_password">Password must be same</string>
+    <string name="empty_email">Please enter your email</string>
+    <string name="empty_firstname">Please enter your firstname</string>
+    <string name="empty_lastname">Please enter your lastname</string>
+    <string name="empty_title">Please enter a title</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="continent">Continent</string>
+    <string name="country">Country</string>
+    <string name="city">City</string>
+    <string name="add_image">Add Image</string>
+    <string name="enter_url">Enter a URL</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="successful_create_item">You have successfully created a new topic!</string>
 </resources>

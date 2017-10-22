@@ -29,4 +29,15 @@ public class LoginRequest {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof LoginRequest) {
+            LoginRequest ref = (LoginRequest)obj;
+            return this.getUsernameOrEmail().equals(ref.getUsernameOrEmail()) &&
+                   this.getPassword().equals(ref.getPassword());
+        } else {
+            return false;
+        }
+    }
 }

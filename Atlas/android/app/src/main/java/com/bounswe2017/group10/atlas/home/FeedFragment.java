@@ -1,8 +1,6 @@
 package com.bounswe2017.group10.atlas.home;
 
 
-import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
@@ -11,7 +9,8 @@ import android.widget.ListView;
 
 
 import com.bounswe2017.group10.atlas.R;
-import com.bounswe2017.group10.atlas.auth.SignupFragment;
+import com.bounswe2017.group10.atlas.adapter.FeedListAdapter;
+import com.bounswe2017.group10.atlas.adapter.FeedRow;
 import com.bounswe2017.group10.atlas.httpbody.CultureItem;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
 
@@ -27,7 +26,7 @@ public class FeedFragment extends ListFragment {
 
     private final ArrayList<CultureItem> mItemList = new ArrayList<>();
     private final ArrayList<FeedRow> mRowList = new ArrayList<>();
-    private FeedArrayAdapter mAdapter;
+    private FeedListAdapter mAdapter;
     private String authStr;
 
     @Nullable
@@ -36,12 +35,13 @@ public class FeedFragment extends ListFragment {
         super.onActivityCreated(savedInstanceState);
         authStr = getArguments().getString("authStr", "NO_TOKEN");
 
-        // get items 3 and 4
-        APIUtils.getAPI().getItem(authStr, 3).enqueue(new OnGetItemResponse());
-        APIUtils.getAPI().getItem(authStr, 4).enqueue(new OnGetItemResponse());
-        APIUtils.getAPI().getItem(authStr, 5).enqueue(new OnGetItemResponse());
+        // TODO: get all items
+        // TODO: get items only when created; not always.
+        APIUtils.serverAPI().getItem(authStr, 3).enqueue(new OnGetItemResponse());
+        APIUtils.serverAPI().getItem(authStr, 4).enqueue(new OnGetItemResponse());
+        APIUtils.serverAPI().getItem(authStr, 5).enqueue(new OnGetItemResponse());
 
-        mAdapter = new FeedArrayAdapter(getActivity(), mRowList);
+        mAdapter = new FeedListAdapter(getActivity(), mRowList);
         setListAdapter(mAdapter);
     }
 

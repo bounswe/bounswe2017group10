@@ -5,12 +5,6 @@ import Login from "../../containers/Login";
 import './style.css';
 
 export default class LoginRoute extends Component {
-
-    constructor(props){
-        super(props);
-        this.state = {username: '', password: ''};
-    }
-
     render() {
         return (
         <Container>
