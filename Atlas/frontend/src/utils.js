@@ -1,4 +1,5 @@
 import { TRUNCATE_LENGTH } from './constants';
+import React, { Component } from 'react';
 
 export const isLoggedIn = (user) =>
   user !== null && user !== undefined

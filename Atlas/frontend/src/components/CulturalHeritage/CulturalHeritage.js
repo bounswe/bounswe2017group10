@@ -1,8 +1,10 @@
 import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { truncate } from '../../utils';
+import HomeIcon from 'react-icons/lib/fa/home';
+import BankIcon from 'react-icons/lib/fa/bank';
 
-const CulturalHeritage = ({ culturalHeritage }) => (
+const CulturalHeritage = ({ culturalHeritage, shouldTruncate = false }) => (
   <Container className="cultural-heritage">
     <Row>
       <Col xs="3">
@@ -16,7 +18,24 @@ const CulturalHeritage = ({ culturalHeritage }) => (
       <Col xs="9">
         <h2>{ culturalHeritage.title }</h2>
         <hr />
-        <p>{ truncate(culturalHeritage.description) }</p> 
+        <p>{ shouldTruncate
+          ? truncate(culturalHeritage.description)
+          : culturalHeritage.description
+          }
+        </p> 
+        <hr />
+        { culturalHeritage.continent &&
+          <label className="small-label">
+            <BankIcon />
+            <span> { culturalHeritage.continent }</span>
+          </label>
+        }
+        { culturalHeritage.country &&
+          <label className="small-label">
+            <HomeIcon />
+            <span> { culturalHeritage.country }</span>
+          </label>
+        }
       </Col>
     </Row>
   </Container>

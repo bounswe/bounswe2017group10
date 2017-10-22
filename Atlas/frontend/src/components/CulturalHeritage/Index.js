@@ -10,10 +10,12 @@ const Page = ({ user, token, culturalHeritages, loadCulturalHeritages }) => (
       <Col xs="9">
         <NavLink to="/cultural-heritages/new">New Cultural Heritage</NavLink>
         <ul className="cultural-heritages">
-          { culturalHeritages.map(c => (
-            <li key={ c.id } className="cultural-heritage-listitem">
-              <CulturalHeritage culturalHeritage={ c }/>
-            </li>
+          { culturalHeritages && culturalHeritages.map(c => (
+            <NavLink key={ c.id } to={ "/cultural-heritages/" + c.id }>
+              <li className="cultural-heritage">
+                <CulturalHeritage culturalHeritage={ c } shouldTruncate ={ true }/>
+              </li>
+            </NavLink>
           ))} 
         </ul>
       </Col>

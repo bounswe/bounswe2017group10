@@ -1,15 +1,37 @@
+.cultural-heritage {
+  list-style: none;
+  background-color: white;
+  border: 1px solid white;
+  border-radius: 4px;
+  padding: 20px;
+  color: black;
+  margin-top: 20px; }
+  .cultural-heritage img {
+    width: 100%; }
+
 ul.cultural-heritages {
-  padding: 0;
-  margin-top: 10px; }
+  padding: 0; }
+  ul.cultural-heritages a:hover {
+    text-decoration: none; }
   ul.cultural-heritages li {
     list-style: none;
-    background-color: white;
-    border-radius: 4px;
-    padding: 20px;
     margin-bottom: 20px;
-    width: 100%; }
+    padding: 0; }
     ul.cultural-heritages li img {
       width: 100%; }
+  ul.cultural-heritages li:hover {
+    border: 1px solid gray;
+    text-decoration: none; }
 
 body {
   background-color: rgba(180, 151, 132, 0.4); }
+
+.small-label {
+  background-color: gray;
+  padding: 3px 5px;
+  border-radius: 4px;
+  font-size: 14px;
+  color: white;
+  margin-right: 10px; }
+  .small-label svg {
+    margin-top: -3px; }
