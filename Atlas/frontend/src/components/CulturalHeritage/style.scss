@@ -1,16 +1,57 @@
+$ch-border-width: 1px;
+$ch-border-color: gray;
+
+.cultural-heritage {
+  list-style: none;
+  background-color: white;
+  border: $ch-border-width solid white; // CSS trick for non-moving on-hover border
+  border-radius: 4px;
+  padding: 20px;
+  color: black;
+  margin-top: 20px;
+
+  img {
+    width: 100%;
+  }
+
+}
+
 ul.cultural-heritages {
   padding: 0;
-  margin-top: 10px;
+
+  a:hover {
+    text-decoration: none;
+  }
+
   li {
     list-style: none;
-    background-color: white;
-    border-radius: 4px;
-    padding: 20px;
     margin-bottom: 20px;
-    width: 100%;
+    padding: 0;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  li:hover {
+    border: $ch-border-width solid $ch-border-color;
+    text-decoration: none;
   }
 }
 
 body {
   background-color: rgba(180,151, 132, 0.4);
+}
+
+.small-label {
+  background-color: gray;
+  padding: 3px 5px;
+  border-radius: 4px;
+  font-size: 14px;
+  color: white;
+  margin-right: 10px;
+
+  svg {
+    margin-top: -3px;
+  }
 }

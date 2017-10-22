@@ -1,6 +1,7 @@
 import React from 'react';
 import {
-    BrowserRouter as Router,
+  BrowserRouter as Router,
+  Switch,
   Route
 } from 'react-router-dom'
 import Home from "../Home/Home";
@@ -10,6 +11,7 @@ import Profile from "../../containers/Profile/Profile";
 import PrivateRoute from './PrivateRoute';
 import IndexCulturalHeritagesPage from '../../containers/CulturalHeritage/Index';
 import AddCulturalHeritagePage from '../../containers/CulturalHeritage/Add';
+import ShowCulturalHeritagePage from '../../containers/CulturalHeritage/Show';
 
 const Routes = ({ user, loggedIn }) => ({
   render() {
@@ -18,11 +20,14 @@ const Routes = ({ user, loggedIn }) => ({
         <Router>
             <div>
               <Navbar />
-              <Route exact path="/" component={ Home } />
-              <Route exact path="/login" component={ LoginRoute } />
-              <PrivateRoute exact path="/cultural-heritages/new" user={ user } component={ <AddCulturalHeritagePage /> } />
-              <PrivateRoute exact path="/cultural-heritages" user={ user } component={ <IndexCulturalHeritagesPage /> } />
-              <PrivateRoute exact path="/profile" user={ user } component={ <Profile /> } />
+              <Switch>
+                <Route exact path="/" component={ Home } />
+                <Route exact path="/login" component={ LoginRoute } />
+                <PrivateRoute exact path="/cultural-heritages/new" user={ user } component={ <AddCulturalHeritagePage /> } />
+                <PrivateRoute path="/cultural-heritages/:id" user={ user } component={ <ShowCulturalHeritagePage /> } />
+                <PrivateRoute exact path="/cultural-heritages" user={ user } component={ <IndexCulturalHeritagesPage /> } />
+                <PrivateRoute exact path="/profile" user={ user } component={ <Profile /> } />
+              </Switch>
             </div>
         </Router>
       </div>

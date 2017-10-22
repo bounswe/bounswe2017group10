@@ -48,5 +48,3 @@ const PageContainer = connect(
 )(Page);
 
 export default PageContainer;
-
-
