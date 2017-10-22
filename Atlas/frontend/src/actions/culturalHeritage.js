@@ -48,3 +48,9 @@ export const toggleAddCHModal = () => {
     type: 'TOGGLE_ADD_CH_MODAL'
   }
 }
+
+export const clearAddCHInputs = () => {
+  return {
+    type: 'CLEAR_ADD_CH_INPUTS'
+  }
+}

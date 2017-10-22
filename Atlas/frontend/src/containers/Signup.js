@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Signup from '../components/auth/Signup';
-import { updateSignupInput, fetchingSignup, signupFailed, signupSuccess } from '../actions/index.js';
+import { updateSignupInput, fetchingSignup, signupFailed, signupSuccess, clearSignupInputs } from '../actions/auth.js';
 import axios from 'axios';
 import { API_URL } from '../constants';
 
@@ -20,6 +20,7 @@ const mapDispatchToProps = dispatch => {
         .post(API_URL + '/api/auth/signup/', signupInputs)
         .then(function(resp) {
           dispatch(signupSuccess());
+          dispatch(clearSignupInputs());
           window.location = '/profile';
         })
         .catch(function(err) {

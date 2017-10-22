@@ -80,6 +80,16 @@ const reducer = (state = initState, action) => {
         token: null,
         user: null
       }
+    case 'CLEAR_LOGIN_INPUTS':
+      return {
+        ...state,
+        loginInputs: {}
+      }
+    case 'CLEAR_SIGNUP_INPUTS':
+      return {
+        ...state,
+        signupInputs: {}
+      }
     default:
       return state;
   }

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Login from '../components/auth/Login';
-import { saveToken, updateLoginInput, fetchingLogin, loginFailed, updateUser } from '../actions/index.js';
+import { saveToken, updateLoginInput, fetchingLogin, loginFailed, updateUser, clearLoginInputs } from '../actions/index.js';
 import axios from 'axios';
 import { API_URL } from '../constants';
 
@@ -29,6 +29,7 @@ const mapDispatchToProps = dispatch => {
             headers: { 'Authorization': 'JWT ' + token }
           }).then(resp => {
             dispatch(updateUser(resp.data))
+            dispatch(clearLoginInputs());
             // TODO: This is a bad practice for react-router. Find a better solution.
             window.location = '/profile';
           }).catch(err => {

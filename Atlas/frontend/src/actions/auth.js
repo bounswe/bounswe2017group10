@@ -65,3 +65,15 @@ export const logout = () => {
     type: 'LOGOUT'
   }
 }
+
+export const clearLoginInputs = () => {
+  return {
+    type: 'CLEAR_LOGIN_INPUTS'
+  }
+}
+
+export const clearSignupInputs = () => {
+  return {
+    type: 'CLEAR_SIGNUP_INPUTS'
+  }
+}
