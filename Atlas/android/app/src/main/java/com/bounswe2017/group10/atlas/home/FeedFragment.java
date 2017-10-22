@@ -1,22 +1,17 @@
 package com.bounswe2017.group10.atlas.home;
 
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ListView;
-
-
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.adapter.FeedListAdapter;
 import com.bounswe2017.group10.atlas.adapter.FeedRow;
 import com.bounswe2017.group10.atlas.httpbody.CultureItem;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
 import com.bounswe2017.group10.atlas.util.Constants;
-
 import java.util.ArrayList;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,17 +43,12 @@ public class FeedFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView listView, View view, int pos, long id) {
-        // TODO : foreign key of the item that cliked must be found.
 
-        ViewItemFragment viewItemFragment = null;
-
-        if (viewItemFragment == null) {
-            viewItemFragment = new ViewItemFragment();
-            Bundle bundle = new Bundle();
-            bundle.putString("authStr", authStr);
-            bundle.putString("itemId", authStr);
-            viewItemFragment.setArguments(bundle);
-        }
+        ViewItemFragment viewItemFragment = new ViewItemFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("authStr", authStr);
+        viewItemFragment.setObj(mItemList.get(pos));
+        viewItemFragment.setArguments(bundle);
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.home_container, viewItemFragment)
