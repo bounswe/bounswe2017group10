@@ -16,7 +16,7 @@ const CulturalHeritage = ({ culturalHeritage }) => (
       <Col xs="9">
         <h2>{ culturalHeritage.title }</h2>
         <hr />
-        <p>{ culturalHeritage.description }</p> 
+        <p>{ truncate(culturalHeritage.description) }</p> 
       </Col>
     </Row>
   </Container>
