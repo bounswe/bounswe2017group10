@@ -40,7 +40,7 @@ public class ViewItemFragment extends Fragment {
         System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" + authStr);
         //String itemID = getArguments().getString("id");
         String[] sp = authStr.split(" ");
-        APIUtils.getAPI().getItem("JWT " + sp[sp.length - 1], 3).enqueue(new ViewItemFragment.OnGetItemResponse());
+        APIUtils.serverAPI().getItem("JWT " + sp[sp.length - 1], 3).enqueue(new ViewItemFragment.OnGetItemResponse());
 
 
 

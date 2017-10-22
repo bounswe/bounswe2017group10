@@ -1,4 +1,4 @@
-# CmpE 352/451 Group 10: Atlas
+# CmpE 352/451 Group 10: Atlas  ![](https://travis-ci.org/bounswe/bounswe2017group10.svg?branch=master)
 
 This repo was created to build a Web and Android application to give service to users to share and view information about any Cultural Heritage Item. We believe that we can enhance our culture together by storing and sharing every details with others.  
 

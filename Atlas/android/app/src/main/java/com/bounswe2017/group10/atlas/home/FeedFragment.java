@@ -37,9 +37,9 @@ public class FeedFragment extends ListFragment {
         authStr = getArguments().getString("authStr", "NO_TOKEN");
 
         // get items 3 and 4
-        APIUtils.getAPI().getItem(authStr, 3).enqueue(new OnGetItemResponse());
-        APIUtils.getAPI().getItem(authStr, 4).enqueue(new OnGetItemResponse());
-        APIUtils.getAPI().getItem(authStr, 5).enqueue(new OnGetItemResponse());
+        APIUtils.serverAPI().getItem(authStr, 3).enqueue(new OnGetItemResponse());
+        APIUtils.serverAPI().getItem(authStr, 4).enqueue(new OnGetItemResponse());
+        APIUtils.serverAPI().getItem(authStr, 5).enqueue(new OnGetItemResponse());
 
         mAdapter = new FeedArrayAdapter(getActivity(), mRowList);
         setListAdapter(mAdapter);

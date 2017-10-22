@@ -1,0 +1,28 @@
+ul.navbar-nav {
+  li.nav-item {
+    margin: 10px;
+    background-color: gray;
+    padding: 5px;
+    border-radius: 4px;
+
+    div.dropdown-menu{
+      background-color: gray;
+      h6.dropdown-header{
+        color: white;
+      }
+    }
+
+    .dropdown-item:hover {
+      background-color: #bcbcbc;
+    }
+
+    svg {
+      font-size: 18px;
+      margin-top: -1px;
+    }
+
+    a {
+      padding: 0;
+    }
+  }
+}
