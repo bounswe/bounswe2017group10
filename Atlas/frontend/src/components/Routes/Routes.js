@@ -11,7 +11,7 @@ import PrivateRoute from './PrivateRoute';
 import IndexCulturalHeritagesPage from '../../containers/CulturalHeritage/Index';
 import AddCulturalHeritagePage from '../../containers/CulturalHeritage/Add';
 
-const Routes = ({ user, token }) => ({
+const Routes = ({ user, loggedIn }) => ({
   render() {
     return (
       <div>
