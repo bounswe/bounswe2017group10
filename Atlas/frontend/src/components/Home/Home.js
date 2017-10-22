@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './style.css';
 import { NavLink } from 'react-router-dom';
 import atlasImg from '../../assets/images/atlas.jpeg';
+import DownArrow from 'react-icons/lib/fa/angle-double-down';
 
 class Home extends Component {
   render() {
@@ -13,7 +14,11 @@ class Home extends Component {
           <h1 className="Home-title">Together.</h1>
         </header>
         <footer className="Home-footer">
-          <NavLink to="/cultural-heritages">See More</NavLink>
+          <NavLink className="down-link" to="/cultural-heritages">
+            See More
+            <br />
+            <DownArrow />
+          </NavLink>
         </footer>
       </div>
     );

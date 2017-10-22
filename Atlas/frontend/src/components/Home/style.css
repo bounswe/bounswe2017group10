@@ -8,7 +8,8 @@
 
 .Home-logo {
   animation: App-logo-spin infinite 20s linear;
-  height: 80px; }
+  height: 80px;
+  color: gray; }
 
 .Home-intro {
   font-size: large; }
@@ -36,6 +37,8 @@
 
 .navbar a {
   color: white; }
+  .navbar a a.navbar-brand {
+    color: gray; }
 
 header.Home-header {
   margin-top: 150px; }
@@ -47,7 +50,8 @@ h1.Home-title {
 
 footer.Home-footer {
   margin-top: 100px; }
-  footer.Home-footer a {
-    color: gray;
+  footer.Home-footer a.down-link {
+    color: white;
     font-size: 30px;
-    text-decoration: underline; }
+    text-decoration: underline;
+    display: block; }
