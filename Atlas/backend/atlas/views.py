@@ -41,12 +41,15 @@ class image_media_item(ImageInterceptorMixin,generics.CreateAPIView):
     queryset = image_item.objects.all()
     serializer_class = image_media_item_serializer
     def create(self, request, *args, **kwargs):
-        for image_item_data in request.data['images']:
-             request.data['cultural_heritage_item'] = self.current_heritage_item.pk
-             for k,v in image_item_data.items():
-                 request.data[k] = v
-             result =super(image_media_item, self).create(request, *args, **kwargs)
-        return result
+        try:
+            for image_item_data in request.data['images']:
+                 request.data['cultural_heritage_item'] = self.current_heritage_item.pk
+                 for k,v in image_item_data.items():
+                     request.data[k] = v
+                 result =super(image_media_item, self).create(request, *args, **kwargs)
+            return result
+        except BaseException as e:
+            return Response(json.dumps(str(e)), status=status.HTTP_400_BAD_REQUEST)
 
 class cultural_heritage_item_view_update_delete(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = cultural_heritage_serializer
