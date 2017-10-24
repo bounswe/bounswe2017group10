@@ -10,8 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.httpbody.CultureItem;
+import com.bounswe2017.group10.atlas.httpbody.Image;
 import com.bounswe2017.group10.atlas.util.Constants;
 import com.bumptech.glide.Glide;
+
+import java.util.List;
 
 public class ViewItemFragment extends Fragment {
 
@@ -28,9 +31,14 @@ public class ViewItemFragment extends Fragment {
         viewItemTitle.setText(item.getTitle());
         viewItemDesc.setText(item.getDescription());
 
-        Glide.with(getActivity())
-                .load(item.getImageList().get(0).getUrl())
-                .into(viewItemImage);
+        List<Image> imageList = item.getImageList();
+
+        // currently simply load the first image
+        if (imageList.size() != 0) {
+            Glide.with(getActivity())
+                    .load(item.getImageList().get(0).getUrl())
+                    .into(viewItemImage);
+        }
 
         return view;
     }

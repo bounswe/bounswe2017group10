@@ -33,8 +33,6 @@ public class OnGetAllItemsResponse implements Callback<List<CultureItem>> {
     @Override
     public void onResponse(Call<List<CultureItem>> call, Response<List<CultureItem>> response) {
         if (response.isSuccessful()) {
-            Utils.showToast(context, context.getResources().getString(R.string.successful_create_item));
-
             // add all items to given item lists
             List<CultureItem> responseItemList = response.body();
             for (CultureItem item : responseItemList) {
