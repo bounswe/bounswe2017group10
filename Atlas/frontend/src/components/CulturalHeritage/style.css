@@ -38,3 +38,19 @@ body {
   margin-right: 10px; }
   .small-label svg {
     margin-top: -3px; }
+
+.help-1 {
+  position: absolute;
+  right: 100px;
+  top: 200px;
+  background-color: #ce8b10;
+  padding: 30px;
+  color: white;
+  z-index: 3;
+  width: 300px; }
+
+.close-help {
+  float: right;
+  display: inline-block; }
+  .close-help:hover {
+    cursor: pointer; }

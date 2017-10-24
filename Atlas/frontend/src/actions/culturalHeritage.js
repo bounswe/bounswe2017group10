@@ -55,3 +55,9 @@ export const clearAddCHInputs = () => {
     type: 'CLEAR_ADD_CH_INPUTS'
   }
 }
+
+export const closeHelp = () => {
+  return {
+    type: 'CLOSE_HELP'
+  }
+}

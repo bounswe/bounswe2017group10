@@ -1,6 +1,7 @@
 const initState = {
   fetching: false,
-  addCHErrors: null
+  addCHErrors: null,
+  helpOpen: true
 };
 
 const reducer = (state = initState, action) => {
@@ -55,6 +56,11 @@ const reducer = (state = initState, action) => {
       return {
         ...state,
         addCHInputs: {}
+      }
+    case 'CLOSE_HELP':
+      return {
+        ...state,
+        helpOpen: false
       }
     default:
       return state;

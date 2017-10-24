@@ -59,3 +59,23 @@ body {
     margin-top: -3px;
   }
 }
+
+.help-1 {
+  position: absolute;
+  right: 100px;
+  top: 200px;
+  background-color: $atlas-orange;
+  padding: 30px;
+  color: white;
+  z-index: 3;
+  width: 300px;
+}
+
+.close-help {
+  float: right;
+  display: inline-block;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
