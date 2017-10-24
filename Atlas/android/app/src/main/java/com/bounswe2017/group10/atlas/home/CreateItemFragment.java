@@ -41,14 +41,10 @@ public class CreateItemFragment extends Fragment {
     private ImageListAdapter mAdapter;
     private final ArrayList<ImageRow> mImageRowList = new ArrayList<>();
 
-    private String authStr;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_item, container, false);
-
-        authStr = getActivity().getIntent().getStringExtra(Constants.AUTH_STR);
 
         ListView imageListView = view.findViewById(R.id.image_listview);
         //Button btnGallery = view.findViewById(R.id.gallery_button);
@@ -97,7 +93,7 @@ public class CreateItemFragment extends Fragment {
             item.setCity(etCity.getText().toString());
             item.setPublicAccessibility(true);
 
-            List<Image> imageList = new ArrayList<>();
+            ArrayList<Image> imageList = new ArrayList<>();
             for (ImageRow row : mImageRowList) {
                 Image img = new Image();
                 img.setUrl(row.getUrl());
@@ -132,7 +128,9 @@ public class CreateItemFragment extends Fragment {
      */
     private void makeCreateRequest(CultureItem item, ProgressBar progressBar) {
         progressBar.setVisibility(View.VISIBLE);
-        APIUtils.serverAPI().createItem(authStr, item).enqueue(new OnCreateItemResponse(getActivity(), progressBar));
+        Activity activity = getActivity();
+        String authStr = Utils.getSharedPref(activity).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
+        APIUtils.serverAPI().createItem(authStr, item).enqueue(new OnCreateItemResponse(activity, progressBar));
     }
 
     /**
