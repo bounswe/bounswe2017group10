@@ -2,9 +2,17 @@ package com.bounswe2017.group10.atlas.home;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.adapter.FeedListAdapter;
 import com.bounswe2017.group10.atlas.adapter.FeedRow;
@@ -18,7 +26,7 @@ import retrofit2.Response;
 
 import static com.bounswe2017.group10.atlas.util.Utils.tokenToAuthString;
 
-public class FeedFragment extends ListFragment {
+public class FeedFragment extends Fragment {
 
     private final ArrayList<CultureItem> mItemList = new ArrayList<>();
     private final ArrayList<FeedRow> mRowList = new ArrayList<>();
@@ -29,6 +37,13 @@ public class FeedFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_feed, container, false);
+
         authStr = getActivity().getIntent().getStringExtra(Constants.AUTH_STR);
 
         // TODO: get all items
@@ -38,22 +53,37 @@ public class FeedFragment extends ListFragment {
         APIUtils.serverAPI().getItem(authStr, 5).enqueue(new OnGetItemResponse());
 
         mAdapter = new FeedListAdapter(getActivity(), mRowList);
-        setListAdapter(mAdapter);
-    }
+        ListView listView = view.findViewById(R.id.feed_listview);
 
-    @Override
-    public void onListItemClick(ListView listView, View view, int pos, long id) {
+        listView.setOnItemClickListener((AdapterView<?> adapterView, View itemView, int pos, long arg3) -> {
+            ViewItemFragment viewItemFragment = new ViewItemFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("authStr", authStr);
+            viewItemFragment.setObj(mItemList.get(pos));
+            viewItemFragment.setArguments(bundle);
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.home_container, viewItemFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
+        listView.setAdapter(mAdapter);
 
-        ViewItemFragment viewItemFragment = new ViewItemFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("authStr", authStr);
-        viewItemFragment.setObj(mItemList.get(pos));
-        viewItemFragment.setArguments(bundle);
-        getActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.home_container, viewItemFragment)
-                .addToBackStack(null)
-                .commit();
+        SwipeRefreshLayout swipeLayout = view.findViewById(R.id.swipe_container);
+        swipeLayout.setOnRefreshListener(() -> {
+            // TODO: get all the items and replace them in the list
+            APIUtils.serverAPI().getItem(authStr, 3).enqueue(new OnGetItemResponse());
+            mAdapter.notifyDataSetChanged();
+            swipeLayout.setRefreshing(false);
+        });
+        swipeLayout.setColorSchemeColors(
+            ContextCompat.getColor(getContext(), android.R.color.holo_blue_bright),
+            ContextCompat.getColor(getContext(), android.R.color.holo_red_light),
+            ContextCompat.getColor(getContext(), android.R.color.holo_green_light),
+            ContextCompat.getColor(getContext(), android.R.color.holo_orange_light)
+        );
+
+        return view;
     }
 
     /**
