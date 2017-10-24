@@ -1,0 +1,23 @@
+@import "../../style/colors.scss";
+
+$atlas-button-text-color: white;
+
+.atlas-button {
+  background-color: $atlas-orange;
+  padding: 10px;
+  color: $atlas-button-text-color;
+  margin-bottom: 20px;
+  display: inline-block;
+  border: 2px solid $atlas-orange;
+
+  svg {
+    margin-top: -2px;
+  }
+
+  &:hover {
+    cursor: pointer;
+    text-decoration: none;
+    color: $atlas-button-text-color;
+    border: 2px solid $atlas-orange-bolder;
+  }
+}

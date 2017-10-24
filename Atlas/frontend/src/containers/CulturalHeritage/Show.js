@@ -8,7 +8,6 @@ import { withRouter } from 'react-router';
 
 const mapStateToProps = (state, props) => {
   const culturalHeritage = state.culturalHeritage.data.find(c => c.id === parseInt(props.match.params.id));
-  console.log(typeof state.culturalHeritage.data[0].id);
   return {
     user: state.auth.user,
     token: state.auth.token,

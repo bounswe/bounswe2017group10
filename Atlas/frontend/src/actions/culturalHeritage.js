@@ -37,9 +37,10 @@ export const addCHSuccess = () => {
   }
 }
 
-export const addCHFail = () => {
+export const addCHFail = (errors) => {
   return {
-    type: 'ADD_CH_FAIL'
+    type: 'ADD_CH_FAIL',
+    errors
   }
 }
 
