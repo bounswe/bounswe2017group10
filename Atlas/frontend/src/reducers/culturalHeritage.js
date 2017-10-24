@@ -1,7 +1,8 @@
 const initState = {
   fetching: false,
   addCHErrors: null,
-  helpOpen: true
+  helpOpen: true,
+  addCHInputs: {}
 };
 
 const reducer = (state = initState, action) => {
