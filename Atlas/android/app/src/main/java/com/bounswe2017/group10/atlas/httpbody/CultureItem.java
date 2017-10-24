@@ -42,6 +42,8 @@ public class CultureItem implements Parcelable {
     @Expose
     private Boolean publicAccessibility;
 
+    public CultureItem() {}
+
     @SuppressWarnings("unchecked")
     public CultureItem(Parcel in) {
         this.country = in.readString();
