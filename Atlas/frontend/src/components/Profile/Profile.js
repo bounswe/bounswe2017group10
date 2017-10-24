@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardImg, CardText, CardBody,
+import { Card, CardBody,
   CardTitle, CardSubtitle, Button,
   Container, Row, Col
 } from 'reactstrap';
