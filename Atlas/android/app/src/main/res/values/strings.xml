@@ -36,4 +36,5 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="successful_create_item">You have successfully created a new topic!</string>
+    <string name="shared_pref_file">atlas_conf</string>
 </resources>

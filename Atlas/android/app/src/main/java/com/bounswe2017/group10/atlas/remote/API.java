@@ -9,6 +9,8 @@ import com.bounswe2017.group10.atlas.httpbody.SignupRequest;
 import com.bounswe2017.group10.atlas.httpbody.SignupResponse;
 import com.bounswe2017.group10.atlas.httpbody.UserResponse;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -28,6 +30,9 @@ public interface API {
 
     @GET("/cultural_heritage_item/{id}")
     Call<CultureItem> getItem(@Header("Authorization") String authStr, @Path("id") long id);
+
+    @GET("/cultural_heritage_item")
+    Call<List<CultureItem>> getAllItems(@Header("Authorization") String authStr);
 
     @GET("/api/auth/me")
     Call<UserResponse> getMe(@Header("Authorization") String authStr);

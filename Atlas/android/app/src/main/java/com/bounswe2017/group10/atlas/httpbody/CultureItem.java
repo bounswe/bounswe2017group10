@@ -1,12 +1,16 @@
 package com.bounswe2017.group10.atlas.httpbody;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.bounswe2017.group10.atlas.adapter.FeedRow;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class CultureItem {
+public class CultureItem implements Parcelable {
 
     // TODO : We need the id of the item here as a variable.
 
@@ -32,11 +36,54 @@ public class CultureItem {
 
     @SerializedName("images")
     @Expose
-    private List<Image> imageList;
+    private ArrayList<Image> imageList;
 
     @SerializedName("public_accessibility")
     @Expose
     private Boolean publicAccessibility;
+
+    public CultureItem() {}
+
+    @SuppressWarnings("unchecked")
+    public CultureItem(Parcel in) {
+        this.country = in.readString();
+        this.title = in.readString();
+        this.description = in.readString();
+        this.continent = in.readString();
+        this.city = in.readString();
+        this.imageList = (ArrayList<Image>)in.readSerializable();
+        this.publicAccessibility = in.readByte() != 0;
+
+    }
+
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeString(this.country);
+        out.writeString(this.title);
+        out.writeString(this.description);
+        out.writeString(this.continent);
+        out.writeString(this.city);
+        out.writeSerializable(this.imageList);
+        out.writeByte((byte) (this.publicAccessibility ? 1 : 0));
+    }
+
+    @Override
+    public int describeContents() {
+        return this.hashCode();
+    }
+
+    public static final Parcelable.Creator<CultureItem> CREATOR =
+        new Parcelable.Creator<CultureItem>() {
+            @Override
+            public CultureItem createFromParcel(Parcel in) {
+                return new CultureItem(in);
+            }
+
+            @Override
+            public CultureItem[] newArray(int count) {
+                return new CultureItem[count];
+            }
+        };
 
     public String getCountry() {
         return country;
@@ -78,11 +125,11 @@ public class CultureItem {
         this.city = city;
     }
 
-    public List<Image> getImageList() {
+    public ArrayList<Image> getImageList() {
         return imageList;
     }
 
-    public void setImageList(List<Image> imageList) {
+    public void setImageList(ArrayList<Image> imageList) {
         this.imageList = imageList;
     }
 
