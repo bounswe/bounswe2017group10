@@ -13,6 +13,12 @@ const mapStateToProps = state => {
   };
 }
 
+const addSuccess = (dispatch) => {
+  dispatch(addCHSuccess());
+  dispatch(clearAddCHInputs());
+  window.location = '/cultural-heritages';
+}
+
 const mapDispatchToProps = dispatch => {
   return {
     handleCHInputChange: (event) => {
@@ -32,9 +38,20 @@ const mapDispatchToProps = dispatch => {
           title: addCHInputs.title,
           description: addCHInputs.description
         }}).then(resp => {
-          dispatch(addCHSuccess());
-          dispatch(clearAddCHInputs());
-          window.location = '/cultural-heritages';
+          if(addCHInputs.img_url !== undefined && addCHInputs.img_url !== "") {
+            axios({
+              method: 'post',
+              url: API_URL + "/cultural_heritage_item/" + resp.data.id + "/image",
+              headers: { 'Authorization': 'JWT ' + token },
+              data: {
+                images: [{ url: addCHInputs.img_url }]
+              }}
+            ).then(_resp => {
+              addSuccess(dispatch);
+            })
+          } else {
+            addSuccess(dispatch);
+          }
         }).catch(err => {
           dispatch(addCHFail());
         });

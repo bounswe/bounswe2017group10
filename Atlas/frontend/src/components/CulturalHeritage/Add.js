@@ -39,6 +39,19 @@ const Page = ({ user, token, addCHInputs, handleCHInputChange, createCH }) => (
           </Row>
       </FormGroup>
       <FormGroup>
+          <Row>
+              <Col xs="3">
+                  <label>Image URL:</label>
+              </Col>
+              <Col xs="9">
+                <Input
+                  name="img_url"
+                  onChange={handleCHInputChange}
+                />
+              </Col>
+          </Row>
+      </FormGroup>
+      <FormGroup>
         <Button onClick={ () => createCH(addCHInputs, token) }><PlusIcon /> Add Cultural Heritage</Button>
       </FormGroup>
     </Form>
