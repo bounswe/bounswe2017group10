@@ -41,19 +41,7 @@ const Page = ({ user, token, addCHInputs, addCHErrors, handleCHInputChange, addC
               </Col>
           </Row>
       </FormGroup>
-      <FormGroup>
-          <Row>
-              <Col xs="3">
-                  <label>Image URL:</label>
-              </Col>
-              <Col xs="9">
-                <Input
-                  name="img_url"
-                  onChange={handleCHInputChange}
-                />
-              </Col>
-          </Row>
-      </FormGroup>
+
       <FormGroup>
         <span className="atlas-button" onClick={ () => addCH(addCHInputs, token, imageUrl) }><PlusIcon /> Add Cultural Heritage</span>
       </FormGroup>
@@ -62,6 +50,7 @@ const Page = ({ user, token, addCHInputs, addCHErrors, handleCHInputChange, addC
                 onDrop={handleDrop}
                 multiple
                 accept="image/*">
+
                 <p>Drop your files or click here to upload</p>
             </Dropzone>
         </FormGroup>
