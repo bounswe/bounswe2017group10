@@ -23,13 +23,16 @@ const Page = ({ user, token, culturalHeritages, helpOpen, loadCulturalHeritages,
       <Col xs="9">
         <NavLink className="atlas-button" to="/cultural-heritages/new"><PlusIcon /> New Cultural Heritage</NavLink>
         <ul className="cultural-heritages">
-          { culturalHeritages && culturalHeritages.map(c => (
-            <NavLink key={ c.id } to={ "/cultural-heritages/" + c.id }>
-              <li className="cultural-heritage">
-                <CulturalHeritage culturalHeritage={ c } shouldTruncate ={ true }/>
-              </li>
-            </NavLink>
-          ))} 
+          { culturalHeritages && culturalHeritages
+            .sort((c1, c2) => c1.created_time > c2.created_time)
+            .map(c => (
+              <NavLink key={ c.id } to={ "/cultural-heritages/" + c.id }>
+                <li className="cultural-heritage">
+                  <CulturalHeritage culturalHeritage={ c } shouldTruncate ={ true }/>
+                </li>
+              </NavLink>
+            )
+          )}
         </ul>
       </Col>
     </Row>
