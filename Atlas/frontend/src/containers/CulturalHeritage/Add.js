@@ -26,7 +26,7 @@ const mapDispatchToProps = dispatch => {
   return {
     handleDrop: files =>{
       console.log('naber');
-      var returndata;
+
         const uploaders = files.map(file => {
             // Initial FormData
             const formData = new FormData();
@@ -41,7 +41,7 @@ const mapDispatchToProps = dispatch => {
             }).then(response => {
                 const data = response.data;
 
-                const fileURL = data.secure_url
+
                 const image_url = 'http://res.cloudinary.com/dsfusawmf/image/upload/v'+ data.version + '/' + data.public_id + '.png';
                 dispatch(uploadImage(image_url));
                 console.log(data);
