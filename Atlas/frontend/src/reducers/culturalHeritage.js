@@ -18,6 +18,11 @@ const reducer = (state = initState, action) => {
             ...state,
             ImageUrl: action.data
         }
+      case 'CLEAR_IMG_URL':
+        return{
+            ...state,
+            ImageUrl : null
+        }
     case 'UPDATE_CULTURAL_HERITAGES':
       return {
         ...state,

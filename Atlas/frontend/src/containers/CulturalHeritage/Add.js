@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Page from '../../components/CulturalHeritage/Add';
 import {
-    updateCHInput, addCHFetch, addCHSuccess, addCHFail, clearAddCHInputs, clearAddChErrors, uploadImage} from '../../actions/culturalHeritage';
+    updateCHInput, addCHFetch, addCHSuccess, addCHFail, clearAddCHInputs, clearAddChErrors, uploadImage, clearImage} from '../../actions/culturalHeritage';
 import axios from 'axios';
 import { API_URL } from '../../constants';
 
@@ -35,7 +35,7 @@ const mapDispatchToProps = dispatch => {
             formData.append("api_key", "642824638492586");
             formData.append("timestamp", (Date.now() / 1000) | 0);
 
-            // Make an AJAX upload request using Axios (replace Cloudinary URL below with your own)
+
             return axios.post("https://api.cloudinary.com/v1_1/dsfusawmf/image/upload", formData, {
                 headers: { "X-Requested-With": "XMLHttpRequest" },
             }).then(response => {
@@ -58,6 +58,7 @@ const mapDispatchToProps = dispatch => {
     },
     goBack: () =>{
       dispatch(clearAddChErrors());
+      dispatch(clearImage());
     },
     handleCHInputChange: (event) => {
       const target = event.target;
@@ -96,6 +97,7 @@ const mapDispatchToProps = dispatch => {
                   }}
               ).then(_resp => {
                   addSuccess(dispatch);
+                  dispatch(clearImage());
               })
           } else{
               addSuccess(dispatch);
