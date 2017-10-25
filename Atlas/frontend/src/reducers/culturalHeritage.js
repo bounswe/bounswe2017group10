@@ -1,20 +1,10 @@
 const initState = {
-  data: [
-    { title: "Title 1",
-      description: "Description 1"
-    },
-    { title: "Title 1",
-      description: "Description 1"
-    },
-    { title: "Title 1",
-      description: "Description 1"
-    },
-    { title: "Title 1",
-      description: "Description 1"
-    }
-  ],
-  fetching: false
+  fetching: false,
+  addCHErrors: null,
+  helpOpen: true,
+  addCHInputs: {}
 };
+
 const reducer = (state = initState, action) => {
   switch(action.type) {
     case 'FETCH_CULTURAL_HERITAGES':
@@ -43,17 +33,20 @@ const reducer = (state = initState, action) => {
     case 'ADD_CH_FETCH':
       return {
         ...state,
-        addChFetching: true
+        addChFetching: true,
+        addCHErrors: null
       }
     case 'ADD_CH_SUCCESS':
       return {
         ...state,
-        addChFetching: false
+        addChFetching: false,
+        addCHErrors: null
       }
     case 'ADD_CH_FAIL':
       return {
         ...state,
-        addChFetching: false
+        addChFetching: false,
+        addCHErrors: action.errors
       }
     case 'TOGGLE_ADD_CH_MODAL':
       return {
@@ -64,6 +57,11 @@ const reducer = (state = initState, action) => {
       return {
         ...state,
         addCHInputs: {}
+      }
+    case 'CLOSE_HELP':
+      return {
+        ...state,
+        helpOpen: false
       }
     default:
       return state;

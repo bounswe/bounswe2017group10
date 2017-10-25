@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardImg, CardText, CardBody,
+import { Card, CardBody,
   CardTitle, CardSubtitle, Button,
   Container, Row, Col
 } from 'reactstrap';
@@ -23,8 +23,8 @@ const Profile = ({ user }) => ({
                   </CardTitle>
                   <CardSubtitle>{ user.email }</CardSubtitle>
                   <hr />
-                  <NavLink to="/cultural-heritages">
-                    <Button><PhotoIcon /> Visit Cultural Heritages</Button>
+                  <NavLink className="atlas-button" to="/cultural-heritages">
+                    <PhotoIcon /> Visit Cultural Heritages
                   </NavLink>
                 </CardBody>
               </Card>

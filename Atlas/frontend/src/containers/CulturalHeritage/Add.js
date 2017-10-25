@@ -5,11 +5,11 @@ import axios from 'axios';
 import { API_URL } from '../../constants';
 
 const mapStateToProps = state => {
-  console.log(state.culturalHeritage.addCHInputs);
   return {
     user: state.auth.user,
     token: state.auth.token,
     addCHInputs: state.culturalHeritage.addCHInputs,
+    addCHErrors: state.culturalHeritage.addCHErrors
   };
 }
 
@@ -27,8 +27,7 @@ const mapDispatchToProps = dispatch => {
       const value = target.value;
       dispatch(updateCHInput(name, value));
     },
-    createCH: (addCHInputs, token) => {
-      console.log(addCHInputs);
+    addCH: (addCHInputs, token) => {
       dispatch(addCHFetch());
       axios({
         method: 'post',
@@ -53,7 +52,7 @@ const mapDispatchToProps = dispatch => {
             addSuccess(dispatch);
           }
         }).catch(err => {
-          dispatch(addCHFail());
+          dispatch(addCHFail(err.response.data));
         });
     }
   }

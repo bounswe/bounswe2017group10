@@ -24,16 +24,16 @@ const CulturalHeritage = ({ culturalHeritage, shouldTruncate = false }) => (
           }
         </p> 
         <hr />
-        { culturalHeritage.continent &&
-          <label className="small-label">
-            <BankIcon />
-            <span> { culturalHeritage.continent }</span>
-          </label>
-        }
         { culturalHeritage.country &&
           <label className="small-label">
-            <HomeIcon />
+            <BankIcon />
             <span> { culturalHeritage.country }</span>
+          </label>
+        }
+        { culturalHeritage.city &&
+          <label className="small-label">
+            <HomeIcon />
+            <span> { culturalHeritage.city }</span>
           </label>
         }
       </Col>

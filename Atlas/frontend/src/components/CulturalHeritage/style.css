@@ -1,11 +1,12 @@
 .cultural-heritage {
   list-style: none;
   background-color: white;
-  border: 1px solid white;
-  border-radius: 4px;
+  border: 2px solid white;
   padding: 20px;
   color: black;
-  margin-top: 20px; }
+  -webkit-box-shadow: 0px 0px 42px -17px rgba(0, 0, 0, 0.39);
+  -moz-box-shadow: 0px 0px 42px -17px rgba(0, 0, 0, 0.39);
+  box-shadow: 0px 0px 42px -17px rgba(0, 0, 0, 0.39); }
   .cultural-heritage img {
     width: 100%; }
 
@@ -16,15 +17,17 @@ ul.cultural-heritages {
   ul.cultural-heritages li {
     list-style: none;
     margin-bottom: 20px;
-    padding: 0; }
+    padding: 0;
+    margin-bottom: 40px; }
     ul.cultural-heritages li img {
       width: 100%; }
   ul.cultural-heritages li:hover {
-    border: 1px solid gray;
+    border: 2px solid #ce8b10;
     text-decoration: none; }
 
 body {
-  background-color: rgba(180, 151, 132, 0.4); }
+  background-color: white;
+  background-color: #f0f0f0; }
 
 .small-label {
   background-color: gray;
@@ -35,3 +38,19 @@ body {
   margin-right: 10px; }
   .small-label svg {
     margin-top: -3px; }
+
+.help-1 {
+  position: absolute;
+  right: 100px;
+  top: 200px;
+  background-color: #ce8b10;
+  padding: 30px;
+  color: white;
+  z-index: 3;
+  width: 300px; }
+
+.close-help {
+  float: right;
+  display: inline-block; }
+  .close-help:hover {
+    cursor: pointer; }

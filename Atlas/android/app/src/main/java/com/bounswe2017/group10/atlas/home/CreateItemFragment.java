@@ -29,7 +29,6 @@ import com.bounswe2017.group10.atlas.util.Constants;
 import com.bounswe2017.group10.atlas.util.Utils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class CreateItemFragment extends Fragment {
@@ -41,14 +40,10 @@ public class CreateItemFragment extends Fragment {
     private ImageListAdapter mAdapter;
     private final ArrayList<ImageRow> mImageRowList = new ArrayList<>();
 
-    private String authStr;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_item, container, false);
-
-        authStr = getActivity().getIntent().getStringExtra(Constants.AUTH_STR);
 
         ListView imageListView = view.findViewById(R.id.image_listview);
         //Button btnGallery = view.findViewById(R.id.gallery_button);
@@ -89,22 +84,34 @@ public class CreateItemFragment extends Fragment {
                 Utils.showToast(getActivity().getApplicationContext(), getResources().getString(R.string.empty_title));
                 return;
             }
+            String title = etTitle.getText().toString();
+            String description = etDescription.getText().toString();
+            String continent = etContinent.getText().toString();
+            String country = etCountry.getText().toString();
+            String city = etCity.getText().toString();
+
             CultureItem item = new CultureItem();
-            item.setTitle(etTitle.getText().toString());
-            item.setDescription(etDescription.getText().toString());
-            item.setContinent(etContinent.getText().toString());
-            item.setCountry(etCountry.getText().toString());
-            item.setCity(etCity.getText().toString());
+
+            item.setTitle(title);
+            if (description.length() != 0)
+                item.setDescription(description);
+            if (continent.length() != 0)
+                item.setContinent(continent);
+            if (country.length() != 0)
+                item.setCountry(country);
+            if (city.length() != 0)
+                item.setCity(city);
+
             item.setPublicAccessibility(true);
 
-            List<Image> imageList = new ArrayList<>();
+            ArrayList<Image> imageList = new ArrayList<>();
             for (ImageRow row : mImageRowList) {
                 Image img = new Image();
                 img.setUrl(row.getUrl());
                 imageList.add(img);
             }
             item.setImageList(imageList);
-            makeCreateRequest(item, progressBar);
+            makeCreateRequest(item, imageList, progressBar);
         });
         return view;
     }
@@ -130,9 +137,11 @@ public class CreateItemFragment extends Fragment {
      * @param item CultureItem object to be sent to the server.
      * @param progressBar ProgressBar object which will be shown during request execution.
      */
-    private void makeCreateRequest(CultureItem item, ProgressBar progressBar) {
+    private void makeCreateRequest(CultureItem item, ArrayList<Image> imageList, ProgressBar progressBar) {
         progressBar.setVisibility(View.VISIBLE);
-        APIUtils.serverAPI().createItem(authStr, item).enqueue(new OnCreateItemResponse(getActivity(), progressBar));
+        Activity activity = getActivity();
+        String authStr = Utils.getSharedPref(activity).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
+        APIUtils.serverAPI().createItem(authStr, item).enqueue(new OnCreateItemResponse(this, imageList, mImageRowList, progressBar));
     }
 
     /**
