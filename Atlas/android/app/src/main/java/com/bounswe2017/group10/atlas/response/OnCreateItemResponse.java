@@ -7,6 +7,7 @@ import android.widget.ProgressBar;
 
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.adapter.ImageRow;
+import com.bounswe2017.group10.atlas.home.CreateItemFragment;
 import com.bounswe2017.group10.atlas.httpbody.CreateItemResponse;
 import com.bounswe2017.group10.atlas.httpbody.Image;
 import com.bounswe2017.group10.atlas.httpbody.ImageUploadRequest;
@@ -23,30 +24,33 @@ import retrofit2.Response;
 
 public class OnCreateItemResponse implements Callback<CreateItemResponse> {
 
-    private Fragment createFragment;
+    private CreateItemFragment createFragment;
     private ProgressBar progressBar;
     private List<Image> mImageList;
-    private List<ImageRow> mImageRowList;
     private Context context;
 
-    public OnCreateItemResponse(Fragment createFragment, List<Image> imageList, List<ImageRow> imageRowList, ProgressBar progressBar) {
+    public OnCreateItemResponse(CreateItemFragment createFragment, List<Image> imageList, ProgressBar progressBar) {
         this.createFragment = createFragment;
         this.progressBar = progressBar;
         this.mImageList = imageList;
-        this.mImageRowList = imageRowList;
         this.context = this.createFragment.getActivity();
     }
 
     @Override
     public void onResponse(Call<CreateItemResponse> call, Response<CreateItemResponse> response) {
         if (response.isSuccessful()) {
-            String authStr = Utils.getSharedPref(context).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
-            int id = response.body().getId();
-            APIUtils.serverAPI()
-                    .uploadImages(authStr, id, new ImageUploadRequest(mImageList))
-                    .enqueue(new OnUploadImagesResponse(createFragment, mImageRowList, progressBar));
+            if (mImageList.size() == 0) {
+                Utils.showToast(context, context.getString(R.string.successful_create_item));
+                createFragment.clearView();
+            } else {
+                String authStr = Utils.getSharedPref(context).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
+                int id = response.body().getId();
+                APIUtils.serverAPI()
+                        .uploadImages(authStr, id, new ImageUploadRequest(mImageList))
+                        .enqueue(new OnUploadImagesResponse(createFragment, progressBar));
+            }
         } else {
-            Utils.showToast(context, "Create Item Error!");
+            Utils.showToast(context, context.getString(R.string.failed_create_item));
         }
     }
 
