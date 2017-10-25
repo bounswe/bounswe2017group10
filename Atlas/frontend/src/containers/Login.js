@@ -32,7 +32,6 @@ const mapDispatchToProps = dispatch => {
             dispatch(clearLoginInputs());
             // TODO: This is a bad practice for react-router. Find a better solution.
             window.location = '/profile';
-            this.context.router.push('/')
           }).catch(err => {
             console.log('There is an error with /api/auth/me endpoint: ' + err.data);
           });

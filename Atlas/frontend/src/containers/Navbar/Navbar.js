@@ -11,6 +11,8 @@ const mapStateToProps = state => {
       user: state.auth.user,
     loggedIn: isLoggedIn(state.auth.user),
       dropDownOpen : state.navbar.dropdownOpen,
+      amcam : state.navbar.drop
+
 
   };
 }
