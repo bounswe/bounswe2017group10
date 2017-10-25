@@ -43,7 +43,7 @@ public class ImageListAdapter extends ArrayAdapter<ImageRow> {
         }
 
         ImageRow row = items.get(pos);
-        Glide.with(context).load(row.getUrl()).into(holder.img);
+        Glide.with(context).load(row.getUri()).into(holder.img);
 
         return convertView;
     }

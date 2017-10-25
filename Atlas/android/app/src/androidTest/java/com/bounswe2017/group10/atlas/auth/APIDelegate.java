@@ -42,18 +42,6 @@ public class APIDelegate implements API {
     }
 
     @Override
-    @POST("/cultural_heritage_item/{id}/image")
-    public Call<Void> uploadImages(@Header("Authorization") String authStr, @Path("id") long id, @Body ImageUploadRequest imageList) {
-        return api.uploadImages(authStr, id, imageList);
-    }
-
-    @Override
-    @GET("/cultural_heritage_item")
-    public Call<List<CultureItem>> getAllItems(@Header("Authorization") String authStr) {
-        return api.getAllItems(authStr);
-    }
-
-    @Override
     public Call<LoginResponse> login(@Body LoginRequest body) {
         return api.login(body);
     }
@@ -73,4 +61,13 @@ public class APIDelegate implements API {
         return api.getMe(authStr);
     }
 
+    @Override
+    public Call<Void> uploadImages(@Header("Authorization") String authStr, @Path("id") long id, @Body ImageUploadRequest imageList) {
+        return api.uploadImages(authStr, id, imageList);
+    }
+
+    @Override
+    public Call<List<CultureItem>> getAllItems(@Header("Authorization") String authStr) {
+        return api.getAllItems(authStr);
+    }
 }

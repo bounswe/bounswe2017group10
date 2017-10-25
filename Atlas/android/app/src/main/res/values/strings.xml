@@ -39,4 +39,5 @@
     <string name="shared_pref_file">atlas_conf</string>
     <string name="failed_create_item">Item creation failed</string>
     <string name="create_item_no_images">Topic has been created without images</string>
+    <string name="image_upload_error">Failed to upload local images</string>
 </resources>

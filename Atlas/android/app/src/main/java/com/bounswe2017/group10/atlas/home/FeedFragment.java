@@ -20,6 +20,8 @@ import com.bounswe2017.group10.atlas.httpbody.CultureItem;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
 import com.bounswe2017.group10.atlas.response.OnGetAllItemsResponse;
 import com.bounswe2017.group10.atlas.util.Constants;
+import com.cloudinary.android.MediaManager;
+
 import java.util.ArrayList;
 
 import static com.bounswe2017.group10.atlas.util.Utils.getSharedPref;

@@ -2,9 +2,17 @@ package com.bounswe2017.group10.atlas.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.Environment;
+import android.support.v4.content.FileProvider;
 import android.widget.Toast;
 
 import com.bounswe2017.group10.atlas.R;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * A class that contains general utility methods.
@@ -28,5 +36,42 @@ public class Utils {
     public static SharedPreferences getSharedPref(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(context.getString(R.string.shared_pref_file), Context.MODE_PRIVATE);
         return preferences;
+    }
+
+    public static Uri getNewImageUri(Context context) throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  // prefix
+                ".jpg",         // suffix
+                storageDir      // directory
+        );
+        Uri uri = FileProvider.getUriForFile(context, Constants.FILE_PROVIDER_AUTHORITY, image);
+
+        return uri;
+    }
+
+    public static boolean isLocalUri(Uri uri) {
+        return isLocalUrl(uri.toString());
+    }
+
+    public static String cloudinaryUrlToFilename(String url) {
+        int jpgIndex = url.indexOf("." + Constants.CLOUDINARY_IMG_FORMAT);
+        int lastSlashIndex = url.lastIndexOf('/');
+        return url.substring(lastSlashIndex + 1, jpgIndex);
+    }
+
+    public static String filenameToCloudinaryUrl(String filename) {
+        return "https://res.cloudinary.com/" +
+                Constants.CLOUDINARY_CLOUD_NAME +
+                "/image/upload/" +
+                filename +
+                "." +
+                Constants.CLOUDINARY_IMG_FORMAT;
+    }
+
+    public static boolean isLocalUrl(String url) {
+        return url.startsWith("content://");
     }
 }
