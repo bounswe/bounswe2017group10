@@ -8,7 +8,7 @@ import Dropzone from 'react-dropzone'
 
 const mapStateToProps = state => {
   return {
-
+    imageUrl : state.culturalHeritage.imageUrl,
     user: state.auth.user,
     token: state.auth.token,
     addCHInputs: state.culturalHeritage.addCHInputs,
@@ -65,7 +65,7 @@ const mapDispatchToProps = dispatch => {
       const value = target.value;
       dispatch(updateCHInput(name, value));
     },
-    addCH: (addCHInputs, token) => {
+    addCH: (addCHInputs, token, imageUrl) => {
       dispatch(addCHFetch());
       axios({
         method: 'post',
@@ -76,18 +76,29 @@ const mapDispatchToProps = dispatch => {
           description: addCHInputs.description
         }}).then(resp => {
           if(addCHInputs.img_url !== undefined && addCHInputs.img_url !== "") {
-            axios({
-              method: 'post',
-              url: API_URL + "/cultural_heritage_item/" + resp.data.id + "/image",
-              headers: { 'Authorization': 'JWT ' + token },
-              data: {
-                images: [{ url: addCHInputs.img_url }]
-              }}
-            ).then(_resp => {
+              axios({
+                  method: 'post',
+                  url: API_URL + "/cultural_heritage_item/" + resp.data.id + "/image",
+                  headers: { 'Authorization': 'JWT ' + token },
+                  data: {
+                      images: [{ url: addCHInputs.img_url }]
+                  }}
+              ).then(_resp => {
+                  addSuccess(dispatch);
+              })
+          } else if (imageUrl!==undefined){
+              axios({
+                  method: 'post',
+                  url: API_URL + "/cultural_heritage_item/" + resp.data.id + "/image",
+                  headers: { 'Authorization': 'JWT ' + token },
+                  data: {
+                      images: [{ url: imageUrl }]
+                  }}
+              ).then(_resp => {
+                  addSuccess(dispatch);
+              })
+          } else{
               addSuccess(dispatch);
-            })
-          } else {
-            addSuccess(dispatch);
           }
         }).catch(err => {
           dispatch(addCHFail(err.response.data));
