@@ -47,7 +47,7 @@ dependencies {
     // JSON Parsing
     compile 'com.google.code.gson:gson:2.8.2'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
-    // Image loading
+    // Image downloading
     repositories {
         mavenCentral()
         maven { url 'https://maven.google.com' }
@@ -56,6 +56,10 @@ dependencies {
         compile 'com.github.bumptech.glide:glide:4.2.0'
         annotationProcessor 'com.github.bumptech.glide:compiler:4.2.0'
     }
+    // Image uploading
+    compile group: 'com.cloudinary', name: 'cloudinary-android', version: '1.20.0'
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-text
+    compile group: 'org.apache.commons', name: 'commons-text', version: '1.1'
 
     // multidex
     compile 'com.android.support:multidex:1.0.1'
