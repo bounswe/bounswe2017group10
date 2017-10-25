@@ -4,6 +4,12 @@ export const fetchCH = () => {
   }
 }
 
+export const clearAddChErrors = () => {
+  return{
+    type: 'CLEAR_ADD_CH_ERRORS'
+  }
+}
+
 export const finishFetchingCH = () => {
   return {
     type: 'FINISH_FETCHING_CULTURAL_HERITAGES'

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Page from '../../components/CulturalHeritage/Add';
-import { updateCHInput, addCHFetch, addCHSuccess, addCHFail, clearAddCHInputs } from '../../actions/culturalHeritage';
+import { updateCHInput, addCHFetch, addCHSuccess, addCHFail, clearAddCHInputs, clearAddChErrors } from '../../actions/culturalHeritage';
 import axios from 'axios';
 import { API_URL } from '../../constants';
 
@@ -21,6 +21,9 @@ const addSuccess = (dispatch) => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    goBack: () =>{
+      dispatch(clearAddChErrors());
+    },
     handleCHInputChange: (event) => {
       const target = event.target;
       const name = target.name;

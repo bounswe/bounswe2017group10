@@ -63,6 +63,11 @@ const reducer = (state = initState, action) => {
         ...state,
         helpOpen: false
       }
+      case 'CLEAR_ADD_CH_ERRORS':
+          return {
+              ...state,
+              addCHErrors:{}
+          }
     default:
       return state;
   }

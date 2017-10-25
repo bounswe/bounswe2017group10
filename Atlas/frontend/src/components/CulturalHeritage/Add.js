@@ -6,9 +6,9 @@ import PlusIcon from 'react-icons/lib/fa/plus-circle';
 import LeftIcon from 'react-icons/lib/fa/angle-left';
 import { Errors } from '../../utils';
 
-const Page = ({ user, token, addCHInputs, addCHErrors, handleCHInputChange, addCH }) => (
+const Page = ({ user, token, addCHInputs, addCHErrors, handleCHInputChange, addCH, goBack }) => (
   <Container>
-    <NavLink className="atlas-button" to="/cultural-heritages"><LeftIcon /> Back</NavLink>
+    <NavLink className="atlas-button" onClick={goBack} to="/cultural-heritages"><LeftIcon /> Back</NavLink>
     <h1 style={{ textAlign: 'center' }}>Add Cultural Heritage</h1> 
     <hr />
     <Form>
