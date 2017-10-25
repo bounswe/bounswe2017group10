@@ -42,7 +42,8 @@ const mapDispatchToProps = dispatch => {
                 const data = response.data;
                 returndata = data;
                 const fileURL = data.secure_url
-                dispatch(uploadImage(data));
+                var image_url = 'http://res.cloudinary.com/dsfusawmf/image/upload/'+ data.version + '/' +data.public_id + '.png';
+                dispatch(uploadImage(image_url));
                 console.log(data);
             }).catch(err => {
                 console.log('Error while uploading: ' + err.data);
@@ -52,7 +53,7 @@ const mapDispatchToProps = dispatch => {
 
         // Once all the files are uploaded
         axios.all(uploaders).then(() => {
-            dispatch(uploadImage(returndata));
+
         });
     },
     goBack: () =>{
