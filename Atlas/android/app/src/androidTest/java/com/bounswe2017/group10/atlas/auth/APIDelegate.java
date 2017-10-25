@@ -3,12 +3,15 @@ package com.bounswe2017.group10.atlas.auth;
 
 import com.bounswe2017.group10.atlas.httpbody.CreateItemResponse;
 import com.bounswe2017.group10.atlas.httpbody.CultureItem;
+import com.bounswe2017.group10.atlas.httpbody.ImageUploadRequest;
 import com.bounswe2017.group10.atlas.httpbody.LoginRequest;
 import com.bounswe2017.group10.atlas.httpbody.LoginResponse;
 import com.bounswe2017.group10.atlas.httpbody.SignupRequest;
 import com.bounswe2017.group10.atlas.httpbody.SignupResponse;
 import com.bounswe2017.group10.atlas.httpbody.UserResponse;
 import com.bounswe2017.group10.atlas.remote.API;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -53,5 +56,15 @@ public class APIDelegate implements API {
     @Override
     public Call<UserResponse> getMe(@Header("Authorization") String authStr) {
         return api.getMe(authStr);
+    }
+
+    @Override
+    public Call<Void> uploadImages(@Header("Authorization") String authStr, @Path("id") long id, @Body ImageUploadRequest imageList) {
+        return api.uploadImages(authStr, id, imageList);
+    }
+
+    @Override
+    public Call<List<CultureItem>> getAllItems(@Header("Authorization") String authStr) {
+        return api.getAllItems(authStr);
     }
 }
