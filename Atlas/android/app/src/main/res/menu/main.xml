@@ -6,13 +6,13 @@
         <item
             android:id="@+id/profil"
             android:icon="@drawable/side_nav_bar"
-            android:title="Profil"
+            android:title="@string/profilpage_nav_profil"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <item
             android:id="@+id/gallery"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Gallery"
+            android:title="@string/profilpage_gallery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </group>
@@ -24,7 +24,7 @@
             <item
                 android:id="@+id/logout"
                 android:icon="@drawable/side_nav_bar"
-                android:title="Logout"
+                android:title="@string/logout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </menu>
