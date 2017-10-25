@@ -5,6 +5,8 @@ HOST: localhost:8000/
 
 
 CmpE 352/451 Group 10: Atlas API Documentation
+
+
 You can see this document more clearly in [here](http://docs.bounswe2017group10.apiary.io).
 
 ## Login [/api/auth/login/]
@@ -45,7 +47,7 @@ You can see this document more clearly in [here](http://docs.bounswe2017group10.
 + Response 201 (application/json)
 
 
-##Information about user [/api/auth/me]
+## Information about user [/api/auth/me]
 
 
 ### Get firstname, lastname, username, e-mail information [GET]
