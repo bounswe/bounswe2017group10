@@ -1,11 +1,14 @@
 import { connect } from 'react-redux';
 import Page from '../../components/CulturalHeritage/Add';
-import { updateCHInput, addCHFetch, addCHSuccess, addCHFail, clearAddCHInputs, clearAddChErrors } from '../../actions/culturalHeritage';
+import {
+    updateCHInput, addCHFetch, addCHSuccess, addCHFail, clearAddCHInputs, clearAddChErrors, uploadImage} from '../../actions/culturalHeritage';
 import axios from 'axios';
 import { API_URL } from '../../constants';
+import Dropzone from 'react-dropzone'
 
 const mapStateToProps = state => {
   return {
+
     user: state.auth.user,
     token: state.auth.token,
     addCHInputs: state.culturalHeritage.addCHInputs,
@@ -21,6 +24,37 @@ const addSuccess = (dispatch) => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    handleDrop: files =>{
+      console.log('naber');
+      var returndata;
+        const uploaders = files.map(file => {
+            // Initial FormData
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", "wak3gala");
+            formData.append("api_key", "642824638492586");
+            formData.append("timestamp", (Date.now() / 1000) | 0);
+
+            // Make an AJAX upload request using Axios (replace Cloudinary URL below with your own)
+            return axios.post("https://api.cloudinary.com/v1_1/dsfusawmf/image/upload", formData, {
+                headers: { "X-Requested-With": "XMLHttpRequest" },
+            }).then(response => {
+                const data = response.data;
+                returndata = data;
+                const fileURL = data.secure_url
+                dispatch(uploadImage(data));
+                console.log(data);
+            }).catch(err => {
+                console.log('Error while uploading: ' + err.data);
+                dispatch(uploadImage('Error'));
+            });
+        });
+
+        // Once all the files are uploaded
+        axios.all(uploaders).then(() => {
+            dispatch(uploadImage(returndata));
+        });
+    },
     goBack: () =>{
       dispatch(clearAddChErrors());
     },

@@ -2,7 +2,8 @@ const initState = {
   fetching: false,
   addCHErrors: null,
   helpOpen: true,
-  addCHInputs: {}
+  addCHInputs: {},
+  ImageUrl:null,
 };
 
 const reducer = (state = initState, action) => {
@@ -12,6 +13,11 @@ const reducer = (state = initState, action) => {
         ...state,
         fetching: true
       }
+      case 'IMAGE_URL_UPLOADED':
+        return {
+            ...state,
+            ImageUrl: action.data
+        }
     case 'UPDATE_CULTURAL_HERITAGES':
       return {
         ...state,

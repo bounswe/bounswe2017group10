@@ -16,6 +16,13 @@ export const finishFetchingCH = () => {
   }
 }
 
+export const uploadImage = (imageLink) => {
+    return {
+        type: 'IMAGE_URL_UPLOADED',
+        data: imageLink
+    }
+}
+
 export const updatingGetCH = (culturalHeritages) => {
   return {
     type: 'UPDATE_CULTURAL_HERITAGES',
