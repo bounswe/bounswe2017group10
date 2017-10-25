@@ -4,10 +4,23 @@ export const fetchCH = () => {
   }
 }
 
+export const clearAddChErrors = () => {
+  return{
+    type: 'CLEAR_ADD_CH_ERRORS'
+  }
+}
+
 export const finishFetchingCH = () => {
   return {
     type: 'FINISH_FETCHING_CULTURAL_HERITAGES'
   }
+}
+
+export const uploadImage = (imageLink) => {
+    return {
+        type: 'IMAGE_URL_UPLOADED',
+        data: imageLink
+    }
 }
 
 export const updatingGetCH = (culturalHeritages) => {
