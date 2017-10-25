@@ -1,16 +1,18 @@
 ul.navbar-nav li.nav-item {
   margin: 10px;
-  background-color: gray;
-  padding: 5px;
-  border-radius: 4px; }
+  background-color: #ce8b10;
+  padding: 5px; }
   ul.navbar-nav li.nav-item div.dropdown-menu {
     background-color: gray; }
     ul.navbar-nav li.nav-item div.dropdown-menu h6.dropdown-header {
       color: white; }
   ul.navbar-nav li.nav-item .dropdown-item:hover {
+    text-decoration: none;
     background-color: #bcbcbc; }
   ul.navbar-nav li.nav-item svg {
     font-size: 18px;
     margin-top: -1px; }
   ul.navbar-nav li.nav-item a {
     padding: 0; }
+    ul.navbar-nav li.nav-item a:hover {
+      text-decoration: none; }

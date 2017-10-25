@@ -1,14 +1,16 @@
-$ch-border-width: 1px;
-$ch-border-color: gray;
+@import "../../style/colors.scss";
+
+$ch-border-width: 2px;
 
 .cultural-heritage {
   list-style: none;
   background-color: white;
   border: $ch-border-width solid white; // CSS trick for non-moving on-hover border
-  border-radius: 4px;
   padding: 20px;
   color: black;
-  margin-top: 20px;
+  -webkit-box-shadow: 0px 0px 42px -17px rgba(0,0,0,0.39);
+  -moz-box-shadow: 0px 0px 42px -17px rgba(0,0,0,0.39);
+  box-shadow: 0px 0px 42px -17px rgba(0,0,0,0.39);
 
   img {
     width: 100%;
@@ -27,6 +29,7 @@ ul.cultural-heritages {
     list-style: none;
     margin-bottom: 20px;
     padding: 0;
+    margin-bottom: 40px;
 
     img {
       width: 100%;
@@ -34,13 +37,14 @@ ul.cultural-heritages {
   }
 
   li:hover {
-    border: $ch-border-width solid $ch-border-color;
+    border: $ch-border-width solid $atlas-orange;
     text-decoration: none;
   }
 }
 
 body {
-  background-color: rgba(180,151, 132, 0.4);
+  background-color: white;
+  background-color: rgba(240, 240, 240, 1);
 }
 
 .small-label {
@@ -53,5 +57,25 @@ body {
 
   svg {
     margin-top: -3px;
+  }
+}
+
+.help-1 {
+  position: absolute;
+  right: 100px;
+  top: 200px;
+  background-color: $atlas-orange;
+  padding: 30px;
+  color: white;
+  z-index: 3;
+  width: 300px;
+}
+
+.close-help {
+  float: right;
+  display: inline-block;
+
+  &:hover {
+    cursor: pointer;
   }
 }

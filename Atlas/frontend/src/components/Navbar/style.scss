@@ -1,18 +1,21 @@
+@import '../../style/colors.scss';
+
 ul.navbar-nav {
   li.nav-item {
     margin: 10px;
-    background-color: gray;
+    background-color: $atlas-orange;
     padding: 5px;
-    border-radius: 4px;
 
     div.dropdown-menu{
       background-color: gray;
+
       h6.dropdown-header{
         color: white;
       }
     }
 
     .dropdown-item:hover {
+      text-decoration: none;
       background-color: #bcbcbc;
     }
 
@@ -23,6 +26,10 @@ ul.navbar-nav {
 
     a {
       padding: 0;
+      
+      &:hover {
+        text-decoration: none;
+      }
     }
   }
 }

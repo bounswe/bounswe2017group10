@@ -5,12 +5,18 @@ import axios from 'axios';
 import { API_URL } from '../../constants';
 
 const mapStateToProps = state => {
-  console.log(state.culturalHeritage.addCHInputs);
   return {
     user: state.auth.user,
     token: state.auth.token,
     addCHInputs: state.culturalHeritage.addCHInputs,
+    addCHErrors: state.culturalHeritage.addCHErrors
   };
+}
+
+const addSuccess = (dispatch) => {
+  dispatch(addCHSuccess());
+  dispatch(clearAddCHInputs());
+  window.location = '/cultural-heritages';
 }
 
 const mapDispatchToProps = dispatch => {
@@ -21,8 +27,7 @@ const mapDispatchToProps = dispatch => {
       const value = target.value;
       dispatch(updateCHInput(name, value));
     },
-    createCH: (addCHInputs, token) => {
-      console.log(addCHInputs);
+    addCH: (addCHInputs, token) => {
       dispatch(addCHFetch());
       axios({
         method: 'post',
@@ -32,11 +37,22 @@ const mapDispatchToProps = dispatch => {
           title: addCHInputs.title,
           description: addCHInputs.description
         }}).then(resp => {
-          dispatch(addCHSuccess());
-          dispatch(clearAddCHInputs());
-          window.location = '/cultural-heritages';
+          if(addCHInputs.img_url !== undefined && addCHInputs.img_url !== "") {
+            axios({
+              method: 'post',
+              url: API_URL + "/cultural_heritage_item/" + resp.data.id + "/image",
+              headers: { 'Authorization': 'JWT ' + token },
+              data: {
+                images: [{ url: addCHInputs.img_url }]
+              }}
+            ).then(_resp => {
+              addSuccess(dispatch);
+            })
+          } else {
+            addSuccess(dispatch);
+          }
         }).catch(err => {
-          dispatch(addCHFail());
+          dispatch(addCHFail(err.response.data));
         });
     }
   }

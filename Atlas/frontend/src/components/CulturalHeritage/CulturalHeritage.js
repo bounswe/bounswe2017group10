@@ -7,7 +7,7 @@ import BankIcon from 'react-icons/lib/fa/bank';
 const CulturalHeritage = ({ culturalHeritage, shouldTruncate = false }) => (
   <Container className="cultural-heritage">
     <Row>
-      <Col xs="3">
+      <Col xs="5">
         { culturalHeritage.images.length > 0 ? (
           <img alt="Cultural Heritage" src={ culturalHeritage.images[0].url } />
           ) : (
@@ -15,7 +15,7 @@ const CulturalHeritage = ({ culturalHeritage, shouldTruncate = false }) => (
           )
         }
       </Col>
-      <Col xs="9">
+      <Col xs="7">
         <h2>{ culturalHeritage.title }</h2>
         <hr />
         <p>{ shouldTruncate
@@ -24,16 +24,16 @@ const CulturalHeritage = ({ culturalHeritage, shouldTruncate = false }) => (
           }
         </p> 
         <hr />
-        { culturalHeritage.continent &&
-          <label className="small-label">
-            <BankIcon />
-            <span> { culturalHeritage.continent }</span>
-          </label>
-        }
         { culturalHeritage.country &&
           <label className="small-label">
-            <HomeIcon />
+            <BankIcon />
             <span> { culturalHeritage.country }</span>
+          </label>
+        }
+        { culturalHeritage.city &&
+          <label className="small-label">
+            <HomeIcon />
+            <span> { culturalHeritage.city }</span>
           </label>
         }
       </Col>

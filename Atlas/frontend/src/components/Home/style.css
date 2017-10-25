@@ -37,8 +37,9 @@
 
 .navbar a {
   color: white; }
-  .navbar a a.navbar-brand {
-    color: gray; }
+
+.navbar a.navbar-brand {
+  color: #ce8b10; }
 
 header.Home-header {
   margin-top: 150px; }

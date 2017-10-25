@@ -19,10 +19,10 @@ export const fetchingLogin = () => {
   }
 }
 
-export const loginFailed = (err) => {
+export const loginFailed = (errors) => {
   return {
     type: 'LOGIN_FAILED',
-    text: err
+    errors
   }
 }
 
