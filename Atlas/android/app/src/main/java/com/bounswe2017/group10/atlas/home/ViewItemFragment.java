@@ -10,42 +10,37 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.httpbody.CultureItem;
+import com.bounswe2017.group10.atlas.httpbody.Image;
 import com.bounswe2017.group10.atlas.util.Constants;
 import com.bumptech.glide.Glide;
 
-public class ViewItemFragment extends Fragment {
+import java.util.List;
 
-    TextView viewItemTitle;
-    ImageView viewItemImage;
-    TextView viewItemDesc;
-    CultureItem item;
+public class ViewItemFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_view_item, container, false);
 
-        viewItemTitle = view.findViewById(R.id.itemTitle);
-        viewItemImage = view.findViewById(R.id.itemImage);
-        viewItemDesc = view.findViewById(R.id.itemDesc);
-        String authStr = getArguments().getString(Constants.AUTH_STR, "NO_TOKEN");
+        CultureItem item = getArguments().getParcelable(Constants.CULTURE_ITEM);
+
+        TextView viewItemTitle = view.findViewById(R.id.itemTitle);
+        ImageView viewItemImage = view.findViewById(R.id.itemImage);
+        TextView viewItemDesc = view.findViewById(R.id.itemDesc);
         viewItemTitle.setText(item.getTitle());
         viewItemDesc.setText(item.getDescription());
 
-        //if (!item.getImageList().isEmpty()) {
-        try {
-            Glide.with(this)
+        List<Image> imageList = item.getImageList();
+
+        // currently simply load the first image
+        if (imageList.size() != 0) {
+            Glide.with(getActivity())
                     .load(item.getImageList().get(0).getUrl())
                     .into(viewItemImage);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        //}
 
         return view;
     }
 
-    public void setObj (CultureItem itemC) {
-        this.item = itemC;
-    }
 }

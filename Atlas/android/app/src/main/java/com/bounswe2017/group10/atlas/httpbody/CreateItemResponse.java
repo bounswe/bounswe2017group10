@@ -8,7 +8,7 @@ public class CreateItemResponse {
 
     @SerializedName("id")
     @Expose
-    private String id;
+    private int id;
 
     @SerializedName("created_time")
     @Expose
@@ -34,11 +34,11 @@ public class CreateItemResponse {
         this.updatedTime = updatedTime;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 }

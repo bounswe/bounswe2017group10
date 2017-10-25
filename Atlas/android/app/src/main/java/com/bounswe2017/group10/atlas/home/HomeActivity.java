@@ -23,20 +23,19 @@ import com.bounswe2017.group10.atlas.profil.ProfileActivity;
 import com.bounswe2017.group10.atlas.util.Constants;
 import com.bounswe2017.group10.atlas.httpbody.UserResponse;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
+import com.bounswe2017.group10.atlas.util.Utils;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.bounswe2017.group10.atlas.util.Utils.tokenToAuthString;
+import static com.bounswe2017.group10.atlas.util.Utils.getSharedPref;
 
 
 public class HomeActivity extends FragmentActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private static final String TAG = "HomeActivity";
 
-
-    private String authStr;
     private TabPagerAdapter mAdapter;
     private ViewPager mPager;
     private TabLayout mTabs;
@@ -44,10 +43,10 @@ public class HomeActivity extends FragmentActivity implements NavigationView.OnN
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        authStr = getIntent().getStringExtra(Constants.AUTH_STR);
         setContentView(R.layout.navigate_bar);
 
         //add username and email to navigation bar
+        String authStr = getSharedPref(this).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
         APIUtils.serverAPI().getMe(authStr).enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
@@ -88,7 +87,7 @@ public class HomeActivity extends FragmentActivity implements NavigationView.OnN
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.nav_layout);
+        DrawerLayout drawer = findViewById(R.id.nav_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -110,12 +109,15 @@ public class HomeActivity extends FragmentActivity implements NavigationView.OnN
         int id = item.getItemId();
 
         if (id == R.id.profil) {
-            Intent intent = new Intent(this, ProfileActivity.class).putExtra(Constants.AUTH_STR, authStr);
+            Intent intent = new Intent(this, ProfileActivity.class);
             this.startActivity(intent);
         } else if(id == R.id.gallery){
 
         } else if (id == R.id.logout) {
-            Intent intent = new Intent(this, AuthActivity.class).putExtra(Constants.AUTH_STR, authStr);
+            // remove token from sharedpref
+            Utils.getSharedPrefEditor(this).remove(Constants.AUTH_STR).apply();
+            // go to authentication activity
+            Intent intent = new Intent(this, AuthActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             this.startActivity(intent);
         }
@@ -126,13 +128,8 @@ public class HomeActivity extends FragmentActivity implements NavigationView.OnN
     }
 
     private TabPagerAdapter initAdapter() {
-        Bundle bundle = new Bundle();
-        bundle.putString(Constants.AUTH_STR, authStr);
-
         Fragment feedFragment = new FeedFragment();
-        feedFragment.setArguments(bundle);
         Fragment createItemFragment = new CreateItemFragment();
-        createItemFragment.setArguments(bundle);
 
         TabPagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(feedFragment, getResources().getString(R.string.feed));
