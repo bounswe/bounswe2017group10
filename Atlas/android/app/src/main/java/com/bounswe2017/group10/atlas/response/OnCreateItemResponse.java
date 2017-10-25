@@ -41,6 +41,7 @@ public class OnCreateItemResponse implements Callback<CreateItemResponse> {
         if (response.isSuccessful()) {
             if (mImageList.size() == 0) {
                 Utils.showToast(context, context.getString(R.string.successful_create_item));
+                progressBar.setVisibility(View.GONE);
                 createFragment.clearView();
             } else {
                 String authStr = Utils.getSharedPref(context).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
