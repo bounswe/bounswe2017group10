@@ -51,4 +51,27 @@ public class Utils {
 
         return uri;
     }
+
+    public static boolean isLocalUri(Uri uri) {
+        return isLocalUrl(uri.toString());
+    }
+
+    public static String cloudinaryUrlToFilename(String url) {
+        int jpgIndex = url.indexOf("." + Constants.CLOUDINARY_IMG_FORMAT);
+        int lastSlashIndex = url.lastIndexOf('/');
+        return url.substring(lastSlashIndex + 1, jpgIndex);
+    }
+
+    public static String filenameToCloudinaryUrl(String filename) {
+        return "https://res.cloudinary.com/" +
+                Constants.CLOUDINARY_CLOUD_NAME +
+                "/image/upload/" +
+                filename +
+                "." +
+                Constants.CLOUDINARY_IMG_FORMAT;
+    }
+
+    public static boolean isLocalUrl(String url) {
+        return url.startsWith("content://");
+    }
 }

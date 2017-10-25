@@ -1,21 +1,23 @@
 package com.bounswe2017.group10.atlas.response;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
+import android.net.Uri;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.bounswe2017.group10.atlas.R;
-import com.bounswe2017.group10.atlas.adapter.ImageRow;
 import com.bounswe2017.group10.atlas.home.CreateItemFragment;
 import com.bounswe2017.group10.atlas.httpbody.CreateItemResponse;
 import com.bounswe2017.group10.atlas.httpbody.Image;
-import com.bounswe2017.group10.atlas.httpbody.ImageUploadRequest;
-import com.bounswe2017.group10.atlas.remote.APIUtils;
 import com.bounswe2017.group10.atlas.util.Constants;
 import com.bounswe2017.group10.atlas.util.Utils;
+import com.cloudinary.android.MediaManager;
 
+import org.apache.commons.text.RandomStringGenerator;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,11 +46,43 @@ public class OnCreateItemResponse implements Callback<CreateItemResponse> {
                 progressBar.setVisibility(View.GONE);
                 createFragment.clearView();
             } else {
-                String authStr = Utils.getSharedPref(context).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
                 int id = response.body().getId();
-                APIUtils.serverAPI()
-                        .uploadImages(authStr, id, new ImageUploadRequest(mImageList))
-                        .enqueue(new OnUploadImagesResponse(createFragment, progressBar));
+
+                RandomStringGenerator generator = new RandomStringGenerator.Builder()
+                        .withinRange('a', 'z')
+                        .build();
+                List<Image> localImages = new ArrayList<>();
+                List<String> filenames = new ArrayList<>();
+                for (Image img : this.mImageList) {
+                    if (Utils.isLocalUrl(img.getUrl())) {
+                        filenames.add(img.getUrl());
+
+                        String filename = generator.generate(Constants.CLOUDINARY_IMG_NAME_LENGTH);
+                        img.setUrl(Utils.filenameToCloudinaryUrl(filename));
+                        localImages.add(img);
+                    }
+                }
+
+                // share an atomic counter between response handlers
+                AtomicInteger uploadCount = new AtomicInteger(0);
+                OnCloudinaryUploadResponse respHandler = new OnCloudinaryUploadResponse(
+                        context,
+                        createFragment,
+                        mImageList,
+                        progressBar,
+                        id,
+                        uploadCount,
+                        localImages.size()
+                );
+                // dispatch each request after creating a resp handler for each of them.
+                for (int i = 0; i < localImages.size(); ++i) {
+                    MediaManager.get()
+                            .upload(Uri.parse(filenames.get(i)))
+                            .unsigned("wak3gala")
+                            .option("public_id", Utils.cloudinaryUrlToFilename(localImages.get(i).getUrl()))
+                            .callback(respHandler)
+                            .dispatch();
+                }
             }
         } else {
             Utils.showToast(context, context.getString(R.string.failed_create_item));
@@ -60,4 +94,5 @@ public class OnCreateItemResponse implements Callback<CreateItemResponse> {
         Utils.showToast(context, context.getResources().getString(R.string.connection_failure));
         // TODO: do logging
     }
+
 }

@@ -58,6 +58,8 @@ dependencies {
     }
     // Image uploading
     compile group: 'com.cloudinary', name: 'cloudinary-android', version: '1.20.0'
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-text
+    compile group: 'org.apache.commons', name: 'commons-text', version: '1.1'
 
     // multidex
     compile 'com.android.support:multidex:1.0.1'
