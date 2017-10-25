@@ -30,6 +30,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.bounswe2017.group10.atlas.util.Utils.getSharedPref;
+import static com.bounswe2017.group10.atlas.util.Utils.logout;
+import static com.bounswe2017.group10.atlas.util.Utils.showToast;
 
 
 public class HomeActivity extends FragmentActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -45,6 +47,8 @@ public class HomeActivity extends FragmentActivity implements NavigationView.OnN
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigate_bar);
 
+        Context appContext = getApplicationContext();
+
         //add username and email to navigation bar
         String authStr = getSharedPref(this).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
         APIUtils.serverAPI().getMe(authStr).enqueue(new Callback<UserResponse>() {
@@ -52,17 +56,21 @@ public class HomeActivity extends FragmentActivity implements NavigationView.OnN
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 if (response.isSuccessful()) {
                     UserResponse body = response.body();
-                    ((TextView) findViewById(R.id.nav_pname)).setText(body.getFirstname());
+                    if(body.getFirstname()==null){
+                        ((TextView) findViewById(R.id.nav_pname)).setText(body.getUsername());
+                    }else if (body.getLastname()==null){
+                        ((TextView) findViewById(R.id.nav_pname)).setText(body.getFirstname());
+                    }else {
+                        ((TextView) findViewById(R.id.nav_pname)).setText(body.getFirstname() + " " + body.getLastname());
+                    }
                     ((TextView) findViewById(R.id.nav_pmail)).setText(body.getEmail());
                 } else {
-                    ((TextView) findViewById(R.id.nav_pname)).setText("name");
-                    ((TextView) findViewById(R.id.nav_pmail)).setText("email");
+                    showToast(appContext, getResources().getString(R.string.failed_profilgetuserinformation));
                 }
             }
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
-                ((TextView) findViewById(R.id.nav_pname)).setText("name");
-                ((TextView) findViewById(R.id.nav_pmail)).setText("email");
+                showToast(appContext, getResources().getString(R.string.connection_failure));
             }
         });
 
@@ -114,12 +122,7 @@ public class HomeActivity extends FragmentActivity implements NavigationView.OnN
         } else if(id == R.id.gallery){
 
         } else if (id == R.id.logout) {
-            // remove token from sharedpref
-            Utils.getSharedPrefEditor(this).remove(Constants.AUTH_STR).apply();
-            // go to authentication activity
-            Intent intent = new Intent(this, AuthActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-            this.startActivity(intent);
+            logout(this);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.nav_layout);
