@@ -164,6 +164,25 @@ public class CreateItemFragment extends Fragment {
     }
 
     /**
+     * Clears text and image views in this fragment.
+     */
+    public void clearView() {
+        View view = this.getView();
+        EditText etTitle = view.findViewById(R.id.title_edittext);
+        EditText etDescription = view.findViewById(R.id.description_edittext);
+        EditText etContinent = view.findViewById(R.id.continent_edittext);
+        EditText etCountry = view.findViewById(R.id.country_edittext);
+        EditText etCity = view.findViewById(R.id.city_edittext);
+
+        etTitle.setText("");
+        etDescription.setText("");
+        etContinent.setText("");
+        etCountry.setText("");
+        etCity.setText("");
+        mImageRowList.clear();
+    }
+
+    /**
      * Makes a new item create request to server with the given item while showing
      * the given progress bar.
      *
@@ -174,7 +193,7 @@ public class CreateItemFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
         Activity activity = getActivity();
         String authStr = Utils.getSharedPref(activity).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
-        APIUtils.serverAPI().createItem(authStr, item).enqueue(new OnCreateItemResponse(this, imageList, mImageRowList, progressBar));
+        APIUtils.serverAPI().createItem(authStr, item).enqueue(new OnCreateItemResponse(this, imageList, progressBar));
     }
 
     /**

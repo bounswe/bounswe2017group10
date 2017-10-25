@@ -15,7 +15,9 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 /**
@@ -33,6 +35,7 @@ public class APIDelegate implements API {
         this.api = api;
     }
 
+    @POST("/api/auth/signup")
     @Override
     public Call<SignupResponse> signup(@Body SignupRequest body) {
         return api.signup(body);

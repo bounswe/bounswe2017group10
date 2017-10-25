@@ -66,6 +66,7 @@ public class FeedFragment extends Fragment {
         // set swipe layout listeners
         SwipeRefreshLayout swipeLayout = view.findViewById(R.id.swipe_container);
         swipeLayout.setOnRefreshListener(() -> {
+            mItemList.clear();
             mRowList.clear();
             APIUtils.serverAPI().getAllItems(authStr).enqueue(respHandler);
             swipeLayout.setRefreshing(false);
