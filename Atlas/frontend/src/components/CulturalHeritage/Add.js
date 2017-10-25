@@ -7,7 +7,7 @@ import LeftIcon from 'react-icons/lib/fa/angle-left';
 import { Errors } from '../../utils';
 import Dropzone from 'react-dropzone';
 
-const Page = ({ user, token, addCHInputs, addCHErrors, handleCHInputChange, addCH, goBack, handleDrop }) => (
+const Page = ({ user, token, addCHInputs, addCHErrors, handleCHInputChange, addCH, goBack, handleDrop, imageUrl }) => (
   <Container>
     <NavLink className="atlas-button" onClick={goBack} to="/cultural-heritages"><LeftIcon /> Back</NavLink>
     <h1 style={{ textAlign: 'center' }}>Add Cultural Heritage</h1> 
@@ -55,7 +55,7 @@ const Page = ({ user, token, addCHInputs, addCHErrors, handleCHInputChange, addC
           </Row>
       </FormGroup>
       <FormGroup>
-        <span className="atlas-button" onClick={ () => addCH(addCHInputs, token) }><PlusIcon /> Add Cultural Heritage</span>
+        <span className="atlas-button" onClick={ () => addCH(addCHInputs, token, imageUrl) }><PlusIcon /> Add Cultural Heritage</span>
       </FormGroup>
         <FormGroup>
             <Dropzone

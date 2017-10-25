@@ -4,11 +4,11 @@ import {
     updateCHInput, addCHFetch, addCHSuccess, addCHFail, clearAddCHInputs, clearAddChErrors, uploadImage} from '../../actions/culturalHeritage';
 import axios from 'axios';
 import { API_URL } from '../../constants';
-import Dropzone from 'react-dropzone'
+
 
 const mapStateToProps = state => {
   return {
-    imageUrl : state.culturalHeritage.imageUrl,
+    imageUrl : state.culturalHeritage.ImageUrl,
     user: state.auth.user,
     token: state.auth.token,
     addCHInputs: state.culturalHeritage.addCHInputs,
@@ -40,7 +40,7 @@ const mapDispatchToProps = dispatch => {
                 headers: { "X-Requested-With": "XMLHttpRequest" },
             }).then(response => {
                 const data = response.data;
-                returndata = data;
+
                 const fileURL = data.secure_url
                 const image_url = 'http://res.cloudinary.com/dsfusawmf/image/upload/v'+ data.version + '/' + data.public_id + '.png';
                 dispatch(uploadImage(image_url));
