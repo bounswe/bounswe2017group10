@@ -8,7 +8,7 @@ const mapStateToProps = state => {
   return {
     token: state.auth.token,
     loginInputs: state.auth.loginInputs,
-    loginError: state.auth.loginError
+    loginErrors: state.auth.loginErrors
   };
 }
 
@@ -36,12 +36,7 @@ const mapDispatchToProps = dispatch => {
             console.log('There is an error with /api/auth/me endpoint: ' + err.data);
           });
         }).catch(err => {
-          const errResp = err.response.data;
-          if(errResp.non_field_errors === undefined) {
-            dispatch(loginFailed("Login Failed"));
-          } else {
-            dispatch(loginFailed(errResp.non_field_errors[0]));
-          }
+          dispatch(loginFailed(err.response.data));
         });
     },
     handleInputChange: (event) => {
