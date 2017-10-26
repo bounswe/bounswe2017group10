@@ -47,10 +47,10 @@ public class OnCreateItemResponse implements Callback<CreateItemResponse> {
             } else {
                 int id = response.body().getId();
 
-                int lastLocalUrl = 0;
+                int lastLocalUrlIndex = 0;
                 for (int i = 0; i < mImageList.size(); ++i) {
                     if (Utils.isLocalUrl(mImageList.get(i).getUrl())) {
-                        lastLocalUrl = i;
+                        lastLocalUrlIndex = i;
                         break;
                     }
                 }
@@ -60,9 +60,9 @@ public class OnCreateItemResponse implements Callback<CreateItemResponse> {
                         mImageList,
                         progressBar,
                         id,
-                        lastLocalUrl
+                        lastLocalUrlIndex
                 );
-                String fileUrl = mImageList.get(lastLocalUrl).getUrl();
+                String fileUrl = mImageList.get(lastLocalUrlIndex).getUrl();
                 MediaManager.get()
                         .upload(Uri.parse(fileUrl))
                         .unsigned("wak3gala")
