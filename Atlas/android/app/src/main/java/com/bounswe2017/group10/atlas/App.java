@@ -5,6 +5,7 @@ import android.app.Application;
 
 import com.bounswe2017.group10.atlas.util.Constants;
 import com.bumptech.glide.request.target.ViewTarget;
+import com.cloudinary.Cloudinary;
 import com.cloudinary.android.MediaManager;
 
 import java.util.HashMap;

@@ -13,7 +13,6 @@ import com.bounswe2017.group10.atlas.util.Constants;
 import com.bounswe2017.group10.atlas.util.Utils;
 import com.cloudinary.android.MediaManager;
 
-import org.apache.commons.text.RandomStringGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,41 +47,27 @@ public class OnCreateItemResponse implements Callback<CreateItemResponse> {
             } else {
                 int id = response.body().getId();
 
-                RandomStringGenerator generator = new RandomStringGenerator.Builder()
-                        .withinRange('a', 'z')
-                        .build();
-                List<Image> localImages = new ArrayList<>();
-                List<String> filenames = new ArrayList<>();
-                for (Image img : this.mImageList) {
-                    if (Utils.isLocalUrl(img.getUrl())) {
-                        filenames.add(img.getUrl());
-
-                        String filename = generator.generate(Constants.CLOUDINARY_IMG_NAME_LENGTH);
-                        img.setUrl(Utils.filenameToCloudinaryUrl(filename));
-                        localImages.add(img);
+                int lastLocalUrlIndex = 0;
+                for (int i = 0; i < mImageList.size(); ++i) {
+                    if (Utils.isLocalUrl(mImageList.get(i).getUrl())) {
+                        lastLocalUrlIndex = i;
+                        break;
                     }
                 }
-
-                // share an atomic counter between response handlers
-                AtomicInteger uploadCount = new AtomicInteger(0);
                 OnCloudinaryUploadResponse respHandler = new OnCloudinaryUploadResponse(
                         context,
                         createFragment,
                         mImageList,
                         progressBar,
                         id,
-                        uploadCount,
-                        localImages.size()
+                        lastLocalUrlIndex
                 );
-                // dispatch each request after creating a resp handler for each of them.
-                for (int i = 0; i < localImages.size(); ++i) {
-                    MediaManager.get()
-                            .upload(Uri.parse(filenames.get(i)))
-                            .unsigned("wak3gala")
-                            .option("public_id", Utils.cloudinaryUrlToFilename(localImages.get(i).getUrl()))
-                            .callback(respHandler)
-                            .dispatch();
-                }
+                String fileUrl = mImageList.get(lastLocalUrlIndex).getUrl();
+                MediaManager.get()
+                        .upload(Uri.parse(fileUrl))
+                        .unsigned("wak3gala")
+                        .callback(respHandler)
+                        .dispatch();
             }
         } else {
             Utils.showToast(context, context.getString(R.string.failed_create_item));
