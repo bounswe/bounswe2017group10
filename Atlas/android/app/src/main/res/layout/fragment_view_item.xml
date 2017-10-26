@@ -20,23 +20,38 @@
             android:id="@+id/itemTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorAccent"
             android:text="Default Title"
-            android:textSize="20sp" />
+            android:textAlignment="viewStart"
+            android:textColor="@android:color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
+        <Gallery
+            android:id="@+id/image_gallery"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_height="wrap_content">
 
+        </Gallery>
 
-        <ImageView
-            android:id="@+id/itemImage"
+        <TextView
+            android:id="@+id/description_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@android:color/holo_red_light" />
+            android:text="@string/description"
+            android:textAlignment="viewStart"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/itemDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Default Description" />
+            android:text="Default Description"
+            android:textSize="15sp" />
+
 
     </LinearLayout>
 
