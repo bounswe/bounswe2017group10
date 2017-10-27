@@ -1,32 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/fragment_view_item"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:baselineAligned="false"
-    android:orientation="vertical">
+    android:id="@+id/fragment_view_item"
+    android:background="@android:color/white">
 
-    <TextView
-        android:id="@+id/itemTitle"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="59dp"
-        android:text="Title"
-        android:textSize="30sp" />
-
-    <TextView
-        android:id="@+id/itemDesc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Desc"
-        android:textSize="30sp" />
-
-    <TextView
-        android:id="@+id/itemImage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Image"
-        android:textSize="30sp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible"
+        android:weightSum="1">
 
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/itemTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Default Title"
+            android:textAlignment="viewStart"
+            android:textColor="@android:color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <Gallery
+            android:id="@+id/image_gallery"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_height="wrap_content">
+
+        </Gallery>
+
+        <TextView
+            android:id="@+id/description_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/description"
+            android:textAlignment="viewStart"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/itemDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Default Description"
+            android:textSize="15sp" />
+
+
+    </LinearLayout>
+
+</ScrollView>

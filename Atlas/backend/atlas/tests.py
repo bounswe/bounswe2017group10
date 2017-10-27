@@ -251,6 +251,34 @@ class cultural_heritage_item(TestCase):
         )
         self.assertEqual(response.status_code,201)
 
+    def test_create_cultural_heritage_item_with_invalid_image_media_item(self):
+        item_data = {
+            "title": "Very emotional thresh hook",
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        response_content = json.loads(smart_text(response.content))
+        id = response_content['id']
+        self.assertEqual(response.status_code, 201)
+        item_data = {
+            'images': [
+                {'url': 'asd',}
+            ]
+
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url + str(id) + '/image',
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 400)
+
+
     def test_get_cultural_heritage_item_by_id_with_image_media_item(self):
         item_data = {
             "title": "Very emotional thresh hook",

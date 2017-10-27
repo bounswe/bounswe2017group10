@@ -22,7 +22,6 @@ class cultural_heritage_item(generics.ListCreateAPIView):
     def perform_create(self,serializer):
         serializer.save()
 
-
     def create(self, request, *args, **kwargs):
         #Get the user from the request so that we can add it to cultural heritage item model.
         #Pk is the id of the user.
@@ -49,8 +48,8 @@ class image_media_item(ImageInterceptorMixin,generics.CreateAPIView):
                      request.data[k] = v
                  result =super(image_media_item, self).create(request, *args, **kwargs)
             return result
-        except:
-           return Response("images must be a list.", status=status.HTTP_400_BAD_REQUEST)
+        except BaseException as e:
+            return Response(json.dumps(str(e)), status=status.HTTP_400_BAD_REQUEST)
 
 class cultural_heritage_item_view_update_delete(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = cultural_heritage_serializer

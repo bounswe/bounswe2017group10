@@ -5,21 +5,20 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Image {
-
-    @SerializedName("id")
-    @Expose
-    private int id;
-
     @SerializedName("url")
     @Expose
     private String url;
 
-    public int getId() {
-        return id;
+    @SerializedName("main")
+    @Expose
+    private boolean main;
+
+    public boolean isMain() {
+        return main;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setMain(boolean main) {
+        this.main = main;
     }
 
     public String getUrl() {

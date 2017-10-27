@@ -1,20 +1,11 @@
 const initState = {
-  data: [
-    { title: "Title 1",
-      description: "Description 1"
-    },
-    { title: "Title 1",
-      description: "Description 1"
-    },
-    { title: "Title 1",
-      description: "Description 1"
-    },
-    { title: "Title 1",
-      description: "Description 1"
-    }
-  ],
-  fetching: false
+  fetching: false,
+  addCHErrors: null,
+  helpOpen: true,
+  addCHInputs: {},
+  ImageUrl:null,
 };
+
 const reducer = (state = initState, action) => {
   switch(action.type) {
     case 'FETCH_CULTURAL_HERITAGES':
@@ -22,6 +13,11 @@ const reducer = (state = initState, action) => {
         ...state,
         fetching: true
       }
+      case 'IMAGE_URL_UPLOADED':
+        return {
+            ...state,
+            ImageUrl: action.data
+        }
     case 'UPDATE_CULTURAL_HERITAGES':
       return {
         ...state,
@@ -43,17 +39,20 @@ const reducer = (state = initState, action) => {
     case 'ADD_CH_FETCH':
       return {
         ...state,
-        addChFetching: true
+        addChFetching: true,
+        addCHErrors: null
       }
     case 'ADD_CH_SUCCESS':
       return {
         ...state,
-        addChFetching: false
+        addChFetching: false,
+        addCHErrors: null
       }
     case 'ADD_CH_FAIL':
       return {
         ...state,
-        addChFetching: false
+        addChFetching: false,
+        addCHErrors: action.errors
       }
     case 'TOGGLE_ADD_CH_MODAL':
       return {
@@ -65,6 +64,16 @@ const reducer = (state = initState, action) => {
         ...state,
         addCHInputs: {}
       }
+    case 'CLOSE_HELP':
+      return {
+        ...state,
+        helpOpen: false
+      }
+      case 'CLEAR_ADD_CH_ERRORS':
+          return {
+              ...state,
+              addCHErrors:{}
+          }
     default:
       return state;
   }

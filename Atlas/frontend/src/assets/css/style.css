@@ -1,0 +1,17 @@
+.atlas-button {
+  background-color: #ce8b10;
+  padding: 10px;
+  color: white;
+  margin-bottom: 20px;
+  display: inline-block;
+  border: 2px solid #ce8b10; }
+  .atlas-button svg {
+    margin-top: -2px; }
+  .atlas-button:hover {
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    border: 2px solid #774f06; }
+
+.alert {
+  border-radius: 0; }

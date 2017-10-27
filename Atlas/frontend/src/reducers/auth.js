@@ -2,7 +2,7 @@ const initState = {
   loginInputs: {},
   token: null,
   loginFetching: false,
-  loginError: null,
+  loginErrors: null,
   signupFetching: false,
   signupErrors: null,
   signupSuccess: false,
@@ -35,7 +35,7 @@ const reducer = (state = initState, action) => {
       return {
         ...state,
         loginFetching: false,
-        loginError: action.text
+        loginErrors: action.errors
       }
     case 'UPDATE_SIGNUP_INPUT':
       return {
@@ -53,6 +53,7 @@ const reducer = (state = initState, action) => {
     case 'SIGNUP_SUCCESS':
       return {
         ...state,
+        signupErrors: null,
         signupSuccess: true,
         signupFetching: false
       }
@@ -63,7 +64,6 @@ const reducer = (state = initState, action) => {
         signupFetching: false
       }
     case 'USER_UPDATED':
-      console.log(action.data);
       return {
         ...state,
         user: action.data,

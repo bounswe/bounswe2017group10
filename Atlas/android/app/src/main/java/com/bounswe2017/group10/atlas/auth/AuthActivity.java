@@ -1,5 +1,6 @@
 package com.bounswe2017.group10.atlas.auth;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -12,7 +13,10 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.bounswe2017.group10.atlas.R;
+import com.bounswe2017.group10.atlas.home.HomeActivity;
 import com.bounswe2017.group10.atlas.util.BlurBuilder;
+import com.bounswe2017.group10.atlas.util.Constants;
+import com.bounswe2017.group10.atlas.util.Utils;
 
 public class AuthActivity extends FragmentActivity {
     @Override
@@ -26,6 +30,17 @@ public class AuthActivity extends FragmentActivity {
         if (savedInstanceState != null) {
             return;
         }
+        // if there is a stored token, automatically log in.
+        if (Utils.getSharedPref(this).contains(Constants.AUTH_STR)) {
+            // refresh token
+            String authStr = Utils.getSharedPref(this).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
+            // TODO: refresh token with token-refresh endpoint.
+            // log user in automatically
+            Intent intent = new Intent(this, HomeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+
         // Do the following operations only when the activity is created for the first time
 
         // blur layout background

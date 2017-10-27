@@ -14,7 +14,7 @@ const store = createStore(atlas, {
   ...persistedState,
   auth: {
     ...(persistedState.auth || {}),
-    loginError: null,
+    loginErrors: {},
     signupInputs: {},
     signupErrors: {}
   }
