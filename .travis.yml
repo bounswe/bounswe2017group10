@@ -8,6 +8,10 @@ matrix:
       env:
         - DJANGO=1.4.1
 
+      before_install:
+        - git fetch https://github.com/bounswe/bounswe2017group10.git master:master
+        - bash ./any_changes_in.sh backend || travis_terminate 0
+
       install:
         - cd Atlas/backend
         - virtualenv atlasenv
@@ -25,6 +29,9 @@ matrix:
       # FRONTEND
     - language: python
       python: 3.6
+      before_install:
+        - git fetch https://github.com/bounswe/bounswe2017group10.git master:master
+        - bash ./any_changes_in.sh frontend || travis_terminate 0
       before_script:
         - cd Atlas/frontend
         - chmod +x test
@@ -52,6 +59,9 @@ matrix:
           - extra-google-m2repository
           - extra-android-m2repository
           - sys-img-armeabi-v7a-android-17
+      before_install:
+        - git fetch https://github.com/bounswe/bounswe2017group10.git master:master
+        - bash ./any_changes_in.sh android || travis_terminate 0
       install:
       # Update sdk tools to latest version and install/update components
           - echo yes | sdkmanager "tools"
