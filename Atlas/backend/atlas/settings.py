@@ -183,3 +183,8 @@ JWT_AUTH = {
 
     'JWT_AUTH_HEADER_PREFIX': 'JWT',
 }
+
+ADMINS = [('Yiğit Özkavcı', 'yigitozkavci8@gmail.com'),
+          ('Eşref Özdemir', 'esref.ozdemir27@gmail.com'),
+          ('Talha Nişancı', 's.talhanisanci@gmail.com'),
+          ('Aykut Bozkurt', 'aykut___1995@hotmail.com')]
