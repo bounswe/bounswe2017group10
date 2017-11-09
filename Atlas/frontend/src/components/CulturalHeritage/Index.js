@@ -24,7 +24,7 @@ const Page = ({ user, token, culturalHeritages, helpOpen, loadCulturalHeritages,
         <NavLink className="atlas-button" to="/cultural-heritages/new"><PlusIcon /> New Cultural Heritage</NavLink>
         <ul className="cultural-heritages">
           { culturalHeritages && culturalHeritages
-            .sort((c1, c2) => c1.created_time > c2.created_time)
+            .sort((c1, c2) => c1.id - c2.id)
             .map(c => (
               <NavLink key={ c.id } to={ "/cultural-heritages/" + c.id }>
                 <li className="cultural-heritage">
