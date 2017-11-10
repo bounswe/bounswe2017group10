@@ -4,7 +4,7 @@ This is an online crowd-sourced cultural heritage platform project. The online p
 
 The cultural heritage which can be described as a society's folkloric, artistic, technical and scientific legacy is registered on the platform by users per items. The items will be added, searched and annotated by the users. Each of them will have descriptions and optionally media representations. 
 
-You can use Atlas from Web and Android. To visit the webpage or download the latest Android build, please visit [Atlas](http://54.235.57.209/)
+You can use Atlas from Web and Android. To visit the webpage or download the latest Android build, please visit [Atlas](http://174.129.53.155)
 
 ![](http://i.imgur.com/3OLTFVq.jpg)
 
