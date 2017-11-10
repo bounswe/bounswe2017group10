@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class APIUtils {
 
-    private static API serverAPI  = constructServerAPI("http://54.235.57.209:81/");
+    private static API serverAPI  = constructServerAPI("http://174.129.53.155:81/");
 
     public static API serverAPI() {
         return serverAPI;
