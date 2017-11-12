@@ -7,7 +7,9 @@ import {
 import Home from "../Home/Home";
 import LoginRoute from "../../routes/Login/LoginRoute";
 import Navbar from '../../containers/Navbar/Navbar';
+
 import Profile from "../../containers/Profile/Profile";
+
 import PrivateRoute from './PrivateRoute';
 import IndexCulturalHeritagesPage from '../../containers/CulturalHeritage/Index';
 import AddCulturalHeritagePage from '../../containers/CulturalHeritage/Add';
@@ -21,6 +23,7 @@ const Routes = ({ user, loggedIn }) => ({
             <div>
               <Navbar />
               <Switch>
+
                 <Route exact path="/" component={ Home } />
                 <Route exact path="/login" component={ LoginRoute } />
                 <PrivateRoute exact path="/cultural-heritages/new" user={ user } component={ <AddCulturalHeritagePage /> } />

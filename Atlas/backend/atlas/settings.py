@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'b!ydx6z#0z%59+*@%(sfj&fynlk&73eyh4$+58%*ft%kfm43-c'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('ATLAS_DEBUG', False)
+DEBUG = os.getenv('ATLAS_DEBUG', True)
 
 ALLOWED_HOSTS = ['*']
 

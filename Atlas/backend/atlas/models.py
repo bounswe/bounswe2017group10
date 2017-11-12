@@ -12,12 +12,26 @@ class User(models.Model):
 
 class tag(models.Model):
     name = models.CharField(max_length=100,primary_key=True)
+
 class image_media_item(models.Model):
     url = models.URLField()
     created_time = models.DateField(auto_now_add =True)
     updated_time = models.DateField(auto_now =True)
     main = models.BooleanField(default=False)
     cultural_heritage_item = models.ForeignKey('Cultural_Heritage',on_delete=models.CASCADE,null=True)
+
+class video_media_item(models.Model):
+    url = models.URLField()
+    created_time = models.DateField(auto_now_add=True)
+    updated_time = models.DateField(auto_now=True)
+    cultural_heritage_item = models.ForeignKey('Cultural_Heritage', on_delete=models.CASCADE, null=True)
+
+class sound_media_item(models.Model):
+    url = models.URLField()
+    created_time = models.DateField(auto_now_add=True)
+    updated_time = models.DateField(auto_now=True)
+    cultural_heritage_item = models.ForeignKey('Cultural_Heritage', on_delete=models.CASCADE, null=True)
+
 class Cultural_Heritage(models.Model):
     user = models.ForeignKey('authentication.Account',on_delete =models.PROTECT)
     title = models.CharField(max_length = 200)
