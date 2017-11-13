@@ -1,16 +1,13 @@
 // @flow
 
+import type { Action } from '../actions/index';
+
 type State = {
   fetching: boolean,
   addCHErrors: any,
   helpOpen: boolean,
   addCHInputs: any,
   isModalOpen: boolean
-}
-
-type Action = {
-  type: string,
-  data: any
 }
 
 const initState: State = {

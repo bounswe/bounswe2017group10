@@ -1,15 +1,17 @@
 export const saveToken = token => {
   return {
     type: 'SAVE_TOKEN',
-    text: token
+    data: token
   }
 }
 
 export const updateLoginInput = (name, value) => {
   return {
     type: 'UPDATE_LOGIN_INPUT',
-    name,
-    value
+    data: {
+      name,
+      value
+    }
   }
 }
 
@@ -22,15 +24,17 @@ export const fetchingLogin = () => {
 export const loginFailed = (errors) => {
   return {
     type: 'LOGIN_FAILED',
-    errors
+    data: errors
   }
 }
 
 export const updateSignupInput = (name, value) => {
   return {
     type: 'UPDATE_SIGNUP_INPUT',
-    name,
-    value
+    data: {
+      name,
+      value
+    }
   }
 }
 
@@ -49,7 +53,7 @@ export const signupSuccess = () => {
 export const signupFailed = (err) => {
   return {
     type: 'SIGNUP_FAILED',
-    errors: err
+    data: err
   }
 }
 

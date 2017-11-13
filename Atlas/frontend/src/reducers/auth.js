@@ -1,6 +1,22 @@
-const initState = {
+// @flow
+
+import type { Action } from '../actions/index';
+
+type State = {
+  loginInputs: any,
+  token?: string,
+  loginFetching: boolean,
+  loginErrors?: any,
+  signupFetching: boolean,
+  signupErrors?: any,
+  signupSuccess: boolean,
+  signupInputs: any,
+  user: any
+}
+
+const initState: State = {
   loginInputs: {},
-  token: null,
+  token: undefined,
   loginFetching: false,
   loginErrors: null,
   signupFetching: false,
@@ -9,12 +25,13 @@ const initState = {
   signupInputs: {},
   user: {}
 };
-const reducer = (state = initState, action) => {
+
+const reducer = (state: State = initState, action: Action) => {
   switch(action.type) {
     case 'SAVE_TOKEN':
       return {
         ...state,
-        token: action.text,
+        token: action.data,
         fething: false
       };
     case 'UPDATE_LOGIN_INPUT':
@@ -22,7 +39,7 @@ const reducer = (state = initState, action) => {
         ...state,
         loginInputs: {
           ...(state.loginInputs),
-          [action.name]: action.value // TODO(Yigit): Do name checking
+          [action.data.name]: action.data.value // TODO(Yigit): Do name checking
         }
       }
     case 'LOGIN_FETCHING':
@@ -35,14 +52,14 @@ const reducer = (state = initState, action) => {
       return {
         ...state,
         loginFetching: false,
-        loginErrors: action.errors
+        loginErrors: action.data
       }
     case 'UPDATE_SIGNUP_INPUT':
       return {
         ...state,
         signupInputs: {
           ...(state.signupInputs),
-          [action.name]: action.value // TODO(Yigit): Do name checking
+          [action.data.name]: action.data.value // TODO(Yigit): Do name checking
         }
       }
     case 'SIGNUP_FETCHING':
@@ -60,7 +77,7 @@ const reducer = (state = initState, action) => {
     case 'SIGNUP_FAILED':
       return {
         ...state,
-        signupErrors: action.errors,
+        signupErrors: action.data,
         signupFetching: false
       }
     case 'USER_UPDATED':

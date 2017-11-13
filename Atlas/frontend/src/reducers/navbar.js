@@ -1,24 +1,32 @@
+// @flow
+
+import type { Action } from '../actions/index';
+
+type State = {
+  dropdownOpen: boolean
+}
+
 const initState = {
-    dropdownOpen : false
+  dropdownOpen : false
 };
 
-const reducer = (state = initState, action) => {
-    switch(action.type) {
-        case 'OPEN_DROPDOWN':
-            return {
-                ...state,
-                dropdownOpen : true
-            };
+const reducer = (state: State = initState, action: Action) => {
+  switch(action.type) {
+    case 'OPEN_DROPDOWN':
+      return {
+        ...state,
+        dropdownOpen : true
+      };
 
-        case 'CLOSE_DROPDOWN':
-            return {
-                ...state,
-                dropdownOpen : false
-            }
+    case 'CLOSE_DROPDOWN':
+      return {
+        ...state,
+        dropdownOpen : false
+      }
 
-        default:
-            return state;
-    }
+    default:
+      return state;
+  }
 }
 
 export default reducer;
