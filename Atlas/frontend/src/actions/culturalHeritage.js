@@ -33,8 +33,10 @@ export const updatingGetCH = (culturalHeritages) => {
 export const updateCHInput = (name, value) => {
   return {
     type: 'UPDATE_CULTURAL_HERITAGE_INPUT',
-    name,
-    value
+    data: {
+      name,
+      value
+    }
   }
 }
 
@@ -53,7 +55,7 @@ export const addCHSuccess = () => {
 export const addCHFail = (errors) => {
   return {
     type: 'ADD_CH_FAIL',
-    errors
+    data: errors
   }
 }
 

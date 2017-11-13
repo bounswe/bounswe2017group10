@@ -1,12 +1,28 @@
-const initState = {
+// @flow
+
+type State = {
+  fetching: boolean,
+  addCHErrors: any,
+  helpOpen: boolean,
+  addCHInputs: any,
+  isModalOpen: boolean
+}
+
+type Action = {
+  type: string,
+  data: any
+}
+
+const initState: State = {
   fetching: false,
   addCHErrors: null,
   helpOpen: true,
   addCHInputs: {},
   ImageUrl:null,
+  isModalOpen: false
 };
 
-const reducer = (state = initState, action) => {
+const reducer = (state: State = initState, action: Action) => {
   switch(action.type) {
     case 'FETCH_CULTURAL_HERITAGES':
       return {
@@ -33,7 +49,7 @@ const reducer = (state = initState, action) => {
         ...state,
         addCHInputs: {
           ...(state.addCHInputs),
-          [action.name]: action.value
+          [action.data.name]: action.data.value
         }
       }
     case 'ADD_CH_FETCH':
@@ -52,7 +68,7 @@ const reducer = (state = initState, action) => {
       return {
         ...state,
         addChFetching: false,
-        addCHErrors: action.errors
+        addCHErrors: action.data
       }
     case 'TOGGLE_ADD_CH_MODAL':
       return {
@@ -78,4 +94,5 @@ const reducer = (state = initState, action) => {
       return state;
   }
 }
+
 export default reducer;
