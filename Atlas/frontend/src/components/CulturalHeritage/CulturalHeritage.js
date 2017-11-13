@@ -3,6 +3,7 @@ import { Container, Row, Col } from 'reactstrap';
 import { truncate } from '../../utils';
 import HomeIcon from 'react-icons/lib/fa/home';
 import BankIcon from 'react-icons/lib/fa/bank';
+import TagIcon from 'react-icons/lib/fa/tag';
 
 const CulturalHeritage = ({ culturalHeritage, shouldTruncate = false }) => (
   <Container className="cultural-heritage">
@@ -36,6 +37,12 @@ const CulturalHeritage = ({ culturalHeritage, shouldTruncate = false }) => (
             <span> { culturalHeritage.city }</span>
           </label>
         }
+        { culturalHeritage.tags.map(tag => (
+          <label className="small-label">
+            <TagIcon />
+            <span> { tag['name'] }</span>
+          </label>
+        ))}
       </Col>
     </Row>
   </Container>

@@ -1,14 +1,14 @@
 import { connect } from 'react-redux';
 import Page from '../../components/CulturalHeritage/Add';
 import {
-    updateCHInput, addCHFetch, addCHSuccess, addCHFail, clearAddCHInputs, clearAddChErrors, uploadImage} from '../../actions/culturalHeritage';
+    updateCHInput, addCHFetch, addCHSuccess, addCHFail, clearAddCHInputs, clearAddChErrors, uploadImage, addCHTag, deleteCHTag} from '../../actions/culturalHeritage';
 import axios from 'axios';
 import { API_URL } from '../../constants';
 
 
 const mapStateToProps = state => {
   return {
-    imageUrl : state.culturalHeritage.ImageUrl,
+    imageUrl : state.culturalHeritage.addCHInputs.img_url,
     user: state.auth.user,
     token: state.auth.token,
     addCHInputs: state.culturalHeritage.addCHInputs,
@@ -24,7 +24,7 @@ const addSuccess = (dispatch) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    handleDrop: files =>{
+    handleDrop: files => {
       console.log('naber');
       var returndata;
         const uploaders = files.map(file => {
@@ -73,7 +73,8 @@ const mapDispatchToProps = dispatch => {
         headers: { 'Authorization': 'JWT ' + token },
         data: {
           title: addCHInputs.title,
-          description: addCHInputs.description
+          description: addCHInputs.description,
+          tags: addCHInputs.tags.map(t => ( { name: t.text } ))
         }}).then(resp => {
           if(addCHInputs.img_url !== undefined && addCHInputs.img_url !== "") {
               axios({
@@ -86,24 +87,15 @@ const mapDispatchToProps = dispatch => {
               ).then(_resp => {
                   addSuccess(dispatch);
               })
-          } else if (imageUrl!==undefined){
-              axios({
-                  method: 'post',
-                  url: API_URL + "/cultural_heritage_item/" + resp.data.id + "/image",
-                  headers: { 'Authorization': 'JWT ' + token },
-                  data: {
-                      images: [{ url: imageUrl }]
-                  }}
-              ).then(_resp => {
-                  addSuccess(dispatch);
-              })
           } else{
               addSuccess(dispatch);
           }
         }).catch(err => {
           dispatch(addCHFail(err.response.data));
         });
-    }
+    },
+    addCHTag: (name) => dispatch(addCHTag(name)),
+    deleteCHTag: (id) => dispatch(deleteCHTag(id))
   }
 }
 
