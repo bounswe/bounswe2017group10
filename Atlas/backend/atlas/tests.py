@@ -503,3 +503,68 @@ class cultural_heritage_item(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response_content['tags']),5)
+
+    def test_create_cultural_heritage_item_with_same_tags_from_different_items(self):
+        item_data = {
+            "title": "Space needle",
+            'tags': [
+                {'name': 'place',},
+                {'name': 'Seattle'},
+                {'name': 'space'},
+                {'name': 'Needle'},
+                {'name': 'downtown'}
+            ]
+        }
+        item_data2 = {
+            "title": "Discovery park",
+            'tags': [
+                {'name': 'place',},
+                {'name': 'Seattle'},
+                {'name': 'space'},
+                {'name': 'Needle'},
+                {'name': 'downtown'}
+            ]
+        }
+        response = self.client.post(
+             self.cultural_heritage_item_url,
+             item_data,
+             format='json',
+         )
+
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data2,
+            format='json',
+        )
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(response.status_code, 201)
+        id = response_content['id']
+        response = self.client.get(
+            self.cultural_heritage_item_url + str(id),
+            format='json',
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response_content['tags']), 5)
+
+    def test_create_cultural_heritage_item_with_empty_tag(self):
+        item_data = {
+            "title": "Space needle is life",
+            'tags': [
+
+            ]
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+        )
+        response_content = json.loads(smart_text(response.content))
+
+        self.assertEqual(response.status_code, 201)
+        id = response_content['id']
+        response = self.client.get(
+            self.cultural_heritage_item_url + str(id),
+            format='json',
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response_content['tags']),0)
