@@ -36,7 +36,9 @@ const mapDispatchToProps = dispatch => {
             console.log('There is an error with /api/auth/me endpoint: ' + err.data);
           });
         }).catch(err => {
-          dispatch(loginFailed(err.response.data));
+          err.response !== undefined
+            ? dispatch(loginFailed(err.response.data))
+            : dispatch(loginFailed({ network: ["Connection Error"] }))
         });
     },
     handleInputChange: (event) => {
