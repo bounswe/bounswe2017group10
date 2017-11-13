@@ -11,7 +11,7 @@ class User(models.Model):
         return self.username
 
 class tag(models.Model):
-    name = models.CharField(max_length=100,primary_key=True)
+    name = models.CharField(max_length=100)
 
 class image_media_item(models.Model):
     url = models.URLField()
