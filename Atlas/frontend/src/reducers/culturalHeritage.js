@@ -19,7 +19,7 @@ const initState: State = {
   isModalOpen: false
 };
 
-const reducer = (state: State = initState, action: Action) => {
+const reducer: (State, Action) => State = (state = initState, action) => {
   switch(action.type) {
     case 'FETCH_CULTURAL_HERITAGES':
       return {

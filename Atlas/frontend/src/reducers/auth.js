@@ -4,7 +4,7 @@ import type { Action } from '../actions/index';
 
 type State = {
   loginInputs: any,
-  token?: string,
+  token: ?string,
   loginFetching: boolean,
   loginErrors?: any,
   signupFetching: boolean,
@@ -16,7 +16,7 @@ type State = {
 
 const initState: State = {
   loginInputs: {},
-  token: undefined,
+  token: null,
   loginFetching: false,
   loginErrors: null,
   signupFetching: false,
@@ -26,7 +26,7 @@ const initState: State = {
   user: {}
 };
 
-const reducer = (state: State = initState, action: Action) => {
+const reducer: (State, Action) => State = (state = initState, action) => {
   switch(action.type) {
     case 'SAVE_TOKEN':
       return {
