@@ -21,7 +21,7 @@ const reducer = (state = initState, action) => {
       case 'CLEAR_IMG_URL':
         return{
             ...state,
-            ImageUrl : null
+            ImageUrl : []
         }
     case 'UPDATE_CULTURAL_HERITAGES':
       return {

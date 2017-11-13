@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Page from '../../components/CulturalHeritage/Add';
 import {
-    updateCHInput, addCHFetch, addCHSuccess, addCHFail, clearAddCHInputs, clearAddChErrors, uploadImage} from '../../actions/culturalHeritage';
+    updateCHInput, addCHFetch, addCHSuccess, addCHFail, clearAddCHInputs, clearImage,clearAddChErrors, uploadImage} from '../../actions/culturalHeritage';
 import axios from 'axios';
 import {API_URL,CLOUDINARY_API_KEY,CLOUDINARY_API_URL,CLOUDINARY_PRESET}  from '../../constants';
 
@@ -34,7 +34,7 @@ const mapDispatchToProps = dispatch => {
             formData.append("upload_preset", CLOUDINARY_PRESET);
             formData.append("api_key", CLOUDINARY_API_KEY);
             formData.append("timestamp", (Date.now() / 1000) | 0);
-            
+
             return axios.post(CLOUDINARY_API_URL, formData, {
                 headers: { "X-Requested-With": "XMLHttpRequest" },
             }).then(response => {
@@ -57,6 +57,7 @@ const mapDispatchToProps = dispatch => {
     },
     goBack: () =>{
       dispatch(clearAddChErrors());
+      dispatch(clearImage());
     },
     handleCHInputChange: (event) => {
       const target = event.target;
