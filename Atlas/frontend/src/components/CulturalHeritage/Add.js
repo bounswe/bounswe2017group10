@@ -46,15 +46,15 @@ const Page = ({ user, token, addCHInputs, addCHErrors, handleCHInputChange, addC
         <span className="atlas-button" onClick={ () => addCH(addCHInputs, token, imageUrl) }><PlusIcon /> Add Cultural Heritage</span>
       </FormGroup>
         <FormGroup>
-            {imageUrl?
-                <img src={imageUrl} alt="Uploaded"></img>
+            {imageUrl.length!==0?
+                <img src={imageUrl[0].url} alt="Uploaded"></img>
                     :
             <Dropzone
                 onDrop={handleDrop}
                 multiple
                 accept="image/*">
 
-                {imageUrl ?
+                {imageUrl.length!==0 ?
                     <p>Image added successfully</p>
                         : <p>Drop your files or click here to upload</p> }
 

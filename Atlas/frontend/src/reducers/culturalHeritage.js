@@ -3,7 +3,7 @@ const initState = {
   addCHErrors: null,
   helpOpen: true,
   addCHInputs: {},
-  ImageUrl:null,
+  ImageUrl:[],
 };
 
 const reducer = (state = initState, action) => {
@@ -16,7 +16,7 @@ const reducer = (state = initState, action) => {
       case 'IMAGE_URL_UPLOADED':
         return {
             ...state,
-            ImageUrl: action.data
+            ImageUrl: [...state.ImageUrl,{ url: action.data}]
         }
       case 'CLEAR_IMG_URL':
         return{
