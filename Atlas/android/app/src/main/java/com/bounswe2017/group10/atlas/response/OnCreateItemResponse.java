@@ -1,21 +1,22 @@
 package com.bounswe2017.group10.atlas.response;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
+import android.net.Uri;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.bounswe2017.group10.atlas.R;
-import com.bounswe2017.group10.atlas.adapter.ImageRow;
 import com.bounswe2017.group10.atlas.home.CreateItemFragment;
 import com.bounswe2017.group10.atlas.httpbody.CreateItemResponse;
 import com.bounswe2017.group10.atlas.httpbody.Image;
-import com.bounswe2017.group10.atlas.httpbody.ImageUploadRequest;
-import com.bounswe2017.group10.atlas.remote.APIUtils;
 import com.bounswe2017.group10.atlas.util.Constants;
 import com.bounswe2017.group10.atlas.util.Utils;
+import com.cloudinary.android.MediaManager;
 
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,11 +45,29 @@ public class OnCreateItemResponse implements Callback<CreateItemResponse> {
                 progressBar.setVisibility(View.GONE);
                 createFragment.clearView();
             } else {
-                String authStr = Utils.getSharedPref(context).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
                 int id = response.body().getId();
-                APIUtils.serverAPI()
-                        .uploadImages(authStr, id, new ImageUploadRequest(mImageList))
-                        .enqueue(new OnUploadImagesResponse(createFragment, progressBar));
+
+                int lastLocalUrlIndex = 0;
+                for (int i = 0; i < mImageList.size(); ++i) {
+                    if (Utils.isLocalUrl(mImageList.get(i).getUrl())) {
+                        lastLocalUrlIndex = i;
+                        break;
+                    }
+                }
+                OnCloudinaryUploadResponse respHandler = new OnCloudinaryUploadResponse(
+                        context,
+                        createFragment,
+                        mImageList,
+                        progressBar,
+                        id,
+                        lastLocalUrlIndex
+                );
+                String fileUrl = mImageList.get(lastLocalUrlIndex).getUrl();
+                MediaManager.get()
+                        .upload(Uri.parse(fileUrl))
+                        .unsigned("wak3gala")
+                        .callback(respHandler)
+                        .dispatch();
             }
         } else {
             Utils.showToast(context, context.getString(R.string.failed_create_item));
@@ -60,4 +79,5 @@ public class OnCreateItemResponse implements Callback<CreateItemResponse> {
         Utils.showToast(context, context.getResources().getString(R.string.connection_failure));
         // TODO: do logging
     }
+
 }

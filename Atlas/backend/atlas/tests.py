@@ -18,8 +18,16 @@ class cultural_heritage_item(TestCase):
         self.login_url = '/api/auth/login/'
         self.sigun_url = '/api/auth/signup/'
         self.cultural_heritage_item_url = '/cultural_heritage_item/'
+        self.my_items_url= '/cultural_heritage_item/myitems'
         self.user = Account.objects.create_user(
             email=self.email, password=self.password, username=self.username)
+
+        self.email2 = 'emrantest1@gmail.com'
+        self.username2 = 'heisenberg13'
+        self.password2 = 'passworD1ss'
+        self.cultural_heritage_item_url = '/cultural_heritage_item/'
+        self.user2 = Account.objects.create_user(
+            email=self.email2, password=self.password2, username=self.username2)
 
         self.data = {
             'username': self.username,
@@ -29,6 +37,7 @@ class cultural_heritage_item(TestCase):
         }
         self.client = APIClient()
         self.client.login(username=self.username,password=self.password)
+
     def test_create_cultural_heritage_item(self):
 
         item_data = {
@@ -41,6 +50,62 @@ class cultural_heritage_item(TestCase):
 
         )
         self.assertEqual(response.status_code, 201)
+
+    def test_list_user_items(self):
+        title = 'Very emotional thresh hook'
+        item_data = {
+            "title": title,
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        response = self.client.get(
+            self.my_items_url,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 200)
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(response_content[0]['title'], title)
+
+    def test_list_user_items_with_another_user(self):
+            title = 'Very emotional thresh hook'
+            item_data = {
+                "title": title,
+            }
+            response = self.client.post(
+                self.cultural_heritage_item_url,
+                item_data,
+                format='json',
+
+            )
+            self.assertEqual(response.status_code, 201)
+            response = self.client.get(
+                self.my_items_url,
+                format='json',
+
+            )
+            self.assertEqual(response.status_code, 200)
+            response_content = json.loads(smart_text(response.content))
+            self.assertEqual(response_content[0]['title'], title)
+            self.client.logout()
+            self.client.login(username=self.username2, password=self.password2)
+
+            response = self.client.get(
+                self.my_items_url,
+                format='json',
+
+            )
+            self.assertEqual(response.status_code, 200)
+            response_content = json.loads(smart_text(response.content))
+            self.assertEqual(len(response_content), 0)
+
+
+
 
 
     def test_create_cultural_heritage_item_with_missing_title(self):
@@ -412,3 +477,29 @@ class cultural_heritage_item(TestCase):
         response_content = json.loads(smart_text(response.content))
         self.assertEqual(len(response_content['images']), 2)
 
+    def test_create_cultural_heritage_item_with_tags(self):
+        item_data = {
+            "title": "Space needle",
+            'tags': [
+                {'name':'place',},
+                {'name':'Seattle'},
+                {'name':'space'},
+                {'name':'Needle'},
+                {'name':'downtown'}
+            ]
+        }
+        response = self.client.post(
+        self.cultural_heritage_item_url,
+        item_data,
+        format='json',
+        )
+        response_content = json.loads(smart_text(response.content))
+
+        self.assertEqual(response.status_code, 201)
+        id = response_content['id']
+        response = self.client.get(
+            self.cultural_heritage_item_url + str(id),
+            format='json',
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response_content['tags']),5)

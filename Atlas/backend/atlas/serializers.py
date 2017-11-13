@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Cultural_Heritage,image_media_item
+from .models import Cultural_Heritage,image_media_item,tag as tag_model
 from authentication.serializers import AccountSerializer
 
 
@@ -9,7 +9,10 @@ class image_media_item_serializer(serializers.ModelSerializer):
     class Meta:
         model = image_media_item
         fields = '__all__'
-
+class tag_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = tag_model
+        fields = '__all__'
 
 class cultural_heritage_serializer(serializers.ModelSerializer):
     country = serializers.CharField(required=False)
@@ -17,7 +20,21 @@ class cultural_heritage_serializer(serializers.ModelSerializer):
     continent= serializers.CharField(required=False)
     user = AccountSerializer
     images = image_media_item_serializer(source='image_media_item_set',read_only=True,many=True)
-
+    tags  = tag_serializer(many=True,required=False)
     class Meta:
         model = Cultural_Heritage
         fields = '__all__'
+    def create(self, validated_data):
+        if validated_data.get('tags'):
+            tags = validated_data.pop('tags')
+            heritage_item = Cultural_Heritage.objects.create(**validated_data)
+            heritage_item.save()
+            for tag in tags:
+                new_tag =tag_model.objects.create(**tag)
+                new_tag.save()
+                heritage_item.tags.add(new_tag)
+            heritage_item.save()
+            return heritage_item
+
+        return super(cultural_heritage_serializer, self).create(validated_data)
+

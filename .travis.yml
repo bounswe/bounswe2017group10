@@ -8,6 +8,10 @@ matrix:
       env:
         - DJANGO=1.4.1
 
+      before_install:
+        - git fetch https://github.com/bounswe/bounswe2017group10.git master:master
+        - bash ./any_changes_in.sh backend || travis_terminate 0
+
       install:
         - cd Atlas/backend
         - virtualenv atlasenv
@@ -25,6 +29,9 @@ matrix:
       # FRONTEND
     - language: python
       python: 3.6
+      before_install:
+        - git fetch https://github.com/bounswe/bounswe2017group10.git master:master
+        - bash ./any_changes_in.sh frontend || travis_terminate 0
       before_script:
         - cd Atlas/frontend
         - chmod +x test
@@ -45,15 +52,17 @@ matrix:
           - $HOME/.gradle/native/
           - $HOME/.gradle/daemon/
       android:
-        components:
-          - android-26
-          - android-17
-          - build-tools-26.0.1
-          - extra-google-m2repository
-          - extra-android-m2repository
-          - sys-img-armeabi-v7a-android-17
+      before_install:
+        - git fetch https://github.com/bounswe/bounswe2017group10.git master:master
+        - bash ./any_changes_in.sh android || travis_terminate 0
       install:
       # Update sdk tools to latest version and install/update components
+          - android-update-sdk --components=android-26
+          - android-update-sdk --components=android-17
+          - android-update-sdk --components=build-tools-26.0.1
+          - android-update-sdk --components=extra-google-m2repository
+          - android-update-sdk --components=extra-android-m2repository
+          - android-update-sdk --components=sys-img-armeabi-v7a-android-17
           - echo yes | sdkmanager "tools"
           - echo yes | sdkmanager "platforms;android-26"
           - echo yes | sdkmanager "extras;android;m2repository"
@@ -78,6 +87,4 @@ notifications:
   email:
     - yigitozkavci8@gmail.com
     - ramazankaniturkmen@gmail.com
-    - s.talhanisanci@gmail.com
     - aykut___1995@hotmail.com
-    - esref.ozdemir27@gmail.com

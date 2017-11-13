@@ -10,16 +10,28 @@ class User(models.Model):
     def __str__(self):
         return self.username
 
+class tag(models.Model):
+    name = models.CharField(max_length=100,primary_key=True)
 
-class Item(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    item_name = models.CharField(max_length=200)
 class image_media_item(models.Model):
     url = models.URLField()
     created_time = models.DateField(auto_now_add =True)
     updated_time = models.DateField(auto_now =True)
     main = models.BooleanField(default=False)
     cultural_heritage_item = models.ForeignKey('Cultural_Heritage',on_delete=models.CASCADE,null=True)
+
+class video_media_item(models.Model):
+    url = models.URLField()
+    created_time = models.DateField(auto_now_add=True)
+    updated_time = models.DateField(auto_now=True)
+    cultural_heritage_item = models.ForeignKey('Cultural_Heritage', on_delete=models.CASCADE, null=True)
+
+class sound_media_item(models.Model):
+    url = models.URLField()
+    created_time = models.DateField(auto_now_add=True)
+    updated_time = models.DateField(auto_now=True)
+    cultural_heritage_item = models.ForeignKey('Cultural_Heritage', on_delete=models.CASCADE, null=True)
+
 class Cultural_Heritage(models.Model):
     user = models.ForeignKey('authentication.Account',on_delete =models.PROTECT)
     title = models.CharField(max_length = 200)
@@ -30,6 +42,8 @@ class Cultural_Heritage(models.Model):
     public_accessibility = models.BooleanField(default=True)
     created_time = models.DateField(auto_now_add =True)
     updated_time = models.DateField(auto_now =True)
+    tags = models.ManyToManyField('tag',blank=True)
+
 
 
 
