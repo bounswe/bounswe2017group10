@@ -23,6 +23,14 @@ export const uploadImage = (imageLink) => {
     }
 }
 
+export const clearImage = () => {
+    return {
+        type: 'CLEAR_IMG_URL'
+
+    }
+}
+
+
 export const updatingGetCH = (culturalHeritages) => {
   return {
     type: 'UPDATE_CULTURAL_HERITAGES',

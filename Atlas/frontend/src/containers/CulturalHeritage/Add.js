@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import Page from '../../components/CulturalHeritage/Add';
 import {
-    updateCHInput, addCHFetch, addCHSuccess, addCHFail, clearAddCHInputs, clearAddChErrors, uploadImage} from '../../actions/culturalHeritage';
+    updateCHInput, addCHFetch, addCHSuccess, addCHFail, clearAddCHInputs, clearImage,clearAddChErrors, uploadImage} from '../../actions/culturalHeritage';
 import axios from 'axios';
-import { API_URL } from '../../constants';
+import {API_URL,CLOUDINARY_API_KEY,CLOUDINARY_API_URL,CLOUDINARY_PRESET}  from '../../constants';
 
 
 const mapStateToProps = state => {
@@ -31,17 +31,16 @@ const mapDispatchToProps = dispatch => {
             // Initial FormData
             const formData = new FormData();
             formData.append("file", file);
-            formData.append("upload_preset", "wak3gala");
-            formData.append("api_key", "642824638492586");
+            formData.append("upload_preset", CLOUDINARY_PRESET);
+            formData.append("api_key", CLOUDINARY_API_KEY);
             formData.append("timestamp", (Date.now() / 1000) | 0);
 
-            // Make an AJAX upload request using Axios (replace Cloudinary URL below with your own)
-            return axios.post("https://api.cloudinary.com/v1_1/dsfusawmf/image/upload", formData, {
+            return axios.post(CLOUDINARY_API_URL, formData, {
                 headers: { "X-Requested-With": "XMLHttpRequest" },
             }).then(response => {
                 const data = response.data;
 
-                const fileURL = data.secure_url
+                const fileURL = data.secure_url;
                 const image_url = 'http://res.cloudinary.com/dsfusawmf/image/upload/v'+ data.version + '/' + data.public_id + '.png';
                 dispatch(uploadImage(image_url));
                 console.log(data);
@@ -58,6 +57,7 @@ const mapDispatchToProps = dispatch => {
     },
     goBack: () =>{
       dispatch(clearAddChErrors());
+      dispatch(clearImage());
     },
     handleCHInputChange: (event) => {
       const target = event.target;
@@ -86,13 +86,13 @@ const mapDispatchToProps = dispatch => {
               ).then(_resp => {
                   addSuccess(dispatch);
               })
-          } else if (imageUrl!==undefined){
+          } else if (imageUrl.length!==0){
               axios({
                   method: 'post',
                   url: API_URL + "/cultural_heritage_item/" + resp.data.id + "/image",
                   headers: { 'Authorization': 'JWT ' + token },
                   data: {
-                      images: [{ url: imageUrl }]
+                      images: imageUrl
                   }}
               ).then(_resp => {
                   addSuccess(dispatch);
