@@ -4,6 +4,25 @@ export const fetchCH = () => {
   }
 }
 
+export const fetchUserItems = () => {
+    return {
+        type: 'FETCH_USER_ITEMS'
+    }
+}
+
+export const finishFetchingUserItems = () => {
+    return {
+        type: 'FINISH_FETCHING_USER_ITEMS'
+    }
+}
+
+export const updatingUserItems = (userItems) => {
+    return {
+        type: 'UPDATE_USER_ITEMS',
+        data: userItems
+    }
+}
+
 export const clearAddChErrors = () => {
   return{
     type: 'CLEAR_ADD_CH_ERRORS'
