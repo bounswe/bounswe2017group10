@@ -1,8 +1,8 @@
-from .models import User,Cultural_Heritage,image_media_item as image_item
+from .models import User,Cultural_Heritage,comment,image_media_item as image_item
 from rest_framework import generics
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
-from .serializers import cultural_heritage_serializer,image_media_item_serializer
+from .serializers import cultural_heritage_serializer,image_media_item_serializer, comment_serializer
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
@@ -29,6 +29,10 @@ class cultural_heritage_item(generics.ListCreateAPIView):
 
         return super(cultural_heritage_item, self).create(request,*args,**kwargs)
 
+class comment(generics.ListCreateAPIView):
+
+    queryset = comment.objects.all()
+    serializer_class = comment_serializer
 
 class ImageInterceptorMixin(object):
     @property
