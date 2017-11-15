@@ -54,8 +54,10 @@ const mapDispatchToProps = dispatch => {
                     });
                     dispatch(clearSignupInputs());
                 })
-                .catch(function(err) {
-                    dispatch(signupFailed(err.response.data));
+                .catch(err => {
+                  err.response !== undefined
+                    ? dispatch(signupFailed(err.response.data))
+                    : dispatch(signupFailed({ network: ["Connection Error"] }))
                 });
         }
     };

@@ -6,7 +6,7 @@ import { Errors } from '../../utils';
 
 const Login = ({ history, token, loginInputs, loginErrors, attemptLogin, handleInputChange }) => (
   <Container className="square-box">
-    <Form>
+    <Form onKeyPress={ (event) => event.key == 'Enter' ? attemptLogin(loginInputs) : null }>
       <h3>Log-in</h3>
       <hr />
       <FormGroup>
