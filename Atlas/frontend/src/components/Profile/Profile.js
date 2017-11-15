@@ -34,9 +34,9 @@ const Profile = ({ user, userItems }) => ({
         </Row>
         <Row>
           <Col xs="9">
-            <NavLink className="atlas-button" to="#"> My Cultural Heritages</NavLink>
+            <h1 className="my-items-title">My Cultural Heritage Items</h1>
             <ul className="cultural-heritages">
-                { userItems && userItems
+                {  userItems && userItems
                     .sort((c1, c2) => c1.id - c2.id)
                     .map(c => (
                             <NavLink key={ c.id } to={ "/cultural-heritages/" + c.id }>

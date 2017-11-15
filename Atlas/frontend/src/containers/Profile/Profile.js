@@ -40,7 +40,7 @@ class App extends React.Component {
     }
 
     render() {
-        return <Profile culturalHeritages={ this.props.culturalHeritages } { ...this.props }  />
+        return <Profile userItems={ this.props.userItems } { ...this.props }  />
     }
 }
 
