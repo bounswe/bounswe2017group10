@@ -48,7 +48,8 @@ const Page = ({ user, token, addCHInputs, addCHErrors, handleCHInputChange, addC
                   <label>Tags:</label>
               </Col>
               <Col xs="9">
-                <ReactTags tags={ addCHInputs.tags || [] } handleAddition={ addCHTag } handleDelete={ deleteCHTag }/>
+                { /* ENTER, TAB and COMMA characters. Taken from: https://github.com/prakhar1989/react-tags/blob/master/test/reactTags.test.js#L88 */ }
+                <ReactTags placeholder="Add a tag (separate with comma or space)" maxLength="70" delimiters={ [13, 9, 188, 32] } tags={ addCHInputs.tags || [] } handleAddition={ addCHTag } handleDelete={ deleteCHTag }/>
               </Col>
           </Row>
       </FormGroup>
