@@ -29,10 +29,15 @@ class cultural_heritage_item(generics.ListCreateAPIView):
 
         return super(cultural_heritage_item, self).create(request,*args,**kwargs)
 
-class comment(generics.ListCreateAPIView):
+class cultural_heritage_item_comment(generics.ListCreateAPIView):
 
-    queryset = comment.objects.all()
     serializer_class = comment_serializer
+
+    def get_queryset(self):
+        item = self.request.cultural_heritage_item;
+        return comment.objects.filter(cultural_heritage_item=item)
+
+
 
 class ImageInterceptorMixin(object):
     @property

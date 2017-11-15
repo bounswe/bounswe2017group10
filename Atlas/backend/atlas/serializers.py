@@ -15,7 +15,7 @@ class tag_serializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class comment_serializer(serializers.ModelSerializer):
-    text = serializers.TextField(required=False)
+    text = serializers.TextField(required=True)
     cultural_heritage_item = cultural_heritage_serializer
     user = AccountSerializer
     class Meta:
