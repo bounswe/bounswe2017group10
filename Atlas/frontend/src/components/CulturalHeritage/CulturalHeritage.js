@@ -38,9 +38,9 @@ const CulturalHeritage = ({ culturalHeritage, shouldTruncate = false }) => (
           </label>
         }
         { culturalHeritage.tags.map(tag => (
-          <label className="small-label">
+          <label className="small-label" key={ tag['id'] }>
             <TagIcon />
-            <span> { tag['name'] }</span>
+            <span>{ tag['name'] }</span>
           </label>
         ))}
       </Col>
