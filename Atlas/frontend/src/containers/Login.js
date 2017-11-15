@@ -18,8 +18,8 @@ const mapDispatchToProps = dispatch => {
       dispatch(fetchingLogin());
       axios
         .post(API_URL + '/api/auth/login/', {
-          username_or_email: loginInputs.username_or_email,
-          password: loginInputs.password
+          username_or_email: loginInputs ? loginInputs.username_or_email : "",
+          password: loginInputs ? loginInputs.password : ""
         }).then(resp => {
           const token = resp.data.token;
           dispatch(saveToken(token))
@@ -36,7 +36,9 @@ const mapDispatchToProps = dispatch => {
             console.log('There is an error with /api/auth/me endpoint: ' + err.data);
           });
         }).catch(err => {
-          dispatch(loginFailed(err.response.data));
+          err.response !== undefined
+            ? dispatch(loginFailed(err.response.data))
+            : dispatch(loginFailed({ network: ["Connection Error"] }))
         });
     },
     handleInputChange: (event) => {

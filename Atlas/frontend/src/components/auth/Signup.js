@@ -1,11 +1,11 @@
 import React from 'react';
-import { Button, Form, FormGroup, Input, Col, Row, Container, Badge } from 'reactstrap';
+import { Button, Form, FormGroup, Input, Col, Row, Container } from 'reactstrap';
 import './style.css';
 import { Errors } from '../../utils';
 
 const Signup = ({ signupInputs, signupErrors, inputChanged, attemptSignup }) => (
   <Container className="square-box">
-    <Form className="signup-panel"  onSubmit={attemptSignup}>
+    <Form onKeyPress={ (event) => event.key == 'Enter' ? attemptSignup(signupInputs) : null } className="signup-panel"  onSubmit={attemptSignup}>
       <h3>Sign-up</h3>
       <hr/>
       <FormGroup>

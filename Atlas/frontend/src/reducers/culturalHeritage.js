@@ -1,11 +1,14 @@
+const initAddCHInputs = {
+  tags: []
+}
 const initState = {
   fetching: false,
   fetchingUserItems: false,
   addCHErrors: null,
   helpOpen: true,
-  addCHInputs: {},
-  ImageUrl: null,
   userItems: null,
+  addCHInputs: initAddCHInputs
+
 };
 
 const reducer = (state = initState, action) => {
@@ -22,9 +25,12 @@ const reducer = (state = initState, action) => {
     }
     case 'IMAGE_URL_UPLOADED':
       return {
-         ...state,
-         ImageUrl: action.data
-    }
+          ...state,
+          addCHInputs: {
+            ...(state.addCHInputs),
+            img_url: action.data
+          }
+      }
     case 'UPDATE_CULTURAL_HERITAGES':
       return {
         ...state,
@@ -79,18 +85,39 @@ const reducer = (state = initState, action) => {
     case 'CLEAR_ADD_CH_INPUTS':
       return {
         ...state,
-        addCHInputs: {}
+        addCHInputs: initAddCHInputs
       }
     case 'CLOSE_HELP':
       return {
         ...state,
         helpOpen: false
       }
-      case 'CLEAR_ADD_CH_ERRORS':
-          return {
-              ...state,
-              addCHErrors:{}
-          }
+    case 'CLEAR_ADD_CH_ERRORS':
+      return {
+        ...state,
+        addCHErrors:{}
+      }
+    case 'ADD_CH_TAG':
+      return {
+        ...state,
+        addCHInputs: {
+          ...(state.addCHInputs),
+          tags: state.addCHInputs.tags.concat({
+            id: state.addCHInputs.tags.length + 1,
+            text: action.data
+          })
+        }
+      }
+    case 'DELETE_CH_TAG':
+      let tags = state.addCHInputs.tags;
+      tags.splice(action.data, 1);
+      return {
+        ...state,
+        addCHInputs: {
+          ...(state.addCHInputs),
+          tags
+        }
+      }
     default:
       return state;
   }

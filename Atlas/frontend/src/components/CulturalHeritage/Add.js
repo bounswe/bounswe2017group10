@@ -1,13 +1,14 @@
 import React from 'react';
 import './style.css';
-import { Button, Form, FormGroup, Input, Col, Row, Container } from 'reactstrap';
+import { Form, FormGroup, Input, Col, Row, Container } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import PlusIcon from 'react-icons/lib/fa/plus-circle';
 import LeftIcon from 'react-icons/lib/fa/angle-left';
 import { Errors } from '../../utils';
 import Dropzone from 'react-dropzone';
+import { WithContext as ReactTags } from 'react-tag-input';
 
-const Page = ({ user, token, addCHInputs, addCHErrors, handleCHInputChange, addCH, goBack, handleDrop, imageUrl }) => (
+const Page = ({ user, token, addCHInputs, addCHErrors, handleCHInputChange, addCHTag, deleteCHTag, addCH, goBack, handleDrop, imageUrl }) => (
   <Container>
     <NavLink className="atlas-button" onClick={goBack} to="/cultural-heritages"><LeftIcon /> Back</NavLink>
     <h1 style={{ textAlign: 'center' }}>Add Cultural Heritage</h1> 
@@ -38,6 +39,17 @@ const Page = ({ user, token, addCHInputs, addCHErrors, handleCHInputChange, addC
                   rows="7"
                   onChange={handleCHInputChange}
                 />
+              </Col>
+          </Row>
+      </FormGroup>
+      <FormGroup>
+          <Row>
+              <Col xs="3">
+                  <label>Tags:</label>
+              </Col>
+              <Col xs="9">
+                { /* ENTER, TAB and COMMA characters. Taken from: https://github.com/prakhar1989/react-tags/blob/master/test/reactTags.test.js#L88 */ }
+                <ReactTags placeholder="Add a tag (separate with comma or space)" maxLength="70" delimiters={ [13, 9, 188, 32] } tags={ addCHInputs.tags || [] } handleAddition={ addCHTag } handleDelete={ deleteCHTag }/>
               </Col>
           </Row>
       </FormGroup>

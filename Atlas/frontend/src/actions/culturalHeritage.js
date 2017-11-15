@@ -88,6 +88,20 @@ export const clearAddCHInputs = () => {
   }
 }
 
+export const addCHTag = (name) => {
+  return {
+    type: 'ADD_CH_TAG',
+    data: name
+  }
+}
+
+export const deleteCHTag = (id) => {
+  return {
+    type: 'DELETE_CH_TAG',
+    data: id
+  }
+}
+
 export const closeHelp = () => {
   return {
     type: 'CLOSE_HELP'
