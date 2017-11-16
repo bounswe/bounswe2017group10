@@ -12,21 +12,29 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.adapter.ImageListAdapter;
 import com.bounswe2017.group10.atlas.adapter.ImageRow;
+import com.bounswe2017.group10.atlas.adapter.TagListAdapter;
 import com.bounswe2017.group10.atlas.httpbody.CultureItem;
 import com.bounswe2017.group10.atlas.httpbody.Image;
+import com.bounswe2017.group10.atlas.httpbody.Tag;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
 import com.bounswe2017.group10.atlas.response.OnCreateItemResponse;
 import com.bounswe2017.group10.atlas.util.Constants;
@@ -34,6 +42,7 @@ import com.bounswe2017.group10.atlas.util.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class CreateItemFragment extends Fragment {
@@ -43,8 +52,11 @@ public class CreateItemFragment extends Fragment {
     private static final int FROM_CAMERA = 2;
     private static final int CAMERA_REQUEST_CODE = 3;
 
-    private ImageListAdapter mAdapter;
+    private ImageListAdapter mImageAdapter;
     private final ArrayList<ImageRow> mImageRowList = new ArrayList<>();
+
+    private TagListAdapter mTagAdapter;
+    private final ArrayList<Tag> mTagList = new ArrayList<>();
 
     private Uri currentPhotoUri = null;
 
@@ -58,10 +70,48 @@ public class CreateItemFragment extends Fragment {
         Button btnCamera = view.findViewById(R.id.camera_button);
         Button btnUrl = view.findViewById(R.id.url_button);
         Button btnCreate = view.findViewById(R.id.create_button);
+        EditText etTags = view.findViewById(R.id.tag_edittext);
+
+        RecyclerView tagRecyclerview = view.findViewById(R.id.tag_recyclerview);
+        mTagAdapter = new TagListAdapter(getActivity(), mTagList, (List<Tag> tagList, int position) -> {
+            tagList.remove(position);
+            mTagAdapter.notifyDataSetChanged();
+        });
+        tagRecyclerview.setAdapter(mTagAdapter);
 
         // set ImageListAdapter to imageListView
-        mAdapter = new ImageListAdapter(getActivity(), mImageRowList);
-        imageListView.setAdapter(mAdapter);
+        mImageAdapter = new ImageListAdapter(getActivity(), mImageRowList);
+        imageListView.setAdapter(mImageAdapter);
+
+        etTags.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Not Implemented
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Not Implemented
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String textEntered = s.toString();
+                if (textEntered.endsWith(" ")) {
+                    // clear edittext
+                    s.clear();
+                    // add tag if it is not already added
+                    int len = textEntered.length();
+                    String textWithoutSpace = textEntered.substring(0, len - 1);
+                    Tag tagToAdd = new Tag(textWithoutSpace);
+                    if (!mTagList.contains(tagToAdd)) {
+                        mTagList.add(tagToAdd);
+                        mTagAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
+
 
         btnGallery.setOnClickListener((View btnView) -> {
             Intent intent = new Intent();
@@ -141,6 +191,8 @@ public class CreateItemFragment extends Fragment {
                 imageList.add(img);
             }
             item.setImageList(imageList);
+
+            item.setTagList(mTagList);
             makeCreateRequest(item, imageList, progressBar);
         });
         return view;
@@ -180,6 +232,9 @@ public class CreateItemFragment extends Fragment {
         etCountry.setText("");
         etCity.setText("");
         mImageRowList.clear();
+        mTagList.clear();
+        mImageAdapter.notifyDataSetChanged();
+        mTagAdapter.notifyDataSetChanged();;
     }
 
     /**
@@ -210,7 +265,7 @@ public class CreateItemFragment extends Fragment {
         row.setUri(uri);
         if (!mImageRowList.contains(row)) {
             mImageRowList.add(row);
-            mAdapter.notifyDataSetChanged();
+            mImageAdapter.notifyDataSetChanged();
         }
     }
 
