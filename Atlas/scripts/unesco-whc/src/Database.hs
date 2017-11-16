@@ -10,7 +10,7 @@ import           Database.PostgreSQL.Simple
 import           Types
 
 insertHeritages :: [Heritage] -> IO ()
-insertHeritages (take 2 -> heritages) = do
+insertHeritages (take 50 -> heritages) = do
   now <- getCurrentTime
   db_name <- getEnv "ATLAS_DB_NAME"
   db_user <- getEnv "ATLAS_DB_USER"
