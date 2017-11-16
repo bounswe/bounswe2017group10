@@ -159,7 +159,12 @@ public class CultureItem implements Parcelable {
         if (imgList.size() != 0) {
             url = imgList.get(0).getUrl();
         }
-        return new FeedRow(url, getTitle(), getDescription());
+
+        List<String> tagList = new ArrayList<>();
+        for (Tag t : this.getTagList()) {
+            tagList.add(t.getName());
+        }
+        return new FeedRow(url, getTitle(), getDescription(), tagList);
     }
 
 }

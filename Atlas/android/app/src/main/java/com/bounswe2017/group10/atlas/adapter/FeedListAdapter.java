@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FeedListAdapter extends ArrayAdapter<FeedRow> {
     private final Context context;
@@ -32,6 +33,9 @@ public class FeedListAdapter extends ArrayAdapter<FeedRow> {
         private TextView etTitle;
         private TextView etDescr;
         private ImageView imIcon;
+        private TextView etTag1;
+        private TextView etTag2;
+        private TextView etTag3;
     }
 
     @Override
@@ -39,19 +43,33 @@ public class FeedListAdapter extends ArrayAdapter<FeedRow> {
         ViewHolder holder;
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.feed_list_item, parent, false);
+            convertView = inflater.inflate(R.layout.list_item_layout, parent, false);
             holder = new ViewHolder();
             holder.etTitle = convertView.findViewById(R.id.title_textview);
             holder.etDescr = convertView.findViewById(R.id.description_textview);
             holder.imIcon = convertView.findViewById(R.id.icon_imageview);
+            holder.etTag1 = convertView.findViewById(R.id.tag1);
+            holder.etTag2 = convertView.findViewById(R.id.tag2);
+            holder.etTag3 = convertView.findViewById(R.id.tag3);
+
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
         FeedRow row = items.get(pos);
+        List<String> tagList = row.getTagList();
+        TextView[] tagArr = {holder.etTag1, holder.etTag2, holder.etTag3};
+        int i = 0;
+        for (; i < tagList.size(); ++i) {
+            tagArr[i].setText(tagList.get(i));
+        }
+        for (; i < tagArr.length; ++i) {
+            tagArr[i].setVisibility(View.GONE);
+        }
         holder.etTitle.setText(row.getTitle());
         holder.etDescr.setText(row.getDescription());
+
         Glide.with(context)
                 .load(row.getImageUrl())
                 .apply(new RequestOptions()

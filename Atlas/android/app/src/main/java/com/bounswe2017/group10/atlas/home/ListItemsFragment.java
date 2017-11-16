@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.adapter.FeedListAdapter;
@@ -59,10 +57,12 @@ public class ListItemsFragment extends Fragment {
         this.requestStrategy = strategy;
     }
 
+    private boolean firstView = true;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_feed, container, false);
+        View view = inflater.inflate(R.layout.fragment_list_items, container, false);
 
         ListView listView = view.findViewById(R.id.feed_listview);
 
@@ -70,7 +70,13 @@ public class ListItemsFragment extends Fragment {
         listView.setAdapter(mAdapter);
 
         // currently, get all items
-        this.requestStrategy.requestItems(getActivity(), mItemList, mRowList, mAdapter);
+        if (firstView) {
+            mItemList.clear();
+            mRowList.clear();
+            mAdapter.notifyDataSetChanged();
+            this.requestStrategy.requestItems(getActivity(), mItemList, mRowList, mAdapter);
+            firstView = false;
+        }
 
         // item click listener
         listView.setOnItemClickListener((AdapterView<?> adapterView, View itemView, int pos, long arg3) -> {
@@ -93,6 +99,7 @@ public class ListItemsFragment extends Fragment {
         swipeLayout.setOnRefreshListener(() -> {
             mItemList.clear();
             mRowList.clear();
+            mAdapter.notifyDataSetChanged();
             this.requestStrategy.requestItems(getActivity(), mItemList, mRowList, mAdapter);
             swipeLayout.setRefreshing(false);
         });
