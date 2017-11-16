@@ -4,6 +4,7 @@ package com.bounswe2017.group10.atlas.home;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -44,6 +45,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class CreateItemFragment extends Fragment {
 
@@ -52,13 +57,43 @@ public class CreateItemFragment extends Fragment {
     private static final int FROM_CAMERA = 2;
     private static final int CAMERA_REQUEST_CODE = 3;
 
+    private final ArrayList<String> mAllTagsList = new ArrayList<>();
+
     private ImageListAdapter mImageAdapter;
     private final ArrayList<ImageRow> mImageRowList = new ArrayList<>();
 
     private TagListAdapter mTagAdapter;
     private final ArrayList<Tag> mTagList = new ArrayList<>();
 
+    private ArrayAdapter<String> mAutoComplAdapter;
+
     private Uri currentPhotoUri = null;
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        // make a single call to get all Tags
+        String authStr = Utils.getSharedPref(getActivity()).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
+        APIUtils.serverAPI().getAllTags(authStr).enqueue(new Callback<List<Tag>>() {
+            @Override
+            public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {
+                if (response.isSuccessful()) {
+                    List<Tag> responseList = response.body();
+                    for (Tag t : responseList) {
+                        mTagList.add(t);
+                    }
+                    mAutoComplAdapter.notifyDataSetChanged();
+                } else {
+                    Log.d(TAG, "Error on getting all tags: " + response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Tag>> call, Throwable t) {
+                Log.d(TAG, "Connection failure on getting all tags: " + t.toString());
+            }
+        });
+    }
 
     @Nullable
     @Override
@@ -68,10 +103,10 @@ public class CreateItemFragment extends Fragment {
         // set adapters
         ListView imageListView = view.findViewById(R.id.image_listview);
         RecyclerView tagRecyclerview = view.findViewById(R.id.tag_recyclerview);
-        setAdapters(tagRecyclerview, imageListView);
+        AutoCompleteTextView etTags = view.findViewById(R.id.tag_auto_comp_textview);
+        setAdapters(tagRecyclerview, imageListView, etTags);
 
         // handle tags
-        AutoCompleteTextView etTags = view.findViewById(R.id.tag_auto_comp_textview);
         setTagChoosingListener(etTags);
         setTagEnteringListener(etTags);
 
@@ -106,7 +141,7 @@ public class CreateItemFragment extends Fragment {
      * @param tagRecyclerView RecyclerView object responsible for viewing tags horizontally.
      * @param imageListView ListView object responsible for viewing added images vertically.
      */
-    private void setAdapters(RecyclerView tagRecyclerView, ListView imageListView) {
+    private void setAdapters(RecyclerView tagRecyclerView, ListView imageListView, AutoCompleteTextView etTags) {
         // set TagListAdapter to tagRecyclerView
         mTagAdapter = new TagListAdapter(getActivity(), mTagList, (List<Tag> tagList, int position) -> {
             tagList.remove(position);
@@ -117,6 +152,11 @@ public class CreateItemFragment extends Fragment {
         // set ImageListAdapter to imageListView
         mImageAdapter = new ImageListAdapter(getActivity(), mImageRowList);
         imageListView.setAdapter(mImageAdapter);
+
+        // set AutoCompleteTextView String adapter
+        etTags.setThreshold(2);
+        mAutoComplAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_item, mAllTagsList);
+        etTags.setAdapter(mAutoComplAdapter);
     }
 
     /**
@@ -127,13 +167,6 @@ public class CreateItemFragment extends Fragment {
      * @param etTags AutoCompleteTextView object responsible for entering new tags
      */
     private void setTagChoosingListener(AutoCompleteTextView etTags) {
-        etTags.setThreshold(2);
-
-        // TODO: Get all the tags from server on fragment creation
-        String[] words = {"istanbul", "ankara", "tag1", "kahve", "cigkofte"};
-        ArrayAdapter<String> autocompleteAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_item, words);
-
-        etTags.setAdapter(autocompleteAdapter);
         etTags.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
             String tagStr = (String)parent.getItemAtPosition(position);
             createTag(tagStr);
