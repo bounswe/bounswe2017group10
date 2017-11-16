@@ -1,8 +1,7 @@
 from rest_framework import serializers
 from .models import Cultural_Heritage,image_media_item,tag as tag_model
+from .models import comment as comment_model
 from authentication.serializers import AccountSerializer
-
-
 
 class image_media_item_serializer(serializers.ModelSerializer):
 
@@ -14,12 +13,19 @@ class tag_serializer(serializers.ModelSerializer):
         model = tag_model
         fields = '__all__'
 
+class comment_serializer(serializers.ModelSerializer):
+    text = serializers.CharField(required=True)
+    class Meta:
+        model = comment_model
+        fields = '__all__'
+
 class cultural_heritage_serializer(serializers.ModelSerializer):
     country = serializers.CharField(required=False)
     city= serializers.CharField(required=False)
     continent= serializers.CharField(required=False)
     user = AccountSerializer
     images = image_media_item_serializer(source='image_media_item_set',read_only=True,many=True)
+    comments = comment_serializer(source='comment_set',read_only=True,many=True)
     tags  = tag_serializer(many=True,required=False)
     class Meta:
         model = Cultural_Heritage
