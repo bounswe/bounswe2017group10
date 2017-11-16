@@ -20,7 +20,7 @@
             android:id="@+id/itemTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Default Title"
+            android:text="@string/no_title"
             android:textAlignment="viewStart"
             android:textColor="@android:color/black"
             android:textSize="24sp"
@@ -37,6 +37,7 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/tag_recyclerview"
+
             android:padding="5dp"
             android:layout_width="match_parent"
             android:orientation="horizontal"
@@ -57,7 +58,7 @@
             android:id="@+id/itemDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Default Description"
+            android:text="@string/no_description"
             android:textSize="15sp" />
 
 

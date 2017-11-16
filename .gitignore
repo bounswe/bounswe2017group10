@@ -1,3 +1,4 @@
 Atlas/backend/atlasenv
 Atlas/backend/atlas/__pycache__
 .DS_Store
+**/*.stack-work

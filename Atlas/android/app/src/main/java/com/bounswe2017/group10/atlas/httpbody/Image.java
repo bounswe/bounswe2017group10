@@ -4,7 +4,9 @@ package com.bounswe2017.group10.atlas.httpbody;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Image {
+import java.io.Serializable;
+
+public class Image implements Serializable {
     @SerializedName("url")
     @Expose
     private String url;

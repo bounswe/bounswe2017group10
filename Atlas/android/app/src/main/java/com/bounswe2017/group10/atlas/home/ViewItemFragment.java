@@ -32,6 +32,7 @@ public class ViewItemFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_view_item, container, false);
         CultureItem item = getArguments().getParcelable(Constants.CULTURE_ITEM);
 
+
         RecyclerView tagRecyclerView = view.findViewById(R.id.tag_recyclerview);
         setTags(tagRecyclerView, item);
 

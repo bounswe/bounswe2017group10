@@ -11,9 +11,11 @@ public class Tag implements Serializable {
     @Expose
     private String name;
 
+
     public Tag(String name) {
         this.name = name;
     }
+
 
     public String getName() {
         return name;
@@ -22,6 +24,7 @@ public class Tag implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
 
     @Override
     public boolean equals(Object obj) {

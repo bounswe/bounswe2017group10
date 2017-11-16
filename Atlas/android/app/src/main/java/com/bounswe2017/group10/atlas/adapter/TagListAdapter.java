@@ -13,6 +13,7 @@ import com.bounswe2017.group10.atlas.httpbody.Tag;
 
 import java.util.List;
 
+
 /**
  * A Tag adapter class to be used with a RecyclerView object.
  */
@@ -64,6 +65,7 @@ public class TagListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.context = context;
         this.tagList = tagList;
         this.listener = listener;
+
     }
 
     @Override
