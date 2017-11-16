@@ -11,11 +11,27 @@ public class Tag implements Serializable {
     @Expose
     private String name;
 
+
+    public Tag(String name) {
+        this.name = name;
+    }
+
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Tag) {
+            Tag tagObj = (Tag)obj;
+            return this.getName().equals(tagObj.getName());
+        }
+        return false;
     }
 }

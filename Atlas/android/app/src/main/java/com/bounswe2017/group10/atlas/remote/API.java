@@ -9,6 +9,7 @@ import com.bounswe2017.group10.atlas.httpbody.LoginRequest;
 import com.bounswe2017.group10.atlas.httpbody.LoginResponse;
 import com.bounswe2017.group10.atlas.httpbody.SignupRequest;
 import com.bounswe2017.group10.atlas.httpbody.SignupResponse;
+import com.bounswe2017.group10.atlas.httpbody.Tag;
 import com.bounswe2017.group10.atlas.httpbody.UserResponse;
 
 import java.util.List;
@@ -45,4 +46,7 @@ public interface API {
 
     @GET("/api/auth/me")
     Call<UserResponse> getMe(@Header("Authorization") String authStr);
+
+    @GET("/tags")
+    Call<List<Tag>> getAllTags(@Header("Authorization") String authStr);
 }
