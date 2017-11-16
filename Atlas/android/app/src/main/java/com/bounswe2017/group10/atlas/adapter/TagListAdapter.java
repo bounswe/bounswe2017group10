@@ -20,11 +20,10 @@ public class TagListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private List<Tag> tagList;
     private View view;
     private ViewHolder viewHolder;
-    private TextView textView;
+    private OnItemClickListener listener = null;
 
-    public TagListAdapter(Context context, List<Tag> tagList) {
-        this.context = context;
-        this.tagList = tagList;
+    public interface OnItemClickListener {
+        void onItemClick(List<Tag> tagList, int position);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -34,7 +33,23 @@ public class TagListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             super(v);
             this.textView = v.findViewById(R.id.tag_textview);
         }
+
+        public void bind(List<Tag> tagList, int position, OnItemClickListener listener) {
+            textView.setText(tagList.get(position).getName());
+            if (listener != null) {
+                textView.setOnClickListener((View v) -> {
+                    listener.onItemClick(tagList, position);
+                });
+            }
+        }
     }
+
+    public TagListAdapter(Context context, List<Tag> tagList, OnItemClickListener listener) {
+        this.context = context;
+        this.tagList = tagList;
+        this.listener = listener;
+    }
+
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -45,7 +60,7 @@ public class TagListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((ViewHolder)holder).textView.setText(this.tagList.get(position).getName());
+        ((ViewHolder)holder).bind(this.tagList, position, listener);
     }
 
     @Override

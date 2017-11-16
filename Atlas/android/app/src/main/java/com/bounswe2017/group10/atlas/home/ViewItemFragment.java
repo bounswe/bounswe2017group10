@@ -35,7 +35,7 @@ public class ViewItemFragment extends Fragment {
 
         RecyclerView tagRecyclerview = view.findViewById(R.id.tag_recyclerview);
         List<Tag> tagList = item.getTagList();
-        TagListAdapter tagAdapter = new TagListAdapter(getActivity(), tagList);
+        TagListAdapter tagAdapter = new TagListAdapter(getActivity(), tagList, null);
         tagRecyclerview.setAdapter(tagAdapter);
 
         TextView viewItemTitle = view.findViewById(R.id.itemTitle);

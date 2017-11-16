@@ -49,4 +49,5 @@
     <string name="image_upload_error">Failed to upload local images</string>
     <string name="no_title">No Title</string>
     <string name="no_description">No Description</string>
+    <string name="tags">Tags</string>
 </resources>
