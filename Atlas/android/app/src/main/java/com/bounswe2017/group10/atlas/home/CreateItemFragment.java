@@ -20,6 +20,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -68,8 +71,9 @@ public class CreateItemFragment extends Fragment {
         setAdapters(tagRecyclerview, imageListView);
 
         // handle tags
-        EditText etTags = view.findViewById(R.id.tag_edittext);
-        setTagListeners(etTags);
+        AutoCompleteTextView etTags = view.findViewById(R.id.tag_auto_comp_textview);
+        setTagChoosingListener(etTags);
+        setTagEnteringListener(etTags);
 
         // handle gallery feature
         Button btnGallery = view.findViewById(R.id.gallery_button);
@@ -116,12 +120,34 @@ public class CreateItemFragment extends Fragment {
     }
 
     /**
+     * Set a listener to AutoCompleteTextView object such that whenever an item is
+     * chosen from the dropdown menu, a corresponding tag is automatically created
+     * and the input space is cleared.
+     *
+     * @param etTags AutoCompleteTextView object responsible for entering new tags
+     */
+    private void setTagChoosingListener(AutoCompleteTextView etTags) {
+        etTags.setThreshold(2);
+
+        // TODO: Get all the tags from server on fragment creation
+        String[] words = {"istanbul", "ankara", "tag1", "kahve", "cigkofte"};
+        ArrayAdapter<String> autocompleteAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_item, words);
+
+        etTags.setAdapter(autocompleteAdapter);
+        etTags.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
+            String tagStr = (String)parent.getItemAtPosition(position);
+            createTag(tagStr);
+            etTags.getEditableText().clear();
+        });
+    }
+
+    /**
      * Sets a listener to tag edittext which creates a new Tag object whenever one of the
      * characters in Constants.TAG_SEPARATORS is entered
      *
-     * @param etTags EditText object responsible for entering new tags
+     * @param etTags AutoCompleteTextView object responsible for entering new tags
      */
-    private void setTagListeners(EditText etTags) {
+    private void setTagEnteringListener(AutoCompleteTextView etTags) {
         etTags.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -142,20 +168,30 @@ public class CreateItemFragment extends Fragment {
                 }
                 String lastChar = textEntered.substring(len - 1);
                 if (Constants.TAG_SEPARATORS.contains(lastChar)) {
+                    String textWithoutSpace = textEntered.substring(0, len - 1);
+                    createTag(textWithoutSpace);
                     // clear edittext
                     s.clear();
-                    // add tag if it is not already added
-                    String textWithoutSpace = textEntered.substring(0, len - 1);
-                    if (!textWithoutSpace.isEmpty()) {
-                        Tag tagToAdd = new Tag(textWithoutSpace);
-                        if (!mTagList.contains(tagToAdd)) {
-                            mTagList.add(tagToAdd);
-                            mTagAdapter.notifyDataSetChanged();
-                        }
-                    }
                 }
             }
         });
+    }
+
+    /**
+     * Create a new Tag object and add it to the mTagAdapter to show it in RecyclerView.
+     *
+     * @param tagStr String from which a new Tag will be created.
+     */
+    private void createTag(String tagStr) {
+        // add tag if it is not already added
+        if (!tagStr.isEmpty()) {
+            Tag tagToAdd = new Tag(tagStr);
+            if (!mTagList.contains(tagToAdd)) {
+                mTagList.add(tagToAdd);
+                mTagAdapter.notifyDataSetChanged();
+            }
+        }
+
     }
 
     /**

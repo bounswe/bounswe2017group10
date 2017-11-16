@@ -49,8 +49,8 @@
         android:hint="@string/city"
         android:inputType="textPersonName" />
 
-    <EditText
-        android:id="@+id/tag_edittext"
+    <AutoCompleteTextView
+        android:id="@+id/tag_auto_comp_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
