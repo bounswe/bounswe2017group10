@@ -38,6 +38,10 @@ public class CultureItem implements Parcelable {
     @Expose
     private ArrayList<Image> imageList;
 
+    @SerializedName("tags")
+    @Expose
+    private ArrayList<Tag> tagList;
+
     @SerializedName("public_accessibility")
     @Expose
     private Boolean publicAccessibility;
@@ -131,6 +135,14 @@ public class CultureItem implements Parcelable {
 
     public void setImageList(ArrayList<Image> imageList) {
         this.imageList = imageList;
+    }
+
+    public ArrayList<Tag> getTagList() {
+        return tagList;
+    }
+
+    public void setTagList(ArrayList<Tag> tagList) {
+        this.tagList = tagList;
     }
 
     public Boolean getPublicAccessibility() {

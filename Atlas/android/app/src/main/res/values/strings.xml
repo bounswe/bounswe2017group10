@@ -50,4 +50,5 @@
     <string name="no_title">No Title</string>
     <string name="no_description">No Description</string>
     <string name="tags">Tags</string>
+    <string name="error_occurred">An error occurred.</string>
 </resources>
