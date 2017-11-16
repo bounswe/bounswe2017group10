@@ -1,12 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/home_container"
-    android:orientation="vertical"
-    android:paddingRight="5dp"
-    android:paddingLeft="5dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/create_item_container">
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton"
@@ -17,7 +15,7 @@
         android:layout_marginEnd="10dp"
         android:clickable="true"
         android:focusable="true"
-        android:src="@drawable/ic_add_white_24dp"
+        android:src="@drawable/ic_done_white_24dp"
         app:backgroundTint="@android:color/holo_orange_light" />
 
 </android.support.design.widget.CoordinatorLayout>

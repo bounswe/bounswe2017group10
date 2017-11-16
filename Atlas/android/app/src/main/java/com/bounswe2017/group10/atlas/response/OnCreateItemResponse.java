@@ -44,6 +44,7 @@ public class OnCreateItemResponse implements Callback<CreateItemResponse> {
                 Utils.showToast(context, context.getString(R.string.successful_create_item));
                 progressBar.setVisibility(View.GONE);
                 createFragment.clearView();
+                createFragment.getActivity().onBackPressed();
             } else {
                 int id = response.body().getId();
 

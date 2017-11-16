@@ -87,15 +87,6 @@ public class CreateItemFragment extends Fragment {
         Button btnUrl = view.findViewById(R.id.url_button);
         setURLListener(btnUrl);
 
-        // handle item creation
-        Button btnCreate = view.findViewById(R.id.create_button);
-        EditText etTitle = view.findViewById(R.id.title_edittext);
-        EditText etDescription = view.findViewById(R.id.description_edittext);
-        EditText etContinent = view.findViewById(R.id.continent_edittext);
-        EditText etCountry = view.findViewById(R.id.country_edittext);
-        EditText etCity = view.findViewById(R.id.city_edittext);
-        ProgressBar progressBar = view.findViewById(R.id.progress_bar);
-        setCreateItemListener(btnCreate, etTitle, etDescription, etContinent, etCountry, etCity, progressBar);
 
         return view;
     }
@@ -261,54 +252,50 @@ public class CreateItemFragment extends Fragment {
     /**
      * Collects all the information from the input fields, constructs a CultureItem and
      * initiates the item creation request.
-     *
-     * @param btnCreate Create button which initiates an item creation request.
-     * @param etTitle Title EditText.
-     * @param etDescription Description EditText.
-     * @param etContinent Continent EditText.
-     * @param etCountry Country EditText.
-     * @param etCity City EditText.
-     * @param progressBar ProgressBar object that will be visible until we get a response.
      */
-    private void setCreateItemListener(Button btnCreate, EditText etTitle, EditText etDescription,
-                                       EditText etContinent, EditText etCountry, EditText etCity,
-                                       ProgressBar progressBar) {
-        btnCreate.setOnClickListener((View btnView) -> {
-            if (etTitle.getText().length() == 0) {
-                Utils.showToast(getActivity().getApplicationContext(), getResources().getString(R.string.empty_title));
-                return;
-            }
-            String title = etTitle.getText().toString();
-            String description = etDescription.getText().toString();
-            String continent = etContinent.getText().toString();
-            String country = etCountry.getText().toString();
-            String city = etCity.getText().toString();
+    public void createItem() {
+        View view = getView();
+        EditText etTitle = view.findViewById(R.id.title_edittext);
+        EditText etDescription = view.findViewById(R.id.description_edittext);
+        EditText etContinent = view.findViewById(R.id.continent_edittext);
+        EditText etCountry = view.findViewById(R.id.country_edittext);
+        EditText etCity = view.findViewById(R.id.city_edittext);
+        ProgressBar progressBar = view.findViewById(R.id.progress_bar);
 
-            CultureItem item = new CultureItem();
+        if (etTitle.getText().length() == 0) {
+            Utils.showToast(getActivity().getApplicationContext(), getResources().getString(R.string.empty_title));
+            return;
+        }
+        String title = etTitle.getText().toString();
+        String description = etDescription.getText().toString();
+        String continent = etContinent.getText().toString();
+        String country = etCountry.getText().toString();
+        String city = etCity.getText().toString();
 
-            item.setTitle(title);
-            if (description.length() != 0)
-                item.setDescription(description);
-            if (continent.length() != 0)
-                item.setContinent(continent);
-            if (country.length() != 0)
-                item.setCountry(country);
-            if (city.length() != 0)
-                item.setCity(city);
+        CultureItem item = new CultureItem();
 
-            item.setPublicAccessibility(true);
+        item.setTitle(title);
+        if (description.length() != 0)
+            item.setDescription(description);
+        if (continent.length() != 0)
+            item.setContinent(continent);
+        if (country.length() != 0)
+            item.setCountry(country);
+        if (city.length() != 0)
+            item.setCity(city);
 
-            ArrayList<Image> imageList = new ArrayList<>();
-            for (ImageRow row : mImageRowList) {
-                Image img = new Image();
-                img.setUrl(row.getUri().toString());
-                imageList.add(img);
-            }
-            item.setImageList(imageList);
+        item.setPublicAccessibility(true);
 
-            item.setTagList(mTagList);
-            makeCreateRequest(item, imageList, progressBar);
-        });
+        ArrayList<Image> imageList = new ArrayList<>();
+        for (ImageRow row : mImageRowList) {
+            Image img = new Image();
+            img.setUrl(row.getUri().toString());
+            imageList.add(img);
+        }
+        item.setImageList(imageList);
+
+        item.setTagList(mTagList);
+        makeCreateRequest(item, imageList, progressBar);
     }
 
     /**
