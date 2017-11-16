@@ -1,19 +1,25 @@
-{-# LANGUAGE RecordWildCards #-}
-{-# LANGUAGE ViewPatterns #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE RecordWildCards   #-}
+{-# LANGUAGE ViewPatterns      #-}
 
 module Database where
 
+import qualified Data.Text                  as T
+import           Data.Time.Clock
+import           Database.PostgreSQL.Simple
 import           Types
-import Database.PostgreSQL.Simple
-import Control.Arrow ((&&&))
-import Data.Time.Clock
-import qualified Data.Text as T
 
 insertHeritages :: [Heritage] -> IO ()
 insertHeritages (take 2 -> heritages) = do
   now <- getCurrentTime
-  conn <- connectPostgreSQL "host='localhost' port=5432 dbname='atlas'"
+  db_name <- getEnv "ATLAS_DB_NAME"
+  db_user <- getEnv "ATLAS_DB_USER"
+  db_pass <- getEnv "ATLAS_DB_PASSWORD"
+  conn <- connectPostgreSQL $ "host='localhost' "
+                            <> "port=5432 "
+                            <> "dbname='" <> db_name <> "' "
+                            <> "user='" <> db_user <> "' "
+                            <> "password='" <> db_pass <> "'"
   executeMany conn
     "INSERT INTO atlas_cultural_heritage(title, description, user_id, continent, country, city, public_accessibility, created_time, updated_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
     (map (toTuple now) heritages)
