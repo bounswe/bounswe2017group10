@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/create_item_layout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <EditText
@@ -45,6 +48,13 @@
         android:ems="10"
         android:hint="@string/city"
         android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/tag_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/tags" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -94,6 +104,14 @@
             android:visibility="invisible" />
 
     </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/tag_recyclerview"
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        android:layout_height="@dimen/tag_height" />
 
     <ListView
         android:id="@+id/image_listview"
