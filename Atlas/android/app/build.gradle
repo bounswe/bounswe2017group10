@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "com.bounswe2017.group10.atlas"
         minSdkVersion 17
@@ -12,9 +11,6 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         renderscriptTargetApi 26
         renderscriptSupportModeEnabled true
-        jackOptions {
-            enabled true
-        }
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -31,6 +27,7 @@ android {
     lintOptions {
         disable 'GoogleAppIndexingWarning'
     }
+    buildToolsVersion '26.0.2'
 }
 
 dependencies {
