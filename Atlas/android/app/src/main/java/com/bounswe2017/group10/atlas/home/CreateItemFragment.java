@@ -4,6 +4,7 @@ package com.bounswe2017.group10.atlas.home;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,11 +13,17 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -25,8 +32,10 @@ import android.widget.ProgressBar;
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.adapter.ImageListAdapter;
 import com.bounswe2017.group10.atlas.adapter.ImageRow;
+import com.bounswe2017.group10.atlas.adapter.TagListAdapter;
 import com.bounswe2017.group10.atlas.httpbody.CultureItem;
 import com.bounswe2017.group10.atlas.httpbody.Image;
+import com.bounswe2017.group10.atlas.httpbody.Tag;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
 import com.bounswe2017.group10.atlas.response.OnCreateItemResponse;
 import com.bounswe2017.group10.atlas.util.Constants;
@@ -34,6 +43,11 @@ import com.bounswe2017.group10.atlas.util.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class CreateItemFragment extends Fragment {
@@ -43,39 +57,207 @@ public class CreateItemFragment extends Fragment {
     private static final int FROM_CAMERA = 2;
     private static final int CAMERA_REQUEST_CODE = 3;
 
-    private ImageListAdapter mAdapter;
+    private final ArrayList<String> mAllTagsList = new ArrayList<>();
+
+    private ImageListAdapter mImageAdapter;
     private final ArrayList<ImageRow> mImageRowList = new ArrayList<>();
 
+    private TagListAdapter mTagAdapter;
+    private final ArrayList<Tag> mTagList = new ArrayList<>();
+
+    private ArrayAdapter<String> mAutoComplAdapter;
+
     private Uri currentPhotoUri = null;
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        // make a single call to get all Tags
+        String authStr = Utils.getSharedPref(getActivity()).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
+        APIUtils.serverAPI().getAllTags(authStr).enqueue(new Callback<List<Tag>>() {
+            @Override
+            public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {
+                if (response.isSuccessful()) {
+                    List<Tag> responseList = response.body();
+                    for (Tag t : responseList) {
+                        mTagList.add(t);
+                    }
+                    mAutoComplAdapter.notifyDataSetChanged();
+                } else {
+                    Log.d(TAG, "Error on getting all tags: " + response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Tag>> call, Throwable t) {
+                Log.d(TAG, "Connection failure on getting all tags: " + t.toString());
+            }
+        });
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_item, container, false);
 
+        // set adapters
         ListView imageListView = view.findViewById(R.id.image_listview);
+        RecyclerView tagRecyclerview = view.findViewById(R.id.tag_recyclerview);
+        AutoCompleteTextView etTags = view.findViewById(R.id.tag_auto_comp_textview);
+        setAdapters(tagRecyclerview, imageListView, etTags);
+
+        // handle tags
+        setTagChoosingListener(etTags);
+        setTagEnteringListener(etTags);
+
+        // handle gallery feature
         Button btnGallery = view.findViewById(R.id.gallery_button);
+        setGalleryListener(btnGallery);
+
+        // handle camera feature
         Button btnCamera = view.findViewById(R.id.camera_button);
+        setCameraListener(btnCamera);
+
+        // handle url image feature
         Button btnUrl = view.findViewById(R.id.url_button);
+        setURLListener(btnUrl);
+
+        // handle item creation
         Button btnCreate = view.findViewById(R.id.create_button);
+        EditText etTitle = view.findViewById(R.id.title_edittext);
+        EditText etDescription = view.findViewById(R.id.description_edittext);
+        EditText etContinent = view.findViewById(R.id.continent_edittext);
+        EditText etCountry = view.findViewById(R.id.country_edittext);
+        EditText etCity = view.findViewById(R.id.city_edittext);
+        ProgressBar progressBar = view.findViewById(R.id.progress_bar);
+        setCreateItemListener(btnCreate, etTitle, etDescription, etContinent, etCountry, etCity, progressBar);
+
+        return view;
+    }
+
+    /**
+     * Sets the adapters required by ListView or RecyclerView objects in this fragment.
+     *
+     * @param tagRecyclerView RecyclerView object responsible for viewing tags horizontally.
+     * @param imageListView ListView object responsible for viewing added images vertically.
+     */
+    private void setAdapters(RecyclerView tagRecyclerView, ListView imageListView, AutoCompleteTextView etTags) {
+        // set TagListAdapter to tagRecyclerView
+        mTagAdapter = new TagListAdapter(getActivity(), mTagList, (List<Tag> tagList, int position) -> {
+            tagList.remove(position);
+            mTagAdapter.notifyDataSetChanged();
+        });
+        tagRecyclerView.setAdapter(mTagAdapter);
 
         // set ImageListAdapter to imageListView
-        mAdapter = new ImageListAdapter(getActivity(), mImageRowList);
-        imageListView.setAdapter(mAdapter);
+        mImageAdapter = new ImageListAdapter(getActivity(), mImageRowList);
+        imageListView.setAdapter(mImageAdapter);
 
+        // set AutoCompleteTextView String adapter
+        etTags.setThreshold(2);
+        mAutoComplAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_item, mAllTagsList);
+        etTags.setAdapter(mAutoComplAdapter);
+    }
+
+    /**
+     * Set a listener to AutoCompleteTextView object such that whenever an item is
+     * chosen from the dropdown menu, a corresponding tag is automatically created
+     * and the input space is cleared.
+     *
+     * @param etTags AutoCompleteTextView object responsible for entering new tags
+     */
+    private void setTagChoosingListener(AutoCompleteTextView etTags) {
+        etTags.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
+            String tagStr = (String)parent.getItemAtPosition(position);
+            createTag(tagStr);
+            etTags.getEditableText().clear();
+        });
+    }
+
+    /**
+     * Sets a listener to tag edittext which creates a new Tag object whenever one of the
+     * characters in Constants.TAG_SEPARATORS is entered
+     *
+     * @param etTags AutoCompleteTextView object responsible for entering new tags
+     */
+    private void setTagEnteringListener(AutoCompleteTextView etTags) {
+        etTags.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // No implementation required for now
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No implementation required for now
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String textEntered = s.toString();
+                int len = textEntered.length();
+                if (len == 0) {
+                    return;
+                }
+                String lastChar = textEntered.substring(len - 1);
+                if (Constants.TAG_SEPARATORS.contains(lastChar)) {
+                    String textWithoutSpace = textEntered.substring(0, len - 1);
+                    createTag(textWithoutSpace);
+                    // clear edittext
+                    s.clear();
+                }
+            }
+        });
+    }
+
+    /**
+     * Create a new Tag object and add it to the mTagAdapter to show it in RecyclerView.
+     *
+     * @param tagStr String from which a new Tag will be created.
+     */
+    private void createTag(String tagStr) {
+        // add tag if it is not already added
+        if (!tagStr.isEmpty()) {
+            Tag tagToAdd = new Tag(tagStr);
+            if (!mTagList.contains(tagToAdd)) {
+                mTagList.add(tagToAdd);
+                mTagAdapter.notifyDataSetChanged();
+            }
+        }
+
+    }
+
+    /**
+     * Sets listener for gallery button. Gallery button opens the local device
+     * gallery and picks a single image from it.
+     *
+     * @param btnGallery Button that opens the local device gallery.
+     *
+     * TODO: Add support for getting multiple images from gallery at the same time.
+     */
+    private void setGalleryListener(Button btnGallery) {
         btnGallery.setOnClickListener((View btnView) -> {
             Intent intent = new Intent();
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
             startActivityForResult(Intent.createChooser(intent, "Select Image"), FROM_GALLERY);
         });
+    }
 
+    /**
+     * Sets listener for camera button. Camera button opens device camera
+     * and captures a single image from it.
+     *
+     * @param btnCamera Button that opens the camera.
+     *
+     * TODO: Add support for capturing multiple images one after another, and adding them all.
+     */
+    private void setCameraListener(Button btnCamera) {
         btnCamera.setOnClickListener((View btnView) -> {
-            boolean cameraPermitted = true;
-            boolean writePermitted = true;
+            // request permissions on-the-fly if device has API >= 23
             if (android.os.Build.VERSION.SDK_INT >= 23) {
-                cameraPermitted = getActivity().checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
-                writePermitted = getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+                boolean cameraPermitted = getActivity().checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
+                boolean writePermitted = getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
                 if (!cameraPermitted || !writePermitted) {
                     getActivity().requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, CAMERA_REQUEST_CODE);
                     return;
@@ -86,29 +268,44 @@ public class CreateItemFragment extends Fragment {
             } catch (IOException e) {
                 Log.d(TAG, e.toString());
             }
-            Log.d(TAG, currentPhotoUri.toString());
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, currentPhotoUri);
 
             startActivityForResult(intent, FROM_CAMERA);
         });
+    }
 
+    /**
+     * Sets listener for URL button. URL button opens a text dialog in which user
+     * can enter the URL of a media item from the web.
+     *
+     * @param btnUrl Button that opens the URL text dialog.
+     */
+    private void setURLListener(Button btnUrl) {
         // construct AlertDialog that will be called on url button
         AlertDialog urlAlertDialog = createUrlAlertDialog();
         // set listener to url button
         btnUrl.setOnClickListener((View btnView) -> {
             urlAlertDialog.show();
         });
+    }
 
-        // get input fields
-        EditText etTitle = view.findViewById(R.id.title_edittext);
-        EditText etDescription = view.findViewById(R.id.description_edittext);
-        EditText etContinent = view.findViewById(R.id.continent_edittext);
-        EditText etCountry = view.findViewById(R.id.country_edittext);
-        EditText etCity = view.findViewById(R.id.city_edittext);
-        ProgressBar progressBar = view.findViewById(R.id.progress_bar);
-        // set listener to create button
+    /**
+     * Collects all the information from the input fields, constructs a CultureItem and
+     * initiates the item creation request.
+     *
+     * @param btnCreate Create button which initiates an item creation request.
+     * @param etTitle Title EditText.
+     * @param etDescription Description EditText.
+     * @param etContinent Continent EditText.
+     * @param etCountry Country EditText.
+     * @param etCity City EditText.
+     * @param progressBar ProgressBar object that will be visible until we get a response.
+     */
+    private void setCreateItemListener(Button btnCreate, EditText etTitle, EditText etDescription,
+                                       EditText etContinent, EditText etCountry, EditText etCity,
+                                       ProgressBar progressBar) {
         btnCreate.setOnClickListener((View btnView) -> {
             if (etTitle.getText().length() == 0) {
                 Utils.showToast(getActivity().getApplicationContext(), getResources().getString(R.string.empty_title));
@@ -141,11 +338,19 @@ public class CreateItemFragment extends Fragment {
                 imageList.add(img);
             }
             item.setImageList(imageList);
+
+            item.setTagList(mTagList);
             makeCreateRequest(item, imageList, progressBar);
         });
-        return view;
     }
 
+    /**
+     * Decide on actions upon activity result.
+     *
+     * @param requestCode Request code that was sent with the intent
+     * @param resultCode Result code indicating if the action was successful or not.
+     * @param data Returned data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -159,12 +364,12 @@ public class CreateItemFragment extends Fragment {
                 Log.d(TAG, "OnActivityResult wrong requestCode : " + requestCode);
             }
         } else {
-            Utils.showToast(getActivity().getApplicationContext(), Integer.toString(resultCode));
+            Utils.showToast(getActivity().getApplicationContext(), getString(R.string.error_occurred));
         }
     }
 
     /**
-     * Clears text and image views in this fragment.
+     * Clears all the views in this fragment.
      */
     public void clearView() {
         View view = this.getView();
@@ -180,6 +385,9 @@ public class CreateItemFragment extends Fragment {
         etCountry.setText("");
         etCity.setText("");
         mImageRowList.clear();
+        mTagList.clear();
+        mImageAdapter.notifyDataSetChanged();
+        mTagAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -210,7 +418,7 @@ public class CreateItemFragment extends Fragment {
         row.setUri(uri);
         if (!mImageRowList.contains(row)) {
             mImageRowList.add(row);
-            mAdapter.notifyDataSetChanged();
+            mImageAdapter.notifyDataSetChanged();
         }
     }
 
