@@ -45,7 +45,7 @@ class Cultural_Heritage(models.Model):
     tags = models.ManyToManyField('tag',blank=True)
 
 class comment(models.Model):
-    user = models.ForeignKey('authentication.Account', on_delete=models.SET_NULL)
+    user = models.ForeignKey('authentication.Account', on_delete=models.CASCADE)
     text = models.TextField(blank=False)
     created_time = models.DateField(auto_now_add =True)
     updated_time = models.DateField(auto_now =True)
