@@ -1,8 +1,8 @@
-from .models import User,Cultural_Heritage,tag,image_media_item as image_item
+from .models import User,Cultural_Heritage,comment,tag,image_media_item as image_item
 from rest_framework import generics
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
-from .serializers import cultural_heritage_serializer,image_media_item_serializer,tag_serializer
+from .serializers import cultural_heritage_serializer,image_media_item_serializer,tag_serializer,comment_serializer
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
@@ -37,6 +37,21 @@ class ImageInterceptorMixin(object):
     def current_heritage_item(self):
         cultural_heritage_id = self.kwargs.get('heritage_id')
         return get_object_or_404(Cultural_Heritage,pk=cultural_heritage_id)
+
+class cultural_heritage_item_comment(ImageInterceptorMixin,generics.CreateAPIView):
+    queryset = comment.objects.all()
+    serializer_class = comment_serializer
+    def create(self, request, *args, **kwargs):
+        try:
+            comment_data = request.data['comment']
+            request.data['cultural_heritage_item'] = self.current_heritage_item.pk
+            for k, v in comment_data.items():
+                request.data[k] = v
+            request.data['user'] =request.user.pk
+            result =super(cultural_heritage_item_comment, self).create(request, *args, **kwargs)
+            return result
+        except BaseException as e:
+            return Response(json.dumps(str(e)), status=status.HTTP_400_BAD_REQUEST)
 
 
 class image_media_item(ImageInterceptorMixin,generics.CreateAPIView):
