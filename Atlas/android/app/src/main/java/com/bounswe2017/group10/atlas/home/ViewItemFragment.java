@@ -11,10 +11,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Gallery;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import com.bounswe2017.group10.atlas.R;
+import com.bounswe2017.group10.atlas.adapter.CommentAdapter;
+import com.bounswe2017.group10.atlas.adapter.CommentRow;
 import com.bounswe2017.group10.atlas.adapter.ImageListAdapter;
 import com.bounswe2017.group10.atlas.adapter.ImageRow;
+import com.bounswe2017.group10.atlas.adapter.NoScrollListView;
 import com.bounswe2017.group10.atlas.adapter.TagListAdapter;
 import com.bounswe2017.group10.atlas.httpbody.CultureItem;
 import com.bounswe2017.group10.atlas.httpbody.Image;
@@ -25,6 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ViewItemFragment extends Fragment {
+
+    private CommentAdapter mAdapter;
+    private final ArrayList<CommentRow> mCommentList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -42,6 +49,40 @@ public class ViewItemFragment extends Fragment {
 
         Gallery gallery = view.findViewById(R.id.image_gallery);
         setImages(gallery, item);
+
+        NoScrollListView listView = view.findViewById(R.id.comment_listview);
+
+
+
+        mAdapter = new CommentAdapter(getActivity(), mCommentList);
+        listView.setAdapter(mAdapter);
+
+
+
+        ////Test comments
+
+        mCommentList.add(new CommentRow("mutas","19.11.2017","Lorem ipsum dolor sit amet, " +
+                "consectetur adipiscing elit. Etiam arcu magna, pharetra at porttitor eget, molestie eu nisl. " +
+                "Aenean consectetur augue eget feugiat feugiat. Aenean faucibus vestibulum ex at mattis. Orci " +
+                "varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus " +
+                "consectetur finibus risus, sit amet accumsan risus venenatis in. Etiam non neque libero. " +
+                "Morbi pellentesque orci et diam semper, non mollis nisl vehicula. Etiam varius ultrices " +
+                "leo, in fermentum risus condimentum nec. Sed lorem metus, pellentesque in pretium in, " +
+                "eleifend et elit. Pellentesque ultrices ut lorem ut tincidunt. Nunc malesuada mi non " +
+                "turpis iaculis, quis tempus est laoreet. Proin fermentum dui est. Curabitur bibendum " +
+                "eros sit amet orci tempor, et convallis enim placerat."));
+        mCommentList.add(new CommentRow("leo","12.01.1502","lorem ipsum2"));
+
+
+        int height = 0;
+        for(int i = 0; i < listView.getChildCount();i++)
+            height += listView.getChildAt(i).getHeight();
+        ViewGroup.LayoutParams lParams = listView.getLayoutParams();
+        lParams.height = height;
+        listView.setLayoutParams(lParams);
+
+
+
 
         return view;
     }

@@ -9,6 +9,7 @@ import com.bounswe2017.group10.atlas.httpbody.LoginResponse;
 import com.bounswe2017.group10.atlas.httpbody.SignupRequest;
 import com.bounswe2017.group10.atlas.httpbody.SignupResponse;
 import com.bounswe2017.group10.atlas.httpbody.UserResponse;
+import com.bounswe2017.group10.atlas.httpbody.Tag;
 import com.bounswe2017.group10.atlas.remote.API;
 
 import java.util.List;
@@ -69,5 +70,10 @@ public class APIDelegate implements API {
     @Override
     public Call<List<CultureItem>> getAllItems(@Header("Authorization") String authStr) {
         return api.getAllItems(authStr);
+    }
+
+    @Override
+    public Call<List<Tag>> getAllTags(@Header("Authorization") String authStr) {
+        return api.getAllTags(authStr);
     }
 }
