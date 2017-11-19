@@ -34,6 +34,12 @@
             android:parentActivityName=".auth.AuthActivity">
         </activity>
 
+        <!-- CreateItemActivity -->
+        <activity
+            android:name=".home.CreateItemActivity"
+            android:parentActivityName=".home.HomeActivity">
+        </activity>
+
         <!-- ProfileActivity-->
         <activity
             android:name=".profil.ProfileActivity">

@@ -1,9 +1,9 @@
 package com.bounswe2017.group10.atlas.home;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.adapter.FeedListAdapter;
@@ -20,22 +19,50 @@ import com.bounswe2017.group10.atlas.httpbody.CultureItem;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
 import com.bounswe2017.group10.atlas.response.OnGetAllItemsResponse;
 import com.bounswe2017.group10.atlas.util.Constants;
-import com.cloudinary.android.MediaManager;
 
 import java.util.ArrayList;
 
 import static com.bounswe2017.group10.atlas.util.Utils.getSharedPref;
 
-public class FeedFragment extends Fragment {
+public class ListItemsFragment extends Fragment {
 
     private final ArrayList<CultureItem> mItemList = new ArrayList<>();
     private final ArrayList<FeedRow> mRowList = new ArrayList<>();
     private FeedListAdapter mAdapter;
+    private RequestStrategy requestStrategy = new FeedStrategy();
+
+    public interface RequestStrategy {
+        public void requestItems(Context context, ArrayList<CultureItem> itemList, ArrayList<FeedRow> rowList, FeedListAdapter adapter);
+    }
+
+
+    public static class FeedStrategy implements RequestStrategy {
+        public void requestItems(Context context, ArrayList<CultureItem> itemList, ArrayList<FeedRow> rowList, FeedListAdapter adapter) {
+            String authStr = getSharedPref(context).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
+            OnGetAllItemsResponse respHandler = new OnGetAllItemsResponse(context, itemList, rowList, adapter);
+            APIUtils.serverAPI().getAllItems(authStr).enqueue(respHandler);
+        }
+    }
+
+    public static class OwnItemsStrategy implements RequestStrategy {
+        public void requestItems(Context context, ArrayList<CultureItem> itemList, ArrayList<FeedRow> rowList, FeedListAdapter adapter) {
+            String authStr = getSharedPref(context).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
+            // TODO: make request for getting own items
+            // OnGetOwnItemsResponse respHandler = new OnGetOwnItemsResponse(context, itemList, rowList, adapter);
+            // APIUtils.serverAPI().getOwnItems(authStr).enqueue(respHandler);
+        }
+    }
+
+    public void setRequestStrategy(RequestStrategy strategy) {
+        this.requestStrategy = strategy;
+    }
+
+    private boolean firstView = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_feed, container, false);
+        View view = inflater.inflate(R.layout.fragment_list_items, container, false);
 
         ListView listView = view.findViewById(R.id.feed_listview);
 
@@ -43,9 +70,13 @@ public class FeedFragment extends Fragment {
         listView.setAdapter(mAdapter);
 
         // currently, get all items
-        String authStr = getSharedPref(getActivity()).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
-        OnGetAllItemsResponse respHandler = new OnGetAllItemsResponse(getActivity(), mItemList, mRowList, mAdapter);
-        APIUtils.serverAPI().getAllItems(authStr).enqueue(respHandler);
+        if (firstView) {
+            mItemList.clear();
+            mRowList.clear();
+            mAdapter.notifyDataSetChanged();
+            this.requestStrategy.requestItems(getActivity(), mItemList, mRowList, mAdapter);
+            firstView = false;
+        }
 
         // item click listener
         listView.setOnItemClickListener((AdapterView<?> adapterView, View itemView, int pos, long arg3) -> {
@@ -68,7 +99,8 @@ public class FeedFragment extends Fragment {
         swipeLayout.setOnRefreshListener(() -> {
             mItemList.clear();
             mRowList.clear();
-            APIUtils.serverAPI().getAllItems(authStr).enqueue(respHandler);
+            mAdapter.notifyDataSetChanged();
+            this.requestStrategy.requestItems(getActivity(), mItemList, mRowList, mAdapter);
             swipeLayout.setRefreshing(false);
         });
         swipeLayout.setColorSchemeColors(
