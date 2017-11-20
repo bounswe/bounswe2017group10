@@ -5,7 +5,10 @@ const initState = {
   fetching: false,
   addCHErrors: null,
   helpOpen: true,
-  addCHInputs: initAddCHInputs
+  addCHInputs: initAddCHInputs,
+  data: [],
+  loadingMore: false,
+  canLoadMore: true
 };
 
 const reducer = (state = initState, action) => {
@@ -99,6 +102,36 @@ const reducer = (state = initState, action) => {
           ...(state.addCHInputs),
           tags
         }
+      }
+    case 'UPDATE_CH_PAGINATION_NEXT':
+      return {
+        ...state,
+        paginationNextUrl: action.data
+      }
+    case 'LOAD_MORE_CH':
+      return {
+        ...state,
+        data: [].concat(state.data, action.data)
+      }
+    case 'START_LOAD_MORE':
+      return {
+        ...state,
+        loadingMore: true
+      }
+    case 'FINISH_LOAD_MORE':
+      return {
+        ...state,
+        loadingMore: false
+      }
+    case 'DISABLE_LOAD_MORE':
+      return {
+        ...state,
+        canLoadMore: false
+      }
+    case 'ENABLE_LOAD_MORE':
+      return {
+        ...state,
+        canLoadMore: true
       }
     default:
       return state;
