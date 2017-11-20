@@ -1,6 +1,7 @@
 package com.bounswe2017.group10.atlas.auth;
 
 
+import com.bounswe2017.group10.atlas.httpbody.Comment;
 import com.bounswe2017.group10.atlas.httpbody.CreateItemResponse;
 import com.bounswe2017.group10.atlas.httpbody.CultureItem;
 import com.bounswe2017.group10.atlas.httpbody.ImageUploadRequest;
@@ -75,5 +76,10 @@ public class APIDelegate implements API {
     @Override
     public Call<List<Tag>> getAllTags(@Header("Authorization") String authStr) {
         return api.getAllTags(authStr);
+    }
+
+    @Override
+    public Call<List<Comment>> getComments(@Header("Authorization") String authStr, @Path("id") long id) {
+        return api.getComments(authStr, id);
     }
 }

@@ -1,6 +1,7 @@
 package com.bounswe2017.group10.atlas.remote;
 
 
+import com.bounswe2017.group10.atlas.httpbody.Comment;
 import com.bounswe2017.group10.atlas.httpbody.CreateItemResponse;
 import com.bounswe2017.group10.atlas.httpbody.CultureItem;
 import com.bounswe2017.group10.atlas.httpbody.Image;
@@ -49,4 +50,8 @@ public interface API {
 
     @GET("/tags")
     Call<List<Tag>> getAllTags(@Header("Authorization") String authStr);
+
+    @GET("/cultural_heritage_item/{id}/comment")
+    Call<List<Comment>> getComments(@Header("Authorization") String authStr,
+                                    @Path("id") long id);
 }

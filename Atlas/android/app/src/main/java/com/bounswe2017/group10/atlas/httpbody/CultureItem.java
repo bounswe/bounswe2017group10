@@ -46,6 +46,10 @@ public class CultureItem implements Parcelable {
     @Expose
     private Boolean publicAccessibility;
 
+    @SerializedName("id")
+    @Expose
+    private long id;
+
     public CultureItem() {}
 
     @SuppressWarnings("unchecked")
@@ -135,6 +139,14 @@ public class CultureItem implements Parcelable {
 
     public void setImageList(ArrayList<Image> imageList) {
         this.imageList = imageList;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public ArrayList<Tag> getTagList() {

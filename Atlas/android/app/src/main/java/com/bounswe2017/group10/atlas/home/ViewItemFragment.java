@@ -20,18 +20,24 @@ import com.bounswe2017.group10.atlas.adapter.ImageListAdapter;
 import com.bounswe2017.group10.atlas.adapter.ImageRow;
 import com.bounswe2017.group10.atlas.adapter.NoScrollListView;
 import com.bounswe2017.group10.atlas.adapter.TagListAdapter;
+import com.bounswe2017.group10.atlas.httpbody.Comment;
 import com.bounswe2017.group10.atlas.httpbody.CultureItem;
 import com.bounswe2017.group10.atlas.httpbody.Image;
 import com.bounswe2017.group10.atlas.httpbody.Tag;
+import com.bounswe2017.group10.atlas.remote.APIUtils;
+import com.bounswe2017.group10.atlas.response.OnGetCommentsResponse;
 import com.bounswe2017.group10.atlas.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.bounswe2017.group10.atlas.util.Utils.getSharedPref;
+
 public class ViewItemFragment extends Fragment {
 
     private CommentAdapter mAdapter;
-    private final ArrayList<CommentRow> mCommentList = new ArrayList<>();
+    private final ArrayList<CommentRow> mRowList = new ArrayList<>();
+    private final ArrayList<Comment> mCommentList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -54,32 +60,14 @@ public class ViewItemFragment extends Fragment {
 
 
 
-        mAdapter = new CommentAdapter(getActivity(), mCommentList);
+        mAdapter = new CommentAdapter(getActivity(), mRowList);
         listView.setAdapter(mAdapter);
 
 
+        String authStr = getSharedPref(getActivity()).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
+        OnGetCommentsResponse respHandler = new OnGetCommentsResponse(getActivity(), mCommentList, mRowList, mAdapter);
 
-        ////Test comments
-
-        mCommentList.add(new CommentRow("mutas","19.11.2017","Lorem ipsum dolor sit amet, " +
-                "consectetur adipiscing elit. Etiam arcu magna, pharetra at porttitor eget, molestie eu nisl. " +
-                "Aenean consectetur augue eget feugiat feugiat. Aenean faucibus vestibulum ex at mattis. Orci " +
-                "varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus " +
-                "consectetur finibus risus, sit amet accumsan risus venenatis in. Etiam non neque libero. " +
-                "Morbi pellentesque orci et diam semper, non mollis nisl vehicula. Etiam varius ultrices " +
-                "leo, in fermentum risus condimentum nec. Sed lorem metus, pellentesque in pretium in, " +
-                "eleifend et elit. Pellentesque ultrices ut lorem ut tincidunt. Nunc malesuada mi non " +
-                "turpis iaculis, quis tempus est laoreet. Proin fermentum dui est. Curabitur bibendum " +
-                "eros sit amet orci tempor, et convallis enim placerat."));
-        mCommentList.add(new CommentRow("leo","12.01.1502","lorem ipsum2"));
-
-
-        int height = 0;
-        for(int i = 0; i < listView.getChildCount();i++)
-            height += listView.getChildAt(i).getHeight();
-        ViewGroup.LayoutParams lParams = listView.getLayoutParams();
-        lParams.height = height;
-        listView.setLayoutParams(lParams);
+        APIUtils.serverAPI().getComments(authStr,item.getId()).enqueue(respHandler);
 
 
 
