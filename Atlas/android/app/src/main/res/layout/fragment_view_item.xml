@@ -61,6 +61,20 @@
             android:text="@string/no_description"
             android:textSize="15sp" />
 
+        <Button
+            android:id="@+id/edit_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/colorPressedHighlight"
+            android:text="@string/edit" />
+
+        <Button
+            android:id="@+id/delete_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_red_dark"
+            android:text="@string/delete" />
+
 
     </LinearLayout>
 

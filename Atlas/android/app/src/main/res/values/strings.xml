@@ -51,4 +51,8 @@
     <string name="no_description">No Description</string>
     <string name="tags">Tags</string>
     <string name="error_occurred">An error occurred.</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="unable_to_delete">Unable to delete item</string>
+    <string name="successful_item_delete">Successfully deleted item</string>
 </resources>

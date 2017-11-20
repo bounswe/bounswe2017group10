@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,10 +20,16 @@ import com.bounswe2017.group10.atlas.adapter.TagListAdapter;
 import com.bounswe2017.group10.atlas.httpbody.CultureItem;
 import com.bounswe2017.group10.atlas.httpbody.Image;
 import com.bounswe2017.group10.atlas.httpbody.Tag;
+import com.bounswe2017.group10.atlas.remote.APIUtils;
 import com.bounswe2017.group10.atlas.util.Constants;
+import com.bounswe2017.group10.atlas.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ViewItemFragment extends Fragment {
 
@@ -31,7 +38,6 @@ public class ViewItemFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_view_item, container, false);
         CultureItem item = getArguments().getParcelable(Constants.CULTURE_ITEM);
-
 
         RecyclerView tagRecyclerView = view.findViewById(R.id.tag_recyclerview);
         setTags(tagRecyclerView, item);
@@ -42,6 +48,32 @@ public class ViewItemFragment extends Fragment {
 
         Gallery gallery = view.findViewById(R.id.image_gallery);
         setImages(gallery, item);
+
+        Button btnEdit = view.findViewById(R.id.edit_button);
+        btnEdit.setOnClickListener((View v) -> {
+
+        });
+
+        Button btnDelete = view.findViewById(R.id.delete_button);
+        btnDelete.setOnClickListener((View v) -> {
+            String authStr = Utils.getSharedPref(getActivity()).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
+            APIUtils.serverAPI().deleteItem(authStr, item.getId()).enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.isSuccessful()) {
+                        Utils.showToast(getActivity(), getString(R.string.successful_item_delete));
+                        getActivity().onBackPressed();
+                    } else {
+                        Utils.showToast(getActivity(), getString(R.string.unable_to_delete));
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Utils.showToast(getActivity(), getString(R.string.connection_failure));
+                }
+            });
+        });
 
         return view;
     }

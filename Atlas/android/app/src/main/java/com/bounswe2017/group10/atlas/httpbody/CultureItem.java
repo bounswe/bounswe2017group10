@@ -12,7 +12,9 @@ import java.util.List;
 
 public class CultureItem implements Parcelable {
 
-    // TODO : We need the id of the item here as a variable.
+    @SerializedName("id")
+    @Expose
+    private long id;
 
     @SerializedName("country")
     @Expose
@@ -88,6 +90,14 @@ public class CultureItem implements Parcelable {
                 return new CultureItem[count];
             }
         };
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getCountry() {
         return country;
