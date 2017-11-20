@@ -1,6 +1,7 @@
 import { TRUNCATE_LENGTH } from './constants';
 import React, { Component } from 'react';
 import { Alert } from 'reactstrap';
+import axios from 'axios';
 
 export const isLoggedIn = (user) =>
   user !== null && user !== undefined
@@ -22,3 +23,18 @@ export class Errors extends Component {
     )
   }
 }
+
+export const authGet = (token, opts) =>
+  axios({
+    method: 'get',
+    url: opts.url, 
+    headers: { 'Authorization': 'JWT ' + token }
+  })
+
+export const authPost = (token, opts) =>
+  axios({
+    method: 'post',
+    url: opts.url, 
+    headers: { 'Authorization': 'JWT ' + token },
+    data: opts.data
+  })

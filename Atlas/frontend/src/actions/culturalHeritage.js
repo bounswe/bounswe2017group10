@@ -88,3 +88,20 @@ export const closeHelp = () => {
     type: 'CLOSE_HELP'
   }
 }
+
+export const updateCommentInput = (data) => {
+  return {
+    type: 'UPDATE_COMMENT_INPUT',
+    data
+  }
+}
+
+export const updateCulturalHeritage = (id, data) => {
+  return {
+    type: 'UPDATE_CULTURAL_HERITAGE',
+    data: {
+      id,
+      data
+    }
+  }
+}

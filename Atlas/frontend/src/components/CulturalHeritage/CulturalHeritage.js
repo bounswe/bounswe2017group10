@@ -4,10 +4,11 @@ import { truncate } from '../../utils';
 import HomeIcon from 'react-icons/lib/fa/home';
 import BankIcon from 'react-icons/lib/fa/bank';
 import TagIcon from 'react-icons/lib/fa/tag';
+import Comment from './Comment';
 
-const CulturalHeritage = ({ culturalHeritage, shouldTruncate = false }) => (
-  <Container className="cultural-heritage">
-    <Row>
+const CulturalHeritage = ({ culturalHeritage, shouldTruncate = false, showComments = false }) => (
+  <Container>
+    <Row className="whitebox cultural-heritage">
       <Col xs="5">
         { culturalHeritage.images.length > 0 ? (
           <img alt="Cultural Heritage" src={ culturalHeritage.images[0].url } />
@@ -45,6 +46,13 @@ const CulturalHeritage = ({ culturalHeritage, shouldTruncate = false }) => (
         ))}
       </Col>
     </Row>
+    { showComments && culturalHeritage.comments.map(comment => (
+      <Row key={ Math.random() } className="whitebox" style={ { marginTop: 20 } }>
+        <Col xs="12">
+            <Comment comment={ comment } />
+        </Col>
+      </Row>
+    ))}
   </Container>
 )
 
