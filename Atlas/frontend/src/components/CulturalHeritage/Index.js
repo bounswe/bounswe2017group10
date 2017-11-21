@@ -27,8 +27,8 @@ const Page = ({ user, token, culturalHeritages, helpOpen, loadCulturalHeritages,
             .sort((c1, c2) => c1.id - c2.id)
             .map(c => (
               <NavLink key={ c.id } to={ "/cultural-heritages/" + c.id }>
-                <li className="cultural-heritage">
-                  <CulturalHeritage culturalHeritage={ c } shouldTruncate ={ true }/>
+                <li>
+                  <CulturalHeritage culturalHeritage={ c } showCommentSummary={ true } shouldTruncate ={ true }/>
                 </li>
               </NavLink>
             )
