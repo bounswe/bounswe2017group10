@@ -28,7 +28,7 @@ const Page = ({ user, token, culturalHeritages, helpOpen, loadCulturalHeritages,
             .map(c => (
               <NavLink key={ c.id } to={ "/cultural-heritages/" + c.id }>
                 <li>
-                  <CulturalHeritage culturalHeritage={ c } shouldTruncate ={ true }/>
+                  <CulturalHeritage culturalHeritage={ c } showCommentSummary={ true } shouldTruncate ={ true }/>
                 </li>
               </NavLink>
             )

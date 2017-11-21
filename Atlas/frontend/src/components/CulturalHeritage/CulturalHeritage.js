@@ -6,7 +6,7 @@ import BankIcon from 'react-icons/lib/fa/bank';
 import TagIcon from 'react-icons/lib/fa/tag';
 import Comment from './Comment';
 
-const CulturalHeritage = ({ culturalHeritage, shouldTruncate = false, showComments = false }) => (
+const CulturalHeritage = ({ culturalHeritage, shouldTruncate = false, showCommentSummary = false, showComments = false }) => (
   <Container>
     <Row className="whitebox cultural-heritage">
       <Col xs="5">
@@ -25,7 +25,7 @@ const CulturalHeritage = ({ culturalHeritage, shouldTruncate = false, showCommen
           : culturalHeritage.description
           }
         </p> 
-        <hr />
+        { (culturalHeritage.country || culturalHeritage.city || culturalHeritage.tags.length != 0) && <hr /> }
         { culturalHeritage.country &&
           <label className="small-label">
             <BankIcon />
@@ -44,6 +44,11 @@ const CulturalHeritage = ({ culturalHeritage, shouldTruncate = false, showCommen
             <span>{ tag['name'] }</span>
           </label>
         ))}
+        { showCommentSummary && (
+          <div>
+            <span style={{ float: 'right', fontSize: 13 }}>{ culturalHeritage.comments.length } Comments</span>
+          </div>
+        )}
       </Col>
     </Row>
     { showComments && culturalHeritage.comments.map(comment => (
