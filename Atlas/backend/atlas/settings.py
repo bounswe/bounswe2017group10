@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     'authentication',
     'corsheaders',
+    'django.contrib.postgres',
 ]
 
 MIDDLEWARE = [
