@@ -101,7 +101,7 @@ class cultural_heritage_item_list_user_items(generics.ListAPIView):
 class cultural_heritage_item_search(generics.ListAPIView):
     serializer_class = cultural_heritage_serializer
     permission_classes = []
-
+    pagination_class = LimitOffsetPagination
     def get_queryset(self):
         query = self.kwargs.get('query')
         return Cultural_Heritage.objects.annotate(
