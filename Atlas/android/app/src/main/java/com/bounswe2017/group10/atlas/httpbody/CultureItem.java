@@ -50,6 +50,10 @@ public class CultureItem implements Parcelable {
     @Expose
     private long id;
 
+    @SerializedName("comments")
+    @Expose
+    private ArrayList<Comment> comments;
+
     public CultureItem() {}
 
     @SuppressWarnings("unchecked")
@@ -174,4 +178,11 @@ public class CultureItem implements Parcelable {
         return new FeedRow(url, getTitle(), getDescription());
     }
 
+    public ArrayList<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(ArrayList<Comment> comments) {
+        this.comments = comments;
+    }
 }

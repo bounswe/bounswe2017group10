@@ -9,9 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Gallery;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.adapter.CommentAdapter;
@@ -23,21 +23,22 @@ import com.bounswe2017.group10.atlas.adapter.TagListAdapter;
 import com.bounswe2017.group10.atlas.httpbody.Comment;
 import com.bounswe2017.group10.atlas.httpbody.CultureItem;
 import com.bounswe2017.group10.atlas.httpbody.Image;
+import com.bounswe2017.group10.atlas.httpbody.PostCommentRequest;
 import com.bounswe2017.group10.atlas.httpbody.Tag;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
-import com.bounswe2017.group10.atlas.response.OnGetCommentsResponse;
+import com.bounswe2017.group10.atlas.response.OnPostCommentResponse;
 import com.bounswe2017.group10.atlas.util.Constants;
+import com.bounswe2017.group10.atlas.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.bounswe2017.group10.atlas.util.Utils.getSharedPref;
 
 public class ViewItemFragment extends Fragment {
 
     private CommentAdapter mAdapter;
     private final ArrayList<CommentRow> mRowList = new ArrayList<>();
     private final ArrayList<Comment> mCommentList = new ArrayList<>();
+    boolean isFirstTimeClickToEdit = true;
 
     @Nullable
     @Override
@@ -63,11 +64,31 @@ public class ViewItemFragment extends Fragment {
         mAdapter = new CommentAdapter(getActivity(), mRowList);
         listView.setAdapter(mAdapter);
 
+        for(Comment comment : item.getComments()) {
+            mCommentList.add(0,comment);
+            mRowList.add(0,comment.toCommentRow());
+        }
 
-        String authStr = getSharedPref(getActivity()).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
-        OnGetCommentsResponse respHandler = new OnGetCommentsResponse(getActivity(), mCommentList, mRowList, mAdapter);
+        EditText commentEdit = view.findViewById(R.id.comment_edit);
+        Button sendButton = view.findViewById(R.id.comment_send);
 
-        APIUtils.serverAPI().getComments(authStr,item.getId()).enqueue(respHandler);
+        commentEdit.setOnClickListener((View btnView) -> {
+            if(isFirstTimeClickToEdit)  {
+                commentEdit.setText("");
+                isFirstTimeClickToEdit = false;
+            }
+        });
+        sendButton.setOnClickListener((View btnView) -> {
+            String text = commentEdit.getText().toString();
+            commentEdit.setText("");
+            String authStr = Utils.getSharedPref(getActivity()).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
+            OnPostCommentResponse respHandler = new OnPostCommentResponse(getActivity(), mCommentList, mRowList, mAdapter);
+            Comment pack = new Comment();
+            pack.setText(text);
+            PostCommentRequest requestBody = new PostCommentRequest();
+            requestBody.setComment(pack);
+            APIUtils.serverAPI().postComment(authStr,item.getId(), requestBody).enqueue(respHandler);
+        });
 
 
 

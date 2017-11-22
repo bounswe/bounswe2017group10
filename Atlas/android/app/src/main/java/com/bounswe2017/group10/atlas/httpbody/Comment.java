@@ -10,6 +10,7 @@ import java.io.Serializable;
  * Created by mutas on 21.11.2017.
  */
 
+
 public class Comment implements Serializable {
 
     @SerializedName("user")
@@ -20,11 +21,11 @@ public class Comment implements Serializable {
     @Expose
     private String text;
 
-    @SerializedName("create_time")
+    @SerializedName("created_time")
     @Expose
     private String createTime;
 
-    @SerializedName("update_time")
+    @SerializedName("updated_time")
     @Expose
     private String updateTime;
 

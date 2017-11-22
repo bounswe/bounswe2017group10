@@ -79,7 +79,8 @@ public class APIDelegate implements API {
     }
 
     @Override
-    public Call<List<Comment>> getComments(@Header("Authorization") String authStr, @Path("id") long id) {
-        return api.getComments(authStr, id);
+    public Call<List<Comment>> postComment(String authStr, long id, String text) {
+        return null;
     }
+
 }
