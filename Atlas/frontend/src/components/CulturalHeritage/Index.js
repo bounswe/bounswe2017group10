@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 import PlusIcon from 'react-icons/lib/fa/plus-circle';
 import CloseIcon from 'react-icons/lib/fa/times-circle';
 
-const Page = ({ user, token, culturalHeritages, helpOpen, loadCulturalHeritages, closeHelp }) => (
+const Page = ({ user, token, culturalHeritages, helpOpen, paginationNextUrl, loadingMore, canLoadMore, loadCulturalHeritages, closeHelp, loadMore, enableLoadMore }) => (
   <Container>
     { helpOpen &&
       <div className="help-1">
@@ -34,6 +34,9 @@ const Page = ({ user, token, culturalHeritages, helpOpen, loadCulturalHeritages,
             )
           )}
         </ul>
+        { canLoadMore && (
+          <div style={{ width: "100%", textAlign: "center" }} class="atlas-button" onClick={ () => loadMore(token, paginationNextUrl) }>Load More</div>
+        )}
       </Col>
     </Row>
   </Container>

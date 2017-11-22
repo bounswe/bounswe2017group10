@@ -9,4 +9,5 @@ public class Constants {
     public static final String FILE_PROVIDER_AUTHORITY = "com.bounswe2017.group10.fileprovider";
     public static final String CLOUDINARY_CLOUD_NAME = "dsfusawmf";
     public static final String TAG_SEPARATORS = " ,";
+    public static final int PAGINATION_COUNT = 10;
 }

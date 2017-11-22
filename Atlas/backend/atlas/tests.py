@@ -71,7 +71,7 @@ class cultural_heritage_item(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         response_content = json.loads(smart_text(response.content))
-        self.assertEqual(response_content[0]['title'], title)
+        self.assertEqual(response_content['results'][0]['title'], title)
 
     def test_list_user_items_with_another_user(self):
             title = 'Very emotional thresh hook'
@@ -92,7 +92,7 @@ class cultural_heritage_item(TestCase):
             )
             self.assertEqual(response.status_code, 200)
             response_content = json.loads(smart_text(response.content))
-            self.assertEqual(response_content[0]['title'], title)
+            self.assertEqual(response_content['results'][0]['title'], title)
             self.client.logout()
             self.client.login(username=self.username2, password=self.password2)
 
@@ -103,7 +103,7 @@ class cultural_heritage_item(TestCase):
             )
             self.assertEqual(response.status_code, 200)
             response_content = json.loads(smart_text(response.content))
-            self.assertEqual(len(response_content), 0)
+            self.assertEqual(len(response_content['results']), 0)
 
 
 
@@ -197,7 +197,7 @@ class cultural_heritage_item(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         response_content = json.loads(smart_text(response.content))
-        self.assertEqual(response_content[0]['title'] ,title)
+        self.assertEqual(response_content['results'][0]['title'] ,title)
 
 
     def test_get_cultural_heritage_item_by_id(self):
@@ -704,6 +704,44 @@ class cultural_heritage_item(TestCase):
         response_content = json.loads(smart_text(response.content))
         self.assertEqual(len(response_content), 10)
 
+    def test_get_cultural_heritage_item(self):
+        title = 'Very emotional thresh hook'
+        item_data = {
+            "title": title,
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        item_data = {
+            "title": "Draven montage",
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        response = self.client.get(
+            self.cultural_heritage_item_url + "?limit=1",
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 200)
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(len(response_content['results']), 1)
+        response = self.client.get(
+            self.cultural_heritage_item_url + "?limit=1&offset=1",
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 200)
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(len(response_content['results']), 1)
     def test_create_cultural_heritage_item_with_comment(self):
         item_data = {
             "title": "Very emotional thresh hook",
@@ -731,7 +769,6 @@ class cultural_heritage_item(TestCase):
 
         )
         self.assertEqual(response.status_code, 201)
-
         response = self.client.get(
             self.cultural_heritage_item_url + str(id)+'/',
             format='json',
