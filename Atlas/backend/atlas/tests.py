@@ -224,7 +224,7 @@ class cultural_heritage_item(TestCase):
         self.assertEqual(response_content['id'],id)
 
     def test_get_cultural_heritage_item_by_id_with_guest_user(self):
-        title = 'Very emotional thresh hook'
+        title = 'Very publicly available thresh hook'
         item_data = {
             "title": title,
         }
@@ -242,7 +242,33 @@ class cultural_heritage_item(TestCase):
             self.cultural_heritage_item_url + str(id),
             format='json',
         )
-        self.assertEqual(response.status_code, 403)
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response_content['title'],'Very publicly available thresh hook')
+        self.assertEqual(response_content['id'],id)
+
+    def test_list_all_cultural_heritage_items_anon(self):
+        title = 'Very spammable pudge hook'
+        for x in range(0, 3):
+            item_data = {
+                "title": title,
+            }
+            response = self.client.post(
+                self.cultural_heritage_item_url,
+                item_data,
+                format='json',
+
+            )
+            self.assertEqual(response.status_code, 201)
+        self.client.logout()
+        response = self.client.get(
+            self.cultural_heritage_item_url,
+            format='json',
+        )
+        self.assertEqual(response.status_code, 200)
+
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(response_content['count'], 3)
 
     def test_get_cultural_heritage_item_by_id_regex(self):
         title = 'Very emotional thresh hook'
