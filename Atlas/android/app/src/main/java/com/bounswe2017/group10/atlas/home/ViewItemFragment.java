@@ -10,17 +10,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Gallery;
-import android.widget.ImageView;
 import android.widget.TextView;
 import com.bounswe2017.group10.atlas.R;
+import com.bounswe2017.group10.atlas.adapter.CommentAdapter;
+import com.bounswe2017.group10.atlas.adapter.CommentRow;
 import com.bounswe2017.group10.atlas.adapter.ImageListAdapter;
 import com.bounswe2017.group10.atlas.adapter.ImageRow;
+import com.bounswe2017.group10.atlas.adapter.NoScrollListView;
 import com.bounswe2017.group10.atlas.adapter.TagListAdapter;
+import com.bounswe2017.group10.atlas.httpbody.Comment;
 import com.bounswe2017.group10.atlas.httpbody.CultureItem;
 import com.bounswe2017.group10.atlas.httpbody.Image;
+import com.bounswe2017.group10.atlas.httpbody.PostCommentRequest;
 import com.bounswe2017.group10.atlas.httpbody.Tag;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
+import com.bounswe2017.group10.atlas.response.OnPostCommentResponse;
 import com.bounswe2017.group10.atlas.util.Constants;
 import com.bounswe2017.group10.atlas.util.Utils;
 
@@ -32,6 +38,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ViewItemFragment extends Fragment {
+
+    private CommentAdapter mAdapter;
+    private final ArrayList<CommentRow> mRowList = new ArrayList<>();
+    private final ArrayList<Comment> mCommentList = new ArrayList<>();
+    boolean isFirstTimeClickToEdit = true;
 
     @Nullable
     @Override
@@ -74,6 +85,43 @@ public class ViewItemFragment extends Fragment {
                 }
             });
         });
+
+        NoScrollListView listView = view.findViewById(R.id.comment_listview);
+
+
+
+        mAdapter = new CommentAdapter(getActivity(), mRowList);
+        listView.setAdapter(mAdapter);
+
+        assert item != null;
+        for(Comment comment : item.getComments()) {
+            mCommentList.add(0,comment);
+            mRowList.add(0,comment.toCommentRow());
+        }
+
+        EditText commentEdit = view.findViewById(R.id.comment_edit);
+        Button sendButton = view.findViewById(R.id.comment_send);
+
+        commentEdit.setOnClickListener((View btnView) -> {
+            if(isFirstTimeClickToEdit)  {
+                commentEdit.setText("");
+                isFirstTimeClickToEdit = false;
+            }
+        });
+        sendButton.setOnClickListener((View btnView) -> {
+            String text = commentEdit.getText().toString();
+            commentEdit.setText("");
+            String authStr = Utils.getSharedPref(getActivity()).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
+            OnPostCommentResponse respHandler = new OnPostCommentResponse(getActivity(), mCommentList, mRowList, mAdapter);
+            Comment pack = new Comment();
+            pack.setText(text);
+            PostCommentRequest requestBody = new PostCommentRequest();
+            requestBody.setComment(pack);
+            APIUtils.serverAPI().postComment(authStr,item.getId(), requestBody).enqueue(respHandler);
+        });
+
+
+
 
         return view;
     }

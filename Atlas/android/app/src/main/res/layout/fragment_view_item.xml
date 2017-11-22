@@ -75,6 +75,59 @@
             android:background="@android:color/holo_red_dark"
             android:text="@string/delete" />
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="25dp" />
+
+        <TextView
+            android:id="@+id/write_comment_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/write_comment"
+            android:textAlignment="viewStart"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+
+        <EditText
+            android:id="@+id/comment_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/write_something" />
+
+        <Button
+            android:id="@+id/comment_send"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/send" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="15dp" />
+
+        <TextView
+            android:id="@+id/comments_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/comments"
+            android:textAlignment="viewStart"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <com.bounswe2017.group10.atlas.adapter.NoScrollListView
+            android:id="@+id/comment_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:scrollbars="horizontal|vertical" />
+
+
+
 
     </LinearLayout>
 

@@ -3,7 +3,6 @@ package com.bounswe2017.group10.atlas.remote;
 
 import org.junit.Test;
 
-import retrofit2.Retrofit;
 
 import static org.junit.Assert.*;
 

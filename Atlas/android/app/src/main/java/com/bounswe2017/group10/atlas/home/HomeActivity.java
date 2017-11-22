@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bounswe2017.group10.atlas.R;
-import com.bounswe2017.group10.atlas.adapter.FeedListAdapter;
 import com.bounswe2017.group10.atlas.profil.ProfileActivity;
 import com.bounswe2017.group10.atlas.util.Constants;
 import com.bounswe2017.group10.atlas.httpbody.UserResponse;

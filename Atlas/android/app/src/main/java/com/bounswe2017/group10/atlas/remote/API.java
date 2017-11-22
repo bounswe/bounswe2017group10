@@ -1,12 +1,15 @@
 package com.bounswe2017.group10.atlas.remote;
 
 
+import com.bounswe2017.group10.atlas.httpbody.Comment;
 import com.bounswe2017.group10.atlas.httpbody.CreateItemResponse;
 import com.bounswe2017.group10.atlas.httpbody.CultureItem;
+import com.bounswe2017.group10.atlas.httpbody.GetItemsResponse;
 import com.bounswe2017.group10.atlas.httpbody.Image;
 import com.bounswe2017.group10.atlas.httpbody.ImageUploadRequest;
 import com.bounswe2017.group10.atlas.httpbody.LoginRequest;
 import com.bounswe2017.group10.atlas.httpbody.LoginResponse;
+import com.bounswe2017.group10.atlas.httpbody.PostCommentRequest;
 import com.bounswe2017.group10.atlas.httpbody.SignupRequest;
 import com.bounswe2017.group10.atlas.httpbody.SignupResponse;
 import com.bounswe2017.group10.atlas.httpbody.Tag;
@@ -22,6 +25,7 @@ import retrofit2.http.Header;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface API {
     @POST("/api/auth/signup")
@@ -52,11 +56,18 @@ public interface API {
                                    @Body ImageUploadRequest imageList);
 
     @GET("/cultural_heritage_item")
-    Call<List<CultureItem>> getAllItems(@Header("Authorization") String authStr);
+    Call<GetItemsResponse> getItems(@Header("Authorization") String authStr,
+                                    @Query("limit") long limit,
+                                    @Query("offset") long offset);
 
     @GET("/api/auth/me")
     Call<UserResponse> getMe(@Header("Authorization") String authStr);
 
     @GET("/tags")
     Call<List<Tag>> getAllTags(@Header("Authorization") String authStr);
+
+    @POST("/cultural_heritage_item/{id}/comment")
+    Call<Comment> postComment(@Header("Authorization") String authStr,
+                                    @Path("id") long id,
+                                    @Body PostCommentRequest comment);
 }

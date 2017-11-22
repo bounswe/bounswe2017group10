@@ -80,7 +80,7 @@ public class CreateItemFragment extends Fragment {
                 if (response.isSuccessful()) {
                     List<Tag> responseList = response.body();
                     for (Tag t : responseList) {
-                        mTagList.add(t);
+                        mAllTagsList.add(t.getName());
                     }
                     mAutoComplAdapter.notifyDataSetChanged();
                 } else {

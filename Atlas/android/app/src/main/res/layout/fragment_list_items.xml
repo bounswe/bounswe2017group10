@@ -4,13 +4,15 @@
     android:id="@+id/swipe_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ListView
-        android:id="@+id/feed_listview"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_items_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         android:scrollbars="horizontal|vertical" />
 </android.support.v4.widget.SwipeRefreshLayout>

@@ -88,3 +88,58 @@ export const closeHelp = () => {
     type: 'CLOSE_HELP'
   }
 }
+
+export const updateCHPaginationNext = (nextUrl) => {
+  return {
+    type: 'UPDATE_CH_PAGINATION_NEXT',
+    data: nextUrl
+  }
+}
+
+export const loadMoreCH = (data) => {
+  return {
+    type: 'LOAD_MORE_CH',
+    data
+  }
+}
+
+export const updateCommentInput = (data) => {
+  return {
+    type: 'UPDATE_COMMENT_INPUT',
+    data
+  }
+}
+
+export const startLoadMore = () => {
+  return {
+    type: 'START_LOAD_MORE'
+  }
+}
+
+export const finishLoadMore = () => {
+  return {
+    type: 'FINISH_LOAD_MORE'
+  }
+}
+
+export const disableLoadMore = () => {
+  return {
+    type: 'DISABLE_LOAD_MORE'
+  }
+}
+
+export const enableLoadMore = () => {
+  return {
+    type: 'ENABLE_LOAD_MORE'
+  }
+}
+
+export const updateCulturalHeritage = (id, data) => {
+  return {
+    type: 'UPDATE_CULTURAL_HERITAGE',
+    data: {
+      id,
+      data
+    }
+  }
+}

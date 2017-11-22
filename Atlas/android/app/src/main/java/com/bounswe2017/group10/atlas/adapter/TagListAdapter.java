@@ -35,7 +35,7 @@ public class TagListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      * ViewHolder class that implements the ViewHolder pattern for a more
      * efficient adapter.
      */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    private static class ViewHolder extends RecyclerView.ViewHolder {
         TextView textView;
 
         ViewHolder(View v) {

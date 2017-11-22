@@ -6,6 +6,8 @@ from .serializers import cultural_heritage_serializer,image_media_item_serialize
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from jwt_auth.compat import json
 from rest_framework.test import APIRequestFactory
 
@@ -16,12 +18,15 @@ def users(request):
 
 class cultural_heritage_item(generics.ListCreateAPIView):
 
-    queryset = Cultural_Heritage.objects.all()
+    queryset = Cultural_Heritage.objects.get_queryset().order_by('id')
     serializer_class = cultural_heritage_serializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
+    pagination_class = LimitOffsetPagination
     def perform_create(self,serializer):
         serializer.save()
-
+    def get_queryset(self):
+        return Cultural_Heritage.objects.get_queryset().order_by('id')
     def create(self, request, *args, **kwargs):
         #Get the user from the request so that we can add it to cultural heritage item model.
         #Pk is the id of the user.
@@ -69,13 +74,15 @@ class image_media_item(ImageInterceptorMixin,generics.CreateAPIView):
 class cultural_heritage_item_view_update_delete(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = cultural_heritage_serializer
     lookup_field = 'id'
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
         return Cultural_Heritage.objects.filter()
 class tags(generics.ListAPIView):
     serializer_class = tag_serializer
+    pagination_class =  None
     def get_queryset(self):
-        return tag.objects.all()
+        return tag.objects.get_queryset().order_by('id')
 
 
 class cultural_heritage_item_list_user_items(generics.ListAPIView):

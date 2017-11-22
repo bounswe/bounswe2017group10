@@ -55,4 +55,9 @@
     <string name="delete">Delete</string>
     <string name="unable_to_delete">Unable to delete item</string>
     <string name="successful_item_delete">Successfully deleted item</string>
+    <string name="get_item_error">Error getting items</string>
+    <string name="comments">Comments</string>
+    <string name="write_something">Write something...</string>
+    <string name="send">Send</string>
+    <string name="write_comment">Write comment</string>
 </resources>
