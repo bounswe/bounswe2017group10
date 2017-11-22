@@ -46,6 +46,14 @@ public class CultureItem implements Parcelable {
     @Expose
     private Boolean publicAccessibility;
 
+    @SerializedName("id")
+    @Expose
+    private long id;
+
+    @SerializedName("comments")
+    @Expose
+    private ArrayList<Comment> comments;
+
     public CultureItem() {}
 
     @SuppressWarnings("unchecked")
@@ -137,6 +145,14 @@ public class CultureItem implements Parcelable {
         this.imageList = imageList;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public ArrayList<Tag> getTagList() {
         return tagList;
     }
@@ -167,4 +183,11 @@ public class CultureItem implements Parcelable {
         return new FeedRow(url, getTitle(), getDescription(), tagList);
     }
 
+    public ArrayList<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(ArrayList<Comment> comments) {
+        this.comments = comments;
+    }
 }

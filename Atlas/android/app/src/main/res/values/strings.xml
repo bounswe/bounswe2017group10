@@ -52,4 +52,8 @@
     <string name="tags">Tags</string>
     <string name="error_occurred">An error occurred.</string>
     <string name="get_item_error">Error getting items</string>
+    <string name="comments">Comments</string>
+    <string name="write_something">Write something...</string>
+    <string name="send">Send</string>
+    <string name="write_comment">Write comment</string>
 </resources>
