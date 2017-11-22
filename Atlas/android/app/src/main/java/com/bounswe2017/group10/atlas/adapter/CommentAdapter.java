@@ -2,16 +2,14 @@ package com.bounswe2017.group10.atlas.adapter;
 
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bounswe2017.group10.atlas.R;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
@@ -30,14 +28,15 @@ public class CommentAdapter extends ArrayAdapter<CommentRow> {
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    static class ViewHolder {
+    private static class ViewHolder {
         private TextView nameH;
         private TextView dateH;
         private TextView textH;
     }
 
+    @NonNull
     @Override
-    public View getView(int pos, View convertView, ViewGroup parent) {
+    public View getView(int pos, View convertView, @NonNull ViewGroup parent) {
         ViewHolder holder;
 
         if (convertView == null) {

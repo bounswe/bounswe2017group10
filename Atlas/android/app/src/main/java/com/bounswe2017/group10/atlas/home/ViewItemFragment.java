@@ -64,6 +64,7 @@ public class ViewItemFragment extends Fragment {
         mAdapter = new CommentAdapter(getActivity(), mRowList);
         listView.setAdapter(mAdapter);
 
+        assert item != null;
         for(Comment comment : item.getComments()) {
             mCommentList.add(0,comment);
             mRowList.add(0,comment.toCommentRow());
