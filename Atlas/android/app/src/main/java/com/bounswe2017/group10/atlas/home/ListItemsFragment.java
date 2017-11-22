@@ -5,15 +5,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.bounswe2017.group10.atlas.R;
-import com.bounswe2017.group10.atlas.adapter.FeedListAdapter;
+import com.bounswe2017.group10.atlas.adapter.ListItemsAdapter;
 import com.bounswe2017.group10.atlas.adapter.FeedRow;
 import com.bounswe2017.group10.atlas.httpbody.CultureItem;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
@@ -21,6 +20,7 @@ import com.bounswe2017.group10.atlas.response.OnGetItemsResponse;
 import com.bounswe2017.group10.atlas.util.Constants;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.bounswe2017.group10.atlas.util.Utils.getSharedPref;
 
@@ -28,8 +28,13 @@ public class ListItemsFragment extends Fragment {
 
     private final ArrayList<CultureItem> mItemList = new ArrayList<>();
     private final ArrayList<FeedRow> mRowList = new ArrayList<>();
-    private FeedListAdapter mAdapter;
+    private ListItemsAdapter mAdapter;
     private RequestStrategy requestStrategy = new FeedStrategy();
+    private boolean firstView = true;
+    private boolean isLoading = false;
+    private boolean isLastPage = false;
+    private int currentOffset = 0;
+    private SwipeRefreshLayout mSwipeLayout;
 
     /**
      * Interface for different request strategies to be used with this item
@@ -40,29 +45,29 @@ public class ListItemsFragment extends Fragment {
          * Specify how to request items.
          *
          * @param context Context in which the items will be requested.
-         * @param itemList List of CultureItems to which new items will be added.
-         * @param rowList List of FeedRows to which FeedRow versions of requested CultureItems will be added.
-         * @param adapter Adapter to be notified.
-         * @param itemOffset Items [itemOffset:itemOffset + PAGINATION_COUNT) will be requested.
+         * @param offset Page offset.
+         * @param getItemCallback Callback interface whose onGetItems method will be called with
+         *                        the returned CultureItem objects.
          */
-        public void requestItems(Context context,
-                                 ArrayList<CultureItem> itemList,
-                                 ArrayList<FeedRow> rowList,
-                                 FeedListAdapter adapter,
-                                 int itemOffset);
+        public void requestItems(Context context, int offset, OnGetItemsResponse.GetItemCallback getItemCallback);
     }
 
-
+    /**
+     * RequestStrategy to get items for user feed.
+     */
     public static class FeedStrategy implements RequestStrategy {
-        public void requestItems(Context context, ArrayList<CultureItem> itemList, ArrayList<FeedRow> rowList, FeedListAdapter adapter, int itemOffset) {
+        public void requestItems(Context context, int offset, OnGetItemsResponse.GetItemCallback getItemCallback) {
             String authStr = getSharedPref(context).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
-            OnGetItemsResponse respHandler = new OnGetItemsResponse(context, itemList, rowList, adapter);
-            APIUtils.serverAPI().getItems(authStr, Constants.PAGINATION_COUNT, itemOffset).enqueue(respHandler);
+            OnGetItemsResponse respHandler = new OnGetItemsResponse(context, getItemCallback);
+            APIUtils.serverAPI().getItems(authStr, Constants.PAGINATION_COUNT, offset).enqueue(respHandler);
         }
     }
 
+    /**
+     * RequestStrategy for getting a user's own items.
+     */
     public static class OwnItemsStrategy implements RequestStrategy {
-        public void requestItems(Context context, ArrayList<CultureItem> itemList, ArrayList<FeedRow> rowList, FeedListAdapter adapter, int itemOffset) {
+        public void requestItems(Context context, int offset, OnGetItemsResponse.GetItemCallback getItemCallback) {
             String authStr = getSharedPref(context).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
             // TODO: make request for getting own items
             // OnGetOwnItemsResponse respHandler = new OnGetOwnItemsResponse(context, itemList, rowList, adapter);
@@ -70,66 +75,29 @@ public class ListItemsFragment extends Fragment {
         }
     }
 
+    /**
+     * Set the current RequestStrategy to be used by this Fragment.
+     *
+     * @param strategy RequestStrategy whose requestItems method will be called when requesting items.
+     */
     public void setRequestStrategy(RequestStrategy strategy) {
         this.requestStrategy = strategy;
     }
 
-    private boolean firstView = true;
-    private int currentOffset = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_list_items, container, false);
+        RecyclerView recyclerView = view.findViewById(R.id.list_items_recyclerview);
+        this.mSwipeLayout = view.findViewById(R.id.swipe_container);
 
-        ListView listView = view.findViewById(R.id.feed_listview);
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        OnGetItemsResponse.GetItemCallback getItemCallback = this.createNewItemHandler();
 
-            private int currentVisibleItemCount = 0;
-            private int currentScrollState = SCROLL_STATE_IDLE;
-            private int currentFirstVisibleItem = 0;
-            private int totalItem = 0;
-
-
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                this.currentScrollState = scrollState;
-                this.isScrollCompleted();
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                this.currentFirstVisibleItem = firstVisibleItem;
-                this.currentVisibleItemCount = visibleItemCount;
-                this.totalItem = totalItemCount;
-            }
-
-            private void isScrollCompleted() {
-                if (totalItem - currentFirstVisibleItem == currentVisibleItemCount && currentScrollState == SCROLL_STATE_IDLE) {
-                    requestStrategy.requestItems(getActivity(), mItemList, mRowList, mAdapter, currentOffset);
-                    currentOffset += Constants.PAGINATION_COUNT;
-                }
-            }
-        });
-
-        mAdapter = new FeedListAdapter(getActivity(), mRowList);
-        listView.setAdapter(mAdapter);
-
-        // currently, get all items
-        if (firstView) {
-            mItemList.clear();
-            mRowList.clear();
-            mAdapter.notifyDataSetChanged();
-            this.requestStrategy.requestItems(getActivity(), mItemList, mRowList, mAdapter, this.currentOffset);
-            this.currentOffset += Constants.PAGINATION_COUNT;
-            firstView = false;
-        }
-
-        // item click listener
-        listView.setOnItemClickListener((AdapterView<?> adapterView, View itemView, int pos, long arg3) -> {
+        mAdapter = new ListItemsAdapter(getActivity(), mRowList, (List<FeedRow> rowList, int position) -> {
             // put item to bundle
             Bundle itemBundle = new Bundle();
-            itemBundle.putParcelable(Constants.CULTURE_ITEM, mItemList.get(pos));
+            itemBundle.putParcelable(Constants.CULTURE_ITEM, mItemList.get(position));
             // put bundle to fragment
             ViewItemFragment viewItemFragment = new ViewItemFragment();
             viewItemFragment.setArguments(itemBundle);
@@ -140,18 +108,30 @@ public class ListItemsFragment extends Fragment {
                     .addToBackStack(null)
                     .commit();
         });
+        recyclerView.setAdapter(mAdapter);
+
+
+        this.setOnScrollListener(recyclerView, getItemCallback);
+
+        // get the first page of items
+        if (firstView) {
+            mItemList.clear();
+            mRowList.clear();
+            mAdapter.notifyDataSetChanged();
+            loadMoreItems(getItemCallback);
+            firstView = false;
+        }
 
         // set swipe layout listeners
-        SwipeRefreshLayout swipeLayout = view.findViewById(R.id.swipe_container);
-        swipeLayout.setOnRefreshListener(() -> {
+        this.mSwipeLayout.setOnRefreshListener(() -> {
             mItemList.clear();
             mRowList.clear();
             this.currentOffset = 0;
             mAdapter.notifyDataSetChanged();
-            this.requestStrategy.requestItems(getActivity(), mItemList, mRowList, mAdapter, this.currentOffset);
-            swipeLayout.setRefreshing(false);
+            loadMoreItems(getItemCallback);
         });
-        swipeLayout.setColorSchemeColors(
+
+        this.mSwipeLayout.setColorSchemeColors(
             ContextCompat.getColor(getContext(), android.R.color.holo_blue_bright),
             ContextCompat.getColor(getContext(), android.R.color.holo_red_light),
             ContextCompat.getColor(getContext(), android.R.color.holo_green_light),
@@ -159,6 +139,77 @@ public class ListItemsFragment extends Fragment {
         );
 
         return view;
+    }
+
+    /**
+     * Sets OnScrollListener to RecyclerView object to request more items when it is scrolled to the
+     * bottom.
+     *
+     * @param recyclerView RecyclerView object whose OnScrollListener will be set.
+     * @param getItemCallback Callback interface whose onGetItems method will be called upon
+     *                        successfully getting more items.
+     */
+    private void setOnScrollListener(RecyclerView recyclerView, OnGetItemsResponse.GetItemCallback getItemCallback) {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int visibleItemCount = layoutManager.getChildCount();
+                int totalItemCount = layoutManager.getItemCount();
+                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+
+                if (!isLoading && !isLastPage) {
+                    if (visibleItemCount + firstVisibleItemPosition >= totalItemCount &&
+                            firstVisibleItemPosition >= 0 &&
+                            totalItemCount >= Constants.PAGINATION_COUNT) {
+                        loadMoreItems(getItemCallback);
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * Creates and returns a new OnGetItemsResponse.GetItemCallback object whose onGetItems method
+     * will be called when more items are obtained.
+     *
+     * @return OnGetItemsResponse.GetItemCallback object.
+     */
+    private OnGetItemsResponse.GetItemCallback createNewItemHandler() {
+        return new OnGetItemsResponse.GetItemCallback() {
+            @Override
+            public void onGetItems(List<CultureItem> itemList) {
+                for (CultureItem item : itemList) {
+                    mItemList.add(item);
+                    mRowList.add(item.toFeedRow());
+                }
+                mAdapter.notifyDataSetChanged();
+                isLoading = false;
+                isLastPage = itemList.size() < Constants.PAGINATION_COUNT;
+                mSwipeLayout.setRefreshing(false);
+            }
+        };
+    }
+
+    /**
+     * Load more items from the server.
+     *
+     * @param getItemCallback Callback object whose onGetItems method will be called upon obtaining
+     *                        more items.
+     */
+    private void loadMoreItems(OnGetItemsResponse.GetItemCallback getItemCallback) {
+        this.mSwipeLayout.setRefreshing(true);
+        this.isLoading = true;
+        this.requestStrategy.requestItems(getActivity(), this.currentOffset, getItemCallback);
+        this.currentOffset += Constants.PAGINATION_COUNT;
     }
 }
 
