@@ -83,9 +83,7 @@ class tags(generics.ListAPIView):
 
 
 class cultural_heritage_item_list_user_items(generics.ListAPIView):
-
     serializer_class = cultural_heritage_serializer
-
 
     def get_queryset(self):
         user=self.request.user;
