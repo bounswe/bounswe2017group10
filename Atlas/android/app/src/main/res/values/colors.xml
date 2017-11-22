@@ -6,4 +6,6 @@
     <color name="url_link_color">#0000ee</color>
     <color name="button_gray">#454545</color>
     <color name="tag_background">#eec774</color>
+    <color name="card_background">#ffefce</color>
+    <color name="home_background">#2c2e27</color>
 </resources>

@@ -3,7 +3,7 @@ package com.bounswe2017.group10.atlas.response;
 import android.content.Context;
 
 import com.bounswe2017.group10.atlas.R;
-import com.bounswe2017.group10.atlas.adapter.FeedListAdapter;
+import com.bounswe2017.group10.atlas.adapter.ListItemsAdapter;
 import com.bounswe2017.group10.atlas.adapter.FeedRow;
 import com.bounswe2017.group10.atlas.httpbody.CultureItem;
 import com.bounswe2017.group10.atlas.util.Utils;
@@ -21,9 +21,9 @@ public class OnGetAllItemsResponse implements Callback<List<CultureItem>> {
     private Context context;
     private final ArrayList<CultureItem> mItemList;
     private final ArrayList<FeedRow> mRowList;
-    private FeedListAdapter mAdapter;
+    private ListItemsAdapter mAdapter;
 
-    public OnGetAllItemsResponse(Context context, ArrayList<CultureItem> itemList, ArrayList<FeedRow> rowList, FeedListAdapter adapter) {
+    public OnGetAllItemsResponse(Context context, ArrayList<CultureItem> itemList, ArrayList<FeedRow> rowList, ListItemsAdapter adapter) {
         this.context = context;
         this.mItemList = itemList;
         this.mRowList = rowList;

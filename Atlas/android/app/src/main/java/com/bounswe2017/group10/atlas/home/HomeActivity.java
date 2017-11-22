@@ -3,27 +3,22 @@ package com.bounswe2017.group10.atlas.home;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.bounswe2017.group10.atlas.R;
-import com.bounswe2017.group10.atlas.adapter.TabPagerAdapter;
-import com.bounswe2017.group10.atlas.auth.AuthActivity;
 import com.bounswe2017.group10.atlas.profil.ProfileActivity;
 import com.bounswe2017.group10.atlas.util.Constants;
 import com.bounswe2017.group10.atlas.httpbody.UserResponse;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
-import com.bounswe2017.group10.atlas.util.Utils;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,12 +30,6 @@ import static com.bounswe2017.group10.atlas.util.Utils.showToast;
 
 
 public class HomeActivity extends FragmentActivity implements NavigationView.OnNavigationItemSelectedListener{
-
-    private static final String TAG = "HomeActivity";
-
-    private TabPagerAdapter mAdapter;
-    private ViewPager mPager;
-    private TabLayout mTabs;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,19 +66,18 @@ public class HomeActivity extends FragmentActivity implements NavigationView.OnN
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // set swiping
-        mAdapter = initAdapter();
-        mTabs = findViewById(R.id.tabs);
-        mPager = findViewById(R.id.pager);
-        mPager.setAdapter(mAdapter);
-        mTabs.setupWithViewPager(mPager);
+        ListItemsFragment listItemsFragment = new ListItemsFragment();
+        listItemsFragment.setRequestStrategy(new ListItemsFragment.FeedStrategy());
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.home_container, listItemsFragment)
+                .addToBackStack(null)
+                .commit();
 
-        mPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                mPager.setCurrentItem(position);
-                super.onPageSelected(position);
-            }
+        FloatingActionButton fab = findViewById(R.id.floatingActionButton);
+        fab.setOnClickListener((View v) -> {
+            Intent intent = new Intent(this, CreateItemActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -128,16 +116,6 @@ public class HomeActivity extends FragmentActivity implements NavigationView.OnN
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.nav_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    private TabPagerAdapter initAdapter() {
-        Fragment feedFragment = new FeedFragment();
-        Fragment createItemFragment = new CreateItemFragment();
-
-        TabPagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(feedFragment, getResources().getString(R.string.feed));
-        adapter.addFragment(createItemFragment, getResources().getString(R.string.create));
-        return adapter;
     }
 }
 

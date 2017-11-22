@@ -267,6 +267,66 @@ class cultural_heritage_item(TestCase):
         self.assertEqual(response_content['title'],title)
         self.assertEqual(response_content['id'],id)
 
+    def test_delete_cultural_heritage_item(self):
+        title = 'Very emotional thresh hook'
+        item_data = {
+            "title": title,
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        response_content = json.loads(smart_text(response.content))
+        id = response_content['id']
+        response = self.client.delete(
+            self.cultural_heritage_item_url + str(id) + '/',
+            format='json',
+        )
+        self.assertEqual(response.status_code, 204)
+
+        response = self.client.get(
+            self.cultural_heritage_item_url + str(id) + '/',
+            format='json',
+        )
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_update_cultural_heritage_item(self):
+        title = 'Very emotional thresh hook'
+        item_data = {
+            "title": title,
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        new_title = 'Akali sup montage'
+        item_data = {
+            "title": new_title,
+        }
+        response_content = json.loads(smart_text(response.content))
+        id = response_content['id']
+        response = self.client.patch(
+            self.cultural_heritage_item_url + str(id) + '/',
+            item_data,
+            format='json',
+        )
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.get(
+            self.cultural_heritage_item_url + str(id) + '/',
+            format='json',
+        )
+
+        self.assertEqual(response.status_code, 200)
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(response_content['title'],new_title)
 
     def test_get_cultural_heritage_item_by_invalid_id(self):
         title = 'Very emotional thresh hook'

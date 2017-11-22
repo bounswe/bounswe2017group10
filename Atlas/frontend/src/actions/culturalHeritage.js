@@ -103,6 +103,13 @@ export const loadMoreCH = (data) => {
   }
 }
 
+export const updateCommentInput = (data) => {
+  return {
+    type: 'UPDATE_COMMENT_INPUT',
+    data
+  }
+}
+
 export const startLoadMore = () => {
   return {
     type: 'START_LOAD_MORE'
@@ -124,5 +131,15 @@ export const disableLoadMore = () => {
 export const enableLoadMore = () => {
   return {
     type: 'ENABLE_LOAD_MORE'
+  }
+}
+
+export const updateCulturalHeritage = (id, data) => {
+  return {
+    type: 'UPDATE_CULTURAL_HERITAGE',
+    data: {
+      id,
+      data
+    }
   }
 }

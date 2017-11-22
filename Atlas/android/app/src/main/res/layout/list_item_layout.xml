@@ -1,0 +1,93 @@
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    card_view:cardBackgroundColor="@color/card_background"
+    card_view:cardCornerRadius="3dp"
+    card_view:cardElevation="2dp"
+    card_view:cardUseCompatPadding="true" >
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="6dip" >
+
+        <ImageView
+            android:id="@+id/icon_imageview"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:src="@android:drawable/ic_media_play" />
+
+        <TextView
+            android:id="@+id/description_textview"
+            android:layout_width="fill_parent"
+            android:layout_height="90dp"
+            android:layout_below="@+id/title_textview"
+            android:layout_toEndOf="@+id/icon_imageview"
+            android:layout_marginStart="5dp"
+            android:ellipsize="marquee"
+            android:scrollHorizontally="false"
+            android:text="Description"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/title_textview"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="5dp"
+            android:layout_alignWithParentIfMissing="true"
+            android:layout_toEndOf="@+id/icon_imageview"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="Title"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tag1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tag2"
+            android:layout_alignBottom="@+id/tag2"
+            android:layout_toStartOf="@+id/tag2"
+            android:background="@color/tag_background"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:padding="3dp"
+            android:textColor="@android:color/background_dark"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tag2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tag3"
+            android:layout_alignBottom="@+id/tag3"
+            android:layout_toStartOf="@+id/tag3"
+            android:background="@color/tag_background"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:padding="3dp"
+            android:textColor="@android:color/background_dark"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tag3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/description_textview"
+            android:layout_marginTop="13dp"
+            android:background="@color/tag_background"
+            android:layout_marginStart="5dp"
+            android:padding="3dp"
+            android:layout_marginEnd="5dp"
+            android:textColor="@android:color/background_dark"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

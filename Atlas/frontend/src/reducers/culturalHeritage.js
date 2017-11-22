@@ -133,6 +133,17 @@ const reducer = (state = initState, action) => {
         ...state,
         canLoadMore: true
       }
+    case 'UPDATE_COMMENT_INPUT':
+      return {
+        ...state,
+        commentInput: action.data
+      }
+    case 'UPDATE_CULTURAL_HERITAGE':
+      return {
+        ...state,
+        data: state.data.map(c => c.id == action.data.id ? action.data.data : c),
+        commentInput: ""
+      }
     default:
       return state;
   }
