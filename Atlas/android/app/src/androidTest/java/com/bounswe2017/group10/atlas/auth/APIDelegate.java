@@ -7,6 +7,7 @@ import com.bounswe2017.group10.atlas.httpbody.CultureItem;
 import com.bounswe2017.group10.atlas.httpbody.ImageUploadRequest;
 import com.bounswe2017.group10.atlas.httpbody.LoginRequest;
 import com.bounswe2017.group10.atlas.httpbody.LoginResponse;
+import com.bounswe2017.group10.atlas.httpbody.PostCommentRequest;
 import com.bounswe2017.group10.atlas.httpbody.SignupRequest;
 import com.bounswe2017.group10.atlas.httpbody.SignupResponse;
 import com.bounswe2017.group10.atlas.httpbody.UserResponse;
@@ -79,8 +80,8 @@ public class APIDelegate implements API {
     }
 
     @Override
-    public Call<List<Comment>> postComment(String authStr, long id, String text) {
-        return null;
+    public Call<Comment> postComment(String authStr, long id, PostCommentRequest pack) {
+        return api.postComment(authStr,id,pack);
     }
 
 }
