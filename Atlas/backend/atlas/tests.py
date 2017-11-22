@@ -268,7 +268,7 @@ class cultural_heritage_item(TestCase):
         self.assertEqual(response.status_code, 200)
 
         response_content = json.loads(smart_text(response.content))
-        self.assertEqual(len(response_content), 3)
+        self.assertEqual(response_content['count'], 3)
 
     def test_get_cultural_heritage_item_by_id_regex(self):
         title = 'Very emotional thresh hook'
