@@ -242,7 +242,7 @@ class cultural_heritage_item(TestCase):
             self.cultural_heritage_item_url + str(id),
             format='json',
         )
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 200)
 
     def test_get_cultural_heritage_item_by_id_regex(self):
         title = 'Very emotional thresh hook'
