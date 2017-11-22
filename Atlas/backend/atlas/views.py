@@ -6,6 +6,7 @@ from .serializers import cultural_heritage_serializer,image_media_item_serialize
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from jwt_auth.compat import json
 from rest_framework.test import APIRequestFactory
 
@@ -18,6 +19,7 @@ class cultural_heritage_item(generics.ListCreateAPIView):
 
     queryset = Cultural_Heritage.objects.all()
     serializer_class = cultural_heritage_serializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def perform_create(self,serializer):
         serializer.save()
@@ -69,9 +71,11 @@ class image_media_item(ImageInterceptorMixin,generics.CreateAPIView):
 class cultural_heritage_item_view_update_delete(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = cultural_heritage_serializer
     lookup_field = 'id'
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
         return Cultural_Heritage.objects.filter()
+
 class tags(generics.ListAPIView):
     serializer_class = tag_serializer
     def get_queryset(self):
