@@ -4,7 +4,6 @@ package com.bounswe2017.group10.atlas.remote;
 import com.bounswe2017.group10.atlas.httpbody.Comment;
 import com.bounswe2017.group10.atlas.httpbody.CreateItemResponse;
 import com.bounswe2017.group10.atlas.httpbody.CultureItem;
-import com.bounswe2017.group10.atlas.httpbody.Image;
 import com.bounswe2017.group10.atlas.httpbody.ImageUploadRequest;
 import com.bounswe2017.group10.atlas.httpbody.LoginRequest;
 import com.bounswe2017.group10.atlas.httpbody.LoginResponse;

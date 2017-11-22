@@ -61,6 +61,10 @@
             android:text="@string/no_description"
             android:textSize="15sp" />
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="25dp" />
+
         <TextView
             android:id="@+id/write_comment_title"
             android:layout_width="match_parent"
@@ -70,6 +74,7 @@
             android:textColor="@android:color/black"
             android:textSize="18sp"
             android:textStyle="bold" />
+
 
         <EditText
             android:id="@+id/comment_edit"
@@ -84,6 +89,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/send" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="15dp" />
 
         <TextView
             android:id="@+id/comments_title"
