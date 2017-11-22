@@ -19,8 +19,6 @@ public class CommentAdapter extends ArrayAdapter<CommentRow> {
     private LayoutInflater inflater;
 
 
-
-
     public CommentAdapter(Context context, ArrayList<CommentRow> items) {
         super(context, -1, items);
         this.context = context;
@@ -34,9 +32,8 @@ public class CommentAdapter extends ArrayAdapter<CommentRow> {
         private TextView textH;
     }
 
-    @NonNull
     @Override
-    public View getView(int pos, View convertView, @NonNull ViewGroup parent) {
+    public View getView(int pos,View convertView, ViewGroup parent) {
         ViewHolder holder;
 
         if (convertView == null) {
