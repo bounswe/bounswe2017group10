@@ -111,9 +111,8 @@ class cultural_heritage_item_search(generics.ListAPIView):
 class cultural_heritage_item_search_autocorrect(generics.ListAPIView):
     permission_classes = []
     serializer_class = cultural_heritage_serializer
-    pagination_class = None
 
     def get_queryset(self):
         query = self.kwargs.get('query')
-        return Cultural_Heritage.objects.filter(title__icontains=query)[:5]
+        return Cultural_Heritage.objects.filter(title__icontains=query)
 
