@@ -215,6 +215,16 @@ public class ListItemsFragment extends Fragment {
         };
     }
 
+    public void setItemList(List<CultureItem> itemList) {
+        this.mItemList.clear();
+        this.mRowList.clear();
+        for (CultureItem item : itemList) {
+            this.mItemList.add(item);
+            this.mRowList.add(item.toFeedRow());
+        }
+        this.mAdapter.notifyDataSetChanged();
+    }
+
     /**
      * Load more items from the server.
      *
