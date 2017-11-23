@@ -898,3 +898,176 @@ class cultural_heritage_item(TestCase):
         )
         response_content = json.loads(smart_text(response.content))
         self.assertEqual(len(response_content['results']),3);
+
+    def test_cultural_heritage_search(self):
+        item_data = {
+            "title": "Vayne Jungle meta",
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        item_data = {
+            "title": "Draven mid meta",
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        item_data = {
+            "title": "Thresh smite",
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        response = self.client.get(
+            self.cultural_heritage_item_url + 'search/' + 'draven'
+        )
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(len(response_content['results']), 1);
+        response = self.client.get(
+            self.cultural_heritage_item_url + 'search/' + 'meta'
+        )
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(len(response_content['results']), 2);
+
+    def test_cultural_heritage_search_with_tags(self):
+        item_data = {
+            "title": "Draven support",
+            'tags': [
+                {'name': 'adc',},
+                {'name': 'meta'}
+            ]
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        item_data = {
+            "title": "Tresh hook",
+            'tags': [
+                {'name': 'Meta'},
+                {'name': 'support'}
+            ]
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        response = self.client.get(
+            self.cultural_heritage_item_url + 'search/' + 'adc'
+        )
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(len(response_content['results']), 1);
+        response = self.client.get(
+            self.cultural_heritage_item_url + 'search/' + 'meta'
+        )
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(len(response_content['results']), 2);
+
+    def test_cultural_heritage_search_with_guest_user(self):
+        item_data = {
+            "title": "Draven support",
+            'tags': [
+                {'name': 'adc',},
+                {'name': 'meta'}
+            ]
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        item_data = {
+            "title": "Tresh hook",
+            'tags': [
+                {'name': 'Meta'},
+                {'name': 'support'}
+            ]
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        self.client.logout()
+        response = self.client.get(
+            self.cultural_heritage_item_url + 'search/' + 'adc'
+        )
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(len(response_content['results']), 1);
+        response = self.client.get(
+            self.cultural_heritage_item_url + 'search/' + 'meta'
+        )
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(len(response_content['results']), 2);
+
+
+def test_cultural_heritage_search_contains_with_guest_user(self):
+    item_data = {
+        "title": "Oulder Hill",
+    }
+    response = self.client.post(
+        self.cultural_heritage_item_url,
+        item_data,
+        format='json',
+
+    )
+    self.assertEqual(response.status_code, 201)
+    item_data = {
+        "title": "Shoulder Hill",
+    }
+    response = self.client.post(
+        self.cultural_heritage_item_url,
+        item_data,
+        format='json',
+
+    )
+    self.assertEqual(response.status_code, 201)
+    item_data = {
+        "title": "Titan's Boulder",
+    }
+    response = self.client.post(
+        self.cultural_heritage_item_url,
+        item_data,
+        format='json',
+
+    )
+    self.assertEqual(response.status_code, 201)
+    item_data = {
+        "title": "Nothing like the other word",
+    }
+    response = self.client.post(
+        self.cultural_heritage_item_url,
+        item_data,
+        format='json',
+
+    )
+    self.assertEqual(response.status_code, 201)
+    self.client.logout()
+    response = self.client.get(
+        self.cultural_heritage_item_url + 'search_autocorrect/' + 'oulder'
+    )
+    response_content = json.loads(smart_text(response.content))
+    self.assertEqual(len(response_content['results']), 3);
+
