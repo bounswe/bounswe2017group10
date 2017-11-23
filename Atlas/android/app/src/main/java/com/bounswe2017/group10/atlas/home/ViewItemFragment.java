@@ -74,11 +74,7 @@ public class ViewItemFragment extends Fragment {
         Gallery gallery = view.findViewById(R.id.image_gallery);
         setImages(gallery, mItem);
 
-
-
         NoScrollListView listView = view.findViewById(R.id.comment_listview);
-
-
 
         mAdapter = new CommentAdapter(mActivity, mRowList);
         listView.setAdapter(mAdapter);
@@ -112,6 +108,13 @@ public class ViewItemFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Set the buttons in the action bar. Show edit/delete buttons only if the
+     * current user is the creator of the item.
+     *
+     * @param menu Menu object.
+     * @param inflater MenuInflater object.
+     */
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.action_view_item, menu);
@@ -126,6 +129,12 @@ public class ViewItemFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    /**
+     * Select actions to perform when one of the buttons in the action bar is clicked.
+     *
+     * @param item MenuItem object (button).
+     * @return True if we can handle the request; delegate to superclass if not.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -143,6 +152,9 @@ public class ViewItemFragment extends Fragment {
         }
     }
 
+    /**
+     * Delete the current item and exit the current Fragment.
+     */
     private void deleteItem() {
         String authStr = Utils.getSharedPref(mActivity).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
         APIUtils.serverAPI().deleteItem(authStr, mItem.getId()).enqueue(new Callback<Void>() {

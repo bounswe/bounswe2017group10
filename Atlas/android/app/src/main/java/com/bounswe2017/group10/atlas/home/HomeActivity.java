@@ -61,8 +61,29 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        Context appContext = getApplicationContext();
+        storePersonalDetails();
 
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        ListItemsFragment listItemsFragment = new ListItemsFragment();
+        listItemsFragment.setRequestStrategy(new ListItemsFragment.FeedStrategy());
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.home_container, listItemsFragment)
+                .commit();
+
+        FloatingActionButton fab = findViewById(R.id.floatingActionButton);
+        fab.setOnClickListener((View v) -> {
+            Intent intent = new Intent(this, CreateItemActivity.class);
+            startActivity(intent);
+        });
+    }
+
+    /**
+     * Request personal user details from the server and store them in SharedPreferences.
+     */
+    private void storePersonalDetails() {
         //add username and email to navigation bar
         String authStr = getSharedPref(this).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
         APIUtils.serverAPI().getMe(authStr).enqueue(new Callback<UserResponse>() {
@@ -84,29 +105,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     ((TextView) findViewById(R.id.nav_pname)).setText(firstName + " " + lastName);
                     ((TextView) findViewById(R.id.nav_pmail)).setText(body.getEmail());
                 } else {
-                    showToast(appContext, getResources().getString(R.string.failed_profilgetuserinformation));
+                    showToast(getApplicationContext(), getResources().getString(R.string.failed_profilgetuserinformation));
                 }
             }
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
-                showToast(appContext, getResources().getString(R.string.connection_failure));
+                showToast(getApplicationContext(), getResources().getString(R.string.connection_failure));
             }
-        });
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        ListItemsFragment listItemsFragment = new ListItemsFragment();
-        listItemsFragment.setRequestStrategy(new ListItemsFragment.FeedStrategy());
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.home_container, listItemsFragment)
-                .commit();
-
-        FloatingActionButton fab = findViewById(R.id.floatingActionButton);
-        fab.setOnClickListener((View v) -> {
-            Intent intent = new Intent(this, CreateItemActivity.class);
-            startActivity(intent);
         });
     }
 
@@ -134,7 +139,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             case R.id.action_settings:
                 // show the app settings
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
