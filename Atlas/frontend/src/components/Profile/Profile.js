@@ -13,7 +13,7 @@ const Profile = ({ user }) => ({
         <Row>
           <Col xs="9">
             <div>
-              <Card>
+              <Card style={{ zIndex: -1 }}>
                 <CardBody>
                   <CardTitle>Welcome
                     { user.firstname && user.lastname
