@@ -1,9 +1,12 @@
 package com.bounswe2017.group10.atlas.profil;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -30,30 +33,13 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         Context appContext = getApplicationContext();
+        SharedPreferences pref = Utils.getSharedPref(this);
+        String firstName = pref.getString(Constants.FIRSTNAME, "");
+        String lastName = pref.getString(Constants.LASTNAME, "");
+        String email = pref.getString(Constants.EMAIL, "");
 
-        String authStr = getSharedPref(this).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
-        APIUtils.serverAPI().getMe(authStr).enqueue(new Callback<UserResponse>() {
-            @Override
-            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                if (response.isSuccessful()) {
-                    UserResponse body = response.body();
-                    if(body.getFirstname()==null){
-                        ((TextView) findViewById(R.id.user_profile_name)).setText(body.getUsername());
-                    }else if (body.getLastname()==null){
-                        ((TextView) findViewById(R.id.user_profile_name)).setText(body.getFirstname());
-                    }else {
-                        ((TextView) findViewById(R.id.user_profile_name)).setText(body.getFirstname() + " " + body.getLastname());
-                    }
-                    ((TextView) findViewById(R.id.user_profile_email)).setText(body.getEmail());
-                } else {
-                    showToast(appContext, getResources().getString(R.string.failed_profilgetuserinformation));
-                }
-            }
-            @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
-                showToast(appContext, getResources().getString(R.string.connection_failure));
-            }
-        });
+        ((TextView) findViewById(R.id.user_profile_name)).setText(firstName + " " + lastName);
+        ((TextView) findViewById(R.id.user_profile_email)).setText(email);
 
         TextView logouttext = findViewById(R.id.plogout);
         logouttext.setOnClickListener((View btnview)-> {

@@ -1,11 +1,16 @@
 package com.bounswe2017.group10.atlas.home;
 
+import android.app.Activity;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -39,62 +44,46 @@ import retrofit2.Response;
 
 public class ViewItemFragment extends Fragment {
 
+    private CultureItem mItem;
     private CommentAdapter mAdapter;
     private final ArrayList<CommentRow> mRowList = new ArrayList<>();
     private final ArrayList<Comment> mCommentList = new ArrayList<>();
     boolean isFirstTimeClickToEdit = true;
+    private Activity mActivity;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_view_item, container, false);
-        CultureItem item = getArguments().getParcelable(Constants.CULTURE_ITEM);
+        mItem = getArguments().getParcelable(Constants.CULTURE_ITEM);
+        mActivity = getActivity();
 
         RecyclerView tagRecyclerView = view.findViewById(R.id.tag_recyclerview);
-        setTags(tagRecyclerView, item);
+        setTags(tagRecyclerView, mItem);
 
         TextView ewTitle = view.findViewById(R.id.itemTitle);
         TextView ewDescription = view.findViewById(R.id.itemDesc);
-        setText(ewTitle, ewDescription, item);
+        setText(ewTitle, ewDescription, mItem);
 
         Gallery gallery = view.findViewById(R.id.image_gallery);
-        setImages(gallery, item);
+        setImages(gallery, mItem);
 
-        Button btnEdit = view.findViewById(R.id.edit_button);
-        btnEdit.setOnClickListener((View v) -> {
 
-        });
-
-        Button btnDelete = view.findViewById(R.id.delete_button);
-        btnDelete.setOnClickListener((View v) -> {
-            String authStr = Utils.getSharedPref(getActivity()).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
-            APIUtils.serverAPI().deleteItem(authStr, item.getId()).enqueue(new Callback<Void>() {
-                @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
-                    if (response.isSuccessful()) {
-                        Utils.showToast(getActivity(), getString(R.string.successful_item_delete));
-                        getActivity().onBackPressed();
-                    } else {
-                        Utils.showToast(getActivity(), getString(R.string.unable_to_delete));
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Void> call, Throwable t) {
-                    Utils.showToast(getActivity(), getString(R.string.connection_failure));
-                }
-            });
-        });
 
         NoScrollListView listView = view.findViewById(R.id.comment_listview);
 
 
 
-        mAdapter = new CommentAdapter(getActivity(), mRowList);
+        mAdapter = new CommentAdapter(mActivity, mRowList);
         listView.setAdapter(mAdapter);
 
-        assert item != null;
-        for(Comment comment : item.getComments()) {
+        for(Comment comment : mItem.getComments()) {
             mCommentList.add(0,comment);
             mRowList.add(0,comment.toCommentRow());
         }
@@ -111,19 +100,67 @@ public class ViewItemFragment extends Fragment {
         sendButton.setOnClickListener((View btnView) -> {
             String text = commentEdit.getText().toString();
             commentEdit.setText("");
-            String authStr = Utils.getSharedPref(getActivity()).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
-            OnPostCommentResponse respHandler = new OnPostCommentResponse(getActivity(), mCommentList, mRowList, mAdapter);
+            String authStr = Utils.getSharedPref(mActivity).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
+            OnPostCommentResponse respHandler = new OnPostCommentResponse(mActivity, mCommentList, mRowList, mAdapter);
             Comment pack = new Comment();
             pack.setText(text);
             PostCommentRequest requestBody = new PostCommentRequest();
             requestBody.setComment(pack);
-            APIUtils.serverAPI().postComment(authStr,item.getId(), requestBody).enqueue(respHandler);
+            APIUtils.serverAPI().postComment(authStr,mItem.getId(), requestBody).enqueue(respHandler);
         });
 
-
-
-
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.action_view_item, menu);
+        menu.findItem(R.id.action_favorite).setVisible(true);
+
+        long currentUserId = Utils.getSharedPref(mActivity).getLong(Constants.USER_ID, -1);
+        if (currentUserId == mItem.getUser()) {
+            menu.findItem(R.id.action_edit).setVisible(true);
+            menu.findItem(R.id.action_delete).setVisible(true);
+        }
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_favorite:
+                // TODO: Favorite item feature
+                return true;
+            case R.id.action_edit:
+                // TODO: Edit item feature
+                return true;
+            case R.id.action_delete:
+                deleteItem();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void deleteItem() {
+        String authStr = Utils.getSharedPref(mActivity).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
+        APIUtils.serverAPI().deleteItem(authStr, mItem.getId()).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Utils.showToast(mActivity, getString(R.string.successful_item_delete));
+                    mActivity.onBackPressed();
+                } else {
+                    Utils.showToast(mActivity, getString(R.string.unable_to_delete));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Utils.showToast(mActivity, getString(R.string.connection_failure));
+            }
+        });
     }
 
     /**
@@ -134,7 +171,7 @@ public class ViewItemFragment extends Fragment {
      */
     private void setTags(RecyclerView tagRecyclerView, CultureItem item) {
         List<Tag> tagList = item.getTagList();
-        TagListAdapter tagAdapter = new TagListAdapter(getActivity(), tagList, null);
+        TagListAdapter tagAdapter = new TagListAdapter(mActivity, tagList, null);
         tagRecyclerView.setAdapter(tagAdapter);
     }
 
@@ -165,7 +202,7 @@ public class ViewItemFragment extends Fragment {
             row.setUri(Uri.parse(img.getUrl()));
             imageRowList.add(row);
         }
-        gallery.setAdapter(new ImageListAdapter(getActivity(), imageRowList));
+        gallery.setAdapter(new ImageListAdapter(mActivity, imageRowList));
         gallery.setOnItemClickListener((AdapterView<?> parent, View imgView, int position, long id) -> {
             // TODO: show image fullscreen
         });

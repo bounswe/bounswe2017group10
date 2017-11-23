@@ -335,7 +335,7 @@ public class CreateItemFragment extends Fragment {
      * Decide on actions upon activity result.
      *
      * @param requestCode Request code that was sent with the intent
-     * @param resultCode Result code indicating if the action was successful or not.
+     * @param resultCode Result code indicating if the action_home was successful or not.
      * @param data Returned data
      */
     @Override

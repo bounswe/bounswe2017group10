@@ -21,6 +21,10 @@ public class UserResponse {
     @Expose
     private String username;
 
+    @SerializedName("id")
+    @Expose
+    private long userId;
+
     public String getFirstname() {
         return firstname;
     }
@@ -51,5 +55,13 @@ public class UserResponse {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 }

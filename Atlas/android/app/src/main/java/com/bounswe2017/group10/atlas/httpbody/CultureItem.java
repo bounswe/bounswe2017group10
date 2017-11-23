@@ -16,6 +16,10 @@ public class CultureItem implements Parcelable {
     @Expose
     private long id;
 
+    @SerializedName("user")
+    @Expose
+    private long user;
+
     @SerializedName("country")
     @Expose
     private String country;
@@ -44,36 +48,43 @@ public class CultureItem implements Parcelable {
     @Expose
     private ArrayList<Tag> tagList;
 
+    @SerializedName("comments")
+    @Expose
+    private ArrayList<Comment> commentList;
+
     @SerializedName("public_accessibility")
     @Expose
     private Boolean publicAccessibility;
-
-    @SerializedName("comments")
-    @Expose
-    private ArrayList<Comment> comments;
 
     public CultureItem() {}
 
     @SuppressWarnings("unchecked")
     public CultureItem(Parcel in) {
+        this.id = in.readLong();
+        this.user = in.readLong();
         this.country = in.readString();
         this.title = in.readString();
         this.description = in.readString();
         this.continent = in.readString();
         this.city = in.readString();
         this.imageList = (ArrayList<Image>)in.readSerializable();
+        this.tagList = (ArrayList<Tag>)in.readSerializable();
+        this.commentList = (ArrayList<Comment>)in.readSerializable();
         this.publicAccessibility = in.readByte() != 0;
-
     }
 
     @Override
     public void writeToParcel(Parcel out, int flags) {
+        out.writeLong(this.id);
+        out.writeLong(this.user);
         out.writeString(this.country);
         out.writeString(this.title);
         out.writeString(this.description);
         out.writeString(this.continent);
         out.writeString(this.city);
         out.writeSerializable(this.imageList);
+        out.writeSerializable(this.tagList);
+        out.writeSerializable(this.commentList);
         out.writeByte((byte) (this.publicAccessibility ? 1 : 0));
     }
 
@@ -101,6 +112,14 @@ public class CultureItem implements Parcelable {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getUser() {
+        return user;
+    }
+
+    public void setUser(long user) {
+        this.user = user;
     }
 
     public String getCountry() {
@@ -182,10 +201,10 @@ public class CultureItem implements Parcelable {
     }
 
     public ArrayList<Comment> getComments() {
-        return comments;
+        return commentList;
     }
 
-    public void setComments(ArrayList<Comment> comments) {
-        this.comments = comments;
+    public void setComments(ArrayList<Comment> commentList) {
+        this.commentList = commentList;
     }
 }
