@@ -39,6 +39,7 @@ import com.bounswe2017.group10.atlas.httpbody.Image;
 import com.bounswe2017.group10.atlas.httpbody.Tag;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
 import com.bounswe2017.group10.atlas.response.OnCreateItemResponse;
+import com.bounswe2017.group10.atlas.response.OnUpdateItemResponse;
 import com.bounswe2017.group10.atlas.util.Constants;
 import com.bounswe2017.group10.atlas.util.Utils;
 
@@ -52,6 +53,8 @@ import retrofit2.Response;
 
 
 public class CreateItemFragment extends Fragment {
+
+    private CultureItem mItemToSend = new CultureItem();
 
     private static final String TAG = "CreateItemFragment";
     private static final int FROM_GALLERY = 1;
@@ -100,6 +103,8 @@ public class CreateItemFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_item, container, false);
+        this.mItemToSend.setId(-1);
+        this.mItemToSend.setUser(-1);
 
         // set adapters
         ListView imageListView = view.findViewById(R.id.image_listview);
@@ -126,8 +131,8 @@ public class CreateItemFragment extends Fragment {
         // If there is an argument item, fill the inputs with its data.
         Bundle arguments = getArguments();
         if (arguments != null) {
-            CultureItem argumentItem = arguments.getParcelable(Constants.CULTURE_ITEM);
-            fillInputsWithItem(view, argumentItem);
+            mItemToSend = arguments.getParcelable(Constants.CULTURE_ITEM);
+            fillInputsWithItem(view);
         }
 
         return view;
@@ -136,29 +141,28 @@ public class CreateItemFragment extends Fragment {
     /**
      * Fills the input fields in this Fragment with the given item
      *
-     * @param item CultureItem object that will provide the data to fill the inputs.
      */
-    private void fillInputsWithItem(View view, CultureItem item) {
-        if (item.getCountry() != null) {
-            ((TextView)view.findViewById(R.id.country_edittext)).setText(item.getCountry());
+    private void fillInputsWithItem(View view) {
+        if (mItemToSend.getCountry() != null) {
+            ((TextView)view.findViewById(R.id.country_edittext)).setText(mItemToSend.getCountry());
         }
-        if (item.getTitle() != null) {
-            ((TextView)view.findViewById(R.id.title_edittext)).setText(item.getTitle());
+        if (mItemToSend.getTitle() != null) {
+            ((TextView)view.findViewById(R.id.title_edittext)).setText(mItemToSend.getTitle());
         }
-        if (item.getDescription() != null) {
-            ((TextView)view.findViewById(R.id.description_edittext)).setText(item.getDescription());
+        if (mItemToSend.getDescription() != null) {
+            ((TextView)view.findViewById(R.id.description_edittext)).setText(mItemToSend.getDescription());
         }
-        if (item.getContinent() != null) {
-            ((TextView)view.findViewById(R.id.continent_edittext)).setText(item.getContinent());
+        if (mItemToSend.getContinent() != null) {
+            ((TextView)view.findViewById(R.id.continent_edittext)).setText(mItemToSend.getContinent());
         }
-        if (item.getCity() != null) {
-            ((TextView)view.findViewById(R.id.city_edittext)).setText(item.getCity());
+        if (mItemToSend.getCity() != null) {
+            ((TextView)view.findViewById(R.id.city_edittext)).setText(mItemToSend.getCity());
         }
-        for (Image img : item.getImageList()) {
+        for (Image img : mItemToSend.getImageList()) {
             mImageRowList.add(img.toImageRow());
         }
         mImageAdapter.notifyDataSetChanged();
-        for (Tag tag : item.getTagList()) {
+        for (Tag tag : mItemToSend.getTagList()) {
             mTagList.add(tag);
         }
         mTagAdapter.notifyDataSetChanged();
@@ -325,7 +329,7 @@ public class CreateItemFragment extends Fragment {
      * Collects all the information from the input fields, constructs a CultureItem and
      * initiates the item creation request.
      */
-    public void createItem() {
+    public void makeRequest() {
         View view = getView();
         EditText etTitle = view.findViewById(R.id.title_edittext);
         EditText etDescription = view.findViewById(R.id.description_edittext);
@@ -344,19 +348,21 @@ public class CreateItemFragment extends Fragment {
         String country = etCountry.getText().toString();
         String city = etCity.getText().toString();
 
-        CultureItem item = new CultureItem();
+        mItemToSend.setTitle(title);
+        mItemToSend.setDescription(description);
+        mItemToSend.setContinent(continent);
+        mItemToSend.setCountry(country);
+        mItemToSend.setCity(city);
+        if (description.length() == 0)
+            mItemToSend.setDescription(null);
+        if (continent.length() == 0)
+            mItemToSend.setContinent(null);
+        if (country.length() == 0)
+            mItemToSend.setCountry(null);
+        if (city.length() == 0)
+            mItemToSend.setCity(null);
 
-        item.setTitle(title);
-        if (description.length() != 0)
-            item.setDescription(description);
-        if (continent.length() != 0)
-            item.setContinent(continent);
-        if (country.length() != 0)
-            item.setCountry(country);
-        if (city.length() != 0)
-            item.setCity(city);
-
-        item.setPublicAccessibility(true);
+        mItemToSend.setPublicAccessibility(true);
 
         ArrayList<Image> imageList = new ArrayList<>();
         for (ImageRow row : mImageRowList) {
@@ -364,10 +370,9 @@ public class CreateItemFragment extends Fragment {
             img.setUrl(row.getUri().toString());
             imageList.add(img);
         }
-        item.setImageList(imageList);
-
-        item.setTagList(mTagList);
-        makeCreateRequest(item, imageList, progressBar);
+        mItemToSend.setImageList(imageList);
+        mItemToSend.setTagList(mTagList);
+        makeCreateRequest(progressBar);
     }
 
     /**
@@ -420,14 +425,17 @@ public class CreateItemFragment extends Fragment {
      * Makes a new item create request to server with the given item while showing
      * the given progress bar.
      *
-     * @param item CultureItem object to be sent to the server.
      * @param progressBar ProgressBar object which will be shown during request execution.
      */
-    private void makeCreateRequest(CultureItem item, ArrayList<Image> imageList, ProgressBar progressBar) {
+    private void makeCreateRequest(ProgressBar progressBar) {
         progressBar.setVisibility(View.VISIBLE);
         Activity activity = getActivity();
         String authStr = Utils.getSharedPref(activity).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
-        APIUtils.serverAPI().createItem(authStr, item).enqueue(new OnCreateItemResponse(this, imageList, progressBar));
+        if (mItemToSend.getId() == -1) {  // create request
+            APIUtils.serverAPI().createItem(authStr, mItemToSend).enqueue(new OnCreateItemResponse(this, mItemToSend.getImageList(), progressBar));
+        } else {  // edit request
+            APIUtils.serverAPI().updateItem(authStr, mItemToSend.getId(), mItemToSend).enqueue(new OnUpdateItemResponse(getActivity()));
+        }
     }
 
     /**

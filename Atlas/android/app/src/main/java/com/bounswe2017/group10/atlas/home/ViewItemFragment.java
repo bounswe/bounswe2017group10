@@ -146,6 +146,7 @@ public class ViewItemFragment extends Fragment {
                 // TODO: Edit item feature
                 Intent intent = new Intent(mActivity, CreateItemActivity.class);
                 intent.putExtra(Constants.CULTURE_ITEM, mItem);
+                intent.putExtra(Constants.CREATE_STRATEGY, Constants.EDIT);
                 startActivity(intent);
                 return true;
             case R.id.action_delete:

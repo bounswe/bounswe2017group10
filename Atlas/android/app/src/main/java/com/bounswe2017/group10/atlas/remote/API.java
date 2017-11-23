@@ -48,7 +48,8 @@ public interface API {
 
     @PATCH("/cultural_heritage_item/{id}")
     Call<Void> updateItem(@Header("Authorization") String authStr,
-                          @Path("id") long id);
+                          @Path("id") long id,
+                          @Body CultureItem body);
 
     @POST("/cultural_heritage_item/{id}/image")
     Call<Void> uploadImages(@Header("Authorization") String authStr,

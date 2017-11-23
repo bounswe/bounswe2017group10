@@ -14,4 +14,7 @@ public class Constants {
     public static final String FIRSTNAME = "FIRSTNAME";
     public static final String LASTNAME = "LASTNAME";
     public static final String EMAIL = "EMAIL";
+    public static final String CREATE_STRATEGY = "CREATE_STRATEGY";
+    public static final String CREATE = "CREATE";
+    public static final String EDIT = "EDIT";
 }

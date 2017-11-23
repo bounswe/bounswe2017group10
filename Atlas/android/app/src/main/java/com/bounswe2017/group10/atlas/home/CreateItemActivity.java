@@ -19,9 +19,9 @@ public class CreateItemActivity extends FragmentActivity {
         setContentView(R.layout.activity_create_item);
 
         Intent intent = getIntent();
-        Bundle argumentItem = intent.getExtras();
+        Bundle arguments = intent.getExtras();
         CreateItemFragment createItemFragment = new CreateItemFragment();
-        createItemFragment.setArguments(argumentItem);
+        createItemFragment.setArguments(arguments);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.create_item_container, createItemFragment)
@@ -29,7 +29,7 @@ public class CreateItemActivity extends FragmentActivity {
 
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);
         fab.setOnClickListener((View v) -> {
-            createItemFragment.createItem();
+            createItemFragment.makeRequest();
         });
     }
 }
