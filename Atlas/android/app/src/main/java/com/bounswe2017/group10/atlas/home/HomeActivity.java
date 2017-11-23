@@ -41,6 +41,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout mDrawerLayout;
     private ActionBar mActionBar;
     private ActionBarDrawerToggle mDrawerToggle;
+    private FloatingActionButton mFab;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,18 +67,22 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        mFab = findViewById(R.id.floatingActionButton);
+        mFab.setOnClickListener((View v) -> {
+            Intent intent = new Intent(this, CreateItemActivity.class);
+            startActivity(intent);
+        });
+
         ListItemsFragment listItemsFragment = new ListItemsFragment();
         listItemsFragment.setRequestStrategy(new ListItemsFragment.FeedStrategy());
+        listItemsFragment.addAfterItemClickedListener(() -> {
+            mFab.setVisibility(View.INVISIBLE);
+        });
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.home_container, listItemsFragment)
                 .commit();
 
-        FloatingActionButton fab = findViewById(R.id.floatingActionButton);
-        fab.setOnClickListener((View v) -> {
-            Intent intent = new Intent(this, CreateItemActivity.class);
-            startActivity(intent);
-        });
     }
 
     /**
@@ -118,6 +123,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     @SuppressLint("RestrictedApi")
     public void onBackPressed() {
+        mFab.setVisibility(View.VISIBLE);
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
