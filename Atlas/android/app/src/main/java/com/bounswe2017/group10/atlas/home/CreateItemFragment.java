@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.adapter.ImageListAdapter;
@@ -122,9 +123,47 @@ public class CreateItemFragment extends Fragment {
         Button btnUrl = view.findViewById(R.id.url_button);
         setURLListener(btnUrl);
 
+        // If there is an argument item, fill the inputs with its data.
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            CultureItem argumentItem = arguments.getParcelable(Constants.CULTURE_ITEM);
+            fillInputsWithItem(view, argumentItem);
+        }
 
         return view;
     }
+
+    /**
+     * Fills the input fields in this Fragment with the given item
+     *
+     * @param item CultureItem object that will provide the data to fill the inputs.
+     */
+    private void fillInputsWithItem(View view, CultureItem item) {
+        if (item.getCountry() != null) {
+            ((TextView)view.findViewById(R.id.country_edittext)).setText(item.getCountry());
+        }
+        if (item.getTitle() != null) {
+            ((TextView)view.findViewById(R.id.title_edittext)).setText(item.getTitle());
+        }
+        if (item.getDescription() != null) {
+            ((TextView)view.findViewById(R.id.description_edittext)).setText(item.getDescription());
+        }
+        if (item.getContinent() != null) {
+            ((TextView)view.findViewById(R.id.continent_edittext)).setText(item.getContinent());
+        }
+        if (item.getCity() != null) {
+            ((TextView)view.findViewById(R.id.city_edittext)).setText(item.getCity());
+        }
+        for (Image img : item.getImageList()) {
+            mImageRowList.add(img.toImageRow());
+        }
+        mImageAdapter.notifyDataSetChanged();
+        for (Tag tag : item.getTagList()) {
+            mTagList.add(tag);
+        }
+        mTagAdapter.notifyDataSetChanged();
+    }
+
 
     /**
      * Sets the adapters required by ListView or RecyclerView objects in this fragment.

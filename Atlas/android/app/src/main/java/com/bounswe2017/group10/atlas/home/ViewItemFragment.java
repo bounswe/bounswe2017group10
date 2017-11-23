@@ -1,6 +1,7 @@
 package com.bounswe2017.group10.atlas.home;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -143,6 +144,9 @@ public class ViewItemFragment extends Fragment {
                 return true;
             case R.id.action_edit:
                 // TODO: Edit item feature
+                Intent intent = new Intent(mActivity, CreateItemActivity.class);
+                intent.putExtra(Constants.CULTURE_ITEM, mItem);
+                startActivity(intent);
                 return true;
             case R.id.action_delete:
                 deleteItem();

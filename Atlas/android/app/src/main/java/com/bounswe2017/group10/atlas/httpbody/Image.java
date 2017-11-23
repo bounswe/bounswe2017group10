@@ -1,6 +1,9 @@
 package com.bounswe2017.group10.atlas.httpbody;
 
 
+import android.net.Uri;
+
+import com.bounswe2017.group10.atlas.adapter.ImageRow;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -29,5 +32,11 @@ public class Image implements Serializable {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public ImageRow toImageRow() {
+        ImageRow row = new ImageRow();
+        row.setUri(Uri.parse(url));
+        return row;
     }
 }
