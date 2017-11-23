@@ -9,6 +9,8 @@ import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.home.CreateItemFragment;
 import com.bounswe2017.group10.atlas.httpbody.CreateItemResponse;
 import com.bounswe2017.group10.atlas.httpbody.Image;
+import com.bounswe2017.group10.atlas.httpbody.ImageUploadRequest;
+import com.bounswe2017.group10.atlas.remote.APIUtils;
 import com.bounswe2017.group10.atlas.util.Constants;
 import com.bounswe2017.group10.atlas.util.Utils;
 import com.cloudinary.android.MediaManager;
@@ -46,29 +48,36 @@ public class OnCreateItemResponse implements Callback<CreateItemResponse> {
                 createFragment.clearView();
                 createFragment.getActivity().onBackPressed();
             } else {
-                int id = response.body().getId();
+                int cultureItemId = response.body().getId();
 
-                int lastLocalUrlIndex = 0;
+                int lastLocalUrlIndex = -1;
                 for (int i = 0; i < mImageList.size(); ++i) {
                     if (Utils.isLocalUrl(mImageList.get(i).getUrl())) {
                         lastLocalUrlIndex = i;
                         break;
                     }
                 }
-                OnCloudinaryUploadResponse respHandler = new OnCloudinaryUploadResponse(
-                        context,
-                        createFragment,
-                        mImageList,
-                        progressBar,
-                        id,
-                        lastLocalUrlIndex
-                );
-                String fileUrl = mImageList.get(lastLocalUrlIndex).getUrl();
-                MediaManager.get()
-                        .upload(Uri.parse(fileUrl))
-                        .unsigned("wak3gala")
-                        .callback(respHandler)
-                        .dispatch();
+                if (lastLocalUrlIndex == -1) {
+                    String authStr = Utils.getSharedPref(context).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
+                    APIUtils.serverAPI()
+                            .uploadImages(authStr, cultureItemId, new ImageUploadRequest(mImageList))
+                            .enqueue(new OnUploadImagesResponse(createFragment, progressBar));
+                } else {
+                    OnCloudinaryUploadResponse respHandler = new OnCloudinaryUploadResponse(
+                            context,
+                            createFragment,
+                            mImageList,
+                            progressBar,
+                            cultureItemId,
+                            lastLocalUrlIndex
+                    );
+                    String fileUrl = mImageList.get(lastLocalUrlIndex).getUrl();
+                    MediaManager.get()
+                            .upload(Uri.parse(fileUrl))
+                            .unsigned("wak3gala")
+                            .callback(respHandler)
+                            .dispatch();
+                }
             }
         } else {
             Utils.showToast(context, context.getString(R.string.failed_create_item));
