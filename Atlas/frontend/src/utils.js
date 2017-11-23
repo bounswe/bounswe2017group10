@@ -6,7 +6,7 @@ import axios from 'axios';
 export const isLoggedIn = (user) =>
   user !== null && user !== undefined
 
-export const truncate = (str) => str.substring(0, TRUNCATE_LENGTH) + "..."
+export const truncate = (str, len) => str.substring(0, len ? len : TRUNCATE_LENGTH) + " ..."
 
 export class Errors extends Component {
   render() {
