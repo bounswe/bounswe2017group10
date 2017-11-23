@@ -28,7 +28,7 @@ const AtlasNavbar = ({ token, logo, user, searchSuggestions, loggedIn, dropDownO
               getItemValue={(item) => String(item.id)}
               items={searchSuggestions}
               renderItem={(item, isHighlighted) =>
-                <div className="searchSuggestion" key={ Math.random() } style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
+                <div className="searchSuggestion" key={ Math.random() } style={{ background: isHighlighted ? 'rgba(244, 173, 66, 0.3)' : 'white' }}>
                   { truncate(item.title, 40) }
                 </div>
               }
