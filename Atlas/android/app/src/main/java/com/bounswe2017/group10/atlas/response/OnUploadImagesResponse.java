@@ -41,6 +41,7 @@ public class OnUploadImagesResponse implements Callback<Void> {
         if (response.isSuccessful()) {
             Utils.showToast(context, context.getResources().getString(R.string.successful_create_item));
             createFragment.clearView();
+            createFragment.getActivity().onBackPressed();
         } else {
             Utils.showToast(context, context.getString(R.string.create_item_no_images));
         }
