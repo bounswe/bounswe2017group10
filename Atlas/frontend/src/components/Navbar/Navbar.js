@@ -23,20 +23,22 @@ const AtlasNavbar = ({ token, logo, user, searchSuggestions, loggedIn, dropDownO
               <GithubIcon /> Github
             </a>
           </NavItem>
-          <NavItem>
-            <Autocomplete
-              getItemValue={(item) => String(item.id)}
-              items={searchSuggestions}
-              renderItem={(item, isHighlighted) =>
-                <div className="searchSuggestion" key={ Math.random() } style={{ background: isHighlighted ? 'rgba(244, 173, 66, 0.3)' : 'white' }}>
-                  { truncate(item.title, 40) }
-                </div>
-              }
-              value={searchInput}
-              onChange={(e) => updateSearchInput(token, e.target.value) }
-              onSelect={(val) => selectSearchValue(val) }
-            />
-          </NavItem>
+          { loggedIn &&
+            <NavItem>
+              <Autocomplete
+                getItemValue={(item) => String(item.id)}
+                items={searchSuggestions}
+                renderItem={(item, isHighlighted) =>
+                  <div className="searchSuggestion" key={ Math.random() } style={{ background: isHighlighted ? 'rgba(244, 173, 66, 0.3)' : 'white' }}>
+                    { truncate(item.title, 40) }
+                  </div>
+                }
+                value={searchInput}
+                onChange={(e) => updateSearchInput(token, e.target.value) }
+                onSelect={(val) => selectSearchValue(val) }
+              />
+            </NavItem>
+          }
           { !loggedIn &&
               <NavItem>
                 <NavLink to="/login">Login</NavLink>
