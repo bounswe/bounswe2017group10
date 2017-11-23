@@ -139,9 +139,6 @@ const reducer = (state = initState, action) => {
         commentInput: action.data
       }
     case 'UPDATE_CULTURAL_HERITAGE':
-      console.log(action.data.id);
-      console.log(state.data[0].id);
-
       return {
         ...state,
         data: state.data.find(c => c.id == action.data.id)
