@@ -851,3 +851,50 @@ class cultural_heritage_item(TestCase):
         self.assertEqual(response.status_code, 200)
         response_content = json.loads(smart_text(response.content))
         self.assertEqual(len(response_content['comments']), 2)
+
+    def test_cultural_heritage_search_contains(self):
+        item_data = {
+            "title": "Oulder Hill",
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        item_data = {
+            "title": "Shoulder Hill",
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        item_data = {
+            "title": "Titan's Boulder",
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        item_data = {
+            "title": "Nothing like the other word",
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        response= self.client.get(
+            self.cultural_heritage_item_url + 'search_autocorrect/' + 'oulder'
+        )
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(len(response_content),3);

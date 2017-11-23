@@ -35,7 +35,7 @@ const Page = ({ user, token, culturalHeritages, helpOpen, paginationNextUrl, loa
           )}
         </ul>
         { canLoadMore && (
-          <div style={{ width: "100%", textAlign: "center" }} class="atlas-button" onClick={ () => loadMore(token, paginationNextUrl) }>Load More</div>
+          <div style={{ width: "100%", textAlign: "center" }} className="atlas-button" onClick={ () => loadMore(token, paginationNextUrl) }>Load More</div>
         )}
       </Col>
     </Row>

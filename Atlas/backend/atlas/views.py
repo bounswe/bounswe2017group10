@@ -10,6 +10,9 @@ from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from jwt_auth.compat import json
 from rest_framework.test import APIRequestFactory
+from django.contrib.postgres.search import SearchVector
+
+
 
 
 def users(request):
@@ -78,6 +81,7 @@ class cultural_heritage_item_view_update_delete(generics.RetrieveUpdateDestroyAP
 
     def get_queryset(self):
         return Cultural_Heritage.objects.filter()
+
 class tags(generics.ListAPIView):
     serializer_class = tag_serializer
     pagination_class =  None
@@ -93,4 +97,23 @@ class cultural_heritage_item_list_user_items(generics.ListAPIView):
     def get_queryset(self):
         user=self.request.user;
         return Cultural_Heritage.objects.filter(user=user)
+
+class cultural_heritage_item_search(generics.ListAPIView):
+    serializer_class = cultural_heritage_serializer
+    permission_classes = []
+
+    def get_queryset(self):
+        query = self.kwargs.get('query')
+        return Cultural_Heritage.objects.annotate(
+           search=SearchVector('tags__name', 'title','description'),
+        ).filter(search=query)
+
+class cultural_heritage_item_search_autocorrect(generics.ListAPIView):
+    permission_classes = []
+    serializer_class = cultural_heritage_serializer
+    pagination_class = None
+
+    def get_queryset(self):
+        query = self.kwargs.get('query')
+        return Cultural_Heritage.objects.filter(title__icontains=query)[:5]
 
