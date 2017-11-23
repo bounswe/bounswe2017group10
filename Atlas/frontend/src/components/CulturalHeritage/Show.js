@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 import LeftIcon from 'react-icons/lib/fa/angle-left';
 import { Button, Form, FormGroup, Input, Col, Row, Container } from 'reactstrap';
 
-const Show = ({ user, token, culturalHeritage, commentInput, commentInputChange, postComment }) => (
+const Show = ({ user, token, culturalHeritage, commentInput, commentInputChange, postComment }) => (culturalHeritage !== undefined &&
   <Container>
     <NavLink className="atlas-button" to="/cultural-heritages">
       <LeftIcon />
