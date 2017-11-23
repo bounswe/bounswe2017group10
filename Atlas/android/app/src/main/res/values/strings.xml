@@ -60,4 +60,6 @@
     <string name="write_something">Write something...</string>
     <string name="send">Send</string>
     <string name="write_comment">Write comment</string>
+    <string name="action_favorite">Favorite</string>
+    <string name="action_settings">Settings</string>
 </resources>

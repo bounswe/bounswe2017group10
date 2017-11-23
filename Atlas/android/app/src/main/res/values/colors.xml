@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3f51b5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#862915</color>
+    <color name="colorAccent">#ffd146</color>
     <color name="url_link_color">#0000ee</color>
     <color name="button_gray">#454545</color>
     <color name="tag_background">#eec774</color>
