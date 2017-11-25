@@ -1,14 +1,16 @@
 package com.bounswe2017.group10.atlas.home;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,6 +25,7 @@ import com.bounswe2017.group10.atlas.profil.ProfileActivity;
 import com.bounswe2017.group10.atlas.util.Constants;
 import com.bounswe2017.group10.atlas.httpbody.UserResponse;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
+import com.bounswe2017.group10.atlas.util.Utils;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,7 +39,9 @@ import static com.bounswe2017.group10.atlas.util.Utils.showToast;
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private DrawerLayout mDrawerLayout;
+    private ActionBar mActionBar;
     private ActionBarDrawerToggle mDrawerToggle;
+    private FloatingActionButton mFab;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,8 +49,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.navigate_bar);
         Toolbar toolbar = findViewById(R.id.home_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
+        this.mActionBar = getSupportActionBar();
+        mActionBar.setDisplayHomeAsUpEnabled(true);
+        mActionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
         mDrawerLayout = findViewById(R.id.nav_layout);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.app_name, R.string.app_name);
         mDrawerToggle.setToolbarNavigationClickListener((View v) -> {
@@ -56,8 +62,33 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        Context appContext = getApplicationContext();
+        storePersonalDetails();
 
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        mFab = findViewById(R.id.floatingActionButton);
+        mFab.setOnClickListener((View v) -> {
+            Intent intent = new Intent(this, CreateItemActivity.class);
+            startActivity(intent);
+        });
+
+        ListItemsFragment listItemsFragment = new ListItemsFragment();
+        listItemsFragment.setRequestStrategy(new ListItemsFragment.FeedStrategy());
+        listItemsFragment.addAfterItemClickedListener(() -> {
+            mFab.setVisibility(View.INVISIBLE);
+        });
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.home_container, listItemsFragment)
+                .commit();
+
+    }
+
+    /**
+     * Request personal user details from the server and store them in SharedPreferences.
+     */
+    private void storePersonalDetails() {
         //add username and email to navigation bar
         String authStr = getSharedPref(this).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
         APIUtils.serverAPI().getMe(authStr).enqueue(new Callback<UserResponse>() {
@@ -65,44 +96,34 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 if (response.isSuccessful()) {
                     UserResponse body = response.body();
-                    if(body.getFirstname()==null){
-                        ((TextView) findViewById(R.id.nav_pname)).setText(body.getUsername());
-                    }else if (body.getLastname()==null){
-                        ((TextView) findViewById(R.id.nav_pname)).setText(body.getFirstname());
-                    }else {
-                        ((TextView) findViewById(R.id.nav_pname)).setText(body.getFirstname() + " " + body.getLastname());
-                    }
+                    SharedPreferences.Editor editor = Utils.getSharedPrefEditor(getApplicationContext());
+                    editor.putString(Constants.FIRSTNAME, body.getFirstname()).apply();
+                    editor.putString(Constants.LASTNAME, body.getLastname()).apply();
+                    editor.putString(Constants.EMAIL, body.getEmail()).apply();
+                    editor.putLong(Constants.USER_ID, body.getUserId()).apply();
+
+                    String firstName = body.getFirstname();
+                    if (firstName == null) firstName = "";
+                    String lastName = body.getLastname();
+                    if (lastName == null) lastName = "";
+
+                    ((TextView) findViewById(R.id.nav_pname)).setText(firstName + " " + lastName);
                     ((TextView) findViewById(R.id.nav_pmail)).setText(body.getEmail());
                 } else {
-                    showToast(appContext, getResources().getString(R.string.failed_profilgetuserinformation));
+                    showToast(getApplicationContext(), getResources().getString(R.string.failed_profilgetuserinformation));
                 }
             }
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
-                showToast(appContext, getResources().getString(R.string.connection_failure));
+                showToast(getApplicationContext(), getResources().getString(R.string.connection_failure));
             }
-        });
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        ListItemsFragment listItemsFragment = new ListItemsFragment();
-        listItemsFragment.setRequestStrategy(new ListItemsFragment.FeedStrategy());
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.home_container, listItemsFragment)
-                .addToBackStack(null)
-                .commit();
-
-        FloatingActionButton fab = findViewById(R.id.floatingActionButton);
-        fab.setOnClickListener((View v) -> {
-            Intent intent = new Intent(this, CreateItemActivity.class);
-            startActivity(intent);
         });
     }
 
     @Override
+    @SuppressLint("RestrictedApi")
     public void onBackPressed() {
+        mFab.setVisibility(View.VISIBLE);
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
@@ -112,9 +133,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the menu; this adds items to the action_home bar if it is present.
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.action, menu);
+        inflater.inflate(R.menu.action_home, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -124,11 +145,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             case R.id.action_settings:
                 // show the app settings
                 return true;
-
-            case R.id.action_favorite:
-                // favorite the current item
-                return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }

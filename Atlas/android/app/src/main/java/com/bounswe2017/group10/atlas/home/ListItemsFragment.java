@@ -35,6 +35,7 @@ public class ListItemsFragment extends Fragment {
     private boolean isLastPage = false;
     private int currentOffset = 0;
     private SwipeRefreshLayout mSwipeLayout;
+    private ArrayList<AfterItemClickedListener> mListenerList = new ArrayList<>();
 
     /**
      * Interface for different request strategies to be used with this item
@@ -50,6 +51,18 @@ public class ListItemsFragment extends Fragment {
          *                        the returned CultureItem objects.
          */
         public void requestItems(Context context, int offset, OnGetItemsResponse.GetItemCallback getItemCallback);
+    }
+
+    /**
+     * Interface whose onItemClick method will be called before doing the logic and view
+     * updates by this Fragment when an item is clicked.
+     */
+    public interface AfterItemClickedListener {
+        public void afterClicked();
+    }
+
+    public void addAfterItemClickedListener(AfterItemClickedListener listener) {
+        this.mListenerList.add(listener);
     }
 
     /**
@@ -107,6 +120,9 @@ public class ListItemsFragment extends Fragment {
                     .replace(R.id.home_container, viewItemFragment)
                     .addToBackStack(null)
                     .commit();
+            for (AfterItemClickedListener listener : mListenerList) {
+                listener.afterClicked();
+            }
         });
         recyclerView.setAdapter(mAdapter);
 
