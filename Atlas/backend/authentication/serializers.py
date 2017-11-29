@@ -14,7 +14,7 @@ class AccountSerializer(serializers.ModelSerializer):
         model = Account
         fields = (
             'id', 'email', 'username', 'date_created', 'date_modified',
-            'firstname', 'lastname', 'password', 'confirm_password')
+            'firstname', 'lastname','profile_picture', 'password', 'confirm_password')
         read_only_fields = ('date_created', 'date_modified')
 
     def create(self, validated_data):
@@ -28,6 +28,7 @@ class AccountSerializer(serializers.ModelSerializer):
                                                 instance.firstname)
         instance.lastname = validated_data.get('lastname',
                                                instance.lastname)
+        instance.profile_picture = validated_data.get('profile_picture', instance.profile_picture)
 
         password = validated_data.get('password', None)
         confirm_password = validated_data.get('confirm_password', None)
