@@ -16,3 +16,6 @@ ul.navbar-nav li.nav-item {
     padding: 0; }
     ul.navbar-nav li.nav-item a:hover {
       text-decoration: none; }
+
+.searchSuggestion:hover {
+  cursor: pointer; }

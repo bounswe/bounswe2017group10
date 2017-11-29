@@ -1,3 +1,4 @@
+import React from 'react';
 import { connect } from 'react-redux';
 import ShowPage from '../../components/CulturalHeritage/Show';
 import { withRouter } from 'react-router';
@@ -16,6 +17,16 @@ const mapStateToProps = (state, props) => {
 }
 
 const mapDispatchToProps = dispatch => ({
+  loadCulturalHeritage: (token, id) => {
+    authGet(token, {
+      url: API_URL + '/cultural_heritage_item/' + id
+    }).then(resp => {
+      dispatch(updateCulturalHeritage(id, resp.data));
+    }).catch(err => {
+      console.log("Error when fetching cultural heritage item");
+      console.log(err);
+    });
+  },
   commentInputChange: (event) => {
     dispatch(updateCommentInput(event.target.value));
   },
@@ -42,9 +53,19 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
+class App extends React.Component {
+  componentWillMount() {
+    this.props.loadCulturalHeritage(this.props.token, this.props.match.params.id);
+  }
+
+  render() {
+    return <ShowPage culturalHeritage={ this.props.culturalHeritage } { ...this.props }  />
+  }
+}
+
 const PageContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(ShowPage);
+)(App);
 
 export default withRouter(PageContainer);
