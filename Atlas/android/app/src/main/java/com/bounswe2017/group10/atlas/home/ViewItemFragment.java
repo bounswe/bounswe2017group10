@@ -119,12 +119,11 @@ public class ViewItemFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.action_view_item, menu);
-        menu.findItem(R.id.action_favorite).setVisible(true);
 
         long currentUserId = Utils.getSharedPref(mActivity).getLong(Constants.USER_ID, -1);
-        if (currentUserId == mItem.getUser()) {
-            menu.findItem(R.id.action_edit).setVisible(true);
-            menu.findItem(R.id.action_delete).setVisible(true);
+        if (currentUserId != mItem.getUser()) {
+            menu.findItem(R.id.action_edit).setVisible(false);
+            menu.findItem(R.id.action_delete).setVisible(false);
         }
 
         super.onCreateOptionsMenu(menu, inflater);

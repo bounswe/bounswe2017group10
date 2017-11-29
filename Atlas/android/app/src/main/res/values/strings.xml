@@ -62,4 +62,6 @@
     <string name="write_comment">Write comment</string>
     <string name="action_favorite">Favorite</string>
     <string name="action_settings">Settings</string>
+    <string name="search">Search</string>
+    <string name="no_items">No items</string>
 </resources>

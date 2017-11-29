@@ -61,6 +61,10 @@ public interface API {
                                     @Query("limit") long limit,
                                     @Query("offset") long offset);
 
+    @GET("/cultural_heritage_item/search/{query}")
+    Call<GetItemsResponse> search(@Header("Authorization") String authStr,
+                                  @Path("query") String query);
+
     @GET("/api/auth/me")
     Call<UserResponse> getMe(@Header("Authorization") String authStr);
 
