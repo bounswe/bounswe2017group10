@@ -114,7 +114,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     String lastName = body.getLastname();
                     if (lastName == null) lastName = "";
 
-                    ((TextView) findViewById(R.id.nav_pname)).setText(firstName + " " + lastName);
+                    String nameText = getString(R.string.fullname, firstName, lastName);
+                    ((TextView) findViewById(R.id.nav_pname)).setText(nameText);
                     ((TextView) findViewById(R.id.nav_pmail)).setText(body.getEmail());
                 } else {
                     showToast(getApplicationContext(), getResources().getString(R.string.failed_profilgetuserinformation));

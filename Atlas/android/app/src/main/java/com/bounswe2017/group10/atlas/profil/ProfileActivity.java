@@ -38,7 +38,8 @@ public class ProfileActivity extends AppCompatActivity {
         String lastName = pref.getString(Constants.LASTNAME, "");
         String email = pref.getString(Constants.EMAIL, "");
 
-        ((TextView) findViewById(R.id.user_profile_name)).setText(firstName + " " + lastName);
+        String nameText = getString(R.string.fullname, firstName, lastName);
+        ((TextView) findViewById(R.id.user_profile_name)).setText(nameText);
         ((TextView) findViewById(R.id.user_profile_email)).setText(email);
 
         TextView logouttext = findViewById(R.id.plogout);

@@ -52,10 +52,8 @@ public class OnSuccessfulLoginResponseTest {
 
     @Test
     public void testLoginResponse() {
-        Fragment fragment = new LoginFragment();
         Intent intent = new Intent();
         mActivityRule.launchActivity(intent);
-        mActivityRule.getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.auth_container, fragment).commit();
 
         Activity authActivity = mActivityRule.getActivity();
         ProgressBar progress = new ProgressBar(authActivity);
