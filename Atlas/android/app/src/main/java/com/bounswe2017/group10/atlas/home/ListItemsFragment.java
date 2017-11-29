@@ -30,7 +30,8 @@ public class ListItemsFragment extends Fragment {
     private final ArrayList<FeedRow> mRowList = new ArrayList<>();
     private ListItemsAdapter mAdapter;
     private RequestStrategy requestStrategy = new FeedStrategy();
-    private boolean firstView = true;
+    private OnGetItemsResponse.GetItemCallback mGetItemCallback;
+    private boolean requestImmediately = true;
     private boolean isLoading = false;
     private boolean isLastPage = false;
     private int currentOffset = 0;
@@ -47,8 +48,6 @@ public class ListItemsFragment extends Fragment {
          *
          * @param context Context in which the items will be requested.
          * @param offset Page offset.
-         * @param getItemCallback Callback interface whose onGetItems method will be called with
-         *                        the returned CultureItem objects.
          */
         public void requestItems(Context context, int offset, OnGetItemsResponse.GetItemCallback getItemCallback);
     }
@@ -61,6 +60,12 @@ public class ListItemsFragment extends Fragment {
         public void afterClicked();
     }
 
+    /**
+     * Add an AfterItemClickedListener whose afterClicked method will be called after an item
+     * in the ListView is clicked.
+     *
+     * @param listener Listener object whose afterClicked method will be called.
+     */
     public void addAfterItemClickedListener(AfterItemClickedListener listener) {
         this.mListenerList.add(listener);
     }
@@ -69,6 +74,7 @@ public class ListItemsFragment extends Fragment {
      * RequestStrategy to get items for user feed.
      */
     public static class FeedStrategy implements RequestStrategy {
+        @Override
         public void requestItems(Context context, int offset, OnGetItemsResponse.GetItemCallback getItemCallback) {
             String authStr = getSharedPref(context).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
             OnGetItemsResponse respHandler = new OnGetItemsResponse(context, getItemCallback);
@@ -80,6 +86,7 @@ public class ListItemsFragment extends Fragment {
      * RequestStrategy for getting a user's own items.
      */
     public static class OwnItemsStrategy implements RequestStrategy {
+        @Override
         public void requestItems(Context context, int offset, OnGetItemsResponse.GetItemCallback getItemCallback) {
             String authStr = getSharedPref(context).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
             // TODO: make request for getting own items
@@ -105,7 +112,7 @@ public class ListItemsFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.list_items_recyclerview);
         this.mSwipeLayout = view.findViewById(R.id.swipe_container);
 
-        OnGetItemsResponse.GetItemCallback getItemCallback = this.createNewItemHandler();
+        mGetItemCallback = this.createNewItemHandler();
 
         mAdapter = new ListItemsAdapter(getActivity(), mRowList, (List<FeedRow> rowList, int position) -> {
             // put item to bundle
@@ -127,24 +134,20 @@ public class ListItemsFragment extends Fragment {
         recyclerView.setAdapter(mAdapter);
 
 
-        this.setOnScrollListener(recyclerView, getItemCallback);
+        this.setOnScrollListener(recyclerView);
 
         // get the first page of items
-        if (firstView) {
-            mItemList.clear();
-            mRowList.clear();
-            mAdapter.notifyDataSetChanged();
-            loadMoreItems(getItemCallback);
-            firstView = false;
+        if (requestImmediately) {
+            requestImmediately = false;
+            clearItems();
+            loadMoreItems();
         }
 
         // set swipe layout listeners
         this.mSwipeLayout.setOnRefreshListener(() -> {
-            mItemList.clear();
-            mRowList.clear();
+            clearItems();
             this.currentOffset = 0;
-            mAdapter.notifyDataSetChanged();
-            loadMoreItems(getItemCallback);
+            loadMoreItems();
         });
 
         this.mSwipeLayout.setColorSchemeColors(
@@ -162,10 +165,8 @@ public class ListItemsFragment extends Fragment {
      * bottom.
      *
      * @param recyclerView RecyclerView object whose OnScrollListener will be set.
-     * @param getItemCallback Callback interface whose onGetItems method will be called upon
-     *                        successfully getting more items.
      */
-    private void setOnScrollListener(RecyclerView recyclerView, OnGetItemsResponse.GetItemCallback getItemCallback) {
+    private void setOnScrollListener(RecyclerView recyclerView) {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
@@ -186,7 +187,7 @@ public class ListItemsFragment extends Fragment {
                     if (visibleItemCount + firstVisibleItemPosition >= totalItemCount &&
                             firstVisibleItemPosition >= 0 &&
                             totalItemCount >= Constants.PAGINATION_COUNT) {
-                        loadMoreItems(getItemCallback);
+                        loadMoreItems();
                     }
                 }
             }
@@ -215,26 +216,34 @@ public class ListItemsFragment extends Fragment {
         };
     }
 
-    public void setItemList(List<CultureItem> itemList) {
-        this.mItemList.clear();
-        this.mRowList.clear();
-        for (CultureItem item : itemList) {
-            this.mItemList.add(item);
-            this.mRowList.add(item.toFeedRow());
-        }
-        this.mAdapter.notifyDataSetChanged();
+    /**
+     * Set if this ListItemsFragment object will make a request immediately after its view is
+     * expanded.
+     *
+     * @param requestImmediately If true, this object will make a request when its view is first expanded;
+     *                           If false, there won't be any request when this object's view is expanded.
+     *                           By default, requestImmediately is true.
+     */
+    public void setRequestImmediately(boolean requestImmediately) {
+        this.requestImmediately = requestImmediately;
+    }
+
+    /**
+     * Clear the items shown on this ListItemsFragment.
+     */
+    public void clearItems() {
+        mItemList.clear();
+        mRowList.clear();
+        mAdapter.notifyDataSetChanged();
     }
 
     /**
      * Load more items from the server.
-     *
-     * @param getItemCallback Callback object whose onGetItems method will be called upon obtaining
-     *                        more items.
      */
-    private void loadMoreItems(OnGetItemsResponse.GetItemCallback getItemCallback) {
+    public void loadMoreItems() {
         this.mSwipeLayout.setRefreshing(true);
         this.isLoading = true;
-        this.requestStrategy.requestItems(getActivity(), this.currentOffset, getItemCallback);
+        this.requestStrategy.requestItems(getActivity(), this.currentOffset, mGetItemCallback);
         this.currentOffset += Constants.PAGINATION_COUNT;
     }
 }
