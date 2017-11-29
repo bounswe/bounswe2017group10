@@ -5,7 +5,6 @@ import android.app.Instrumentation;
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.app.Fragment;
 import android.widget.ProgressBar;
 
@@ -22,6 +21,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 
 import retrofit2.Call;
@@ -30,7 +30,7 @@ import retrofit2.Response;
 import static org.mockito.Mockito.mock;
 
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(JUnit4.class)
 public class OnSuccessfulLoginResponseTest {
 
     private static final String token = "ANSTHIASNOTHAOSNUTHAOSUh";
@@ -68,9 +68,11 @@ public class OnSuccessfulLoginResponseTest {
         // check if current activity is home activity
         assertEquals(HomeActivity.class.getName(), nextActivity.getClass().getName());
 
-        // check if token is sent correctly via intent
+        // check if token is stored in SharedPreferences
         String authStr = Utils.tokenToAuthString(token);
-        assertEquals(authStr, nextActivity.getIntent().getStringExtra(Constants.AUTH_STR));
+        String strInSharedPref = Utils.getSharedPref(nextActivity).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
+        assertNotEquals(strInSharedPref, Constants.NO_AUTH_STR);
+        assertEquals(authStr, strInSharedPref);
     }
 
 }

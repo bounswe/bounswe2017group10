@@ -3,7 +3,6 @@ package com.bounswe2017.group10.atlas.auth;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.app.Fragment;
 import android.widget.ProgressBar;
 
@@ -21,6 +20,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import org.mockito.Mockito;
 
 
@@ -32,7 +32,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(JUnit4.class)
 public class OnSuccessfulSignupResponseTest {
 
     @Rule

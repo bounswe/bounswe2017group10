@@ -11,8 +11,6 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         renderscriptTargetApi 26
         renderscriptSupportModeEnabled true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        multiDexEnabled true
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -32,9 +30,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
     compile 'com.android.support:appcompat-v7:26.0.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:cardview-v7:26.0.1'
@@ -57,15 +52,15 @@ dependencies {
     // Image uploading
     compile group: 'com.cloudinary', name: 'cloudinary-android', version: '1.20.0'
 
-    // multidex
-    compile 'com.android.support:multidex:1.0.1'
     // Test libraries
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.7.22'
     // Android test libraries
     androidTestCompile 'com.android.support.test:runner:1.0.0'
     androidTestCompile 'com.android.support.test:rules:1.0.0'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.0'
+    androidTestCompile('com.android.support.test.espresso:espresso-core:3.0.0', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
     androidTestCompile 'com.android.support:support-annotations:26.0.2'
     androidTestCompile 'org.mockito:mockito-android:2.11.0'
     androidTestCompile 'com.squareup.okhttp3:mockwebserver:3.8.0'
