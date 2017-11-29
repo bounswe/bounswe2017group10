@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.auth.AuthActivity;
+import com.bounswe2017.group10.atlas.home.HomeActivity;
 import com.bounswe2017.group10.atlas.httpbody.UserResponse;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
 import com.bounswe2017.group10.atlas.util.Constants;
@@ -45,5 +46,11 @@ public class ProfileActivity extends AppCompatActivity {
         logouttext.setOnClickListener((View btnview)-> {
             logout(appContext);
         });
+
+        TextView myItem = findViewById(R.id.pmyitem);
+        myItem.setOnClickListener((View btnview)->{
+            Intent intent = new Intent(this, OwnItemActivity.class);
+            startActivity(intent);
+        } );
     }
 }

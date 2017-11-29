@@ -90,8 +90,8 @@ public class ListItemsFragment extends Fragment {
         public void requestItems(Context context, int offset, OnGetItemsResponse.GetItemCallback getItemCallback) {
             String authStr = getSharedPref(context).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
             // TODO: make request for getting own items
-            // OnGetOwnItemsResponse respHandler = new OnGetOwnItemsResponse(context, itemList, rowList, adapter);
-            // APIUtils.serverAPI().getOwnItems(authStr).enqueue(respHandler);
+            OnGetItemsResponse respHandler = new OnGetItemsResponse(context, getItemCallback);
+            APIUtils.serverAPI().getOwnItems(authStr, Constants.PAGINATION_COUNT, offset).enqueue(respHandler);
         }
     }
 
