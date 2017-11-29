@@ -43,6 +43,8 @@ class Cultural_Heritage(models.Model):
     created_time = models.DateField(auto_now_add =True)
     updated_time = models.DateField(auto_now =True)
     tags = models.ManyToManyField('tag',blank=True)
+    is_favorite = models.BooleanField(default=False)
+    favorited_amount = models.IntegerField(default=0,editable=False)
 
 
 class comment(models.Model):
@@ -51,4 +53,9 @@ class comment(models.Model):
     created_time = models.DateField(auto_now_add =True)
     updated_time = models.DateField(auto_now =True)
     cultural_heritage_item = models.ForeignKey('Cultural_Heritage', on_delete=models.CASCADE, null=True)
+
+class favorite_items(models.Model):
+    user = models.ForeignKey('authentication.Account',on_delete=models.CASCADE,null=True)
+    item = models.ForeignKey('Cultural_Heritage',on_delete=models.CASCADE,null=True)
+
 

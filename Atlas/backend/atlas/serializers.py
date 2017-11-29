@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Cultural_Heritage,comment as comment_model,image_media_item,tag as tag_model
+from .models import Cultural_Heritage,comment as comment_model,image_media_item,favorite_items,tag as tag_model
 from authentication.serializers import AccountSerializer
 
 
@@ -43,3 +43,7 @@ class cultural_heritage_serializer(serializers.ModelSerializer):
             return heritage_item
          return super(cultural_heritage_serializer, self).create(validated_data)
 
+class favorite_item_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = favorite_items
+        fields = '__all__'
