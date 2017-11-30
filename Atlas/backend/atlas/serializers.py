@@ -32,14 +32,13 @@ class cultural_heritage_serializer(serializers.ModelSerializer):
         model = Cultural_Heritage
         fields = '__all__'
     def create(self, validated_data):
+         tags = []
          if 'tags' in validated_data.keys():
-            tags = validated_data.pop('tags')
-            heritage_item = Cultural_Heritage.objects.create(**validated_data)
-            if len(tags) > 0:
-                for tag in tags:
-                    new_tag,created = tag_model.objects.get_or_create(name=tag["name"])
-                    heritage_item.tags.add(new_tag)
-                heritage_item.save()
-            return heritage_item
-         return super(cultural_heritage_serializer, self).create(validated_data)
+             tags= validated_data.pop('tags')
+         heritage_item = Cultural_Heritage.objects.create(**validated_data)
+         if len(tags)>0:
+            for tag in tags:
+                new_tag,created = tag_model.objects.get_or_create(name=tag["name"])
+                heritage_item.tags.add(new_tag)
+         return heritage_item
 

@@ -223,4 +223,32 @@ class cultural_heritage_item(TestCase):
         self.assertEqual(len(response_content['images']), 2)
 
 
+    def test_create_cultural_heritage_item_with_many_images_at_once_at_creation(self):
+        item_data = {
+            "title": "Gigantic playground for your CHILDREN",
+            'images': [{'url': 'http://i.imgur.com/1113OLTFsdfVq.jpg',},
+                       {'url': 'http://i.imgur.com/111r3OLTF21Vq.jpg',},
+                       {'url': 'http://i.imgur.com/111e3OLT3213FVq.jpg',},
+                       {'url': 'http://i.imgur.com/1113wO12LTFVq.jpg',},
+                       {'url': 'http://i.imgur.com/1113weOLTFVq.jpg',},
+                       ]
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+        )
+        self.assertEqual(response.status_code, 201)
+
+        response_content = json.loads(smart_text(response.content))
+        id = response_content['id']
+        self.assertEqual(response.status_code, 201)
+        response = self.client.get(
+            self.cultural_heritage_item_url + str(id),
+            format='json',
+        )
+        self.assertEqual(response.status_code, 200)
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(len(response_content['images']), 5)
+
 
