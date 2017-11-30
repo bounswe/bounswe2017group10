@@ -43,6 +43,8 @@ class Cultural_Heritage(models.Model):
     created_time = models.DateField(auto_now_add =True)
     updated_time = models.DateField(auto_now =True)
     tags = models.ManyToManyField('tag',blank=True)
+    longitude =models.DecimalField(max_digits=9, decimal_places=6,null=True)
+    latitude =models.DecimalField(max_digits=9, decimal_places=6,null=True)
 
 
 class comment(models.Model):
