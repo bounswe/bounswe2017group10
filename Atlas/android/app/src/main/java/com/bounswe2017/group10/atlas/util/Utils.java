@@ -22,25 +22,58 @@ import java.util.Locale;
  */
 public class Utils {
 
+    /**
+     * Given a token string such as "snocehu724ao726a2HAOS42a", returns an
+     * authentication string that can be used with Authorization headers.
+     *
+     * @param token Token string.
+     * @return Authorization string that can be directly used in Authorization header.
+     */
     public static String tokenToAuthString(String token) {
         return "JWT " + token;
     }
 
+    /**
+     * Show a Toast on the given context with the given message. Toast duration
+     * is set to Toast.LENGTH_SHORT
+     *
+     * @param context Context in which to show the Toast.
+     * @param errorMessage Message to be displayed.
+     */
     public static void showToast(Context context, String errorMessage) {
         Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Get SharedPreferences.Editor instance used by the app.
+     *
+     * @param context Context object.
+     * @return SharedPreferences.Editor object.
+     */
     public static SharedPreferences.Editor getSharedPrefEditor(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(context.getString(R.string.shared_pref_file), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         return editor;
     }
 
+    /**
+     * Get SharedPreferences instance used by the app.
+     *
+     * @param context Context object.
+     * @return SharedPreferences object.
+     */
     public static SharedPreferences getSharedPref(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(context.getString(R.string.shared_pref_file), Context.MODE_PRIVATE);
         return preferences;
     }
 
+    /**
+     * Perform a logout. This function removes all the user-related information
+     * from SharedPreferences, and takes the user to AuthActivity for further
+     * auhtentication.
+     *
+     * @param context Context in which to logout.
+     */
     public static void logout(Context context) {
         // remove token from sharedpref
         SharedPreferences.Editor editor = Utils.getSharedPrefEditor(context);
@@ -58,6 +91,17 @@ public class Utils {
 
     }
 
+    /**
+     * Get a new image Uri on local Android device external storage. Later, this URI
+     * can be used to save an image to the device.
+     *
+     * Returned URI has name "JPEG_<timestamp>_...jpg" where
+     * <timestamp> is in "yyyyMMdd_HHmmss" date format.
+     *
+     * @param context Context in which we will request a File on external storage.
+     * @return URI of the image on external storage.
+     * @throws IOException If unable to get a File URI, this method throws an IOException
+     */
     public static Uri getNewImageUri(Context context) throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
@@ -72,7 +116,50 @@ public class Utils {
         return uri;
     }
 
+    /**
+     * Return ture if the given url is a local Android url.
+     *
+     * A local Android URL is defined as one that starts with String
+     * "content://"
+     *
+     * @param url Url
+     * @return true if the given url is Android-local; false, otherwise.
+     */
     public static boolean isLocalUrl(String url) {
         return url.startsWith("content://");
+    }
+
+    /**
+     * Return true if the given two doubles are within Constants.DOUBLE_EQUALITY_EPSILON
+     * away from each other.
+     *
+     * @param a First double.
+     * @param b Second double.
+     * @return true if the given two double values are close; false, otherwise.
+     */
+    public static boolean isClose(double a, double b) {
+        return Math.abs(a - b) <= Constants.DOUBLE_EQUALITY_EPSILON;
+    }
+
+    /**
+     * Return true if the given two Objects are equal. Objects a and b are
+     * equal if, and only if,
+     *
+     * a == null && b == null, OR
+     * a != null && b != null && a.equals(b)
+     *
+     * @param a First Object.
+     * @param b Second Object.
+     * @return true if a and b are equal; false, otherwise.
+     */
+    public static boolean objectEquals(Object a, Object b) {
+        if (a == null && b != null) {
+            return false;
+        } else if (a != null && b == null) {
+            return false;
+        } else if (a != null && b != null) {
+            return a.equals(b);
+        }
+        return true;
     }
 }
