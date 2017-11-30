@@ -142,7 +142,6 @@ public class ViewItemFragment extends Fragment {
                 // TODO: Favorite item feature
                 return true;
             case R.id.action_edit:
-                // TODO: Edit item feature
                 Intent intent = new Intent(mActivity, CreateItemActivity.class);
                 intent.putExtra(Constants.CULTURE_ITEM, mItem);
                 intent.putExtra(Constants.CREATE_STRATEGY, Constants.EDIT);

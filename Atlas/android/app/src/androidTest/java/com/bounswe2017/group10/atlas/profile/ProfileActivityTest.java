@@ -22,12 +22,15 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertTrue;
 import static net.bytebuddy.matcher.ElementMatchers.is;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.StringEndsWith.endsWith;
 
 public class ProfileActivityTest {
@@ -62,9 +65,13 @@ public class ProfileActivityTest {
         String expectedEmail = pref.getString(Constants.EMAIL, "");
 
         // check if name is shown
-        onView(allOf(withClassName(endsWith("TextView")), withText(expectedName))).check(matches(isDisplayed()));
+        onView(allOf(withClassName(endsWith("TextView")), withText(expectedName)))
+                .inRoot(withDecorView(equalTo(mActivity.getWindow().getDecorView())))
+                .check(matches(isDisplayed()));
         // check if email is shown
-        onView(allOf(withClassName(endsWith("TextView")), withText(expectedEmail))).check(matches(isDisplayed()));
+        onView(allOf(withClassName(endsWith("TextView")), withText(expectedEmail)))
+                .inRoot(withDecorView(equalTo(mActivity.getWindow().getDecorView())))
+                .check(matches(isDisplayed()));
     }
 
     @Test
@@ -74,7 +81,9 @@ public class ProfileActivityTest {
         Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(AuthActivity.class.getName(), null, false);
 
         // click logout button
-        onView(allOf(withClassName(endsWith("TextView")), withText(R.string.logout))).perform(scrollTo(), click());
+        onView(allOf(withClassName(endsWith("TextView")), withText(R.string.logout)))
+                .inRoot(withDecorView(equalTo(mActivity.getWindow().getDecorView())))
+                .perform(scrollTo(), click());
         // check if we have successfully logged out
         assertTrue(TestUtilities.hasLoggedOut(pref, monitor));
     }

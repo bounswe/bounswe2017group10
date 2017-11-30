@@ -54,9 +54,13 @@ public class CultureItem implements Parcelable {
 
     @SerializedName("public_accessibility")
     @Expose
-    private Boolean publicAccessibility;
+    private boolean publicAccessibility;
 
-    public CultureItem() {}
+    public CultureItem() {
+        this.imageList = new ArrayList<>();
+        this.tagList = new ArrayList<>();
+        this.commentList = new ArrayList<>();
+    }
 
     @SuppressWarnings("unchecked")
     public CultureItem(Parcel in) {

@@ -54,6 +54,12 @@ import retrofit2.Response;
 
 public class CreateItemFragment extends Fragment {
 
+    private enum REQUEST_TYPE {
+        UPDATE,
+        CREATE
+    };
+
+    private REQUEST_TYPE mRequestType = REQUEST_TYPE.CREATE;
     private CultureItem mItemToSend = new CultureItem();
 
     private static final String TAG = "CreateItemFragment";
@@ -103,8 +109,6 @@ public class CreateItemFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_item, container, false);
-        this.mItemToSend.setId(-1);
-        this.mItemToSend.setUser(-1);
 
         // set adapters
         ListView imageListView = view.findViewById(R.id.image_listview);
@@ -131,6 +135,7 @@ public class CreateItemFragment extends Fragment {
         // If there is an argument item, fill the inputs with its data.
         Bundle arguments = getArguments();
         if (arguments != null) {
+            this.mRequestType = REQUEST_TYPE.UPDATE;
             mItemToSend = arguments.getParcelable(Constants.CULTURE_ITEM);
             fillInputsWithItem(view);
         }
@@ -431,9 +436,9 @@ public class CreateItemFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
         Activity activity = getActivity();
         String authStr = Utils.getSharedPref(activity).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
-        if (mItemToSend.getId() == -1) {  // create request
+        if (mRequestType == REQUEST_TYPE.CREATE) {  // create request
             APIUtils.serverAPI().createItem(authStr, mItemToSend).enqueue(new OnCreateItemResponse(this, mItemToSend.getImageList(), progressBar));
-        } else {  // edit request
+        } else if (mRequestType == REQUEST_TYPE.UPDATE){  // edit request
             APIUtils.serverAPI().updateItem(authStr, mItemToSend.getId(), mItemToSend).enqueue(new OnUpdateItemResponse(getActivity()));
         }
     }
