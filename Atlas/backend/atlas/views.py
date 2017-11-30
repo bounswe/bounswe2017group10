@@ -1,6 +1,6 @@
 from .models import User,Cultural_Heritage,comment,tag,image_media_item as image_item
 from rest_framework import generics
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse,HttpRequest
 from django.core import serializers
 from .serializers import cultural_heritage_serializer,image_media_item_serializer,tag_serializer,comment_serializer
 from django.shortcuts import get_object_or_404
@@ -34,8 +34,23 @@ class cultural_heritage_item(generics.ListCreateAPIView):
         #Get the user from the request so that we can add it to cultural heritage item model.
         #Pk is the id of the user.
         request.data['user'] = request.user.pk
+        images = []
+        if 'images' in request.data:
+            images = request.data['images']
 
-        return super(cultural_heritage_item, self).create(request,*args,**kwargs)
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        if len(images) > 0 :
+            id = serializer.data['id']
+            for image in images:
+                image['cultural_heritage_item'] = id
+                image_serializer = image_media_item_serializer(data=image)
+                image_serializer.is_valid(raise_exception=True)
+                image_serializer.save()
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class ImageInterceptorMixin(object):
