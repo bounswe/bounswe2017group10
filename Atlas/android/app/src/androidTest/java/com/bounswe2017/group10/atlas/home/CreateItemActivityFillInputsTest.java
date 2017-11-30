@@ -44,9 +44,6 @@ public class CreateItemActivityFillInputsTest {
     public ActivityTestRule<AuthActivity> mLoginActivityRule = new ActivityTestRule<>(AuthActivity.class, true, true);
 
     private String title;
-    private String city;
-    private String continent;
-    private String country;
     private String description;
     private ArrayList<Image> imgList;
     private ArrayList<Tag> tagList;
@@ -61,9 +58,6 @@ public class CreateItemActivityFillInputsTest {
 
         // CultureItem data
         title = "Beautiful Prague";
-        city = "Prague";
-        continent = "Europe";
-        country = "Czech Republic";
         description = "Item description";
         long user = 5;
 
@@ -82,9 +76,6 @@ public class CreateItemActivityFillInputsTest {
         CultureItem item = new CultureItem();
         item.setUser(user);
         item.setTitle(title);
-        item.setCity(city);
-        item.setContinent(continent);
-        item.setCountry(country);
         item.setDescription(description);
         item.setImageList(imgList);
         item.setTagList(tagList);
@@ -108,18 +99,6 @@ public class CreateItemActivityFillInputsTest {
         onView(withId(R.id.description_edittext))
                 .inRoot(withDecorView(equalTo(mActivity.getWindow().getDecorView())))
                 .check(matches(withText(description)));
-
-        onView(withId(R.id.continent_edittext))
-                .inRoot(withDecorView(equalTo(mActivity.getWindow().getDecorView())))
-                .check(matches(withText(continent)));
-
-        onView(withId(R.id.country_edittext))
-                .inRoot(withDecorView(equalTo(mActivity.getWindow().getDecorView())))
-                .check(matches(withText(country)));
-
-        onView(withId(R.id.city_edittext))
-                .inRoot(withDecorView(equalTo(mActivity.getWindow().getDecorView())))
-                .check(matches(withText(city)));
     }
 
     @Test

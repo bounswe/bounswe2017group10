@@ -148,20 +148,11 @@ public class CreateItemFragment extends Fragment {
      *
      */
     private void fillInputsWithItem(View view) {
-        if (mItemToSend.getCountry() != null) {
-            ((TextView)view.findViewById(R.id.country_edittext)).setText(mItemToSend.getCountry());
-        }
         if (mItemToSend.getTitle() != null) {
             ((TextView)view.findViewById(R.id.title_edittext)).setText(mItemToSend.getTitle());
         }
         if (mItemToSend.getDescription() != null) {
             ((TextView)view.findViewById(R.id.description_edittext)).setText(mItemToSend.getDescription());
-        }
-        if (mItemToSend.getContinent() != null) {
-            ((TextView)view.findViewById(R.id.continent_edittext)).setText(mItemToSend.getContinent());
-        }
-        if (mItemToSend.getCity() != null) {
-            ((TextView)view.findViewById(R.id.city_edittext)).setText(mItemToSend.getCity());
         }
         for (Image img : mItemToSend.getImageList()) {
             mImageRowList.add(img.toImageRow());
@@ -355,17 +346,8 @@ public class CreateItemFragment extends Fragment {
 
         mItemToSend.setTitle(title);
         mItemToSend.setDescription(description);
-        mItemToSend.setContinent(continent);
-        mItemToSend.setCountry(country);
-        mItemToSend.setCity(city);
         if (description.length() == 0)
             mItemToSend.setDescription(null);
-        if (continent.length() == 0)
-            mItemToSend.setContinent(null);
-        if (country.length() == 0)
-            mItemToSend.setCountry(null);
-        if (city.length() == 0)
-            mItemToSend.setCity(null);
 
         mItemToSend.setPublicAccessibility(true);
 
