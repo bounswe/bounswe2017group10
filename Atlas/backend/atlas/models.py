@@ -45,6 +45,9 @@ class Cultural_Heritage(models.Model):
     tags = models.ManyToManyField('tag',blank=True)
     longitude =models.DecimalField(max_digits=9, decimal_places=6,null=True)
     latitude =models.DecimalField(max_digits=9, decimal_places=6,null=True)
+    start_year = models.IntegerField(null=True)
+    end_year = models.IntegerField(null=True)
+
 
 
 class comment(models.Model):
