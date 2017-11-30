@@ -5,7 +5,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.icu.util.UniversalTimeScale;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -25,16 +24,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bounswe2017.group10.atlas.R;
-import com.bounswe2017.group10.atlas.httpbody.CultureItem;
-import com.bounswe2017.group10.atlas.httpbody.GetItemsResponse;
-import com.bounswe2017.group10.atlas.profil.ProfileActivity;
+import com.bounswe2017.group10.atlas.profile.ProfileActivity;
 import com.bounswe2017.group10.atlas.response.OnGetItemsResponse;
 import com.bounswe2017.group10.atlas.util.Constants;
 import com.bounswe2017.group10.atlas.httpbody.UserResponse;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
 import com.bounswe2017.group10.atlas.util.Utils;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

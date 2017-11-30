@@ -43,7 +43,14 @@ public class Utils {
 
     public static void logout(Context context) {
         // remove token from sharedpref
-        Utils.getSharedPrefEditor(context).remove(Constants.AUTH_STR).apply();
+        SharedPreferences.Editor editor = Utils.getSharedPrefEditor(context);
+        editor.remove(Constants.AUTH_STR);
+        editor.remove(Constants.FIRSTNAME);
+        editor.remove(Constants.LASTNAME);
+        editor.remove(Constants.EMAIL);
+        editor.remove(Constants.USER_ID);
+        editor.apply();
+
         // go to authentication activity
         Intent intent = new Intent(context, AuthActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -63,10 +70,6 @@ public class Utils {
         Uri uri = FileProvider.getUriForFile(context, Constants.FILE_PROVIDER_AUTHORITY, image);
 
         return uri;
-    }
-
-    public static boolean isLocalUri(Uri uri) {
-        return isLocalUrl(uri.toString());
     }
 
     public static boolean isLocalUrl(String url) {

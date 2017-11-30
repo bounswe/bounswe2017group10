@@ -45,7 +45,7 @@
 
         <!-- ProfileActivity-->
         <activity
-            android:name=".profil.ProfileActivity">
+            android:name=".profile.ProfileActivity">
         </activity>
 
         <!--- FileProvider -->
