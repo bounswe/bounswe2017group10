@@ -7,9 +7,9 @@ import android.support.test.rule.ActivityTestRule;
 import android.widget.EditText;
 
 import com.bounswe2017.group10.atlas.R;
-import com.bounswe2017.group10.atlas.auth.APIDelegate;
+import com.bounswe2017.group10.atlas.test_utilities.APIDelegate;
 import com.bounswe2017.group10.atlas.auth.AuthActivity;
-import com.bounswe2017.group10.atlas.auth.TestUtilities;
+import com.bounswe2017.group10.atlas.test_utilities.TestUtilities;
 import com.bounswe2017.group10.atlas.httpbody.CultureItem;
 import com.bounswe2017.group10.atlas.remote.API;
 import com.bounswe2017.group10.atlas.remote.APIUtils;

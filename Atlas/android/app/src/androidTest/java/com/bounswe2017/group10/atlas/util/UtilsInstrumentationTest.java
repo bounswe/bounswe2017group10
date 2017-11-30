@@ -5,12 +5,11 @@ import android.Manifest;
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.rule.GrantPermissionRule;
 
 import com.bounswe2017.group10.atlas.auth.AuthActivity;
-import com.bounswe2017.group10.atlas.auth.TestUtilities;
+import com.bounswe2017.group10.atlas.test_utilities.TestUtilities;
 import com.bounswe2017.group10.atlas.profile.ProfileActivity;
 
 import org.junit.Before;
@@ -18,8 +17,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-
-import java.io.IOException;
 
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;

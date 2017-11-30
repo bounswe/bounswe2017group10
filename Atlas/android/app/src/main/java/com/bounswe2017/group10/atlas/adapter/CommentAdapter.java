@@ -54,4 +54,9 @@ public class CommentAdapter extends ArrayAdapter<CommentRow> {
 
         return convertView;
     }
+
+    @Override
+    public int getCount() {
+        return this.items.size();
+    }
 }

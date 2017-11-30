@@ -1,10 +1,11 @@
-package com.bounswe2017.group10.atlas.auth;
+package com.bounswe2017.group10.atlas.test_utilities;
 
 
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.SharedPreferences;
 
+import com.bounswe2017.group10.atlas.auth.AuthActivity;
 import com.bounswe2017.group10.atlas.util.Constants;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;

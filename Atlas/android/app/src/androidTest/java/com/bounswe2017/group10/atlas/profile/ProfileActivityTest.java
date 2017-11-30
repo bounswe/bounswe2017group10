@@ -4,12 +4,11 @@ package com.bounswe2017.group10.atlas.profile;
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Looper;
 import android.support.test.rule.ActivityTestRule;
 
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.auth.AuthActivity;
-import com.bounswe2017.group10.atlas.auth.TestUtilities;
+import com.bounswe2017.group10.atlas.test_utilities.TestUtilities;
 import com.bounswe2017.group10.atlas.util.Constants;
 import com.bounswe2017.group10.atlas.util.Utils;
 

@@ -1,4 +1,4 @@
-package com.bounswe2017.group10.atlas.auth;
+package com.bounswe2017.group10.atlas.test_utilities;
 
 
 import com.bounswe2017.group10.atlas.httpbody.Comment;
