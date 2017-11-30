@@ -47,6 +47,7 @@ class Cultural_Heritage(models.Model):
     latitude =models.DecimalField(max_digits=9, decimal_places=6,null=True)
     start_year = models.IntegerField(null=True)
     end_year = models.IntegerField(null=True)
+    place_name = models.CharField(max_length=350,null=True)
 
 
 
