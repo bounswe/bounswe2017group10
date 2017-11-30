@@ -371,4 +371,28 @@ class cultural_heritage_item(TestCase):
         )
         self.assertEqual(response.status_code, 404)
 
+    def test_create_cultural_heritage_item_with_location(self):
+        item_data = {
+            "title": "Very emotional thresh hook",
+            'longitude': 10.52122,
+            'latitude': 20.12312
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
 
+        )
+        self.assertEqual(response.status_code, 201)
+        response_content = json.loads(smart_text(response.content))
+        id = response_content['id']
+
+        response = self.client.get(
+            self.cultural_heritage_item_url + str(id) + '/',
+            format='json',
+        )
+
+        self.assertEqual(response.status_code, 200)
+        response_content = json.loads(smart_text(response.content))
+        self.assertAlmostEqual(float(response_content['longitude']),10.52122 )
+        self.assertAlmostEqual(float(response_content['latitude']),20.12312 )
