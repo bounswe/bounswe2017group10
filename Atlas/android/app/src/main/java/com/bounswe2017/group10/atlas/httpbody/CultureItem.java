@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.bounswe2017.group10.atlas.adapter.FeedRow;
+import com.bounswe2017.group10.atlas.util.Constants;
 import com.bounswe2017.group10.atlas.util.Utils;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -33,6 +34,14 @@ public class CultureItem implements Parcelable {
     @Expose
     private String placeName;
 
+    @SerializedName("start_year")
+    @Expose
+    private int startYear;
+
+    @SerializedName("end_year")
+    @Expose
+    private int endYear;
+
     @SerializedName("latitude")
     @Expose
     private double latitude;
@@ -61,6 +70,8 @@ public class CultureItem implements Parcelable {
         this.imageList = new ArrayList<>();
         this.tagList = new ArrayList<>();
         this.commentList = new ArrayList<>();
+        this.startYear = Constants.DEFAULT_INVALID_MIN_YEAR;
+        this.endYear = Constants.DEFAULT_INVALID_MAX_YEAR;
     }
 
     @SuppressWarnings("unchecked")
@@ -70,6 +81,8 @@ public class CultureItem implements Parcelable {
         this.title = in.readString();
         this.description = in.readString();
         this.placeName = in.readString();
+        this.startYear = in.readInt();
+        this.endYear = in.readInt();
         this.latitude = in.readDouble();
         this.longitude = in.readDouble();
         this.imageList = (ArrayList<Image>)in.readSerializable();
@@ -85,6 +98,8 @@ public class CultureItem implements Parcelable {
         out.writeString(this.title);
         out.writeString(this.description);
         out.writeString(this.placeName);
+        out.writeInt(this.startYear);
+        out.writeInt(this.endYear);
         out.writeDouble(this.latitude);
         out.writeDouble(this.longitude);
         out.writeSerializable(this.imageList);
@@ -150,6 +165,22 @@ public class CultureItem implements Parcelable {
 
     public void setPlaceName(String placeName) {
         this.placeName = placeName;
+    }
+
+    public int getStartYear() {
+        return startYear;
+    }
+
+    public void setStartYear(int startYear) {
+        this.startYear = startYear;
+    }
+
+    public int getEndYear() {
+        return endYear;
+    }
+
+    public void setEndYear(int endYear) {
+        this.endYear = endYear;
     }
 
     public double getLatitude() {
@@ -227,6 +258,8 @@ public class CultureItem implements Parcelable {
                 Utils.objectEquals(this.title, other.title) &&
                 Utils.objectEquals(this.description, other.description) &&
                 Utils.objectEquals(this.placeName, other.placeName) &&
+                this.startYear == other.startYear &&
+                this.endYear == other.endYear &&
                 Utils.isClose(this.latitude, other.latitude) &&
                 Utils.isClose(this.longitude, other.longitude) &&
                 Utils.objectEquals(this.imageList, other.imageList) &&

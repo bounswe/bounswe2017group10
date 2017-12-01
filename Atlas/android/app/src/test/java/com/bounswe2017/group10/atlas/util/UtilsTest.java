@@ -104,4 +104,22 @@ public class UtilsTest {
         Utils.roundToDecimals(a, -1);
         Utils.roundToDecimals(a, 9);
     }
+
+    @Test
+    public void testIsValidYear() {
+        String s = "";
+        assertFalse(Utils.isValidYear(s));
+
+        s = "what";
+        assertFalse(Utils.isValidYear(s));
+
+        s = "" + (Constants.MIN_YEAR - 1);
+        assertFalse(Utils.isValidYear(s));
+
+        s = "" + (Constants.MAX_YEAR + 1);
+        assertFalse(Utils.isValidYear(s));
+
+        s = "" + (Constants.MIN_YEAR + Constants.MAX_YEAR)/2;
+        assertTrue(Utils.isValidYear(s));
+    }
 }

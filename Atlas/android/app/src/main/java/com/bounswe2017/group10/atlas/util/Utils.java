@@ -13,6 +13,7 @@ import com.bounswe2017.group10.atlas.auth.AuthActivity;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -178,5 +179,22 @@ public class Utils {
         }
         long multiplier = (long)Math.pow(10, (double)precision);
         return ((int)(num*multiplier))/(double)multiplier;
+    }
+
+    /**
+     * Checks whether the given String s is a valid year. A valid year is
+     * defined as a year between MIN_YEAR and MAX_YEAR.
+     *
+     * @param s Input string.
+     * @return True if s contains a valid year; false otherwise.
+     */
+    public static boolean isValidYear(String s) {
+        int year = 0;
+        try {
+            year = Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return year >= Constants.MIN_YEAR && year <= Constants.MAX_YEAR;
     }
 }

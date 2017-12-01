@@ -13,11 +13,13 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,6 +85,11 @@ public class CreateItemFragment extends Fragment {
     private Uri currentPhotoUri = null;
 
     private Button mBtnLocation = null;
+    private int etFromOriginalColor = 0;
+    private int etToOriginalColor = 0;
+    private boolean correctYearInputs = false;
+
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,6 +113,13 @@ public class CreateItemFragment extends Fragment {
         // handle tags
         setTagChoosingListener(etTags);
         setTagEnteringListener(etTags);
+
+        // set handlers for year textedits
+        EditText etFrom = view.findViewById(R.id.from_textedit);
+        EditText etTo = view.findViewById(R.id.to_textedit);
+        etFromOriginalColor = etFrom.getCurrentTextColor();
+        etToOriginalColor = etFrom.getCurrentTextColor();
+        setYearEnteringListeners(etFrom, etTo);
 
         // handle gallery feature
         Button btnGallery = view.findViewById(R.id.gallery_button);
@@ -164,7 +178,6 @@ public class CreateItemFragment extends Fragment {
 
     /**
      * Fills the input fields in this Fragment with the given item
-     *
      */
     private void fillInputsWithItem(View view) {
         if (mItemToSend.getTitle() != null) {
@@ -172,6 +185,12 @@ public class CreateItemFragment extends Fragment {
         }
         if (mItemToSend.getDescription() != null) {
             ((TextView)view.findViewById(R.id.description_edittext)).setText(mItemToSend.getDescription());
+        }
+        if (mItemToSend.getStartYear() != Constants.DEFAULT_INVALID_MIN_YEAR) {
+            ((EditText)view.findViewById(R.id.from_textedit)).setText(Integer.toString(mItemToSend.getStartYear()));
+        }
+        if (mItemToSend.getEndYear() != Constants.DEFAULT_INVALID_MAX_YEAR) {
+            ((EditText)view.findViewById(R.id.to_textedit)).setText(Integer.toString(mItemToSend.getEndYear()));
         }
         for (Image img : mItemToSend.getImageList()) {
             mImageRowList.add(img.toImageRow());
@@ -255,6 +274,85 @@ public class CreateItemFragment extends Fragment {
                 }
             }
         });
+    }
+
+    /**
+     * Set listeners that take action when entering years into text edits.
+     *
+     * @param etFrom EditText that takes the from year.
+     * @param etTo EditText that takes the to year.
+     */
+    private void setYearEnteringListeners(EditText etFrom, EditText etTo) {
+        etFrom.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String fromStr = s.toString();
+                if (fromStr.equals("") || fromStr.equals("-")) {
+                    return;
+                }
+                if (Utils.isValidYear(fromStr)) {
+                    etFrom.setTextColor(etFromOriginalColor);
+                }
+                checkYearInputs(etFrom, etTo);
+            }
+        });
+
+        etTo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String toStr = s.toString();
+                if (toStr.equals("") || toStr.equals("-")) {
+                    return;
+                }
+                if (Utils.isValidYear(toStr)) {
+                    etTo.setTextColor(etToOriginalColor);
+                }
+                checkYearInputs(etFrom, etTo);
+            }
+        });
+    }
+
+    /**
+     * Checks the year values in etFrom and etTo, highlights the EditText
+     * objects that cause a wrong state.
+     *
+     * @param etFrom EditText object getting the from year.
+     * @param etTo EditText object getting the to year.
+     */
+    private void checkYearInputs(EditText etFrom, EditText etTo) {
+        String fromStr = etFrom.getText().toString();
+        String toStr = etTo.getText().toString();
+        boolean validFromYear = Utils.isValidYear(fromStr);
+        boolean validToYear = Utils.isValidYear(toStr);
+
+        this.correctYearInputs = false;
+        if (validFromYear && validToYear) {
+            int fromYear = Integer.parseInt(fromStr);
+            int toYear = Integer.parseInt(toStr);
+            if (toYear < fromYear) {
+                etTo.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_red_light));
+            } else {
+                this.correctYearInputs = true;
+                etTo.setTextColor(etToOriginalColor);
+            }
+        } else {
+            if (!validFromYear) {
+                etFrom.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_red_light));
+            }
+            if (!validToYear) {
+                etTo.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_red_light));
+            }
+        }
     }
 
     /**
@@ -357,10 +455,16 @@ public class CreateItemFragment extends Fragment {
         View view = getView();
         EditText etTitle = view.findViewById(R.id.title_edittext);
         EditText etDescription = view.findViewById(R.id.description_edittext);
+        EditText etToYear = view.findViewById(R.id.to_textedit);
+        EditText etFromYear = view.findViewById(R.id.from_textedit);
         ProgressBar progressBar = new ProgressBar(getActivity());
 
         if (etTitle.getText().length() == 0) {
             Utils.showToast(getActivity().getApplicationContext(), getResources().getString(R.string.empty_title));
+            return;
+        }
+        if (!this.correctYearInputs) {
+            Utils.showToast(getActivity(), getString(R.string.year_entering_warning, Constants.MIN_YEAR, Constants.MAX_YEAR));
             return;
         }
         String title = etTitle.getText().toString();
@@ -371,6 +475,8 @@ public class CreateItemFragment extends Fragment {
         if (description.length() == 0)
             mItemToSend.setDescription(null);
 
+        mItemToSend.setStartYear(Integer.parseInt(etFromYear.getText().toString()));
+        mItemToSend.setEndYear(Integer.parseInt(etToYear.getText().toString()));
         mItemToSend.setPublicAccessibility(true);
 
         ArrayList<Image> imageList = new ArrayList<>();
