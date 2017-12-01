@@ -18,4 +18,7 @@ public class Constants {
     public static final String CREATE = "CREATE";
     public static final String EDIT = "EDIT";
     public static final double DOUBLE_EQUALITY_EPSILON = 1e-6;
+    public static final String LOCATION_NAME = "LOCATION_NAME";
+    public static final String LATLONG = "LATLONG";
+    public static final int LATLONG_PRECISION = 4;
 }

@@ -1,13 +1,18 @@
 package com.bounswe2017.group10.atlas.util;
 
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 public class UtilsTest {
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void testTokenToAuthString() {
@@ -76,6 +81,27 @@ public class UtilsTest {
         // not null, equal
         a = new Integer(b.intValue());
         assertTrue(Utils.objectEquals(a, b));
+    }
 
+    @Test
+    public void testRoundToDecimals() {
+        double a = 3;
+
+        assertTrue(Utils.isClose(a, Utils.roundToDecimals(a, 0)));
+        assertTrue(Utils.isClose(a, Utils.roundToDecimals(a, 1)));
+
+        a = 3.00001;
+        assertTrue(Utils.isClose(3, Utils.roundToDecimals(a, 4)));
+        assertFalse(Utils.isClose(3, Utils.roundToDecimals(a, 5)));
+
+        a = 3.14723;
+        assertTrue(Utils.isClose(3.14, Utils.roundToDecimals(a, 2)));
+        assertFalse(Utils.isClose(3.14, Utils.roundToDecimals(a, 3)));
+
+        assertTrue(Utils.isClose(a, Utils.roundToDecimals(a, 8)));
+
+        thrown.expect(IllegalArgumentException.class);
+        Utils.roundToDecimals(a, -1);
+        Utils.roundToDecimals(a, 9);
     }
 }
