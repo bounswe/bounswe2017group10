@@ -10,4 +10,11 @@ public class Constants {
     public static final String CLOUDINARY_CLOUD_NAME = "dsfusawmf";
     public static final String TAG_SEPARATORS = " ,";
     public static final int PAGINATION_COUNT = 10;
+    public static final String USER_ID = "USER_ID";
+    public static final String FIRSTNAME = "FIRSTNAME";
+    public static final String LASTNAME = "LASTNAME";
+    public static final String EMAIL = "EMAIL";
+    public static final String CREATE_STRATEGY = "CREATE_STRATEGY";
+    public static final String CREATE = "CREATE";
+    public static final String EDIT = "EDIT";
 }

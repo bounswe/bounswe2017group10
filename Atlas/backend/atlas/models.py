@@ -45,6 +45,11 @@ class Cultural_Heritage(models.Model):
     tags = models.ManyToManyField('tag',blank=True)
     is_favorite = models.BooleanField(default=False)
     favorited_amount = models.IntegerField(default=0,editable=False)
+    longitude =models.DecimalField(max_digits=9, decimal_places=6,null=True)
+    latitude =models.DecimalField(max_digits=9, decimal_places=6,null=True)
+    start_year = models.IntegerField(null=True)
+    end_year = models.IntegerField(null=True)
+    place_name = models.CharField(max_length=350,null=True)
 
 
 class comment(models.Model):
@@ -57,5 +62,16 @@ class comment(models.Model):
 class favorite_items(models.Model):
     user = models.ForeignKey('authentication.Account',on_delete=models.CASCADE,null=True)
     item = models.ForeignKey('Cultural_Heritage',on_delete=models.CASCADE,null=True)
+
+
+    @property
+    def item_info(self):
+        heritage = Cultural_Heritage.objects.get(pk=self.item.pk)
+        item = {}
+        for k, v in heritage.__dict__:
+            item[k] = v
+        return item
+
+
 
 
