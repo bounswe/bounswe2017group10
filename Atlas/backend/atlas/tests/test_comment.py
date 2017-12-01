@@ -185,12 +185,11 @@ class cultural_heritage_item(TestCase):
         )
         self.assertEqual(response.status_code, 201)
         response = self.client.get(
-            self.cultural_heritage_item_url + str(id) + '/comment',
+            self.cultural_heritage_item_url,
             format='json',
         )
         self.assertEqual(response.status_code, 200)
         response_content = json.loads(smart_text(response.content))
-        self.assertEqual(response_content['count'], 2)
-        self.assertEqual(response_content['results'][1]['text'], text)
-        self.assertEqual(response_content['results'][1]['user_info']['username'], self.username)
+        self.assertEqual(response_content['results'][0]['comments'][1]['text'], text)
+        self.assertEqual(response_content['results'][0]['comments'][1]['user_info']['username'], self.username)
 
