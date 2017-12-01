@@ -26,25 +26,6 @@ class cultural_heritage_item(generics.ListCreateAPIView):
 
     pagination_class = LimitOffsetPagination
 
-    def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
-
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            data = self.add_is_favorite_field(serializer, request.user)
-            return self.get_paginated_response(data)
-
-        serializer = self.get_serializer(queryset, many=True)
-        data = self.add_is_favorite_field(serializer,request.user)
-        return Response(data)
-    def add_is_favorite_field(self,serializer,user):
-        newData = serializer.data
-        for i in range (0,len(newData)):
-            item_id = newData[i]['id']
-            if user and favorite_items.objects.filter(item=item_id, user=user.pk).count() > 0:
-                newData[i]['is_favorite'] = True
-        return newData
     def perform_create(self,serializer):
         serializer.save()
     def get_queryset(self):
@@ -149,15 +130,6 @@ class cultural_heritage_item_view_update_delete(generics.RetrieveUpdateDestroyAP
     serializer_class = cultural_heritage_serializer
     lookup_field = 'id'
     permission_classes = [IsAuthenticatedOrReadOnly]
-    def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = self.get_serializer(instance)
-        item_id = self.kwargs.get('id')
-        if request.user and favorite_items.objects.filter(item=item_id,user=request.user.pk).count() > 0 :
-         new_dict = serializer.data
-         new_dict['is_favorite'] = True
-         return Response(new_dict)
-        return Response(serializer.data)
     def get_queryset(self):
         return Cultural_Heritage.objects.filter()
 
