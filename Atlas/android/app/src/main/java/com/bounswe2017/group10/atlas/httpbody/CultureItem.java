@@ -234,7 +234,11 @@ public class CultureItem implements Parcelable {
         for (Tag t : this.getTagList()) {
             tagList.add(t.getName());
         }
-        return new FeedRow(url, getTitle(), getDescription(), tagList);
+        String year = null;
+        if (getStartYear() != Constants.DEFAULT_INVALID_MIN_YEAR) {
+            year = FeedRow.toYearFormat(getStartYear(), getEndYear());
+        }
+        return new FeedRow(url, getTitle(), getDescription(), getPlaceName(), year, tagList);
     }
 
     public ArrayList<Comment> getCommentList() {

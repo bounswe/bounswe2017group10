@@ -75,6 +75,7 @@
     <string name="camera">Camera</string>
     <string name="unable_get_location">Unable to find location</string>
     <string name="lat_long_location">%1$f %2$f</string>
+    <string name="year_string">%1$d - %2$d</string>
     <string name="year_entering_warning">Enter years between %1$d and %2$d</string>
     <string name="from">From</string>
     <string name="to">To</string>

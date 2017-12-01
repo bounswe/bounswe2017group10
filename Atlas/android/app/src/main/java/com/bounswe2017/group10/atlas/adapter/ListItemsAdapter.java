@@ -41,6 +41,8 @@ public class ListItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private static class ViewHolder extends RecyclerView.ViewHolder {
         TextView etTitle;
         TextView etDescr;
+        TextView etLocation;
+        TextView etYear;
         ImageView imIcon;
         LinearLayout layoutTag1;
         LinearLayout layoutTag2;
@@ -51,6 +53,8 @@ public class ListItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(v);
             this.etTitle = v.findViewById(R.id.title_textview);
             this.etDescr = v.findViewById(R.id.description_textview);
+            this.etLocation = v.findViewById(R.id.location_textview);
+            this.etYear = v.findViewById(R.id.year_textview);
             this.imIcon = v.findViewById(R.id.icon_imageview);
             this.layoutTag1 = v.findViewById(R.id.tag1);
             this.layoutTag2 = v.findViewById(R.id.tag2);
@@ -73,6 +77,12 @@ public class ListItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
             etTitle.setText(row.getTitle());
             etDescr.setText(row.getDescription());
+            etLocation.setText(row.getLocation());
+
+            if (row.getYear() != null) {
+                int[] yearPair = FeedRow.fromYearFormat(row.getYear());
+                etYear.setText(context.getString(R.string.year_string, yearPair[0], yearPair[1]));
+            }
 
             Glide.with(context)
                 .load(row.getImageUrl())
