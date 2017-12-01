@@ -21,4 +21,5 @@ public class Constants {
     public static final String LOCATION_NAME = "LOCATION_NAME";
     public static final String LATLONG = "LATLONG";
     public static final int LATLONG_PRECISION = 4;
+    public static final String DB_NAME = ":memory:";
 }

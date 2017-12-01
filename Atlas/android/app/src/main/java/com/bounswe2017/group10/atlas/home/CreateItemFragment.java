@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -41,9 +42,6 @@ import com.bounswe2017.group10.atlas.response.OnCreateItemResponse;
 import com.bounswe2017.group10.atlas.response.OnUpdateItemResponse;
 import com.bounswe2017.group10.atlas.util.Constants;
 import com.bounswe2017.group10.atlas.util.Utils;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
@@ -60,7 +58,7 @@ public class CreateItemFragment extends Fragment {
     private enum REQUEST_TYPE {
         UPDATE,
         CREATE
-    };
+    }
 
     private REQUEST_TYPE mRequestType = REQUEST_TYPE.CREATE;
     private CultureItem mItemToSend = new CultureItem();
@@ -71,7 +69,8 @@ public class CreateItemFragment extends Fragment {
     public static final int FROM_LOCATION = 3;
     public static final int CAMERA_REQUEST_CODE = 4;
 
-    private final ArrayList<String> mAllTagsList = new ArrayList<>();
+    private static ArrayList<String> allTagsList = new ArrayList<>();
+    private static boolean isTagsDownloaded = false;
 
     private ImageListAdapter mImageAdapter;
     private final ArrayList<ImageRow> mImageRowList = new ArrayList<>();
@@ -83,33 +82,14 @@ public class CreateItemFragment extends Fragment {
 
     private Uri currentPhotoUri = null;
 
-    private SupportMapFragment mMapFragment;
     private Button mBtnLocation = null;
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        // make a single call to get all Tags
-        String authStr = Utils.getSharedPref(getActivity()).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
-        APIUtils.serverAPI().getAllTags(authStr).enqueue(new Callback<List<Tag>>() {
-            @Override
-            public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {
-                if (response.isSuccessful()) {
-                    List<Tag> responseList = response.body();
-                    for (Tag t : responseList) {
-                        mAllTagsList.add(t.getName());
-                    }
-                    mAutoComplAdapter.notifyDataSetChanged();
-                } else {
-                    Log.d(TAG, "Error on getting all tags: " + response.errorBody().toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Tag>> call, Throwable t) {
-                Log.d(TAG, "Connection failure on getting all tags: " + t.toString());
-            }
-        });
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (!isTagsDownloaded) {
+            getAllTags();
+        }
     }
 
     @Nullable
@@ -155,6 +135,34 @@ public class CreateItemFragment extends Fragment {
     }
 
     /**
+     * Makes a request to the server to get all tags. Upon response, adds the returned
+     * tags to allTagsList and notifies mAutoComplAdapter of the changes.
+     */
+    private void getAllTags() {
+        String authStr = Utils.getSharedPref(getActivity()).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
+        APIUtils.serverAPI().getAllTags(authStr).enqueue(new Callback<List<Tag>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Tag>> call, @NonNull Response<List<Tag>> response) {
+                if (response.isSuccessful()) {
+                    isTagsDownloaded = true;
+                    List<Tag> responseList = response.body();
+                    for (Tag t : responseList) {
+                        allTagsList.add(t.getName());
+                    }
+                    mAutoComplAdapter.notifyDataSetChanged();
+                } else {
+                    Log.d(TAG, "Error on getting all tags: " + response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Tag>> call, @NonNull Throwable t) {
+                Log.d(TAG, "Connection failure on getting all tags: " + t.toString());
+            }
+        });
+    }
+
+    /**
      * Fills the input fields in this Fragment with the given item
      *
      */
@@ -194,7 +202,7 @@ public class CreateItemFragment extends Fragment {
 
         // set AutoCompleteTextView String adapter
         etTags.setThreshold(2);
-        mAutoComplAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_item, mAllTagsList);
+        mAutoComplAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_item, allTagsList);
         etTags.setAdapter(mAutoComplAdapter);
     }
 
@@ -325,9 +333,7 @@ public class CreateItemFragment extends Fragment {
         // construct AlertDialog that will be called on url button
         AlertDialog urlAlertDialog = createUrlAlertDialog();
         // set listener to url button
-        btnUrl.setOnClickListener((View btnView) -> {
-            urlAlertDialog.show();
-        });
+        btnUrl.setOnClickListener((View btnView) -> urlAlertDialog.show());
     }
 
     /**
@@ -492,9 +498,7 @@ public class CreateItemFragment extends Fragment {
             addImageFromUri(uri);
         });
 
-        builder.setNegativeButton(getResources().getString(R.string.cancel), (DialogInterface dialog, int i) -> {
-            dialog.cancel();
-        });
+        builder.setNegativeButton(getResources().getString(R.string.cancel), (DialogInterface dialog, int i) -> dialog.cancel());
 
         return builder.create();
     }
