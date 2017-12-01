@@ -51,6 +51,10 @@
     <string name="no_description">No Description</string>
     <string name="tags">Tags</string>
     <string name="error_occurred">An error occurred.</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="unable_to_delete">Unable to delete item</string>
+    <string name="successful_item_delete">Successfully deleted item</string>
     <string name="get_item_error">Error getting items</string>
     <string name="comments">Comments</string>
     <string name="write_something">Write something...</string>
@@ -58,4 +62,6 @@
     <string name="write_comment">Write comment</string>
     <string name="action_favorite">Favorite</string>
     <string name="action_settings">Settings</string>
+    <string name="search">Search</string>
+    <string name="no_items">No items</string>
 </resources>

@@ -1,6 +1,6 @@
 from .models import User,Cultural_Heritage,comment,tag,favorite_items,image_media_item as image_item
 from rest_framework import generics,mixins
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse,HttpRequest
 from django.core import serializers
 from .serializers import cultural_heritage_serializer,image_media_item_serializer,tag_serializer,comment_serializer,favorite_item_serializer
 from django.shortcuts import get_object_or_404
@@ -9,7 +9,6 @@ from rest_framework import status
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from jwt_auth.compat import json
-from rest_framework.test import APIRequestFactory
 from django.contrib.postgres.search import SearchVector
 
 
@@ -26,6 +25,26 @@ class cultural_heritage_item(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     pagination_class = LimitOffsetPagination
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            data = self.add_is_favorite_field(serializer, request.user)
+            return self.get_paginated_response(data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        data = self.add_is_favorite_field(serializer,request.user)
+        return Response(data)
+    def add_is_favorite_field(self,serializer,user):
+        newData = serializer.data
+        for i in range (0,len(newData)):
+            item_id = newData[i]['id']
+            if user and favorite_items.objects.filter(item=item_id, user=user.pk).count() > 0:
+                newData[i]['is_favorite'] = True
+        return newData
     def perform_create(self,serializer):
         serializer.save()
     def get_queryset(self):
@@ -34,8 +53,23 @@ class cultural_heritage_item(generics.ListCreateAPIView):
         #Get the user from the request so that we can add it to cultural heritage item model.
         #Pk is the id of the user.
         request.data['user'] = request.user.pk
+        images = []
+        if 'images' in request.data:
+            images = request.data['images']
 
-        return super(cultural_heritage_item, self).create(request,*args,**kwargs)
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        if len(images) > 0 :
+            id = serializer.data['id']
+            for image in images:
+                image['cultural_heritage_item'] = id
+                image_serializer = image_media_item_serializer(data=image)
+                image_serializer.is_valid(raise_exception=True)
+                image_serializer.save()
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class HeritageIdInterceptorMixin(object):
@@ -90,7 +124,7 @@ class user_favorite_item(HeritageIdInterceptorMixin,generics.CreateAPIView,mixin
         self.perform_destroy(instance)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
-class get_user_favorite_items(HeritageIdInterceptorMixin,generics.ListCreateAPIView):
+class get_user_favorite_items(HeritageIdInterceptorMixin,generics.ListAPIView):
     queryset = favorite_items.objects.all()
     serializer_class =  favorite_item_serializer
     def get_queryset(self):

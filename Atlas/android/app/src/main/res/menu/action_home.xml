@@ -3,10 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_favorite"
-        android:icon="@drawable/ic_favorite_border_black_24dp"
-        android:title="@string/action_favorite"
-        app:showAsAction="ifRoom" />
+        android:id="@+id/search"
+        android:title="@string/search"
+        android:icon="@drawable/ic_search_black_24dp"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_settings"

@@ -138,6 +138,23 @@ class JSONWebTokenAuthTestCase(TestCase):
             content_type='application/json'
         )
         self.assertEqual(response.status_code, 201)
+    def test_signupWithProfilePicture(self):
+        """
+        Ensure JWT signup works using JSON POST .
+        """
+        data = {
+            'email': "testing@gmail.com",
+            'username': "Shannon1",
+            'password': self.password,
+            'confirm_password': self.password,
+            'profile_picture': 'http://i.imgur.com/3OLTFVq.jpg',
+        }
+        response = self.client.post(
+            self.sigun_url,
+            json.dumps(data),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 201)
     def test_signupWithSameEmail(self):
         """
         Ensure JWT signup fails using JSON POST when the email is already taken .

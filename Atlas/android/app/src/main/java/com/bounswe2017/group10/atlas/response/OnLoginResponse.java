@@ -56,8 +56,5 @@ public class OnLoginResponse implements Callback<LoginResponse> {
     public void onFailure(Call<LoginResponse> call, Throwable t) {
         progress.setVisibility(View.GONE);
         showToast(context.getApplicationContext(), context.getResources().getString(R.string.connection_failure));
-        Log.d(TAG, "LOGIN connection failure: " + t.toString());
-        Log.d(TAG, "LOGIN connection failure isExecuted: " + call.isExecuted());
-        Log.d(TAG, "LOGIN connection failure isCanceled: " + call.isCanceled());
     }
 }

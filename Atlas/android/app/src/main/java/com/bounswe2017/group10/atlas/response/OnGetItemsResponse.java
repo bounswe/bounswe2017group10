@@ -33,13 +33,14 @@ public class OnGetItemsResponse implements Callback<GetItemsResponse> {
 
     @Override
     public void onResponse(Call<GetItemsResponse> call, Response<GetItemsResponse> response) {
+        List<CultureItem> itemList = new ArrayList<>();
         if (response.isSuccessful()) {
-            // add all items to given item lists
-            List<CultureItem> responseItemList = response.body().getResults();
-            this.mGetItemCallback.onGetItems(responseItemList);
-        } else {
-            Utils.showToast(context, context.getString(R.string.get_item_error));
+            itemList = response.body().getResults();
         }
+        if (itemList.isEmpty()) {
+            Utils.showToast(context, context.getString(R.string.no_items));
+        }
+        this.mGetItemCallback.onGetItems(itemList);
     }
 
     @Override
