@@ -9,8 +9,8 @@ from rest_framework import status
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from jwt_auth.compat import json
-from rest_framework.test import APIRequestFactory
 from django.contrib.postgres.search import SearchVector
+
 
 
 
@@ -59,7 +59,7 @@ class ImageInterceptorMixin(object):
         cultural_heritage_id = self.kwargs.get('heritage_id')
         return get_object_or_404(Cultural_Heritage,pk=cultural_heritage_id)
 
-class cultural_heritage_item_comment(ImageInterceptorMixin,generics.CreateAPIView):
+class cultural_heritage_item_comment(ImageInterceptorMixin,generics.ListCreateAPIView):
     queryset = comment.objects.all()
     serializer_class = comment_serializer
     def create(self, request, *args, **kwargs):
