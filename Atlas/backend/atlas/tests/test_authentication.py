@@ -6,6 +6,7 @@ from jwt_auth import utils
 from jwt_auth.compat import json, smart_text
 from authentication.models import Account
 from rest_framework.test import APIClient
+from django.conf import settings
 
 
 @pytest.mark.django_db
@@ -138,6 +139,42 @@ class JSONWebTokenAuthTestCase(TestCase):
             content_type='application/json'
         )
         self.assertEqual(response.status_code, 201)
+
+    def test_signup_default_profile_picture(self):
+        """
+        Ensure JWT signup works using JSON POST .
+        """
+        data = {
+            'email': "Suleiman@gmail.com",
+            'username': "Suleiman",
+            'password': self.password,
+            'confirm_password': self.password,
+        }
+        response = self.client.post(
+            self.sigun_url,
+            json.dumps(data),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 201)
+        self.login_data_with_username['username_or_email']= "Suleiman"
+        response = self.client.post(
+            self.login_url,
+            json.dumps(self.login_data_with_username),
+            content_type='application/json',
+        )
+        self.assertEqual(response.status_code, 200)
+        response_content = json.loads(smart_text(response.content))
+        token = response_content['token']
+        response = APIClient().get(
+            '/api/auth/me/',
+            HTTP_AUTHORIZATION='JWT ' + token
+        )
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response_content['username'], "Suleiman")
+        self.assertEqual(response_content['email'], "Suleiman@gmail.com")
+        self.assertTrue(response_content['profile_picture'] in settings.PROFILE_PICTURES)
+
     def test_signupWithProfilePicture(self):
         """
         Ensure JWT signup works using JSON POST .
@@ -155,6 +192,7 @@ class JSONWebTokenAuthTestCase(TestCase):
             content_type='application/json'
         )
         self.assertEqual(response.status_code, 201)
+
     def test_signupWithSameEmail(self):
         """
         Ensure JWT signup fails using JSON POST when the email is already taken .
@@ -252,6 +290,7 @@ class JSONWebTokenAuthTestCase(TestCase):
         self.assertEqual(response.status_code,200)
         self.assertEqual(response_content['username'], self.username)
         self.assertEqual(response_content['email'], self.email)
+
     def test_me_endpoint_with_guest_user(self):
         token = "asdasd21312321j12jk312"
         response = APIClient().get(
