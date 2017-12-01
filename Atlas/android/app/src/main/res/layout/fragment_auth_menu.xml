@@ -18,7 +18,6 @@
         android:id="@+id/enhance_culture_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="serif"
         android:text="@string/enhance_the_culture"
         android:textAlignment="center"
         android:textColor="@android:color/white"
@@ -30,7 +29,6 @@
         android:id="@+id/together_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="serif"
         android:text="@string/together"
         android:textAlignment="center"
         android:textColor="@android:color/white"
@@ -49,7 +47,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.025"
         android:background="@android:color/transparent"
-        android:fontFamily="serif"
         android:text="@string/learn_more"
         android:textAllCaps="false"
         android:textColor="@color/url_link_color"
@@ -63,9 +60,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="@dimen/button_margin_size"
         android:layout_marginRight="@dimen/button_margin_size"
-        android:layout_weight="0.025"
-        android:background="@android:color/background_light"
-        android:fontFamily="serif"
+        android:background="@drawable/auth_button_shape"
         android:text="@string/login"
         android:textAlignment="center" />
 
@@ -75,7 +70,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="0.1"
-        android:fontFamily="serif"
         android:gravity="center_vertical"
         android:text="@string/or"
         android:textAlignment="center"
@@ -90,9 +84,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="@dimen/button_margin_size"
         android:layout_marginRight="@dimen/button_margin_size"
-        android:layout_weight="0.025"
-        android:background="@android:color/background_light"
-        android:fontFamily="serif"
+        android:background="@drawable/auth_button_shape"
         android:text="@string/signup" />
 
     <Space

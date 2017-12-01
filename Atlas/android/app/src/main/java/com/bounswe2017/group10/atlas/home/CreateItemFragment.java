@@ -329,10 +329,7 @@ public class CreateItemFragment extends Fragment {
         View view = getView();
         EditText etTitle = view.findViewById(R.id.title_edittext);
         EditText etDescription = view.findViewById(R.id.description_edittext);
-        EditText etContinent = view.findViewById(R.id.continent_edittext);
-        EditText etCountry = view.findViewById(R.id.country_edittext);
-        EditText etCity = view.findViewById(R.id.city_edittext);
-        ProgressBar progressBar = view.findViewById(R.id.progress_bar);
+        ProgressBar progressBar = new ProgressBar(getActivity());
 
         if (etTitle.getText().length() == 0) {
             Utils.showToast(getActivity().getApplicationContext(), getResources().getString(R.string.empty_title));
@@ -340,9 +337,6 @@ public class CreateItemFragment extends Fragment {
         }
         String title = etTitle.getText().toString();
         String description = etDescription.getText().toString();
-        String continent = etContinent.getText().toString();
-        String country = etCountry.getText().toString();
-        String city = etCity.getText().toString();
 
         mItemToSend.setTitle(title);
         mItemToSend.setDescription(description);
@@ -393,15 +387,9 @@ public class CreateItemFragment extends Fragment {
         View view = this.getView();
         EditText etTitle = view.findViewById(R.id.title_edittext);
         EditText etDescription = view.findViewById(R.id.description_edittext);
-        EditText etContinent = view.findViewById(R.id.continent_edittext);
-        EditText etCountry = view.findViewById(R.id.country_edittext);
-        EditText etCity = view.findViewById(R.id.city_edittext);
 
         etTitle.setText("");
         etDescription.setText("");
-        etContinent.setText("");
-        etCountry.setText("");
-        etCity.setText("");
         mImageRowList.clear();
         mTagList.clear();
         mImageAdapter.notifyDataSetChanged();

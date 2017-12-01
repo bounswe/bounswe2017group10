@@ -2,21 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginTop="7dp"
+    android:layout_marginBottom="7dp"
+    android:layout_marginRight="4dp"
+    android:layout_marginLeft="4dp"
+    android:padding="5dp"
+    android:background="@drawable/tag_button_shape"
     android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/ic_local_offer_black_24dp" />
 
     <TextView
         android:id="@+id/tag_textview"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/tag_height"
-        android:layout_gravity="start"
-        android:layout_marginBottom="7dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginLeft="4dp"
-        android:padding="5dp"
-        android:layout_marginTop="7dp"
-        android:background="@color/tag_background"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:textColor="@android:color/black"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:textStyle="bold" />
 
 </LinearLayout>
