@@ -50,7 +50,6 @@ class Cultural_Heritage(models.Model):
     place_name = models.CharField(max_length=350,null=True)
 
 
-
 class comment(models.Model):
     user = models.ForeignKey('authentication.Account', on_delete=models.CASCADE)
     text = models.TextField(blank=False)
