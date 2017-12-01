@@ -143,3 +143,54 @@ class cultural_heritage_item(TestCase):
         self.assertEqual(response.status_code, 200)
         response_content = json.loads(smart_text(response.content))
         self.assertEqual(len(response_content['comments']), 2)
+
+
+    def test_create_cultural_heritage_item_with_comment_and_user(self):
+        item_data = {
+            "title": "Very emotional thresh hook",
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        response_content = json.loads(smart_text(response.content))
+        id = response_content['id']
+        self.assertEqual(response.status_code, 201)
+        text = 'That is a nice heritage item'
+        item_data = {
+            'comment':
+                {'text': text,}
+
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url + str(id) + '/comment',
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        text = 'That is a nice heritage item2'
+        item_data = {
+            'comment':
+                {'text': text, }
+
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url + str(id) + '/comment',
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        response = self.client.get(
+            self.cultural_heritage_item_url + str(id) + '/comment',
+            format='json',
+        )
+        self.assertEqual(response.status_code, 200)
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(response_content['count'], 2)
+        self.assertEqual(response_content['results'][1]['text'], text)
+        self.assertEqual(response_content['results'][1]['user_info']['username'], self.username)
+
