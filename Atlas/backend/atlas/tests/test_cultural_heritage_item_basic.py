@@ -399,6 +399,57 @@ class cultural_heritage_item(TestCase):
         self.assertAlmostEqual(float(response_content['longitude']),10.52122 )
         self.assertAlmostEqual(float(response_content['latitude']),20.12312 )
 
+    def test_update_cultural_heritage_item(self):
+        title = 'Very emotional thresh hook'
+        item_data = {
+            "title": title,
+            "tags" : [
+                {
+                    "name":"talha",
+                    "name":"thresh",
+                }
+            ]
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+
+        response_content = json.loads(smart_text(response.content))
+        id = response_content['id']
+
+        item_data = {
+            "comments": [],
+            "description": "new description",
+            "id": id,
+            "images": [],
+            "public_accessibility": True,
+            "tags": [
+                {
+                    "name": "tag"
+                }
+            ],
+            "title": "Title 7jaaa",
+            # "user": 2 Since we wont change the user
+        }
+        response = self.client.patch(
+            self.cultural_heritage_item_url + str(id) + '/',
+            item_data,
+            format='json',
+        )
+        self.assertEqual(response.status_code, 200)
+        response = self.client.get(
+            self.cultural_heritage_item_url + str(id) + '/',
+            format='json',
+        )
+
+        self.assertEqual(response.status_code, 200)
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(response_content['title'], 'Title 7jaaa')
+        self.assertEqual(response_content['tags'][0]['name'],'tag')
     def test_create_cultural_heritage_item_with_time(self):
         item_data = {
             "title": "Very emotional thresh hook",
@@ -412,6 +463,8 @@ class cultural_heritage_item(TestCase):
 
         )
         self.assertEqual(response.status_code, 201)
+
+
         response_content = json.loads(smart_text(response.content))
         id = response_content['id']
 
@@ -422,5 +475,7 @@ class cultural_heritage_item(TestCase):
 
         self.assertEqual(response.status_code, 200)
         response_content = json.loads(smart_text(response.content))
+
+
         self.assertAlmostEqual(float(response_content['start_year']), 1512)
         self.assertAlmostEqual(float(response_content['end_year']), 1571)

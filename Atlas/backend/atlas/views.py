@@ -134,6 +134,7 @@ class cultural_heritage_item_view_update_delete(generics.RetrieveUpdateDestroyAP
     def get_queryset(self):
         return Cultural_Heritage.objects.filter()
 
+
 class tags(generics.ListAPIView):
     serializer_class = tag_serializer
     pagination_class =  None
