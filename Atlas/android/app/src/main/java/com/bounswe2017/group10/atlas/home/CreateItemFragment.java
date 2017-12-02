@@ -10,13 +10,16 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,9 +44,6 @@ import com.bounswe2017.group10.atlas.response.OnCreateItemResponse;
 import com.bounswe2017.group10.atlas.response.OnUpdateItemResponse;
 import com.bounswe2017.group10.atlas.util.Constants;
 import com.bounswe2017.group10.atlas.util.Utils;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
@@ -60,7 +60,7 @@ public class CreateItemFragment extends Fragment {
     private enum REQUEST_TYPE {
         UPDATE,
         CREATE
-    };
+    }
 
     private REQUEST_TYPE mRequestType = REQUEST_TYPE.CREATE;
     private CultureItem mItemToSend = new CultureItem();
@@ -71,7 +71,8 @@ public class CreateItemFragment extends Fragment {
     public static final int FROM_LOCATION = 3;
     public static final int CAMERA_REQUEST_CODE = 4;
 
-    private final ArrayList<String> mAllTagsList = new ArrayList<>();
+    private static ArrayList<String> allTagsList = new ArrayList<>();
+    private static boolean isTagsDownloaded = false;
 
     private ImageListAdapter mImageAdapter;
     private final ArrayList<ImageRow> mImageRowList = new ArrayList<>();
@@ -83,33 +84,19 @@ public class CreateItemFragment extends Fragment {
 
     private Uri currentPhotoUri = null;
 
-    private SupportMapFragment mMapFragment;
     private Button mBtnLocation = null;
+    private int etFromOriginalColor = 0;
+    private int etToOriginalColor = 0;
+    private boolean correctYearInputs = false;
+
+
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        // make a single call to get all Tags
-        String authStr = Utils.getSharedPref(getActivity()).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
-        APIUtils.serverAPI().getAllTags(authStr).enqueue(new Callback<List<Tag>>() {
-            @Override
-            public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {
-                if (response.isSuccessful()) {
-                    List<Tag> responseList = response.body();
-                    for (Tag t : responseList) {
-                        mAllTagsList.add(t.getName());
-                    }
-                    mAutoComplAdapter.notifyDataSetChanged();
-                } else {
-                    Log.d(TAG, "Error on getting all tags: " + response.errorBody().toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Tag>> call, Throwable t) {
-                Log.d(TAG, "Connection failure on getting all tags: " + t.toString());
-            }
-        });
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (!isTagsDownloaded) {
+            getAllTags();
+        }
     }
 
     @Nullable
@@ -126,6 +113,13 @@ public class CreateItemFragment extends Fragment {
         // handle tags
         setTagChoosingListener(etTags);
         setTagEnteringListener(etTags);
+
+        // set handlers for year textedits
+        EditText etFrom = view.findViewById(R.id.from_textedit);
+        EditText etTo = view.findViewById(R.id.to_textedit);
+        etFromOriginalColor = etFrom.getCurrentTextColor();
+        etToOriginalColor = etFrom.getCurrentTextColor();
+        setYearEnteringListeners(etFrom, etTo);
 
         // handle gallery feature
         Button btnGallery = view.findViewById(R.id.gallery_button);
@@ -155,8 +149,35 @@ public class CreateItemFragment extends Fragment {
     }
 
     /**
+     * Makes a request to the server to get all tags. Upon response, adds the returned
+     * tags to allTagsList and notifies mAutoComplAdapter of the changes.
+     */
+    private void getAllTags() {
+        String authStr = Utils.getSharedPref(getActivity()).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
+        APIUtils.serverAPI().getAllTags(authStr).enqueue(new Callback<List<Tag>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Tag>> call, @NonNull Response<List<Tag>> response) {
+                if (response.isSuccessful()) {
+                    isTagsDownloaded = true;
+                    List<Tag> responseList = response.body();
+                    for (Tag t : responseList) {
+                        allTagsList.add(t.getName());
+                    }
+                    mAutoComplAdapter.notifyDataSetChanged();
+                } else {
+                    Log.d(TAG, "Error on getting all tags: " + response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Tag>> call, @NonNull Throwable t) {
+                Log.d(TAG, "Connection failure on getting all tags: " + t.toString());
+            }
+        });
+    }
+
+    /**
      * Fills the input fields in this Fragment with the given item
-     *
      */
     private void fillInputsWithItem(View view) {
         if (mItemToSend.getTitle() != null) {
@@ -164,6 +185,12 @@ public class CreateItemFragment extends Fragment {
         }
         if (mItemToSend.getDescription() != null) {
             ((TextView)view.findViewById(R.id.description_edittext)).setText(mItemToSend.getDescription());
+        }
+        if (mItemToSend.getStartYear() != Constants.DEFAULT_INVALID_MIN_YEAR) {
+            ((EditText)view.findViewById(R.id.from_textedit)).setText(Integer.toString(mItemToSend.getStartYear()));
+        }
+        if (mItemToSend.getEndYear() != Constants.DEFAULT_INVALID_MAX_YEAR) {
+            ((EditText)view.findViewById(R.id.to_textedit)).setText(Integer.toString(mItemToSend.getEndYear()));
         }
         for (Image img : mItemToSend.getImageList()) {
             mImageRowList.add(img.toImageRow());
@@ -194,7 +221,7 @@ public class CreateItemFragment extends Fragment {
 
         // set AutoCompleteTextView String adapter
         etTags.setThreshold(2);
-        mAutoComplAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_item, mAllTagsList);
+        mAutoComplAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_item, allTagsList);
         etTags.setAdapter(mAutoComplAdapter);
     }
 
@@ -247,6 +274,85 @@ public class CreateItemFragment extends Fragment {
                 }
             }
         });
+    }
+
+    /**
+     * Set listeners that take action when entering years into text edits.
+     *
+     * @param etFrom EditText that takes the from year.
+     * @param etTo EditText that takes the to year.
+     */
+    private void setYearEnteringListeners(EditText etFrom, EditText etTo) {
+        etFrom.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String fromStr = s.toString();
+                if (fromStr.equals("") || fromStr.equals("-")) {
+                    return;
+                }
+                if (Utils.isValidYear(fromStr)) {
+                    etFrom.setTextColor(etFromOriginalColor);
+                }
+                checkYearInputs(etFrom, etTo);
+            }
+        });
+
+        etTo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String toStr = s.toString();
+                if (toStr.equals("") || toStr.equals("-")) {
+                    return;
+                }
+                if (Utils.isValidYear(toStr)) {
+                    etTo.setTextColor(etToOriginalColor);
+                }
+                checkYearInputs(etFrom, etTo);
+            }
+        });
+    }
+
+    /**
+     * Checks the year values in etFrom and etTo, highlights the EditText
+     * objects that cause a wrong state.
+     *
+     * @param etFrom EditText object getting the from year.
+     * @param etTo EditText object getting the to year.
+     */
+    private void checkYearInputs(EditText etFrom, EditText etTo) {
+        String fromStr = etFrom.getText().toString();
+        String toStr = etTo.getText().toString();
+        boolean validFromYear = Utils.isValidYear(fromStr);
+        boolean validToYear = Utils.isValidYear(toStr);
+
+        this.correctYearInputs = false;
+        if (validFromYear && validToYear) {
+            int fromYear = Integer.parseInt(fromStr);
+            int toYear = Integer.parseInt(toStr);
+            if (toYear < fromYear) {
+                etTo.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_red_light));
+            } else {
+                this.correctYearInputs = true;
+                etTo.setTextColor(etToOriginalColor);
+            }
+        } else {
+            if (!validFromYear) {
+                etFrom.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_red_light));
+            }
+            if (!validToYear) {
+                etTo.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_red_light));
+            }
+        }
     }
 
     /**
@@ -325,9 +431,7 @@ public class CreateItemFragment extends Fragment {
         // construct AlertDialog that will be called on url button
         AlertDialog urlAlertDialog = createUrlAlertDialog();
         // set listener to url button
-        btnUrl.setOnClickListener((View btnView) -> {
-            urlAlertDialog.show();
-        });
+        btnUrl.setOnClickListener((View btnView) -> urlAlertDialog.show());
     }
 
     /**
@@ -351,10 +455,16 @@ public class CreateItemFragment extends Fragment {
         View view = getView();
         EditText etTitle = view.findViewById(R.id.title_edittext);
         EditText etDescription = view.findViewById(R.id.description_edittext);
+        EditText etToYear = view.findViewById(R.id.to_textedit);
+        EditText etFromYear = view.findViewById(R.id.from_textedit);
         ProgressBar progressBar = new ProgressBar(getActivity());
 
         if (etTitle.getText().length() == 0) {
             Utils.showToast(getActivity().getApplicationContext(), getResources().getString(R.string.empty_title));
+            return;
+        }
+        if (!this.correctYearInputs) {
+            Utils.showToast(getActivity(), getString(R.string.year_entering_warning, Constants.MIN_YEAR, Constants.MAX_YEAR));
             return;
         }
         String title = etTitle.getText().toString();
@@ -365,6 +475,8 @@ public class CreateItemFragment extends Fragment {
         if (description.length() == 0)
             mItemToSend.setDescription(null);
 
+        mItemToSend.setStartYear(Integer.parseInt(etFromYear.getText().toString()));
+        mItemToSend.setEndYear(Integer.parseInt(etToYear.getText().toString()));
         mItemToSend.setPublicAccessibility(true);
 
         ArrayList<Image> imageList = new ArrayList<>();
@@ -492,9 +604,7 @@ public class CreateItemFragment extends Fragment {
             addImageFromUri(uri);
         });
 
-        builder.setNegativeButton(getResources().getString(R.string.cancel), (DialogInterface dialog, int i) -> {
-            dialog.cancel();
-        });
+        builder.setNegativeButton(getResources().getString(R.string.cancel), (DialogInterface dialog, int i) -> dialog.cancel());
 
         return builder.create();
     }
