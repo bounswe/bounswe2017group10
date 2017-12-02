@@ -3,7 +3,6 @@ from .models import Cultural_Heritage,comment as comment_model,image_media_item,
 from authentication.serializers import AccountSerializer
 
 
-
 class image_media_item_serializer(serializers.ModelSerializer):
 
     class Meta:
@@ -16,9 +15,10 @@ class tag_serializer(serializers.ModelSerializer):
 
 class comment_serializer(serializers.ModelSerializer):
     text = serializers.CharField(required=True)
+    user_info = serializers.ReadOnlyField()
     class Meta:
         model = comment_model
-        fields = '__all__'
+        fields=('id','user','text','created_time','updated_time','cultural_heritage_item','user_info')
 
 class cultural_heritage_serializer(serializers.ModelSerializer):
     country = serializers.CharField(required=False)
@@ -28,6 +28,7 @@ class cultural_heritage_serializer(serializers.ModelSerializer):
     images = image_media_item_serializer(source='image_media_item_set',read_only=True,many=True)
     comments = comment_serializer(source='comment_set', read_only=True, many=True)
     tags  = tag_serializer(many=True,required=False)
+    is_favorite = serializers.ReadOnlyField()
     class Meta:
         model = Cultural_Heritage
         fields = '__all__'
@@ -43,7 +44,7 @@ class cultural_heritage_serializer(serializers.ModelSerializer):
          return heritage_item
 
 class favorite_item_serializer(serializers.ModelSerializer):
-    item_info = serializers.ReadOnlyField()
+    item_info = cultural_heritage_serializer(source='item',read_only=True)
     class Meta:
         model = favorite_items
         fields = ['item','user','item_info','id']

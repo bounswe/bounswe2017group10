@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.bounswe2017.group10.atlas.R;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
@@ -43,7 +44,13 @@ public class ImageListAdapter extends ArrayAdapter<ImageRow> {
         }
 
         ImageRow row = items.get(pos);
-        Glide.with(context).load(row.getUri()).into(holder.img);
+        // set content description to Uri
+        holder.img.setContentDescription(row.getUri().toString());
+        Glide.with(context)
+                .load(row.getUri())
+                .apply(new RequestOptions()
+                  .error(R.drawable.help))
+                .into(holder.img);
 
         return convertView;
     }

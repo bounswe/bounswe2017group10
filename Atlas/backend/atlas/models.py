@@ -32,6 +32,10 @@ class sound_media_item(models.Model):
     updated_time = models.DateField(auto_now=True)
     cultural_heritage_item = models.ForeignKey('Cultural_Heritage', on_delete=models.CASCADE, null=True)
 
+class favorite_items(models.Model):
+    user = models.ForeignKey('authentication.Account',on_delete=models.CASCADE,null=True)
+    item = models.ForeignKey('Cultural_Heritage',on_delete=models.CASCADE,null=True)
+
 class Cultural_Heritage(models.Model):
     user = models.ForeignKey('authentication.Account',on_delete =models.PROTECT)
     title = models.CharField(max_length = 200)
@@ -43,7 +47,6 @@ class Cultural_Heritage(models.Model):
     created_time = models.DateField(auto_now_add =True)
     updated_time = models.DateField(auto_now =True)
     tags = models.ManyToManyField('tag',blank=True)
-    is_favorite = models.BooleanField(default=False)
     favorited_amount = models.IntegerField(default=0,editable=False)
     longitude =models.DecimalField(max_digits=9, decimal_places=6,null=True)
     latitude =models.DecimalField(max_digits=9, decimal_places=6,null=True)
@@ -51,6 +54,11 @@ class Cultural_Heritage(models.Model):
     end_year = models.IntegerField(null=True)
     place_name = models.CharField(max_length=350,null=True)
 
+    @property
+    def is_favorite(self):
+        if self.user:
+            return favorite_items.objects.filter(item=self.pk,user=self.user.pk).count() > 0
+        return False
 
 class comment(models.Model):
     user = models.ForeignKey('authentication.Account', on_delete=models.CASCADE)
@@ -59,19 +67,14 @@ class comment(models.Model):
     updated_time = models.DateField(auto_now =True)
     cultural_heritage_item = models.ForeignKey('Cultural_Heritage', on_delete=models.CASCADE, null=True)
 
-class favorite_items(models.Model):
-    user = models.ForeignKey('authentication.Account',on_delete=models.CASCADE,null=True)
-    item = models.ForeignKey('Cultural_Heritage',on_delete=models.CASCADE,null=True)
+
 
 
     @property
-    def item_info(self):
-        heritage = Cultural_Heritage.objects.get(pk=self.item.pk)
-        item = {}
-        for k, v in heritage.__dict__:
-            item[k] = v
-        return item
-
-
+    def user_info(self):
+        user= {}
+        user['username']=self.user.username
+        user['picture']=self.user.profile_picture
+        return user
 
 

@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 from django.http import HttpResponseBadRequest
+from django.conf import settings
+import random
 
 
 class AccountManager(BaseUserManager):
@@ -10,6 +12,7 @@ class AccountManager(BaseUserManager):
             username=kwargs.get('username'),
             firstname=kwargs.get('firstname', None),
             lastname=kwargs.get('lastname', None),
+            profile_picture= random.choice(settings.PROFILE_PICTURES),
         )
 
         account.set_password(password)

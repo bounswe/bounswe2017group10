@@ -5,7 +5,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.icu.util.UniversalTimeScale;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -25,16 +24,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bounswe2017.group10.atlas.R;
-import com.bounswe2017.group10.atlas.httpbody.CultureItem;
-import com.bounswe2017.group10.atlas.httpbody.GetItemsResponse;
-import com.bounswe2017.group10.atlas.profil.ProfileActivity;
+import com.bounswe2017.group10.atlas.profile.ProfileActivity;
 import com.bounswe2017.group10.atlas.response.OnGetItemsResponse;
 import com.bounswe2017.group10.atlas.util.Constants;
 import com.bounswe2017.group10.atlas.httpbody.UserResponse;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
 import com.bounswe2017.group10.atlas.util.Utils;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -114,7 +109,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     String lastName = body.getLastname();
                     if (lastName == null) lastName = "";
 
-                    ((TextView) findViewById(R.id.nav_pname)).setText(firstName + " " + lastName);
+                    String nameText = getString(R.string.fullname, firstName, lastName);
+                    ((TextView) findViewById(R.id.nav_pname)).setText(nameText);
                     ((TextView) findViewById(R.id.nav_pmail)).setText(body.getEmail());
                 } else {
                     showToast(getApplicationContext(), getResources().getString(R.string.failed_profilgetuserinformation));
