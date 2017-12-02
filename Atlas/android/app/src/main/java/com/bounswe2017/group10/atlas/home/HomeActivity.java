@@ -5,6 +5,8 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -18,10 +20,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bounswe2017.group10.atlas.R;
@@ -32,6 +36,14 @@ import com.bounswe2017.group10.atlas.util.Constants;
 import com.bounswe2017.group10.atlas.httpbody.UserResponse;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
 import com.bounswe2017.group10.atlas.util.Utils;
+import com.squareup.picasso.Picasso;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -99,7 +111,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         String lastName = pref.getString(Constants.LASTNAME, "");
         String email = pref.getString(Constants.EMAIL, "");
         String nameText = getString(R.string.fullname, firstName, lastName);
+        String image = pref.getString(Constants.PROFILE_PICTURE,"");
 
+        
+        if(image!="")Picasso.with(getApplicationContext()).load(image).into(((ImageView) header.findViewById(R.id.nav_pimage)));
         ((TextView) header.findViewById(R.id.nav_pname)).setText(nameText);
         ((TextView) header.findViewById(R.id.nav_pmail)).setText(email);
     }

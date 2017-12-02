@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bounswe2017.group10.atlas.R;
@@ -14,6 +16,7 @@ import com.bounswe2017.group10.atlas.httpbody.UserResponse;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
 import com.bounswe2017.group10.atlas.util.Constants;
 import com.bounswe2017.group10.atlas.util.Utils;
+import com.squareup.picasso.Picasso;
 
 import static com.bounswe2017.group10.atlas.util.Utils.logout;
 
@@ -28,6 +31,10 @@ public class ProfileActivity extends AppCompatActivity {
         String firstName = pref.getString(Constants.FIRSTNAME, "");
         String lastName = pref.getString(Constants.LASTNAME, "");
         String email = pref.getString(Constants.EMAIL, "");
+
+        String image = pref.getString(Constants.PROFILE_PICTURE,"");
+
+        if(image!="") Picasso.with(getApplicationContext()).load(image).into(((ImageButton) findViewById(R.id.user_profile_photo)));
 
         String nameText = getString(R.string.fullname, firstName, lastName);
         ((TextView) findViewById(R.id.user_profile_name)).setText(nameText);
