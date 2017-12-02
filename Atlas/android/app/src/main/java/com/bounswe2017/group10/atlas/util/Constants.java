@@ -24,6 +24,5 @@ public class Constants {
     public static final String DB_NAME = ":memory:";
     public static final int MIN_YEAR = -10000;
     public static final int MAX_YEAR = 2100;
-    public static final int DEFAULT_INVALID_MIN_YEAR = MIN_YEAR - 1;
-    public static final int DEFAULT_INVALID_MAX_YEAR = MAX_YEAR + 1;
+    public static final String DECIMAL_FORMAT_STRING = "###.000000";
 }

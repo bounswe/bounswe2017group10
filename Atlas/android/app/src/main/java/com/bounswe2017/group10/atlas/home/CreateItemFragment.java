@@ -47,6 +47,7 @@ import com.bounswe2017.group10.atlas.util.Utils;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -186,10 +187,10 @@ public class CreateItemFragment extends Fragment {
         if (mItemToSend.getDescription() != null) {
             ((TextView)view.findViewById(R.id.description_edittext)).setText(mItemToSend.getDescription());
         }
-        if (mItemToSend.getStartYear() != Constants.DEFAULT_INVALID_MIN_YEAR) {
+        if (mItemToSend.getStartYear() != null) {
             ((EditText)view.findViewById(R.id.from_textedit)).setText(Integer.toString(mItemToSend.getStartYear()));
         }
-        if (mItemToSend.getEndYear() != Constants.DEFAULT_INVALID_MAX_YEAR) {
+        if (mItemToSend.getEndYear() != null) {
             ((EditText)view.findViewById(R.id.to_textedit)).setText(Integer.toString(mItemToSend.getEndYear()));
         }
         for (Image img : mItemToSend.getImageList()) {
@@ -482,8 +483,6 @@ public class CreateItemFragment extends Fragment {
             mItemToSend.setEndYear(Integer.parseInt(etToYear.getText().toString()));
         }
 
-        mItemToSend.setPublicAccessibility(true);
-
         ArrayList<Image> imageList = new ArrayList<>();
         for (ImageRow row : mImageRowList) {
             Image img = new Image();
@@ -518,8 +517,8 @@ public class CreateItemFragment extends Fragment {
 
                 // set data to item
                 mItemToSend.setPlaceName(placeName);
-                mItemToSend.setLatitude(Utils.roundToDecimals(latLng.latitude, Constants.LATLONG_PRECISION));
-                mItemToSend.setLongitude(Utils.roundToDecimals(latLng.longitude, Constants.LATLONG_PRECISION));
+                mItemToSend.setLatitude(new DecimalFormat(Constants.DECIMAL_FORMAT_STRING).format(latLng.latitude));
+                mItemToSend.setLongitude(new DecimalFormat(Constants.DECIMAL_FORMAT_STRING).format(latLng.longitude));
 
                 // show data in button
                 mBtnLocation.setText(placeName);

@@ -42,4 +42,15 @@ public class CultureItemTest {
 
         assertEquals(firstItem, secondItem);
     }
+
+    @Test
+    public void testLatLongEquals() {
+        CultureItem firstItem = new CultureItem();
+        CultureItem secondItem = new CultureItem();
+
+        firstItem.setLatitude("17.010010");
+        secondItem.setLatitude("17.010010");
+
+        assertEquals(firstItem, secondItem);
+    }
 }
