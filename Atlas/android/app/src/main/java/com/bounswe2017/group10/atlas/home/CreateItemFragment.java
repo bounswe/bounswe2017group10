@@ -40,6 +40,7 @@ import com.bounswe2017.group10.atlas.httpbody.CultureItem;
 import com.bounswe2017.group10.atlas.httpbody.Image;
 import com.bounswe2017.group10.atlas.httpbody.Tag;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
+import com.bounswe2017.group10.atlas.remote.CloudinaryUploader;
 import com.bounswe2017.group10.atlas.response.OnCreateItemResponse;
 import com.bounswe2017.group10.atlas.response.OnUpdateItemResponse;
 import com.bounswe2017.group10.atlas.util.Constants;
@@ -541,7 +542,7 @@ public class CreateItemFragment extends Fragment {
         }
 
         storeInputsIntoItem(view);
-        makeCreateRequest(progressBar);
+        startUploadRequest(progressBar);
     }
 
     /**
@@ -604,15 +605,47 @@ public class CreateItemFragment extends Fragment {
      *
      * @param progressBar ProgressBar object which will be shown during request execution.
      */
-    private void makeCreateRequest(ProgressBar progressBar) {
+    private void startUploadRequest(ProgressBar progressBar) {
         progressBar.setVisibility(View.VISIBLE);
-        Activity activity = getActivity();
-        String authStr = Utils.getSharedPref(activity).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
-        if (mRequestType == REQUEST_TYPE.CREATE) {  // create request
-            APIUtils.serverAPI().createItem(authStr, mItemToSend).enqueue(new OnCreateItemResponse(this, mItemToSend.getImageList(), progressBar));
-        } else if (mRequestType == REQUEST_TYPE.UPDATE){  // edit request
-            APIUtils.serverAPI().updateItem(authStr, mItemToSend.getId(), mItemToSend).enqueue(new OnUpdateItemResponse(getActivity()));
+        // if there are any local images, first upload them
+        ArrayList<Image> imgList = mItemToSend.getImageList();
+        // find local images and its indices
+        ArrayList<Image> localImgList = new ArrayList<>();
+        ArrayList<Integer> localIndexList = new ArrayList<>();
+        for (int i = 0; i < imgList.size(); ++i) {
+            Image img = imgList.get(i);
+            if (Utils.isLocalUrl(img.getUrl())) {
+                localImgList.add(img);
+                localIndexList.add(i);
+            }
         }
+        Activity activity = getActivity();
+        // upload local images, and then make a request to the server
+        new CloudinaryUploader(activity, localImgList, new CloudinaryUploader.OnResponseCallback() {
+            @Override
+            public void onSuccess(List<Image> uploadedImgList) {
+                // replace local images with uploaded images
+                for (int i = 0; i < uploadedImgList.size(); ++i) {
+                    imgList.set(localIndexList.get(i), uploadedImgList.get(i));
+                }
+                // make a correct request to server
+                String authStr = Utils.getSharedPref(activity).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
+                if (mRequestType == REQUEST_TYPE.CREATE) {  // create request
+                    APIUtils.serverAPI()
+                            .createItem(authStr, mItemToSend)
+                            .enqueue(new OnCreateItemResponse(CreateItemFragment.this, progressBar));
+                } else if (mRequestType == REQUEST_TYPE.UPDATE){  // edit request
+                    APIUtils.serverAPI()
+                            .updateItem(authStr, mItemToSend.getId(), mItemToSend)
+                            .enqueue(new OnUpdateItemResponse(getActivity()));
+                }
+            }
+
+            @Override
+            public void onFail(String msg) {
+                Utils.showToast(activity, msg);
+            }
+        }).startUpload();
     }
 
     /**
