@@ -14,6 +14,7 @@ from django.contrib.postgres.search import SearchVector
 
 
 
+
 def users(request):
     users_list= serializers.serialize('json',User.objects.order_by('-age')[:5])
     return HttpResponse(users_list,content_type='application/json')

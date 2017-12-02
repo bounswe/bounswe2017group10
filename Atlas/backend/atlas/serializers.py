@@ -15,9 +15,10 @@ class tag_serializer(serializers.ModelSerializer):
 
 class comment_serializer(serializers.ModelSerializer):
     text = serializers.CharField(required=True)
+    user_info = serializers.ReadOnlyField()
     class Meta:
         model = comment_model
-        fields = '__all__'
+        fields=('id','user','text','created_time','updated_time','cultural_heritage_item','user_info')
 
 class cultural_heritage_serializer(serializers.ModelSerializer):
     country = serializers.CharField(required=False)

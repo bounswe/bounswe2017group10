@@ -4,6 +4,7 @@ package com.bounswe2017.group10.atlas.httpbody;
 import android.net.Uri;
 
 import com.bounswe2017.group10.atlas.adapter.ImageRow;
+import com.bounswe2017.group10.atlas.util.Utils;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -38,5 +39,15 @@ public class Image implements Serializable {
         ImageRow row = new ImageRow();
         row.setUri(Uri.parse(url));
         return row;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Image)) {
+            return false;
+        }
+        Image other = (Image)obj;
+        // main is not important
+        return Utils.objectEquals(this.url, other.url);
     }
 }

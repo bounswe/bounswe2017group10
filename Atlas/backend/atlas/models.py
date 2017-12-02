@@ -70,5 +70,11 @@ class comment(models.Model):
 
 
 
+    @property
+    def user_info(self):
+        user= {}
+        user['username']=self.user.username
+        user['picture']=self.user.profile_picture
+        return user
 
 
