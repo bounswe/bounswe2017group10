@@ -1,51 +1,18 @@
 package com.bounswe2017.group10.atlas.profile;
 
 import android.annotation.SuppressLint;
-import android.app.SearchManager;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.icu.util.UniversalTimeScale;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 
 import com.bounswe2017.group10.atlas.R;
-import com.bounswe2017.group10.atlas.httpbody.CultureItem;
-import com.bounswe2017.group10.atlas.httpbody.GetItemsResponse;
-import com.bounswe2017.group10.atlas.profile.ProfileActivity;
-import com.bounswe2017.group10.atlas.response.OnGetItemsResponse;
-import com.bounswe2017.group10.atlas.util.Constants;
-import com.bounswe2017.group10.atlas.httpbody.UserResponse;
-import com.bounswe2017.group10.atlas.remote.APIUtils;
-import com.bounswe2017.group10.atlas.util.Utils;
 import com.bounswe2017.group10.atlas.home.ListItemsFragment;
-import com.bounswe2017.group10.atlas.home.ViewItemFragment;
-
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static com.bounswe2017.group10.atlas.util.Utils.getSharedPref;
-import static com.bounswe2017.group10.atlas.util.Utils.logout;
-import static com.bounswe2017.group10.atlas.util.Utils.showToast;
-
 
 public class OwnItemActivity extends AppCompatActivity{
 
@@ -87,24 +54,6 @@ public class OwnItemActivity extends AppCompatActivity{
     }
 
     /**
-     * Set up the functionality of mSearchItemsFragment. This method sets how mSearchItemsFragment
-     * requests its items from the server.
-     */
-    /*private void setUpSearchFragment() {
-        mSearchItemsFragment.setRequestStrategy(new ListItemsFragment.RequestStrategy() {
-            @Override
-            public void requestItems(Context context, int offset, OnGetItemsResponse.GetItemCallback getItemCallback) {
-                // TODO: pagination for search results
-                String authStr = Utils.getSharedPref(getApplicationContext()).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
-                String query = mSearchView.getQuery().toString();
-                OnGetItemsResponse respHandler = new OnGetItemsResponse(context, getItemCallback);
-                APIUtils.serverAPI().search(authStr, query).enqueue(respHandler);
-            }
-        });
-        mSearchItemsFragment.setRequestImmediately(false);
-    }*/
-
-    /**
      * Set up the functionality of mFeedFragment.
      */
     private void setUpFeedFragment() {
@@ -118,12 +67,25 @@ public class OwnItemActivity extends AppCompatActivity{
     @Override
     @SuppressLint("RestrictedApi")
     public void onBackPressed() {
-        if (!mSearchView.isIconified()) {
+        /*if (!mSearchView.isIconified()) {
             mSearchView.setQuery("", false);
             mSearchView.setIconified(true);
-        }
+        }*/
         super.onBackPressed();
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                // show the app settings
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    //private void requestSearchResults(String query, OnGetItemsResponse.GetItemCallback getItemCallback) {}
 
     /**
      * Set up the functionality of mSearchView.
@@ -157,18 +119,23 @@ public class OwnItemActivity extends AppCompatActivity{
         });
     }*/
 
-    //private void requestSearchResults(String query, OnGetItemsResponse.GetItemCallback getItemCallback) {}
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                // show the app settings
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+    /**
+     * Set up the functionality of mSearchItemsFragment. This method sets how mSearchItemsFragment
+     * requests its items from the server.
+     */
+    /*private void setUpSearchFragment() {
+        mSearchItemsFragment.setRequestStrategy(new ListItemsFragment.RequestStrategy() {
+            @Override
+            public void requestItems(Context context, int offset, OnGetItemsResponse.GetItemCallback getItemCallback) {
+                // TODO: pagination for search results
+                String authStr = Utils.getSharedPref(getApplicationContext()).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
+                String query = mSearchView.getQuery().toString();
+                OnGetItemsResponse respHandler = new OnGetItemsResponse(context, getItemCallback);
+                APIUtils.serverAPI().search(authStr, query).enqueue(respHandler);
+            }
+        });
+        mSearchItemsFragment.setRequestImmediately(false);
+    }*/
 }
 
 

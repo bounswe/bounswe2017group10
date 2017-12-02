@@ -25,6 +25,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bounswe2017.group10.atlas.R;
+import com.bounswe2017.group10.atlas.httpbody.Image;
 import com.bounswe2017.group10.atlas.profile.ProfileActivity;
 import com.bounswe2017.group10.atlas.response.OnGetItemsResponse;
 import com.bounswe2017.group10.atlas.util.Constants;
@@ -222,9 +223,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.profil) {
             Intent intent = new Intent(this, ProfileActivity.class);
             this.startActivity(intent);
-        } else if(id == R.id.gallery){
-
-        } else if (id == R.id.logout) {
+        }
+        else if (id == R.id.logout) {
             logout(this);
         }
 
