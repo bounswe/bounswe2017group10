@@ -1,8 +1,7 @@
 from rest_framework import serializers
-from .models import Cultural_Heritage,comment as comment_model,image_media_item,tag as tag_model
+from .models import Cultural_Heritage,comment as comment_model,image_media_item,favorite_items,tag as tag_model
 from authentication.serializers import AccountSerializer
 from rest_framework.utils import  model_meta
-
 
 class image_media_item_serializer(serializers.ModelSerializer):
 
@@ -29,6 +28,7 @@ class cultural_heritage_serializer(serializers.ModelSerializer):
     images = image_media_item_serializer(source='image_media_item_set',read_only=True,many=True)
     comments = comment_serializer(source='comment_set', read_only=True, many=True)
     tags  = tag_serializer(many=True,required=False)
+    is_favorite = serializers.ReadOnlyField()
     class Meta:
         model = Cultural_Heritage
         fields = '__all__'
@@ -77,3 +77,8 @@ class cultural_heritage_serializer(serializers.ModelSerializer):
 
         return instance
 
+class favorite_item_serializer(serializers.ModelSerializer):
+    item_info = cultural_heritage_serializer(source='item',read_only=True)
+    class Meta:
+        model = favorite_items
+        fields = ['item','user','item_info','id']
