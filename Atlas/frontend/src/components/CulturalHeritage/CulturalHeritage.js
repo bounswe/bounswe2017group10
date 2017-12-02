@@ -11,7 +11,7 @@ import { NavLink } from 'react-router-dom';
 const CulturalHeritage = ({ culturalHeritage, shouldTruncate = false, showCommentSummary = false, showComments = false, favorite }) => (
   <Container>
       <Row className="whitebox cultural-heritage">
-        <NavLink to={ "/cultural-heritages/" + culturalHeritage.id }>
+        <NavLink style={{ width: '100%' }} to={ "/cultural-heritages/" + culturalHeritage.id }>
           <div>
             <Col xs="5">
               { culturalHeritage.images.length > 0 ? (

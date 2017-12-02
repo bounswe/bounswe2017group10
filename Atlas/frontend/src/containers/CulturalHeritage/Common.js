@@ -7,7 +7,7 @@ export const favItem = (dispatch, token, culturalHeritage) => {
   const favAmountChange = culturalHeritage.is_favorite ? (-1) : (+1);
 
   request(token, {
-    url: API_URL + '/user/cultural_heritage_item/' + culturalHeritage.id + '/favorite/'
+    url: API_URL + '/user/cultural_heritage_item/' + culturalHeritage.id + '/favorite'
   }).then(resp => {
     var newCH = Object.assign({}, culturalHeritage);
     newCH.favorited_amount += favAmountChange;
