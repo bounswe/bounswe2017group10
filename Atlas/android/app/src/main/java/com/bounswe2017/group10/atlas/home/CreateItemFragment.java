@@ -525,7 +525,7 @@ public class CreateItemFragment extends Fragment {
         EditText etTitle = view.findViewById(R.id.title_edittext);
         EditText etToYear = view.findViewById(R.id.to_textedit);
         EditText etFromYear = view.findViewById(R.id.from_textedit);
-        ProgressBar progressBar = new ProgressBar(getActivity());
+        ProgressBar progressBar = getActivity().findViewById(R.id.fab_progress);
 
         if (etTitle.getText().length() == 0) {
             Utils.showToast(getActivity().getApplicationContext(), getResources().getString(R.string.empty_title));
@@ -637,7 +637,7 @@ public class CreateItemFragment extends Fragment {
                 } else if (mRequestType == REQUEST_TYPE.UPDATE){  // edit request
                     APIUtils.serverAPI()
                             .updateItem(authStr, mItemToSend.getId(), mItemToSend)
-                            .enqueue(new OnUpdateItemResponse(getActivity()));
+                            .enqueue(new OnUpdateItemResponse(CreateItemFragment.this, progressBar));
                 }
             }
 
