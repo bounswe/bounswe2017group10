@@ -36,19 +36,19 @@ public class CultureItem implements Parcelable {
 
     @SerializedName("start_year")
     @Expose
-    private int startYear;
+    private Integer startYear;
 
     @SerializedName("end_year")
     @Expose
-    private int endYear;
+    private Integer endYear;
 
     @SerializedName("latitude")
     @Expose
-    private double latitude;
+    private String latitude;
 
     @SerializedName("longitude")
     @Expose
-    private double longitude;
+    private String longitude;
 
     @SerializedName("images")
     @Expose
@@ -70,8 +70,7 @@ public class CultureItem implements Parcelable {
         this.imageList = new ArrayList<>();
         this.tagList = new ArrayList<>();
         this.commentList = new ArrayList<>();
-        this.startYear = Constants.DEFAULT_INVALID_MIN_YEAR;
-        this.endYear = Constants.DEFAULT_INVALID_MAX_YEAR;
+        this.publicAccessibility = true;
     }
 
     @SuppressWarnings("unchecked")
@@ -81,10 +80,10 @@ public class CultureItem implements Parcelable {
         this.title = in.readString();
         this.description = in.readString();
         this.placeName = in.readString();
-        this.startYear = in.readInt();
-        this.endYear = in.readInt();
-        this.latitude = in.readDouble();
-        this.longitude = in.readDouble();
+        this.startYear = (Integer)in.readSerializable();
+        this.endYear = (Integer)in.readSerializable();
+        this.latitude = in.readString();
+        this.longitude = in.readString();
         this.imageList = (ArrayList<Image>)in.readSerializable();
         this.tagList = (ArrayList<Tag>)in.readSerializable();
         this.commentList = (ArrayList<Comment>)in.readSerializable();
@@ -98,10 +97,10 @@ public class CultureItem implements Parcelable {
         out.writeString(this.title);
         out.writeString(this.description);
         out.writeString(this.placeName);
-        out.writeInt(this.startYear);
-        out.writeInt(this.endYear);
-        out.writeDouble(this.latitude);
-        out.writeDouble(this.longitude);
+        out.writeSerializable(this.startYear);
+        out.writeSerializable(this.endYear);
+        out.writeString(this.latitude);
+        out.writeString(this.longitude);
         out.writeSerializable(this.imageList);
         out.writeSerializable(this.tagList);
         out.writeSerializable(this.commentList);
@@ -167,7 +166,7 @@ public class CultureItem implements Parcelable {
         this.placeName = placeName;
     }
 
-    public int getStartYear() {
+    public Integer getStartYear() {
         return startYear;
     }
 
@@ -175,7 +174,7 @@ public class CultureItem implements Parcelable {
         this.startYear = startYear;
     }
 
-    public int getEndYear() {
+    public Integer getEndYear() {
         return endYear;
     }
 
@@ -183,20 +182,36 @@ public class CultureItem implements Parcelable {
         this.endYear = endYear;
     }
 
-    public double getLatitude() {
+    public void setStartYear(Integer startYear) {
+        this.startYear = startYear;
+    }
+
+    public void setEndYear(Integer endYear) {
+        this.endYear = endYear;
+    }
+
+    public String getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+    public String getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(String longitude) {
         this.longitude = longitude;
+    }
+
+    public boolean isPublicAccessibility() {
+        return publicAccessibility;
+    }
+
+    public void setPublicAccessibility(boolean publicAccessibility) {
+        this.publicAccessibility = publicAccessibility;
     }
 
     public ArrayList<Image> getImageList() {
@@ -235,7 +250,7 @@ public class CultureItem implements Parcelable {
             tagList.add(t.getName());
         }
         String year = null;
-        if (getStartYear() != Constants.DEFAULT_INVALID_MIN_YEAR) {
+        if (startYear != null && endYear != null) {
             year = FeedRow.toYearFormat(getStartYear(), getEndYear());
         }
         return new FeedRow(url, getTitle(), getDescription(), getPlaceName(), year, tagList);
@@ -262,10 +277,10 @@ public class CultureItem implements Parcelable {
                 Utils.objectEquals(this.title, other.title) &&
                 Utils.objectEquals(this.description, other.description) &&
                 Utils.objectEquals(this.placeName, other.placeName) &&
-                this.startYear == other.startYear &&
-                this.endYear == other.endYear &&
-                Utils.isClose(this.latitude, other.latitude) &&
-                Utils.isClose(this.longitude, other.longitude) &&
+                Utils.objectEquals(this.startYear, other.startYear) &&
+                Utils.objectEquals(this.endYear, other.endYear) &&
+                Utils.objectEquals(this.latitude, other.latitude) &&
+                Utils.objectEquals(this.longitude, other.longitude) &&
                 Utils.objectEquals(this.imageList, other.imageList) &&
                 Utils.objectEquals(this.tagList, other.tagList) &&
                 Utils.objectEquals(this.commentList, other.commentList) &&

@@ -18,19 +18,27 @@ public class CreateItemActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_item);
 
-        Intent intent = getIntent();
-        Bundle arguments = intent.getExtras();
-        CreateItemFragment createItemFragment = new CreateItemFragment();
-        createItemFragment.setArguments(arguments);
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.create_item_container, createItemFragment)
-                .commit();
-
-        FloatingActionButton fab = findViewById(R.id.floatingActionButton);
-        fab.setOnClickListener((View v) -> {
-            createItemFragment.makeRequest();
-        });
+        if (savedInstanceState == null) {
+            Intent intent = getIntent();
+            Bundle arguments = intent.getExtras();
+            CreateItemFragment createItemFragment = new CreateItemFragment();
+            createItemFragment.setArguments(arguments);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.create_item_container, createItemFragment, "CREATE_FRAGMENT")
+                    .commit();
+            FloatingActionButton fab = findViewById(R.id.floatingActionButton);
+            fab.setOnClickListener((View v) -> {
+                createItemFragment.makeRequest();
+            });
+        } else {
+            CreateItemFragment createItemFragment = (CreateItemFragment) getSupportFragmentManager()
+                    .findFragmentByTag("CREATE_FRAGMENT");
+            FloatingActionButton fab = findViewById(R.id.floatingActionButton);
+            fab.setOnClickListener((View v) -> {
+                createItemFragment.makeRequest();
+            });
+        }
     }
 }
 
