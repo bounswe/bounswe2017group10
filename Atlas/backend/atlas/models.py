@@ -43,7 +43,11 @@ class Cultural_Heritage(models.Model):
     created_time = models.DateField(auto_now_add =True)
     updated_time = models.DateField(auto_now =True)
     tags = models.ManyToManyField('tag',blank=True)
-
+    longitude =models.DecimalField(max_digits=9, decimal_places=6,null=True)
+    latitude =models.DecimalField(max_digits=9, decimal_places=6,null=True)
+    start_year = models.IntegerField(null=True)
+    end_year = models.IntegerField(null=True)
+    place_name = models.CharField(max_length=350,null=True)
 
 class comment(models.Model):
     user = models.ForeignKey('authentication.Account', on_delete=models.CASCADE)
@@ -51,4 +55,12 @@ class comment(models.Model):
     created_time = models.DateField(auto_now_add =True)
     updated_time = models.DateField(auto_now =True)
     cultural_heritage_item = models.ForeignKey('Cultural_Heritage', on_delete=models.CASCADE, null=True)
+
+    @property
+    def user_info(self):
+        user= {}
+        user['username']=self.user.username
+        user['picture']=self.user.profile_picture
+        return user
+
 
