@@ -34,8 +34,11 @@ urlpatterns = [
     url(r'^cultural_heritage_item/myitems/?$', views.cultural_heritage_item_list_user_items.as_view()),
     url(r'^tags/?$', views.tags.as_view()),
     url(r'^cultural_heritage_item/(?P<heritage_id>[0-9]+)/comment/?$', views.cultural_heritage_item_comment.as_view()),
+    url(r'^cultural_heritage_item/(?P<heritage_id>[0-9]+)/favorite/?$', views.cultural_heritage_item_comment.as_view()),
     url(r'^cultural_heritage_item/search/(?P<query>\w{1,50})/?$', views.cultural_heritage_item_search.as_view()),
     url(r'^cultural_heritage_item/search_autocorrect/(?P<query>\w{1,50})/?$', views.cultural_heritage_item_search_autocorrect.as_view()),
+    url(r'^user/cultural_heritage_item/(?P<heritage_id>[0-9]+)/favorite/?$', views.user_favorite_item.as_view()),
+    url(r'^user/cultural_heritage_item/favorite/?$', views.get_user_favorite_items.as_view()),
 
 ]
 
