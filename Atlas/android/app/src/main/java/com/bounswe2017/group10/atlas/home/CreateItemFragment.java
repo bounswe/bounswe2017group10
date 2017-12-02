@@ -62,47 +62,63 @@ public class CreateItemFragment extends Fragment {
         UPDATE,
         CREATE
     }
-
-    private REQUEST_TYPE mRequestType = REQUEST_TYPE.CREATE;
-    private CultureItem mItemToSend = new CultureItem();
-
     private static final String TAG = "CreateItemFragment";
     public static final int FROM_GALLERY = 1;
     public static final int FROM_CAMERA = 2;
     public static final int FROM_LOCATION = 3;
     public static final int CAMERA_REQUEST_CODE = 4;
 
-    private static ArrayList<String> allTagsList = new ArrayList<>();
-    private static boolean isTagsDownloaded = false;
+    // list to hold all the tags
+    private final static ArrayList<String> allTagsList = new ArrayList<>();
 
+    private REQUEST_TYPE mRequestType = REQUEST_TYPE.CREATE;
+    private CultureItem mItemToSend = new CultureItem();
+
+    // lists to hold the items
+    private ArrayList<ImageRow> mImageRowList = new ArrayList<>();
+    private ArrayList<Tag> mTagList = new ArrayList<>();
+
+    // adapters that work on item lists
     private ImageListAdapter mImageAdapter;
-    private final ArrayList<ImageRow> mImageRowList = new ArrayList<>();
-
     private TagListAdapter mTagAdapter;
-    private final ArrayList<Tag> mTagList = new ArrayList<>();
-
     private ArrayAdapter<String> mAutoComplAdapter;
 
     private Uri currentPhotoUri = null;
-
     private Button mBtnLocation = null;
+
     private int etFromOriginalColor = 0;
     private int etToOriginalColor = 0;
     private boolean correctYearInputs = true;
+    private static boolean isTagsDownloaded = false;
 
-
+    /**
+     * Initialize adapters used by this object.
+     */
+    private void initAdapters() {
+        // adapters
+        mImageAdapter = new ImageListAdapter(getActivity(), mImageRowList);
+        mAutoComplAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_item, allTagsList);
+        mTagAdapter = new TagListAdapter(getActivity(), mTagList, (List<Tag> tagList, int position) -> {
+            tagList.remove(position);
+            mTagAdapter.notifyDataSetChanged();
+        });
+    }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (!isTagsDownloaded) {
-            getAllTags();
-        }
+    public void onSaveInstanceState(Bundle outState) {
+        storeInputsIntoItem(getView());
+        outState.putParcelable(Constants.CULTURE_ITEM, mItemToSend);
+        super.onSaveInstanceState(outState);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        initAdapters();
+        if (!isTagsDownloaded) {
+            getAllTags();
+        }
+
         View view = inflater.inflate(R.layout.fragment_create_item, container, false);
 
         // set adapters
@@ -137,6 +153,12 @@ public class CreateItemFragment extends Fragment {
         // handle location feature
         mBtnLocation = view.findViewById(R.id.location_button);
         setLocationListener(mBtnLocation);
+
+        // if activity was killed, fill the input fields with saved state
+        if (savedInstanceState != null) {
+            mItemToSend = savedInstanceState.getParcelable(Constants.CULTURE_ITEM);
+            fillInputsWithItem(view);
+        }
 
         // If there is an argument item, fill the inputs with its data.
         Bundle arguments = getArguments();
@@ -178,7 +200,55 @@ public class CreateItemFragment extends Fragment {
     }
 
     /**
+     * Collects all the information from the input fields and stores them
+     * in mItemToSend
+     *
+     * @param view View of this fragment with input fields.
+     */
+    private void storeInputsIntoItem(View view) {
+        String title = ((EditText)view.findViewById(R.id.title_edittext)).getText().toString();
+        if (title.equals("")) title = null;
+        mItemToSend.setTitle(title);
+
+        String description = ((EditText)view.findViewById(R.id.description_edittext)).getText().toString();
+        if (description.equals("")) description = null;
+        mItemToSend.setDescription(description);
+
+        String placeName = ((Button)view.findViewById(R.id.location_button)).getText().toString();
+        if (placeName.equals(getString(R.string.location))) placeName = null;
+        mItemToSend.setPlaceName(placeName);
+
+        String fromYear = ((EditText)view.findViewById(R.id.from_textedit)).getText().toString();
+        Integer fromYearInt;
+        if (Utils.isValidYear(fromYear)) {
+            fromYearInt = Integer.valueOf(fromYear);
+        } else {
+            fromYearInt = null;
+        }
+        mItemToSend.setStartYear(fromYearInt);
+
+        String toYear = ((EditText)view.findViewById(R.id.to_textedit)).getText().toString();
+        Integer toYearInt;
+        if (Utils.isValidYear(toYear)) {
+            toYearInt = Integer.valueOf(toYear);
+        } else {
+            toYearInt = null;
+        }
+        mItemToSend.setEndYear(toYearInt);
+
+        mItemToSend.setTagList(mTagList);
+
+        ArrayList<Image> imgList = new ArrayList<>();
+        for (ImageRow row : mImageRowList) {
+            imgList.add(row.toImage());
+        }
+        mItemToSend.setImageList(imgList);
+    }
+
+    /**
      * Fills the input fields in this Fragment with the given item
+     *
+     * @param view View of this fragment with input fields.
      */
     private void fillInputsWithItem(View view) {
         if (mItemToSend.getTitle() != null) {
@@ -193,11 +263,14 @@ public class CreateItemFragment extends Fragment {
         if (mItemToSend.getEndYear() != null) {
             ((EditText)view.findViewById(R.id.to_textedit)).setText(Integer.toString(mItemToSend.getEndYear()));
         }
+        if (mItemToSend.getPlaceName() != null) {
+            ((Button)view.findViewById(R.id.location_button)).setText(mItemToSend.getPlaceName());
+        }
         for (Image img : mItemToSend.getImageList()) {
             mImageRowList.add(img.toImageRow());
         }
-        mImageAdapter.notifyDataSetChanged();
         mTagList.addAll(mItemToSend.getTagList());
+        mImageAdapter.notifyDataSetChanged();
         mTagAdapter.notifyDataSetChanged();
     }
 
@@ -210,19 +283,13 @@ public class CreateItemFragment extends Fragment {
      */
     private void setAdapters(RecyclerView tagRecyclerView, ListView imageListView, AutoCompleteTextView etTags) {
         // set TagListAdapter to tagRecyclerView
-        mTagAdapter = new TagListAdapter(getActivity(), mTagList, (List<Tag> tagList, int position) -> {
-            tagList.remove(position);
-            mTagAdapter.notifyDataSetChanged();
-        });
         tagRecyclerView.setAdapter(mTagAdapter);
 
         // set ImageListAdapter to imageListView
-        mImageAdapter = new ImageListAdapter(getActivity(), mImageRowList);
         imageListView.setAdapter(mImageAdapter);
 
         // set AutoCompleteTextView String adapter
         etTags.setThreshold(2);
-        mAutoComplAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_item, allTagsList);
         etTags.setAdapter(mAutoComplAdapter);
     }
 
@@ -383,10 +450,11 @@ public class CreateItemFragment extends Fragment {
      */
     private void setGalleryListener(Button btnGallery) {
         btnGallery.setOnClickListener((View btnView) -> {
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(intent, "Select Image"), FROM_GALLERY);
+            fillInputsWithItem(CreateItemFragment.this.getView());
+            //Intent intent = new Intent();
+            //intent.setType("image/*");
+            //intent.setAction(Intent.ACTION_GET_CONTENT);
+            //startActivityForResult(Intent.createChooser(intent, "Select Image"), FROM_GALLERY);
         });
     }
 
@@ -455,7 +523,6 @@ public class CreateItemFragment extends Fragment {
     public void makeRequest() {
         View view = getView();
         EditText etTitle = view.findViewById(R.id.title_edittext);
-        EditText etDescription = view.findViewById(R.id.description_edittext);
         EditText etToYear = view.findViewById(R.id.to_textedit);
         EditText etFromYear = view.findViewById(R.id.from_textedit);
         ProgressBar progressBar = new ProgressBar(getActivity());
@@ -464,13 +531,6 @@ public class CreateItemFragment extends Fragment {
             Utils.showToast(getActivity().getApplicationContext(), getResources().getString(R.string.empty_title));
             return;
         }
-        String title = etTitle.getText().toString();
-        String description = etDescription.getText().toString();
-
-        mItemToSend.setTitle(title);
-        mItemToSend.setDescription(description);
-        if (description.length() == 0)
-            mItemToSend.setDescription(null);
 
         String fromYear = etFromYear.getText().toString();
         String toYear = etToYear.getText().toString();
@@ -479,18 +539,9 @@ public class CreateItemFragment extends Fragment {
                 Utils.showToast(getActivity(), getString(R.string.year_entering_warning, Constants.MIN_YEAR, Constants.MAX_YEAR));
                 return;
             }
-            mItemToSend.setStartYear(Integer.parseInt(etFromYear.getText().toString()));
-            mItemToSend.setEndYear(Integer.parseInt(etToYear.getText().toString()));
         }
 
-        ArrayList<Image> imageList = new ArrayList<>();
-        for (ImageRow row : mImageRowList) {
-            Image img = new Image();
-            img.setUrl(row.getUri().toString());
-            imageList.add(img);
-        }
-        mItemToSend.setImageList(imageList);
-        mItemToSend.setTagList(mTagList);
+        storeInputsIntoItem(view);
         makeCreateRequest(progressBar);
     }
 
