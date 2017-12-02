@@ -32,7 +32,7 @@
     <string name="enter_url">Enter a URL</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="successful_create_item">You have successfully created a new topic!</string>
+    <string name="successful_create_item">You successfully created a new topic!</string>
     <string name="shared_pref_file">atlas_conf</string>
     <string name="failed_create_item">Item creation failed</string>
     <string name="create_item_no_images">Topic has been created without images</string>
@@ -80,4 +80,6 @@
     <string name="from">From</string>
     <string name="to">To</string>
     <string name="uploading_local_images">Uploading local images... Hang tight</string>
+    <string name="succesful_edit_item">You sucessfully edited the item!</string>
+    <string name="error_edit_item">An error occurred during item editing</string>
 </resources>
