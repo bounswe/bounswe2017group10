@@ -142,15 +142,16 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/tag_recyclerview"
-        android:padding="5dp"
+        android:padding="@dimen/tag_horizontal_margin"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        android:layout_height="@dimen/tag_height" />
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
     <ListView
         android:id="@+id/image_listview"
         android:layout_width="match_parent"
+        android:layout_gravity="bottom"
         android:layout_height="match_parent" />
 
 </LinearLayout>

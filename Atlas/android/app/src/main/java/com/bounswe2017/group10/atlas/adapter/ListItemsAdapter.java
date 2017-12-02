@@ -66,14 +66,13 @@ public class ListItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             FeedRow row = rowList.get(position);
             List<String> tagList = row.getTagList();
             LinearLayout[] tagArr = {layoutTag1, layoutTag2, layoutTag3};
-            int num_tags = tagList.size();
-            int num_hidden = max(tagArr.length - num_tags, 0);
-            for (int i = 0; i < num_hidden; ++i) {
-                tagArr[i].setVisibility(View.INVISIBLE);
-            }
-            for (int i = num_hidden, j = 0; i < tagArr.length; ++i,++j) {
+            int numTags = tagList.size();
+            for (int i = 0; i < numTags; ++i) {
                 tagArr[i].setVisibility(View.VISIBLE);
-                ((TextView)tagArr[i].findViewById(R.id.tag_textview)).setText(tagList.get(j));
+                ((TextView)tagArr[i].findViewById(R.id.tag_textview)).setText(tagList.get(i));
+            }
+            for (int i = numTags ; i < tagArr.length; ++i) {
+                tagArr[i].setVisibility(View.INVISIBLE);
             }
             etTitle.setText(row.getTitle());
             etDescr.setText(row.getDescription());

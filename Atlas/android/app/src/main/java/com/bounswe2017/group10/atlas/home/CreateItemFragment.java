@@ -87,7 +87,7 @@ public class CreateItemFragment extends Fragment {
     private Button mBtnLocation = null;
     private int etFromOriginalColor = 0;
     private int etToOriginalColor = 0;
-    private boolean correctYearInputs = false;
+    private boolean correctYearInputs = true;
 
 
 
@@ -463,10 +463,6 @@ public class CreateItemFragment extends Fragment {
             Utils.showToast(getActivity().getApplicationContext(), getResources().getString(R.string.empty_title));
             return;
         }
-        if (!this.correctYearInputs) {
-            Utils.showToast(getActivity(), getString(R.string.year_entering_warning, Constants.MIN_YEAR, Constants.MAX_YEAR));
-            return;
-        }
         String title = etTitle.getText().toString();
         String description = etDescription.getText().toString();
 
@@ -475,8 +471,17 @@ public class CreateItemFragment extends Fragment {
         if (description.length() == 0)
             mItemToSend.setDescription(null);
 
-        mItemToSend.setStartYear(Integer.parseInt(etFromYear.getText().toString()));
-        mItemToSend.setEndYear(Integer.parseInt(etToYear.getText().toString()));
+        String fromYear = etFromYear.getText().toString();
+        String toYear = etToYear.getText().toString();
+        if (!(fromYear.equals("") && toYear.equals(""))) {
+            if (!this.correctYearInputs) {
+                Utils.showToast(getActivity(), getString(R.string.year_entering_warning, Constants.MIN_YEAR, Constants.MAX_YEAR));
+                return;
+            }
+            mItemToSend.setStartYear(Integer.parseInt(etFromYear.getText().toString()));
+            mItemToSend.setEndYear(Integer.parseInt(etToYear.getText().toString()));
+        }
+
         mItemToSend.setPublicAccessibility(true);
 
         ArrayList<Image> imageList = new ArrayList<>();
