@@ -4,7 +4,6 @@ package com.bounswe2017.group10.atlas.home;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -42,6 +41,10 @@ import com.bounswe2017.group10.atlas.response.OnCreateItemResponse;
 import com.bounswe2017.group10.atlas.response.OnUpdateItemResponse;
 import com.bounswe2017.group10.atlas.util.Constants;
 import com.bounswe2017.group10.atlas.util.Utils;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -63,9 +66,10 @@ public class CreateItemFragment extends Fragment {
     private CultureItem mItemToSend = new CultureItem();
 
     private static final String TAG = "CreateItemFragment";
-    private static final int FROM_GALLERY = 1;
-    private static final int FROM_CAMERA = 2;
-    private static final int CAMERA_REQUEST_CODE = 3;
+    public static final int FROM_GALLERY = 1;
+    public static final int FROM_CAMERA = 2;
+    public static final int FROM_LOCATION = 3;
+    public static final int CAMERA_REQUEST_CODE = 4;
 
     private final ArrayList<String> mAllTagsList = new ArrayList<>();
 
@@ -78,6 +82,9 @@ public class CreateItemFragment extends Fragment {
     private ArrayAdapter<String> mAutoComplAdapter;
 
     private Uri currentPhotoUri = null;
+
+    private SupportMapFragment mMapFragment;
+    private Button mBtnLocation = null;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -132,6 +139,10 @@ public class CreateItemFragment extends Fragment {
         Button btnUrl = view.findViewById(R.id.url_button);
         setURLListener(btnUrl);
 
+        // handle location feature
+        mBtnLocation = view.findViewById(R.id.location_button);
+        setLocationListener(mBtnLocation);
+
         // If there is an argument item, fill the inputs with its data.
         Bundle arguments = getArguments();
         if (arguments != null) {
@@ -158,9 +169,7 @@ public class CreateItemFragment extends Fragment {
             mImageRowList.add(img.toImageRow());
         }
         mImageAdapter.notifyDataSetChanged();
-        for (Tag tag : mItemToSend.getTagList()) {
-            mTagList.add(tag);
-        }
+        mTagList.addAll(mItemToSend.getTagList());
         mTagAdapter.notifyDataSetChanged();
     }
 
@@ -322,6 +331,19 @@ public class CreateItemFragment extends Fragment {
     }
 
     /**
+     * Sets listener for location button. Location button opens a PlacePicker to select
+     * a place using Google Maps place picker.
+     *
+     * @param btnLocation Button that opens the location dialog.
+     */
+    private void setLocationListener(Button btnLocation) {
+        btnLocation.setOnClickListener((View v) -> {
+            Intent intent = new Intent(getActivity(), GoogleMapsActivity.class);
+            startActivityForResult(intent, FROM_LOCATION);
+        });
+    }
+
+    /**
      * Collects all the information from the input fields, constructs a CultureItem and
      * initiates the item creation request.
      */
@@ -329,10 +351,7 @@ public class CreateItemFragment extends Fragment {
         View view = getView();
         EditText etTitle = view.findViewById(R.id.title_edittext);
         EditText etDescription = view.findViewById(R.id.description_edittext);
-        EditText etContinent = view.findViewById(R.id.continent_edittext);
-        EditText etCountry = view.findViewById(R.id.country_edittext);
-        EditText etCity = view.findViewById(R.id.city_edittext);
-        ProgressBar progressBar = view.findViewById(R.id.progress_bar);
+        ProgressBar progressBar = new ProgressBar(getActivity());
 
         if (etTitle.getText().length() == 0) {
             Utils.showToast(getActivity().getApplicationContext(), getResources().getString(R.string.empty_title));
@@ -340,9 +359,6 @@ public class CreateItemFragment extends Fragment {
         }
         String title = etTitle.getText().toString();
         String description = etDescription.getText().toString();
-        String continent = etContinent.getText().toString();
-        String country = etCountry.getText().toString();
-        String city = etCity.getText().toString();
 
         mItemToSend.setTitle(title);
         mItemToSend.setDescription(description);
@@ -378,9 +394,23 @@ public class CreateItemFragment extends Fragment {
                 addImageFromUri(selectedImage);
             } else if (requestCode == FROM_CAMERA) {
                 addImageFromUri(currentPhotoUri);
+            } else if (requestCode == FROM_LOCATION) {
+                // get data from intent
+                String placeName = data.getStringExtra(Constants.LOCATION_NAME);
+                LatLng latLng = data.getParcelableExtra(Constants.LATLONG);
+
+                // set data to item
+                mItemToSend.setPlaceName(placeName);
+                mItemToSend.setLatitude(Utils.roundToDecimals(latLng.latitude, Constants.LATLONG_PRECISION));
+                mItemToSend.setLongitude(Utils.roundToDecimals(latLng.longitude, Constants.LATLONG_PRECISION));
+
+                // show data in button
+                mBtnLocation.setText(placeName);
             } else {
                 Log.d(TAG, "OnActivityResult wrong requestCode : " + requestCode);
             }
+        } else if (resultCode == Activity.RESULT_CANCELED){
+            // do nothing
         } else {
             Utils.showToast(getActivity().getApplicationContext(), getString(R.string.error_occurred));
         }
@@ -393,15 +423,9 @@ public class CreateItemFragment extends Fragment {
         View view = this.getView();
         EditText etTitle = view.findViewById(R.id.title_edittext);
         EditText etDescription = view.findViewById(R.id.description_edittext);
-        EditText etContinent = view.findViewById(R.id.continent_edittext);
-        EditText etCountry = view.findViewById(R.id.country_edittext);
-        EditText etCity = view.findViewById(R.id.city_edittext);
 
         etTitle.setText("");
         etDescription.setText("");
-        etContinent.setText("");
-        etCountry.setText("");
-        etCity.setText("");
         mImageRowList.clear();
         mTagList.clear();
         mImageAdapter.notifyDataSetChanged();

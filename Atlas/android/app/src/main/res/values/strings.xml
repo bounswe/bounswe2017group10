@@ -68,4 +68,11 @@
     <string name="commenter_name">Commenter Name</string>
     <string name="comment_date">Comment date</string>
     <string name="comment_text">Comment text</string>
+    <string name="place">Place</string>
+    <string name="location">Location</string>
+    <string name="url">URL</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="unable_get_location">Unable to find location</string>
+    <string name="lat_long_location">%1$f %2$f</string>
 </resources>

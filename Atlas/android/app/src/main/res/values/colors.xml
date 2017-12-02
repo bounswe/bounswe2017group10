@@ -7,4 +7,5 @@
     <color name="button_gray">#454545</color>
     <color name="tag_background">#eec774</color>
     <color name="card_background">#ffefce</color>
+    <color name="button_background_color">#ffc0c0</color>
 </resources>

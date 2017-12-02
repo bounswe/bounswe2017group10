@@ -48,47 +48,39 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <TextView
+        <include layout="@layout/tag_recyclerview_item"
             android:id="@+id/tag1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/tag2"
             android:layout_alignBottom="@+id/tag2"
             android:layout_toStartOf="@+id/tag2"
-            android:background="@color/tag_background"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
-            android:padding="3dp"
-            android:textColor="@android:color/background_dark"
-            android:textStyle="bold" />
+            android:padding="3dp" />
 
-        <TextView
+
+        <include layout="@layout/tag_recyclerview_item"
             android:id="@+id/tag2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/tag3"
             android:layout_alignBottom="@+id/tag3"
             android:layout_toStartOf="@+id/tag3"
-            android:background="@color/tag_background"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
-            android:padding="3dp"
-            android:textColor="@android:color/background_dark"
-            android:textStyle="bold" />
+            android:padding="3dp" />
 
-        <TextView
+        <include layout="@layout/tag_recyclerview_item"
             android:id="@+id/tag3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/description_textview"
             android:layout_marginTop="13dp"
-            android:background="@color/tag_background"
             android:layout_marginStart="5dp"
             android:padding="3dp"
-            android:layout_marginEnd="5dp"
-            android:textColor="@android:color/background_dark"
-            android:textStyle="bold" />
+            android:layout_marginEnd="5dp" />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>
