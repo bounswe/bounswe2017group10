@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -80,7 +79,7 @@ public class ViewItemFragment extends Fragment {
         mAdapter = new CommentAdapter(mActivity, mRowList);
         listView.setAdapter(mAdapter);
 
-        for(Comment comment : mItem.getComments()) {
+        for(Comment comment : mItem.getCommentList()) {
             mCommentList.add(0,comment);
             mRowList.add(0,comment.toCommentRow());
         }
@@ -142,7 +141,6 @@ public class ViewItemFragment extends Fragment {
                 // TODO: Favorite item feature
                 return true;
             case R.id.action_edit:
-                // TODO: Edit item feature
                 Intent intent = new Intent(mActivity, CreateItemActivity.class);
                 intent.putExtra(Constants.CULTURE_ITEM, mItem);
                 intent.putExtra(Constants.CREATE_STRATEGY, Constants.EDIT);

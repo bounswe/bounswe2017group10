@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.bounswe2017.group10.atlas.adapter.FeedRow;
+import com.bounswe2017.group10.atlas.util.Utils;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -20,10 +21,6 @@ public class CultureItem implements Parcelable {
     @Expose
     private long user;
 
-    @SerializedName("country")
-    @Expose
-    private String country;
-
     @SerializedName("title")
     @Expose
     private String title;
@@ -32,13 +29,17 @@ public class CultureItem implements Parcelable {
     @Expose
     private String description;
 
-    @SerializedName("continent")
+    @SerializedName("place_name")
     @Expose
-    private String continent;
+    private String placeName;
 
-    @SerializedName("city")
+    @SerializedName("latitude")
     @Expose
-    private String city;
+    private double latitude;
+
+    @SerializedName("longitude")
+    @Expose
+    private double longitude;
 
     @SerializedName("images")
     @Expose
@@ -54,19 +55,23 @@ public class CultureItem implements Parcelable {
 
     @SerializedName("public_accessibility")
     @Expose
-    private Boolean publicAccessibility;
+    private boolean publicAccessibility;
 
-    public CultureItem() {}
+    public CultureItem() {
+        this.imageList = new ArrayList<>();
+        this.tagList = new ArrayList<>();
+        this.commentList = new ArrayList<>();
+    }
 
     @SuppressWarnings("unchecked")
     public CultureItem(Parcel in) {
         this.id = in.readLong();
         this.user = in.readLong();
-        this.country = in.readString();
         this.title = in.readString();
         this.description = in.readString();
-        this.continent = in.readString();
-        this.city = in.readString();
+        this.placeName = in.readString();
+        this.latitude = in.readDouble();
+        this.longitude = in.readDouble();
         this.imageList = (ArrayList<Image>)in.readSerializable();
         this.tagList = (ArrayList<Tag>)in.readSerializable();
         this.commentList = (ArrayList<Comment>)in.readSerializable();
@@ -77,11 +82,11 @@ public class CultureItem implements Parcelable {
     public void writeToParcel(Parcel out, int flags) {
         out.writeLong(this.id);
         out.writeLong(this.user);
-        out.writeString(this.country);
         out.writeString(this.title);
         out.writeString(this.description);
-        out.writeString(this.continent);
-        out.writeString(this.city);
+        out.writeString(this.placeName);
+        out.writeDouble(this.latitude);
+        out.writeDouble(this.longitude);
         out.writeSerializable(this.imageList);
         out.writeSerializable(this.tagList);
         out.writeSerializable(this.commentList);
@@ -122,13 +127,6 @@ public class CultureItem implements Parcelable {
         this.user = user;
     }
 
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
 
     public String getTitle() {
         return title;
@@ -146,20 +144,28 @@ public class CultureItem implements Parcelable {
         this.description = description;
     }
 
-    public String getContinent() {
-        return continent;
+    public String getPlaceName() {
+        return placeName;
     }
 
-    public void setContinent(String continent) {
-        this.continent = continent;
+    public void setPlaceName(String placeName) {
+        this.placeName = placeName;
     }
 
-    public String getCity() {
-        return city;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public ArrayList<Image> getImageList() {
@@ -200,11 +206,32 @@ public class CultureItem implements Parcelable {
         return new FeedRow(url, getTitle(), getDescription(), tagList);
     }
 
-    public ArrayList<Comment> getComments() {
+    public ArrayList<Comment> getCommentList() {
         return commentList;
     }
 
-    public void setComments(ArrayList<Comment> commentList) {
+    public void setCommentList(ArrayList<Comment> commentList) {
         this.commentList = commentList;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof CultureItem)) {
+            return false;
+        }
+        CultureItem other = (CultureItem)obj;
+
+        // everything must be equal
+        return this.id == other.id &&
+                this.user == other.user &&
+                Utils.objectEquals(this.title, other.title) &&
+                Utils.objectEquals(this.description, other.description) &&
+                Utils.objectEquals(this.placeName, other.placeName) &&
+                Utils.isClose(this.latitude, other.latitude) &&
+                Utils.isClose(this.longitude, other.longitude) &&
+                Utils.objectEquals(this.imageList, other.imageList) &&
+                Utils.objectEquals(this.tagList, other.tagList) &&
+                Utils.objectEquals(this.commentList, other.commentList) &&
+                this.publicAccessibility == other.publicAccessibility;
     }
 }
