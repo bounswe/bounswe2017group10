@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bounswe2017.group10.atlas.R;
@@ -41,9 +42,9 @@ public class ListItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView etTitle;
         TextView etDescr;
         ImageView imIcon;
-        TextView etTag1;
-        TextView etTag2;
-        TextView etTag3;
+        LinearLayout layoutTag1;
+        LinearLayout layoutTag2;
+        LinearLayout layoutTag3;
         View view;
 
         ViewHolder(View v) {
@@ -51,16 +52,16 @@ public class ListItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             this.etTitle = v.findViewById(R.id.title_textview);
             this.etDescr = v.findViewById(R.id.description_textview);
             this.imIcon = v.findViewById(R.id.icon_imageview);
-            this.etTag1 = v.findViewById(R.id.tag1);
-            this.etTag2 = v.findViewById(R.id.tag2);
-            this.etTag3 = v.findViewById(R.id.tag3);
+            this.layoutTag1 = v.findViewById(R.id.tag1);
+            this.layoutTag2 = v.findViewById(R.id.tag2);
+            this.layoutTag3 = v.findViewById(R.id.tag3);
             this.view = v;
         }
 
         void bind(List<FeedRow> rowList, int position, Context context, OnItemClickListener listener) {
             FeedRow row = rowList.get(position);
             List<String> tagList = row.getTagList();
-            TextView[] tagArr = {etTag1, etTag2, etTag3};
+            LinearLayout[] tagArr = {layoutTag1, layoutTag2, layoutTag3};
             int num_tags = tagList.size();
             int num_hidden = max(tagArr.length - num_tags, 0);
             for (int i = 0; i < num_hidden; ++i) {
@@ -68,7 +69,7 @@ public class ListItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
             for (int i = num_hidden, j = 0; i < tagArr.length; ++i,++j) {
                 tagArr[i].setVisibility(View.VISIBLE);
-                tagArr[i].setText(tagList.get(j));
+                ((TextView)tagArr[i].findViewById(R.id.tag_textview)).setText(tagList.get(j));
             }
             etTitle.setText(row.getTitle());
             etDescr.setText(row.getDescription());

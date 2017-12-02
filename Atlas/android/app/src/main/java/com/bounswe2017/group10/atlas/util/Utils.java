@@ -162,4 +162,21 @@ public class Utils {
         }
         return true;
     }
+
+    /**
+     * Rounds the given double to precision number of decimals. For example,
+     *
+     * roundToDecimals(3.1437242, 3) == 3.143
+     *
+     * @param num Double number to round to decimals
+     * @param precision Number of digits after decimal point
+     * @return double number with precision many digits after decimal point.
+     */
+    public static double roundToDecimals(double num, int precision) {
+        if (precision < 0 || precision > 8) {
+            throw new IllegalArgumentException("Precision must be an int from 0 to 8.");
+        }
+        long multiplier = (long)Math.pow(10, (double)precision);
+        return ((int)(num*multiplier))/(double)multiplier;
+    }
 }
