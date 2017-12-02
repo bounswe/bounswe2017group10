@@ -450,11 +450,10 @@ public class CreateItemFragment extends Fragment {
      */
     private void setGalleryListener(Button btnGallery) {
         btnGallery.setOnClickListener((View btnView) -> {
-            fillInputsWithItem(CreateItemFragment.this.getView());
-            //Intent intent = new Intent();
-            //intent.setType("image/*");
-            //intent.setAction(Intent.ACTION_GET_CONTENT);
-            //startActivityForResult(Intent.createChooser(intent, "Select Image"), FROM_GALLERY);
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "Select Image"), FROM_GALLERY);
         });
     }
 
