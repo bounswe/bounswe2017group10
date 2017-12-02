@@ -26,3 +26,4 @@ six==1.10.0
 urllib3==1.13.1
 virtualenv==15.1.0
 django-rest-swagger==2.1.2
+geopy==1.11.0
