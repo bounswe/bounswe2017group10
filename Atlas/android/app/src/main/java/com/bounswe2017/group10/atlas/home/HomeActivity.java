@@ -5,7 +5,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.icu.util.UniversalTimeScale;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -18,6 +17,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,16 +25,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bounswe2017.group10.atlas.R;
-import com.bounswe2017.group10.atlas.httpbody.CultureItem;
-import com.bounswe2017.group10.atlas.httpbody.GetItemsResponse;
-import com.bounswe2017.group10.atlas.profil.ProfileActivity;
+import com.bounswe2017.group10.atlas.profile.ProfileActivity;
 import com.bounswe2017.group10.atlas.response.OnGetItemsResponse;
 import com.bounswe2017.group10.atlas.util.Constants;
 import com.bounswe2017.group10.atlas.httpbody.UserResponse;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
 import com.bounswe2017.group10.atlas.util.Utils;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -74,9 +70,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        storePersonalDetails();
-
         NavigationView navigationView = findViewById(R.id.nav_view);
+        View header = navigationView.getHeaderView(0);
+        displayPersonalDetails(header);
         navigationView.setNavigationItemSelectedListener(this);
 
         mFab = findViewById(R.id.floatingActionButton);
@@ -90,43 +86,22 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         mFeedFragment = new ListItemsFragment();
         setUpFeedFragment();
+
     }
 
     /**
      * Request personal user details from the server and store them in SharedPreferences.
      */
-    private void storePersonalDetails() {
-        //add username and email to navigation bar
-        String authStr = getSharedPref(this).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
-        APIUtils.serverAPI().getMe(authStr).enqueue(new Callback<UserResponse>() {
-            @Override
-            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                if (response.isSuccessful()) {
-                    UserResponse body = response.body();
-                    SharedPreferences.Editor editor = Utils.getSharedPrefEditor(getApplicationContext());
-                    editor.putString(Constants.FIRSTNAME, body.getFirstname()).apply();
-                    editor.putString(Constants.LASTNAME, body.getLastname()).apply();
-                    editor.putString(Constants.EMAIL, body.getEmail()).apply();
-                    editor.putLong(Constants.USER_ID, body.getUserId()).apply();
+    private void displayPersonalDetails(View header) {
+        SharedPreferences pref = Utils.getSharedPref(this);
+        String firstName = pref.getString(Constants.FIRSTNAME, "");
+        String lastName = pref.getString(Constants.LASTNAME, "");
+        String email = pref.getString(Constants.EMAIL, "");
+        String nameText = getString(R.string.fullname, firstName, lastName);
 
-                    String firstName = body.getFirstname();
-                    if (firstName == null) firstName = "";
-                    String lastName = body.getLastname();
-                    if (lastName == null) lastName = "";
-
-                    ((TextView) findViewById(R.id.nav_pname)).setText(firstName + " " + lastName);
-                    ((TextView) findViewById(R.id.nav_pmail)).setText(body.getEmail());
-                } else {
-                    showToast(getApplicationContext(), getResources().getString(R.string.failed_profilgetuserinformation));
-                }
-            }
-            @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
-                showToast(getApplicationContext(), getResources().getString(R.string.connection_failure));
-            }
-        });
+        ((TextView) header.findViewById(R.id.nav_pname)).setText(nameText);
+        ((TextView) header.findViewById(R.id.nav_pmail)).setText(email);
     }
-
     /**
      * Set up the functionality of mSearchItemsFragment. This method sets how mSearchItemsFragment
      * requests its items from the server.

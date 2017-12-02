@@ -4,12 +4,12 @@
     android:padding="6dip" >
 
     <TextView
-        android:id="@+id/comment_name"
+        android:id="@+id/commenter_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:text="TextView"
+        android:text="@string/commenter_name"
         android:textColor="@android:color/black"
         android:textStyle="bold" />
 
@@ -19,14 +19,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginStart="20dp"
-        android:layout_toEndOf="@+id/comment_name"
-        android:text="TextView" />
+        android:layout_toEndOf="@+id/commenter_name"
+        android:text="@string/comment_date" />
 
     <TextView
         android:id="@+id/comment_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/comment_name"
-        android:text="TextView" />
+        android:layout_below="@+id/commenter_name"
+        android:text="@string/comment_text" />
 </RelativeLayout>

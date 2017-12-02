@@ -24,6 +24,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -46,7 +47,7 @@ public interface API {
     Call<Void> deleteItem(@Header("Authorization") String authStr,
                           @Path("id") long id);
 
-    @PATCH("/cultural_heritage_item/{id}")
+    @PUT("/cultural_heritage_item/{id}")
     Call<Void> updateItem(@Header("Authorization") String authStr,
                           @Path("id") long id,
                           @Body CultureItem body);

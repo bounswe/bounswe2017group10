@@ -17,4 +17,12 @@ public class Constants {
     public static final String CREATE_STRATEGY = "CREATE_STRATEGY";
     public static final String CREATE = "CREATE";
     public static final String EDIT = "EDIT";
+    public static final double DOUBLE_EQUALITY_EPSILON = 1e-6;
+    public static final String LOCATION_NAME = "LOCATION_NAME";
+    public static final String LATLONG = "LATLONG";
+    public static final int LATLONG_PRECISION = 4;
+    public static final String DB_NAME = ":memory:";
+    public static final int MIN_YEAR = -10000;
+    public static final int MAX_YEAR = 2100;
+    public static final String DECIMAL_FORMAT_STRING = "###.000000";
 }

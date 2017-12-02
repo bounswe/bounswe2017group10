@@ -6,16 +6,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/create_item_container">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+    <com.dmitrymalkovich.android.ProgressFloatingActionButton
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:layout_gravity="bottom|end"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:layout_marginEnd="10dp"
+        android:elevation="1dp"
         android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/ic_done_white_24dp"
-        app:backgroundTint="@android:color/holo_orange_light" />
+        android:focusable="true">
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:id="@+id/floatingActionButton"
+            android:layout_height="wrap_content"
+            app:backgroundTint="@android:color/holo_orange_light"
+            android:src="@drawable/ic_done_white_24dp" />
+
+        <ProgressBar
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:id="@+id/fab_progress"
+            android:indeterminateTint="@color/colorPrimaryDark"
+            android:visibility="invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </com.dmitrymalkovich.android.ProgressFloatingActionButton>
 
 </android.support.design.widget.CoordinatorLayout>

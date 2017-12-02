@@ -1,4 +1,4 @@
-package com.bounswe2017.group10.atlas.profil;
+package com.bounswe2017.group10.atlas.profile;
 
 import android.annotation.SuppressLint;
 import android.app.SearchManager;
@@ -27,7 +27,7 @@ import android.widget.TextView;
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.httpbody.CultureItem;
 import com.bounswe2017.group10.atlas.httpbody.GetItemsResponse;
-import com.bounswe2017.group10.atlas.profil.ProfileActivity;
+import com.bounswe2017.group10.atlas.profile.ProfileActivity;
 import com.bounswe2017.group10.atlas.response.OnGetItemsResponse;
 import com.bounswe2017.group10.atlas.util.Constants;
 import com.bounswe2017.group10.atlas.httpbody.UserResponse;
@@ -64,8 +64,8 @@ public class OwnItemActivity extends AppCompatActivity{
         this.mActionBar = getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
 
-        mSearchItemsFragment = new ListItemsFragment();
-        setUpSearchFragment();
+        //mSearchItemsFragment = new ListItemsFragment();
+        //setUpSearchFragment();
 
         mFeedFragment = new ListItemsFragment();
         setUpFeedFragment();
@@ -78,10 +78,10 @@ public class OwnItemActivity extends AppCompatActivity{
         inflater.inflate(R.menu.action_home, menu);
 
         // Searchable configuration
-        SearchManager searchManager = (SearchManager)getSystemService(Context.SEARCH_SERVICE);
-        mSearchView = (SearchView)menu.findItem(R.id.search).getActionView();
-        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        setupSearchView();
+        //SearchManager searchManager = (SearchManager)getSystemService(Context.SEARCH_SERVICE);
+        //mSearchView = (SearchView)menu.findItem(R.id.search).getActionView();
+        //mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        //setupSearchView();
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -90,7 +90,7 @@ public class OwnItemActivity extends AppCompatActivity{
      * Set up the functionality of mSearchItemsFragment. This method sets how mSearchItemsFragment
      * requests its items from the server.
      */
-    private void setUpSearchFragment() {
+    /*private void setUpSearchFragment() {
         mSearchItemsFragment.setRequestStrategy(new ListItemsFragment.RequestStrategy() {
             @Override
             public void requestItems(Context context, int offset, OnGetItemsResponse.GetItemCallback getItemCallback) {
@@ -102,7 +102,7 @@ public class OwnItemActivity extends AppCompatActivity{
             }
         });
         mSearchItemsFragment.setRequestImmediately(false);
-    }
+    }*/
 
     /**
      * Set up the functionality of mFeedFragment.
@@ -128,7 +128,7 @@ public class OwnItemActivity extends AppCompatActivity{
     /**
      * Set up the functionality of mSearchView.
      */
-    private void setupSearchView() {
+    /*private void setupSearchView() {
         // when search icon is pressed, show mSearchItemsFragment.
         mSearchView.setOnSearchClickListener((View v) -> {
             Fragment currFragment = getSupportFragmentManager().findFragmentById(R.id.home_container);
@@ -155,10 +155,9 @@ public class OwnItemActivity extends AppCompatActivity{
                 return true;
             }
         });
-    }
+    }*/
 
-    private void requestSearchResults(String query, OnGetItemsResponse.GetItemCallback getItemCallback) {
-    }
+    //private void requestSearchResults(String query, OnGetItemsResponse.GetItemCallback getItemCallback) {}
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

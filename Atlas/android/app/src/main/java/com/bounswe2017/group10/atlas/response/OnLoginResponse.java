@@ -11,6 +11,8 @@ import android.widget.ProgressBar;
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.home.HomeActivity;
 import com.bounswe2017.group10.atlas.httpbody.LoginResponse;
+import com.bounswe2017.group10.atlas.httpbody.UserResponse;
+import com.bounswe2017.group10.atlas.remote.APIUtils;
 import com.bounswe2017.group10.atlas.util.Constants;
 import com.bounswe2017.group10.atlas.util.Utils;
 
@@ -38,15 +40,12 @@ public class OnLoginResponse implements Callback<LoginResponse> {
     public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
         progress.setVisibility(View.GONE);
         if (response.isSuccessful()) {
-            // store authentication string in SharedPreferences
+            // store token in SharedPreferences
             String token = response.body().getToken();
             String authStr = Utils.tokenToAuthString(token);
             Utils.getSharedPrefEditor(context).putString(Constants.AUTH_STR, authStr).apply();
-
-            // go to home activity
-            Intent intent = new Intent(context, HomeActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent);
+            // store user info in SharedPreferences
+            storePersonalDetails(authStr);
         } else if (response.code() == 400) {
             showToast(context.getApplicationContext(), context.getResources().getString(R.string.wrong_credentials));
         }
@@ -56,5 +55,39 @@ public class OnLoginResponse implements Callback<LoginResponse> {
     public void onFailure(Call<LoginResponse> call, Throwable t) {
         progress.setVisibility(View.GONE);
         showToast(context.getApplicationContext(), context.getResources().getString(R.string.connection_failure));
+    }
+
+    private void goToHomeActivity() {
+        Intent intent = new Intent(context, HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
+    /**
+     * Request personal user details from the server and store them in SharedPreferences.
+     */
+    private void storePersonalDetails(String authStr) {
+        APIUtils.serverAPI().getMe(authStr).enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                if (response.isSuccessful()) {
+                    UserResponse body = response.body();
+                    SharedPreferences.Editor editor = Utils.getSharedPrefEditor(context);
+                    editor.putString(Constants.FIRSTNAME, body.getFirstname()).apply();
+                    editor.putString(Constants.LASTNAME, body.getLastname()).apply();
+                    editor.putString(Constants.EMAIL, body.getEmail()).apply();
+                    editor.putLong(Constants.USER_ID, body.getUserId()).apply();
+
+                    // go to home
+                    goToHomeActivity();
+                } else {
+                    showToast(context, context.getResources().getString(R.string.failed_profilgetuserinformation));
+                }
+            }
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                showToast(context, context.getString(R.string.connection_failure));
+            }
+        });
     }
 }

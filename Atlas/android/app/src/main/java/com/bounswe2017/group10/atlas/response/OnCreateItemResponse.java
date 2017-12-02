@@ -29,56 +29,21 @@ public class OnCreateItemResponse implements Callback<CreateItemResponse> {
 
     private CreateItemFragment createFragment;
     private ProgressBar progressBar;
-    private List<Image> mImageList;
     private Context context;
 
-    public OnCreateItemResponse(CreateItemFragment createFragment, List<Image> imageList, ProgressBar progressBar) {
+    public OnCreateItemResponse(CreateItemFragment createFragment, ProgressBar progressBar) {
         this.createFragment = createFragment;
         this.progressBar = progressBar;
-        this.mImageList = imageList;
         this.context = this.createFragment.getActivity();
     }
 
     @Override
     public void onResponse(Call<CreateItemResponse> call, Response<CreateItemResponse> response) {
         if (response.isSuccessful()) {
-            if (mImageList.size() == 0) {
-                Utils.showToast(context, context.getString(R.string.successful_create_item));
-                progressBar.setVisibility(View.GONE);
-                createFragment.clearView();
-                createFragment.getActivity().onBackPressed();
-            } else {
-                int cultureItemId = response.body().getId();
-
-                int lastLocalUrlIndex = -1;
-                for (int i = 0; i < mImageList.size(); ++i) {
-                    if (Utils.isLocalUrl(mImageList.get(i).getUrl())) {
-                        lastLocalUrlIndex = i;
-                        break;
-                    }
-                }
-                if (lastLocalUrlIndex == -1) {
-                    String authStr = Utils.getSharedPref(context).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
-                    APIUtils.serverAPI()
-                            .uploadImages(authStr, cultureItemId, new ImageUploadRequest(mImageList))
-                            .enqueue(new OnUploadImagesResponse(createFragment, progressBar));
-                } else {
-                    OnCloudinaryUploadResponse respHandler = new OnCloudinaryUploadResponse(
-                            context,
-                            createFragment,
-                            mImageList,
-                            progressBar,
-                            cultureItemId,
-                            lastLocalUrlIndex
-                    );
-                    String fileUrl = mImageList.get(lastLocalUrlIndex).getUrl();
-                    MediaManager.get()
-                            .upload(Uri.parse(fileUrl))
-                            .unsigned("wak3gala")
-                            .callback(respHandler)
-                            .dispatch();
-                }
-            }
+            Utils.showToast(context, context.getString(R.string.successful_create_item));
+            progressBar.setVisibility(View.GONE);
+            createFragment.clearView();
+            createFragment.getActivity().onBackPressed();
         } else {
             Utils.showToast(context, context.getString(R.string.failed_create_item));
         }

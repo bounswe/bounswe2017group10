@@ -1,5 +1,6 @@
 package com.bounswe2017.group10.atlas.httpbody;
 
+import com.bounswe2017.group10.atlas.util.Utils;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -28,10 +29,10 @@ public class Tag implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Tag) {
-            Tag tagObj = (Tag)obj;
-            return this.getName().equals(tagObj.getName());
+        if (!(obj instanceof  Tag)) {
+            return false;
         }
-        return false;
+        Tag other = (Tag)obj;
+        return Utils.objectEquals(this.name, other.name);
     }
 }

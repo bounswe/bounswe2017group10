@@ -5,9 +5,10 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <ImageView
+            android:contentDescription="@string/profile_header_img"
             android:id="@+id/header_cover_image"
             android:layout_width="match_parent"
             android:layout_height="200dp"
@@ -15,6 +16,7 @@
             android:src="@drawable/background" />
 
         <ImageButton
+            android:contentDescription="@string/user_profile_image"
             android:id="@+id/user_profile_photo"
             android:layout_width="120dp"
             android:layout_height="120dp"
@@ -22,10 +24,10 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="-60dp"
             android:background="@drawable/profile_circular_border_imageview"
-            android:elevation="5dp"
             android:padding="20dp"
             android:scaleType="centerCrop"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/ic_launcher"
+            android:elevation="4dp" />
 
         <RelativeLayout
             android:id="@+id/profile_layout"
@@ -33,26 +35,17 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/header_cover_image"
             android:background="#95ca0a07"
-            android:elevation="4dp"
             android:paddingBottom="24dp">
 
-
             <ImageView
-                android:id="@+id/add_friend"
+                android:contentDescription="@string/take_photo_image"
+                android:id="@+id/take_photo"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_toLeftOf="@+id/drop_down_option_menu"
+                android:layout_alignParentEnd="true"
                 android:src="@drawable/ic_menu_camera" />
-
-            <ImageView
-                android:id="@+id/drop_down_option_menu"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"/>
 
             <TextView
                 android:id="@+id/user_profile_name"
@@ -92,6 +85,7 @@
                 android:layout_margin="5dp"
                 android:background="#fff"
                 android:clickable="true"
+                android:focusable="true"
                 android:elevation="4dp"
                 android:padding="20dp"
                 android:text="@string/profilpage_cultural_heritages_list"/>
@@ -104,6 +98,7 @@
                 android:layout_marginTop="3dp"
                 android:background="#fff"
                 android:clickable="true"
+                android:focusable="true"
                 android:elevation="4dp"
                 android:padding="20dp"
                 android:text="@string/profilpage_gallery" />
@@ -114,6 +109,7 @@
                 android:layout_margin="5dp"
                 android:background="#fff"
                 android:clickable="true"
+                android:focusable="true"
                 android:elevation="4dp"
                 android:padding="20dp"
                 android:text="@string/profilpage_my_favorites" />
@@ -126,6 +122,7 @@
                 android:layout_marginTop="3dp"
                 android:background="#fff"
                 android:clickable="true"
+                android:focusable="true"
                 android:elevation="4dp"
                 android:padding="20dp"
                 android:text="@string/profilpage_settings" />
@@ -137,6 +134,7 @@
                 android:layout_margin="5dp"
                 android:background="#fff"
                 android:clickable="true"
+                android:focusable="true"
                 android:elevation="4dp"
                 android:padding="20dp"
                 android:text="@string/logout" />
