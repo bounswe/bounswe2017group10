@@ -39,7 +39,7 @@ public class CommentAdapter extends ArrayAdapter<CommentRow> {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.comment_item, parent, false);
             holder = new ViewHolder();
-            holder.nameH = convertView.findViewById(R.id.comment_name);
+            holder.nameH = convertView.findViewById(R.id.commenter_name);
             holder.dateH = convertView.findViewById(R.id.comment_date);
             holder.textH = convertView.findViewById(R.id.comment_text);
             convertView.setTag(holder);
@@ -53,5 +53,10 @@ public class CommentAdapter extends ArrayAdapter<CommentRow> {
         holder.textH.setText(row.getText());
 
         return convertView;
+    }
+
+    @Override
+    public int getCount() {
+        return this.items.size();
     }
 }

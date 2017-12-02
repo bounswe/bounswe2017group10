@@ -17,4 +17,5 @@ public class Constants {
     public static final String CREATE_STRATEGY = "CREATE_STRATEGY";
     public static final String CREATE = "CREATE";
     public static final String EDIT = "EDIT";
+    public static final double DOUBLE_EQUALITY_EPSILON = 1e-6;
 }
