@@ -178,20 +178,10 @@ class cultural_heritage_item_search(generics.ListAPIView):
         #self.keywords = hidden_tag_extractor.extract_keywords(hidden_tag_extractor,query)
         self.keywords = query.split()
         objects = Cultural_Heritage.objects.all()
-        objects_with_score = []
-        for object in objects:
-            objects_with_score.append((self.cmp(object),object))
+        objects_with_score = [(self.cmp(obj), obj) for obj in objects]
         objects_with_score =sorted(objects_with_score,key=lambda x : x[0])
-        objects_with_positive_score = []
-        for i in range(0,len(objects_with_score)):
-            score,_ = objects_with_score[i]
-            if score>0:
-                objects_with_positive_score = objects_with_score[i:]
-                break
-        objects = []
-        for object in objects_with_positive_score:
-            _,item  = object
-            objects.append(item)
+        objects_with_positive_score = filter(lambda x: x[0] > 0, objects_with_score)
+        objects = [pair[1] for pair in objects_with_positive_score]
         return objects
     def cmp(self,item):
         keywords = self.keywords
@@ -200,16 +190,12 @@ class cultural_heritage_item_search(generics.ListAPIView):
         common_words_in_title_amount = 0
         common_tag_amount = 0
         for keyword in keywords:
-            for hidden_tag in hidden_tags:
-                if keyword.lower() == hidden_tag.name.lower():
-                    common_hidden_tag_amount += 1
-            for word in item.__dict__['title'].split():
-                if keyword.lower() == word.lower():
-                    print(keyword," ",word)
-                    common_words_in_title_amount += 1
-            for tag in item.tags.all():
-                if keyword.lower() == tag.name.lower():
-                    common_tag_amount += 1
+            matching_hidden_tags = (hidden_tag for hidden_tag in hidden_tags if keyword.lower() == hidden_tag.name.lower())
+            common_hidden_tag_amount = sum(1 for _ in matching_hidden_tags)
+            matching_title_words = (word for word in item.__dict__['title'].split() if keyword.lower() == word.lower())
+            common_words_in_title_amount = sum(1 for _ in matching_title_words)
+            matching_tags = (tag for tag in item.tags.all() if keyword.lower() == tag.name.lower())
+            common_tag_amount = sum(1 for _ in matching_tags)
         return common_tag_amount+common_hidden_tag_amount+common_words_in_title_amount
 
 
