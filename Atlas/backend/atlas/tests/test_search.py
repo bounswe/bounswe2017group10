@@ -114,7 +114,7 @@ class cultural_heritage_item(TestCase):
         )
         self.assertEqual(response.status_code, 201)
         response = self.client.get(
-            self.cultural_heritage_item_url + 'search/' + 'draven'
+            self.cultural_heritage_item_url + 'search/' + 'Draven'
         )
         response_content = json.loads(smart_text(response.content))
         self.assertEqual(len(response_content['results']), 1);

@@ -175,9 +175,43 @@ class cultural_heritage_item_search(generics.ListAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     def get_queryset(self):
         query = self.kwargs.get('query')
-        return Cultural_Heritage.objects.annotate(
-           search=SearchVector('tags__name', 'title','description'),
-        ).filter(search=query)
+        #self.keywords = hidden_tag_extractor.extract_keywords(hidden_tag_extractor,query)
+        self.keywords = query.split()
+        objects = Cultural_Heritage.objects.all()
+        objects_with_score = []
+        for object in objects:
+            objects_with_score.append((self.cmp(object),object))
+        objects_with_score =sorted(objects_with_score,key=lambda x : x[0])
+        objects_with_positive_score = []
+        for i in range(0,len(objects_with_score)):
+            score,_ = objects_with_score[i]
+            if score>0:
+                objects_with_positive_score = objects_with_score[i:]
+                break
+        objects = []
+        for object in objects_with_positive_score:
+            _,item  = object
+            objects.append(item)
+        return objects
+    def cmp(self,item):
+        keywords = self.keywords
+        hidden_tags =item.hidden_tags.all()
+        common_hidden_tag_amount = 0
+        common_words_in_title_amount = 0
+        common_tag_amount = 0
+        for keyword in keywords:
+            for hidden_tag in hidden_tags:
+                if keyword.lower() == hidden_tag.name.lower():
+                    common_hidden_tag_amount += 1
+            for word in item.__dict__['title'].split():
+                if keyword.lower() == word.lower():
+                    print(keyword," ",word)
+                    common_words_in_title_amount += 1
+            for tag in item.tags.all():
+                if keyword.lower() == tag.name.lower():
+                    common_tag_amount += 1
+        return common_tag_amount+common_hidden_tag_amount+common_words_in_title_amount
+
 
 class cultural_heritage_item_search_autocorrect(generics.ListAPIView):
     serializer_class = cultural_heritage_serializer
