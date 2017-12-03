@@ -1,4 +1,4 @@
-from .models import User,Cultural_Heritage,comment,tag,image_media_item as image_item
+from .models import User,Cultural_Heritage,comment,tag,image_media_item as image_item,hidden_tag
 from rest_framework import generics
 from django.http import HttpResponse, JsonResponse,HttpRequest
 from django.core import serializers
@@ -11,7 +11,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from jwt_auth.compat import json
 from rest_framework.test import APIRequestFactory
 from django.contrib.postgres.search import SearchVector
-
+from .util import hidden_tag_extractor
 
 
 
@@ -93,7 +93,24 @@ class cultural_heritage_item_view_update_delete(generics.RetrieveUpdateDestroyAP
     serializer_class = cultural_heritage_serializer
     lookup_field = 'id'
     permission_classes = [IsAuthenticatedOrReadOnly]
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        data = request.data
+        if 'description' in data:
+            instance.hidden_tags = []
+            description = data['description']
+            hidden_tags = hidden_tag_extractor.extract_keywords(hidden_tag_extractor, text=description)
+            for tag in hidden_tags:
+                new_tag, created = hidden_tag.objects.get_or_create(name=tag)
+                if created:
+                    instance.hidden_tags.add(new_tag)
+            instance.save()
 
+        self.perform_update(serializer)
+        return Response(serializer.data)
     def get_queryset(self):
         return Cultural_Heritage.objects.filter()
 

@@ -48,6 +48,7 @@ class Cultural_Heritage(models.Model):
     start_year = models.IntegerField(null=True)
     end_year = models.IntegerField(null=True)
     place_name = models.CharField(max_length=350,null=True)
+    hidden_tags = models.ManyToManyField('hidden_tag',blank=True)
 
 
 class comment(models.Model):
@@ -56,4 +57,9 @@ class comment(models.Model):
     created_time = models.DateField(auto_now_add =True)
     updated_time = models.DateField(auto_now =True)
     cultural_heritage_item = models.ForeignKey('Cultural_Heritage', on_delete=models.CASCADE, null=True)
+
+
+class hidden_tag(models.Model):
+    name = models.CharField(max_length=100)
+
 
