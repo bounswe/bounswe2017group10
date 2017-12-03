@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .util import hidden_tag_extractor
-from .models import Cultural_Heritage,comment as comment_model,image_media_item,favorite_items,tag as tag_model,hidden_tag
+from .models import Cultural_Heritage,comment as comment_model,image_media_item,item_visit,favorite_items,tag as tag_model,hidden_tag
 from authentication.serializers import AccountSerializer
 from rest_framework.utils import  model_meta
 
@@ -99,3 +99,9 @@ class favorite_item_serializer(serializers.ModelSerializer):
     class Meta:
         model = favorite_items
         fields = ['item','user','item_info','id']
+
+class item_visit_serializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = item_visit
+        fields= '__all__'

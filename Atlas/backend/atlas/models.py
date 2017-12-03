@@ -80,4 +80,9 @@ class hidden_tag(models.Model):
         user['picture']=self.user.profile_picture
         return user
 
+class item_visit(models.Model):
+    cultural_heritage_item = models.ForeignKey('Cultural_Heritage', on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey('authentication.Account', on_delete=models.CASCADE)
+    duration = models.IntegerField(default=0) #This will be stored in seconds.
+    last_updated_time = models.DateTimeField(auto_now=True)
 
