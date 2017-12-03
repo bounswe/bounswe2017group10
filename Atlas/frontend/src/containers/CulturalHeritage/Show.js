@@ -5,6 +5,7 @@ import { withRouter } from 'react-router';
 import { authGet, authPost } from '../../utils';
 import { API_URL } from '../../constants';
 import { updateCommentInput, updateCulturalHeritage } from '../../actions/culturalHeritage';
+import { favItem } from './Common';
 
 const mapStateToProps = (state, props) => {
   const culturalHeritage = state.culturalHeritage.data.find(c => c.id === parseInt(props.match.params.id, 10));
@@ -50,6 +51,9 @@ const mapDispatchToProps = dispatch => ({
     }).catch(err => {
       console.log("Error when trying to comment on cultural heritage");
     });
+  },
+  favoriteItem: (token, culturalHeritage) => {
+    favItem(dispatch, token, culturalHeritage);
   }
 });
 
