@@ -175,11 +175,20 @@ class cultural_heritage_item_search(generics.ListAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     def get_queryset(self):
         query = self.kwargs.get('query')
-        #self.keywords = hidden_tag_extractor.extract_keywords(hidden_tag_extractor,query)
         self.keywords = query.split()
         objects = Cultural_Heritage.objects.all()
+        self.location = None
+        for object in objects:
+            for keyword in self.keywords:
+                if getattr(object,'place_name') and keyword.lower() == getattr(object,'place_name').lower():
+                    if getattr(object,'latitude') !=None:
+                        self.location = (getattr(object,'longitude'),getattr(object,'latitude'))
+                        break
+            if self.location != None:
+                break
+
         objects_with_score = [(self.cmp(obj), obj) for obj in objects]
-        objects_with_score =sorted(objects_with_score,key=lambda x : x[0])
+        objects_with_score =sorted(objects_with_score,key=lambda x : x[0],reverse=True)
         objects_with_positive_score = filter(lambda x: x[0] > 0, objects_with_score)
         objects = [pair[1] for pair in objects_with_positive_score]
         return objects
@@ -189,14 +198,19 @@ class cultural_heritage_item_search(generics.ListAPIView):
         common_hidden_tag_amount = 0
         common_words_in_title_amount = 0
         common_tag_amount = 0
+        location_score = 0
         for keyword in keywords:
             matching_hidden_tags = (hidden_tag for hidden_tag in hidden_tags if keyword.lower() == hidden_tag.name.lower())
             common_hidden_tag_amount = sum(1 for _ in matching_hidden_tags)
-            matching_title_words = (word for word in item.__dict__['title'].split() if keyword.lower() == word.lower())
+            matching_title_words = (word for word in getattr(item,'title').split() if keyword.lower() == word.lower())
             common_words_in_title_amount = sum(1 for _ in matching_title_words)
             matching_tags = (tag for tag in item.tags.all() if keyword.lower() == tag.name.lower())
             common_tag_amount = sum(1 for _ in matching_tags)
-        return common_tag_amount+common_hidden_tag_amount+common_words_in_title_amount
+        if self.location != None:
+            coord = (item.longitude, item.latitude)
+            location_distance_in_km = geopy.distance.vincenty(self.location,coord).km
+            location_score = 2000 if location_distance_in_km == 0 else 2000/location_distance_in_km
+        return common_tag_amount+common_hidden_tag_amount+common_words_in_title_amount+location_score
 
 
 class cultural_heritage_item_search_autocorrect(generics.ListAPIView):
