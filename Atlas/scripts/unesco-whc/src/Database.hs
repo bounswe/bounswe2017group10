@@ -49,7 +49,7 @@ insertHeritages (take 50 . Set.toList -> heritages) = do
 
       toImgTuple :: UTCTime -> Heritage -> Int -> (T.Text, UTCTime, UTCTime, Int, Bool)
       toImgTuple now Heritage {..} chId =
-        (_image, now, now, chId, True) -- 1 is the user id of [Yigit Ozkavci]
+        (_image, now, now, chId, True)
 
       toUpdateLocTuple :: Heritage -> Int -> (T.Text, T.Text, Int)
       toUpdateLocTuple Heritage {..} chId = (_lat, _long, chId)
