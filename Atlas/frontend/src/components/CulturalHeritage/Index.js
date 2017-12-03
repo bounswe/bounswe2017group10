@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 import PlusIcon from 'react-icons/lib/fa/plus-circle';
 import CloseIcon from 'react-icons/lib/fa/times-circle';
 
-const Page = ({ user, token, culturalHeritages, helpOpen, paginationNextUrl, loadingMore, canLoadMore, loadCulturalHeritages, closeHelp, loadMore, enableLoadMore }) => (
+const Page = ({ user, token, culturalHeritages, helpOpen, paginationNextUrl, loadingMore, canLoadMore, loadCulturalHeritages, closeHelp, loadMore, enableLoadMore, favoriteItem }) => (
   <Container>
     { helpOpen &&
       <div className="help-1">
@@ -26,11 +26,9 @@ const Page = ({ user, token, culturalHeritages, helpOpen, paginationNextUrl, loa
           { culturalHeritages && culturalHeritages
             .sort((c1, c2) => c1.id - c2.id)
             .map(c => (
-              <NavLink key={ c.id } to={ "/cultural-heritages/" + c.id }>
-                <li>
-                  <CulturalHeritage culturalHeritage={ c } showCommentSummary={ true } shouldTruncate ={ true }/>
-                </li>
-              </NavLink>
+              <li key={ c.id }>
+                <CulturalHeritage culturalHeritage={ c } showCommentSummary={ true } shouldTruncate ={ true } favorite={ () => favoriteItem(token, c) } />
+              </li>
             )
           )}
         </ul>
