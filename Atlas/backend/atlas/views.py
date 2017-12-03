@@ -143,7 +143,6 @@ class cultural_heritage_item_view_update_delete(generics.RetrieveUpdateDestroyAP
             instance.hidden_tags = []
             description = data['description']
             hidden_tags = hidden_tag_extractor.extract_keywords(hidden_tag_extractor, text=description)
-            hidden_tags = list(set(hidden_tags))
             for tag in hidden_tags:
                 new_tag, created = hidden_tag.objects.get_or_create(name=tag)
                 instance.hidden_tags.add(new_tag)

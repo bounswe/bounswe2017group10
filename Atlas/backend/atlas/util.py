@@ -12,4 +12,4 @@ class hidden_tag_extractor:
 
         '''
         blob = TextBlob(text)
-        return blob.noun_phrases
+        return list(set(blob.noun_phrases))
