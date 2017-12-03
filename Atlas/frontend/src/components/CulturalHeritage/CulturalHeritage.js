@@ -5,8 +5,10 @@ import HomeIcon from 'react-icons/lib/fa/home';
 import BankIcon from 'react-icons/lib/fa/bank';
 import TagIcon from 'react-icons/lib/fa/tag';
 import Comment from './Comment';
+import AtlasHeader from '../utils/AtlasHeader'
 import CHFav from './CHFav';
 import { NavLink } from 'react-router-dom';
+
 
 const CulturalHeritage = ({ culturalHeritage, shouldTruncate = false, showCommentSummary = false, showComments = false, favorite }) => (
   <Container>
@@ -50,6 +52,13 @@ const CulturalHeritage = ({ culturalHeritage, shouldTruncate = false, showCommen
               ))}
             </Col>
           </div>
+
+        )}
+      </Col>
+    </Row>
+      {showComments && (culturalHeritage.comments.length !== 0) &&
+      (<AtlasHeader text="Comments"/>)
+      }
         </NavLink>
         <div style={{ width: '100%', float: 'right', fontSize: 13, textAlign: 'right' }}>
           <CHFav culturalHeritage={ culturalHeritage } favorite={ favorite } />

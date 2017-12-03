@@ -63,6 +63,31 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
   -moz-box-shadow: 0px 0px 42px -17px rgba(0, 0, 0, 0.39);
   box-shadow: 0px 0px 42px -17px rgba(0, 0, 0, 0.39); }
 
+.whitebox-profile {
+  background-color: white;
+  padding: 20px;
+  width: 900px;
+  color: black;
+  -webkit-box-shadow: 0px 0px 42px -17px rgba(0, 0, 0, 0.39);
+  -moz-box-shadow: 0px 0px 42px -17px rgba(0, 0, 0, 0.39);
+  box-shadow: 0px 0px 42px -17px rgba(0, 0, 0, 0.39); }
+  .whitebox-profile .hr {
+    width: 800px; }
+
+.whitebox-comment {
+  background-color: white;
+  color: black;
+  margin: auto; }
+  .whitebox-comment .info {
+    text-align: center; }
+  .whitebox-comment img {
+    width: 100px;
+    height: 100px; }
+  .whitebox-comment h3 {
+    padding-top: 10px;
+    font-size: 18px;
+    font-weight: bold; }
+
 .cultural-heritage {
   list-style: none; }
   .cultural-heritage a {
