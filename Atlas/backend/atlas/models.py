@@ -69,16 +69,16 @@ class comment(models.Model):
     updated_time = models.DateTimeField(auto_now =True)
     cultural_heritage_item = models.ForeignKey('Cultural_Heritage', on_delete=models.CASCADE, null=True)
 
-class hidden_tag(models.Model):
-    name = models.CharField(max_length=100)
-
-
     @property
     def user_info(self):
         user= {}
         user['username']=self.user.username
         user['picture']=self.user.profile_picture
         return user
+
+class hidden_tag(models.Model):
+    name = models.CharField(max_length=100)
+
 
 class item_visit(models.Model):
     cultural_heritage_item = models.ForeignKey('Cultural_Heritage', on_delete=models.CASCADE, null=True)
