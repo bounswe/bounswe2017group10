@@ -27,3 +27,4 @@ urllib3==1.13.1
 virtualenv==15.1.0
 django-rest-swagger==2.1.2
 textblob==0.15.0
+geopy==1.11.0

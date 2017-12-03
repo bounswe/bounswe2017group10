@@ -1,6 +1,7 @@
 package com.bounswe2017.group10.atlas.httpbody;
 
 import com.bounswe2017.group10.atlas.adapter.CommentRow;
+import com.bounswe2017.group10.atlas.util.Utils;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -75,5 +76,19 @@ public class Comment implements Serializable {
 
     public CommentRow toCommentRow() {
         return new CommentRow(this.getUser(), this.getCreateTime(), this.getText());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Comment)) {
+            return false;
+        }
+        Comment other = (Comment)obj;
+        // all fields must be equal
+        return Utils.objectEquals(this.user, other.user) &&
+                Utils.objectEquals(this.text, other.text) &&
+                Utils.objectEquals(this.createTime, other.createTime) &&
+                Utils.objectEquals(this.updateTime, other.updateTime) &&
+                Utils.objectEquals(this.itemKey, other.itemKey);
     }
 }

@@ -1,17 +1,19 @@
-from .models import User,Cultural_Heritage,comment,tag,image_media_item as image_item,hidden_tag
-from rest_framework import generics
+from .models import User,Cultural_Heritage,comment,tag,favorite_items,image_media_item as image_item,hidden_tag
+from rest_framework import generics,mixins
 from django.http import HttpResponse, JsonResponse,HttpRequest
 from django.core import serializers
-from .serializers import cultural_heritage_serializer,image_media_item_serializer,tag_serializer,comment_serializer
+from .serializers import cultural_heritage_serializer,image_media_item_serializer,tag_serializer,comment_serializer,favorite_item_serializer
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from jwt_auth.compat import json
-from rest_framework.test import APIRequestFactory
 from django.contrib.postgres.search import SearchVector
 from .util import hidden_tag_extractor
+
+import geopy.distance
+
 
 
 
@@ -26,6 +28,7 @@ class cultural_heritage_item(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     pagination_class = LimitOffsetPagination
+
     def perform_create(self,serializer):
         serializer.save()
     def get_queryset(self):
@@ -53,13 +56,13 @@ class cultural_heritage_item(generics.ListCreateAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
-class ImageInterceptorMixin(object):
+class HeritageIdInterceptorMixin(object):
     @property
     def current_heritage_item(self):
         cultural_heritage_id = self.kwargs.get('heritage_id')
         return get_object_or_404(Cultural_Heritage,pk=cultural_heritage_id)
 
-class cultural_heritage_item_comment(ImageInterceptorMixin,generics.CreateAPIView):
+class cultural_heritage_item_comment(HeritageIdInterceptorMixin, generics.CreateAPIView):
     queryset = comment.objects.all()
     serializer_class = comment_serializer
     def create(self, request, *args, **kwargs):
@@ -73,9 +76,46 @@ class cultural_heritage_item_comment(ImageInterceptorMixin,generics.CreateAPIVie
             return result
         except BaseException as e:
             return Response(json.dumps(str(e)), status=status.HTTP_400_BAD_REQUEST)
+class user_favorite_item(HeritageIdInterceptorMixin,generics.CreateAPIView,mixins.DestroyModelMixin):
+    queryset = favorite_items.objects.all()
+    serializer_class =  favorite_item_serializer
+    def create(self, request, *args, **kwargs):
+        try:
+            item= Cultural_Heritage.objects.get(id=self.current_heritage_item.pk)
+            user =request.user
+            request.data['item'] =item.pk
+            request.data['user'] =user.pk
+            if favorite_items.objects.filter(item=item.pk,user=user.pk).count()>0:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+            result =super(user_favorite_item, self).create(request,*args,**kwargs)
+            item.favorited_amount=favorite_items.objects.filter(item=item.pk).count()
+            item.save()
+            return result
+        except BaseException as e:
+            return Response(json.dumps(str(e)), status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, *args, **kwargs):
+        item = Cultural_Heritage.objects.get(id=self.current_heritage_item.pk)
+        user = request.user
+        request.data['item'] = item.pk
+        request.data['user'] = user.pk
+        result =self.destroy(request, *args, **kwargs)
+        item.favorited_amount = favorite_items.objects.filter(item=item.pk).count()
+        item.save()
+        return result
+    def destroy(self, request, *args, **kwargs):
+        instance = get_object_or_404(self.queryset,item=request.data['item'],user=request.data['user'])
+        self.perform_destroy(instance)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+class get_user_favorite_items(HeritageIdInterceptorMixin,generics.ListAPIView):
+    queryset = favorite_items.objects.all()
+    serializer_class =  favorite_item_serializer
+    def get_queryset(self):
+        return favorite_items.objects.filter(user=self.request.user.pk)
 
 
-class image_media_item(ImageInterceptorMixin,generics.CreateAPIView):
+class image_media_item(HeritageIdInterceptorMixin, generics.CreateAPIView):
     queryset = image_item.objects.all()
     serializer_class = image_media_item_serializer
     def create(self, request, *args, **kwargs):
@@ -114,6 +154,7 @@ class cultural_heritage_item_view_update_delete(generics.RetrieveUpdateDestroyAP
     def get_queryset(self):
         return Cultural_Heritage.objects.filter()
 
+
 class tags(generics.ListAPIView):
     serializer_class = tag_serializer
     pagination_class =  None
@@ -145,4 +186,19 @@ class cultural_heritage_item_search_autocorrect(generics.ListAPIView):
     def get_queryset(self):
         query = self.kwargs.get('query')
         return Cultural_Heritage.objects.filter(title__icontains=query)
+
+
+class nearby_search(generics.ListAPIView):
+    serializer_class =  cultural_heritage_serializer
+    def get_queryset(self):
+        longitude = float(self.request.GET['longitude'])
+        latitude = float(self.request.GET['latitude'])
+        self.baseCoor = (longitude,latitude)
+        objects = Cultural_Heritage.objects.all().exclude(longitude=None).exclude(latitude=None)
+        return sorted(objects,key= self.dist)
+
+
+    def dist(self,item):
+        coord = (item.longitude,item.latitude )
+        return geopy.distance.vincenty(self.baseCoor,coord).km
 

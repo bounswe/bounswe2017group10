@@ -32,6 +32,10 @@ class sound_media_item(models.Model):
     updated_time = models.DateField(auto_now=True)
     cultural_heritage_item = models.ForeignKey('Cultural_Heritage', on_delete=models.CASCADE, null=True)
 
+class favorite_items(models.Model):
+    user = models.ForeignKey('authentication.Account',on_delete=models.CASCADE,null=True)
+    item = models.ForeignKey('Cultural_Heritage',on_delete=models.CASCADE,null=True)
+
 class Cultural_Heritage(models.Model):
     user = models.ForeignKey('authentication.Account',on_delete =models.PROTECT)
     title = models.CharField(max_length = 200)
@@ -43,6 +47,7 @@ class Cultural_Heritage(models.Model):
     created_time = models.DateField(auto_now_add =True)
     updated_time = models.DateField(auto_now =True)
     tags = models.ManyToManyField('tag',blank=True)
+    favorited_amount = models.IntegerField(default=0,editable=False)
     longitude =models.DecimalField(max_digits=9, decimal_places=6,null=True)
     latitude =models.DecimalField(max_digits=9, decimal_places=6,null=True)
     start_year = models.IntegerField(null=True)
@@ -51,15 +56,28 @@ class Cultural_Heritage(models.Model):
     hidden_tags = models.ManyToManyField('hidden_tag',blank=True)
 
 
+    @property
+    def is_favorite(self):
+        if self.user:
+            return favorite_items.objects.filter(item=self.pk,user=self.user.pk).count() > 0
+        return False
+
 class comment(models.Model):
     user = models.ForeignKey('authentication.Account', on_delete=models.CASCADE)
     text = models.TextField(blank=False)
-    created_time = models.DateField(auto_now_add =True)
-    updated_time = models.DateField(auto_now =True)
+    created_time = models.DateTimeField(auto_now_add =True)
+    updated_time = models.DateTimeField(auto_now =True)
     cultural_heritage_item = models.ForeignKey('Cultural_Heritage', on_delete=models.CASCADE, null=True)
-
 
 class hidden_tag(models.Model):
     name = models.CharField(max_length=100)
+
+
+    @property
+    def user_info(self):
+        user= {}
+        user['username']=self.user.username
+        user['picture']=self.user.profile_picture
+        return user
 
 

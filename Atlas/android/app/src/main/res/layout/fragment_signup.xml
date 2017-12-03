@@ -16,14 +16,14 @@
         android:paddingBottom="@dimen/edittext_padding_size"
         android:layout_marginLeft="@dimen/edittext_hor_margin_size"
         android:layout_marginRight="@dimen/edittext_hor_margin_size"
-        android:background="@color/button_gray"
+        android:background="@drawable/auth_button_shape"
         android:ems="10"
         android:hint="@string/username"
         android:inputType="textPersonName"
         android:textAlignment="center"
-        android:textColor="@android:color/white"
-        android:textColorHint="@android:color/white"
-        android:textSize="@dimen/edittext_text_size" />
+        android:textColor="@android:color/black"
+        android:textColorHint="@android:color/black"
+        />
 
     <EditText
         android:id="@+id/email_edittext"
@@ -34,14 +34,14 @@
         android:layout_marginLeft="@dimen/edittext_hor_margin_size"
         android:layout_marginRight="@dimen/edittext_hor_margin_size"
         android:layout_marginTop="@dimen/edittext_ver_margin_size"
-        android:background="@color/button_gray"
+        android:background="@drawable/auth_button_shape"
         android:ems="10"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
         android:textAlignment="center"
-        android:textColor="@android:color/white"
-        android:textColorHint="@android:color/white"
-        android:textSize="@dimen/edittext_text_size" />
+        android:textColor="@android:color/black"
+        android:textColorHint="@android:color/black"
+        />
 
     <EditText
         android:id="@+id/firstname_edittext"
@@ -52,14 +52,14 @@
         android:layout_marginLeft="@dimen/edittext_hor_margin_size"
         android:layout_marginRight="@dimen/edittext_hor_margin_size"
         android:layout_marginTop="@dimen/edittext_ver_margin_size"
-        android:background="@color/button_gray"
+        android:background="@drawable/auth_button_shape"
         android:ems="10"
         android:hint="@string/firstname"
         android:inputType="textPersonName"
         android:textAlignment="center"
-        android:textColor="@android:color/white"
-        android:textColorHint="@android:color/white"
-        android:textSize="@dimen/edittext_text_size" />
+        android:textColor="@android:color/black"
+        android:textColorHint="@android:color/black"
+        />
 
     <EditText
         android:id="@+id/lastname_edittext"
@@ -70,32 +70,15 @@
         android:layout_marginLeft="@dimen/edittext_hor_margin_size"
         android:layout_marginRight="@dimen/edittext_hor_margin_size"
         android:layout_marginTop="@dimen/edittext_ver_margin_size"
-        android:background="@color/button_gray"
+        android:background="@drawable/auth_button_shape"
         android:ems="10"
         android:hint="@string/lastname"
         android:inputType="textPersonName"
         android:textAlignment="center"
-        android:textColor="@android:color/white"
-        android:textColorHint="@android:color/white"
-        android:textSize="@dimen/edittext_text_size" />
+        android:textColor="@android:color/black"
+        android:textColorHint="@android:color/black"
+        />
 
-    <!--
-    <Button
-        android:id="@+id/birthdate_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/edittext_hor_margin_size"
-        android:layout_marginRight="@dimen/edittext_hor_margin_size"
-        android:layout_marginTop="@dimen/edittext_ver_margin_size"
-        android:background="@color/button_gray"
-        android:ems="10"
-        android:hint="@string/birthdate"
-        android:textColorHint="@android:color/white"
-        android:textColor="@android:color/white"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textSize="@dimen/edittext_text_size" />
-    -->
     <EditText
         android:id="@+id/password_pw_edittext"
         android:layout_width="match_parent"
@@ -103,16 +86,16 @@
         android:layout_marginLeft="@dimen/edittext_hor_margin_size"
         android:layout_marginRight="@dimen/edittext_hor_margin_size"
         android:layout_marginTop="@dimen/edittext_ver_margin_size"
-        android:background="@color/button_gray"
+        android:background="@drawable/auth_button_shape"
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword"
         android:paddingBottom="@dimen/edittext_padding_size"
         android:paddingTop="@dimen/edittext_padding_size"
         android:textAlignment="center"
-        android:textColor="@android:color/white"
-        android:textColorHint="@android:color/white"
-        android:textSize="@dimen/edittext_text_size" />
+        android:textColor="@android:color/black"
+        android:textColorHint="@android:color/black"
+        />
 
     <EditText
         android:id="@+id/confirm_pw_edittext"
@@ -121,16 +104,15 @@
         android:layout_marginLeft="@dimen/edittext_hor_margin_size"
         android:layout_marginRight="@dimen/edittext_hor_margin_size"
         android:layout_marginTop="@dimen/edittext_ver_margin_size"
-        android:background="@color/button_gray"
+        android:background="@drawable/auth_button_shape"
         android:ems="10"
         android:hint="@string/confirm_password"
+        android:textColorHint="@android:color/black"
         android:inputType="textPassword"
         android:paddingBottom="@dimen/edittext_padding_size"
         android:paddingTop="@dimen/edittext_padding_size"
         android:textAlignment="center"
-        android:textColor="@android:color/white"
-        android:textColorHint="@android:color/white"
-        android:textSize="@dimen/edittext_text_size" />
+        />
 
     <Space
         android:layout_width="match_parent"
@@ -149,8 +131,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/button_margin_size"
         android:layout_marginRight="@dimen/button_margin_size"
-        android:background="@android:color/background_light"
+        android:background="@drawable/auth_button_shape"
         android:text="@string/signup"
-        android:textAlignment="center"
-        android:textSize="@dimen/button_text_size" />
+        android:textAlignment="center" />
 </LinearLayout>
