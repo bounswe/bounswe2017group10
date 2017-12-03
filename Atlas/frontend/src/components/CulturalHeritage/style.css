@@ -74,6 +74,18 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
   .whitebox-profile .hr {
     width: 800px; }
 
+.whitebox-comment {
+  background-color: white;
+  color: black;
+  margin: auto; }
+  .whitebox-comment img {
+    width: 100px;
+    height: 100px; }
+  .whitebox-comment h3 {
+    padding-top: 10px;
+    font-size: 18px;
+    margin: 0 auto; }
+
 .cultural-heritage {
   list-style: none; }
   .cultural-heritage img {

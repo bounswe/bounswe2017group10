@@ -23,7 +23,22 @@ $ch-border-width: 2px;
     width: 800px;
   }
 }
+.whitebox-comment {
+  background-color: white;
+  color: black;
+  margin: auto;
+  img{
+    width: 100px;
+    height: 100px;
+  }
+  h3{
 
+    padding-top: 10px;
+    font-size: 18px;
+    margin: 0 auto;
+  }
+
+}
 .cultural-heritage {
   list-style: none;
   img {

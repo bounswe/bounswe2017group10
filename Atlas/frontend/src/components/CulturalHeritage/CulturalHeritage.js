@@ -5,6 +5,7 @@ import HomeIcon from 'react-icons/lib/fa/home';
 import BankIcon from 'react-icons/lib/fa/bank';
 import TagIcon from 'react-icons/lib/fa/tag';
 import Comment from './Comment';
+import AtlasHeader from '../utils/AtlasHeader'
 
 const CulturalHeritage = ({ culturalHeritage, shouldTruncate = false, showCommentSummary = false, showComments = false }) => (
   <Container>
@@ -51,6 +52,10 @@ const CulturalHeritage = ({ culturalHeritage, shouldTruncate = false, showCommen
         )}
       </Col>
     </Row>
+      {showComments && (culturalHeritage.comments.length !== 0) &&
+      (<AtlasHeader text="Comments"/>)
+      }
+
     { showComments && culturalHeritage.comments.map(comment => (
       <Row key={ Math.random() } className="whitebox" style={ { marginTop: 20 } }>
         <Col xs="12">
