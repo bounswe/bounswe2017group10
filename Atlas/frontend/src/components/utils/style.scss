@@ -1,0 +1,15 @@
+@import "../../style/colors.scss";
+@import url('https://fonts.googleapis.com/css?family=PT+Sans:700');
+
+$ch-border-width: 2px;
+.atlasheader{
+
+  h1{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-family: 'PT Sans', sans-serif;
+    margin: auto;
+    color: $atlas-orange;
+
+  }
+}
