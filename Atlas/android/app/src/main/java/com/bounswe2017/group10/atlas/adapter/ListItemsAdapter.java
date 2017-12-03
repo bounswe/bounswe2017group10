@@ -41,6 +41,8 @@ public class ListItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private static class ViewHolder extends RecyclerView.ViewHolder {
         TextView etTitle;
         TextView etDescr;
+        TextView etLocation;
+        TextView etYear;
         ImageView imIcon;
         LinearLayout layoutTag1;
         LinearLayout layoutTag2;
@@ -51,6 +53,8 @@ public class ListItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(v);
             this.etTitle = v.findViewById(R.id.title_textview);
             this.etDescr = v.findViewById(R.id.description_textview);
+            this.etLocation = v.findViewById(R.id.location_textview);
+            this.etYear = v.findViewById(R.id.year_textview);
             this.imIcon = v.findViewById(R.id.icon_imageview);
             this.layoutTag1 = v.findViewById(R.id.tag1);
             this.layoutTag2 = v.findViewById(R.id.tag2);
@@ -62,17 +66,22 @@ public class ListItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             FeedRow row = rowList.get(position);
             List<String> tagList = row.getTagList();
             LinearLayout[] tagArr = {layoutTag1, layoutTag2, layoutTag3};
-            int num_tags = tagList.size();
-            int num_hidden = max(tagArr.length - num_tags, 0);
-            for (int i = 0; i < num_hidden; ++i) {
-                tagArr[i].setVisibility(View.INVISIBLE);
-            }
-            for (int i = num_hidden, j = 0; i < tagArr.length; ++i,++j) {
+            int numTags = tagList.size();
+            for (int i = 0; i < numTags; ++i) {
                 tagArr[i].setVisibility(View.VISIBLE);
-                ((TextView)tagArr[i].findViewById(R.id.tag_textview)).setText(tagList.get(j));
+                ((TextView)tagArr[i].findViewById(R.id.tag_textview)).setText(tagList.get(i));
+            }
+            for (int i = numTags ; i < tagArr.length; ++i) {
+                tagArr[i].setVisibility(View.INVISIBLE);
             }
             etTitle.setText(row.getTitle());
             etDescr.setText(row.getDescription());
+            etLocation.setText(row.getLocation());
+
+            if (row.getYear() != null) {
+                int[] yearPair = FeedRow.fromYearFormat(row.getYear());
+                etYear.setText(context.getString(R.string.year_string, yearPair[0], yearPair[1]));
+            }
 
             Glide.with(context)
                 .load(row.getImageUrl())

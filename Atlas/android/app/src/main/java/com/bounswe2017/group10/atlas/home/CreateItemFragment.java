@@ -10,13 +10,16 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,16 +40,15 @@ import com.bounswe2017.group10.atlas.httpbody.CultureItem;
 import com.bounswe2017.group10.atlas.httpbody.Image;
 import com.bounswe2017.group10.atlas.httpbody.Tag;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
+import com.bounswe2017.group10.atlas.remote.CloudinaryUploader;
 import com.bounswe2017.group10.atlas.response.OnCreateItemResponse;
 import com.bounswe2017.group10.atlas.response.OnUpdateItemResponse;
 import com.bounswe2017.group10.atlas.util.Constants;
 import com.bounswe2017.group10.atlas.util.Utils;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,61 +62,64 @@ public class CreateItemFragment extends Fragment {
     private enum REQUEST_TYPE {
         UPDATE,
         CREATE
-    };
-
-    private REQUEST_TYPE mRequestType = REQUEST_TYPE.CREATE;
-    private CultureItem mItemToSend = new CultureItem();
-
+    }
     private static final String TAG = "CreateItemFragment";
     public static final int FROM_GALLERY = 1;
     public static final int FROM_CAMERA = 2;
     public static final int FROM_LOCATION = 3;
     public static final int CAMERA_REQUEST_CODE = 4;
 
-    private final ArrayList<String> mAllTagsList = new ArrayList<>();
+    // list to hold all the tags
+    private final static ArrayList<String> allTagsList = new ArrayList<>();
 
+    private REQUEST_TYPE mRequestType = REQUEST_TYPE.CREATE;
+    private CultureItem mItemToSend = new CultureItem();
+
+    // lists to hold the items
+    private ArrayList<ImageRow> mImageRowList = new ArrayList<>();
+    private ArrayList<Tag> mTagList = new ArrayList<>();
+
+    // adapters that work on item lists
     private ImageListAdapter mImageAdapter;
-    private final ArrayList<ImageRow> mImageRowList = new ArrayList<>();
-
     private TagListAdapter mTagAdapter;
-    private final ArrayList<Tag> mTagList = new ArrayList<>();
-
     private ArrayAdapter<String> mAutoComplAdapter;
 
     private Uri currentPhotoUri = null;
-
-    private SupportMapFragment mMapFragment;
     private Button mBtnLocation = null;
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        // make a single call to get all Tags
-        String authStr = Utils.getSharedPref(getActivity()).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
-        APIUtils.serverAPI().getAllTags(authStr).enqueue(new Callback<List<Tag>>() {
-            @Override
-            public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {
-                if (response.isSuccessful()) {
-                    List<Tag> responseList = response.body();
-                    for (Tag t : responseList) {
-                        mAllTagsList.add(t.getName());
-                    }
-                    mAutoComplAdapter.notifyDataSetChanged();
-                } else {
-                    Log.d(TAG, "Error on getting all tags: " + response.errorBody().toString());
-                }
-            }
+    private int etFromOriginalColor = 0;
+    private int etToOriginalColor = 0;
+    private boolean correctYearInputs = true;
+    private static boolean isTagsDownloaded = false;
 
-            @Override
-            public void onFailure(Call<List<Tag>> call, Throwable t) {
-                Log.d(TAG, "Connection failure on getting all tags: " + t.toString());
-            }
+    /**
+     * Initialize adapters used by this object.
+     */
+    private void initAdapters() {
+        // adapters
+        mImageAdapter = new ImageListAdapter(getActivity(), mImageRowList);
+        mAutoComplAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_item, allTagsList);
+        mTagAdapter = new TagListAdapter(getActivity(), mTagList, (List<Tag> tagList, int position) -> {
+            tagList.remove(position);
+            mTagAdapter.notifyDataSetChanged();
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        storeInputsIntoItem(getView());
+        outState.putParcelable(Constants.CULTURE_ITEM, mItemToSend);
+        super.onSaveInstanceState(outState);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        initAdapters();
+        if (!isTagsDownloaded) {
+            getAllTags();
+        }
+
         View view = inflater.inflate(R.layout.fragment_create_item, container, false);
 
         // set adapters
@@ -126,6 +131,13 @@ public class CreateItemFragment extends Fragment {
         // handle tags
         setTagChoosingListener(etTags);
         setTagEnteringListener(etTags);
+
+        // set handlers for year textedits
+        EditText etFrom = view.findViewById(R.id.from_textedit);
+        EditText etTo = view.findViewById(R.id.to_textedit);
+        etFromOriginalColor = etFrom.getCurrentTextColor();
+        etToOriginalColor = etFrom.getCurrentTextColor();
+        setYearEnteringListeners(etFrom, etTo);
 
         // handle gallery feature
         Button btnGallery = view.findViewById(R.id.gallery_button);
@@ -143,6 +155,12 @@ public class CreateItemFragment extends Fragment {
         mBtnLocation = view.findViewById(R.id.location_button);
         setLocationListener(mBtnLocation);
 
+        // if activity was killed, fill the input fields with saved state
+        if (savedInstanceState != null) {
+            mItemToSend = savedInstanceState.getParcelable(Constants.CULTURE_ITEM);
+            fillInputsWithItem(view);
+        }
+
         // If there is an argument item, fill the inputs with its data.
         Bundle arguments = getArguments();
         if (arguments != null) {
@@ -155,8 +173,83 @@ public class CreateItemFragment extends Fragment {
     }
 
     /**
+     * Makes a request to the server to get all tags. Upon response, adds the returned
+     * tags to allTagsList and notifies mAutoComplAdapter of the changes.
+     */
+    private void getAllTags() {
+        String authStr = Utils.getSharedPref(getActivity()).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
+        APIUtils.serverAPI().getAllTags(authStr).enqueue(new Callback<List<Tag>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Tag>> call, @NonNull Response<List<Tag>> response) {
+                if (response.isSuccessful()) {
+                    isTagsDownloaded = true;
+                    List<Tag> responseList = response.body();
+                    for (Tag t : responseList) {
+                        allTagsList.add(t.getName());
+                    }
+                    mAutoComplAdapter.notifyDataSetChanged();
+                } else {
+                    Log.d(TAG, "Error on getting all tags: " + response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Tag>> call, @NonNull Throwable t) {
+                Log.d(TAG, "Connection failure on getting all tags: " + t.toString());
+            }
+        });
+    }
+
+    /**
+     * Collects all the information from the input fields and stores them
+     * in mItemToSend
+     *
+     * @param view View of this fragment with input fields.
+     */
+    private void storeInputsIntoItem(View view) {
+        String title = ((EditText)view.findViewById(R.id.title_edittext)).getText().toString();
+        if (title.equals("")) title = null;
+        mItemToSend.setTitle(title);
+
+        String description = ((EditText)view.findViewById(R.id.description_edittext)).getText().toString();
+        if (description.equals("")) description = null;
+        mItemToSend.setDescription(description);
+
+        String placeName = ((Button)view.findViewById(R.id.location_button)).getText().toString();
+        if (placeName.equals(getString(R.string.location))) placeName = null;
+        mItemToSend.setPlaceName(placeName);
+
+        String fromYear = ((EditText)view.findViewById(R.id.from_textedit)).getText().toString();
+        Integer fromYearInt;
+        if (Utils.isValidYear(fromYear)) {
+            fromYearInt = Integer.valueOf(fromYear);
+        } else {
+            fromYearInt = null;
+        }
+        mItemToSend.setStartYear(fromYearInt);
+
+        String toYear = ((EditText)view.findViewById(R.id.to_textedit)).getText().toString();
+        Integer toYearInt;
+        if (Utils.isValidYear(toYear)) {
+            toYearInt = Integer.valueOf(toYear);
+        } else {
+            toYearInt = null;
+        }
+        mItemToSend.setEndYear(toYearInt);
+
+        mItemToSend.setTagList(mTagList);
+
+        ArrayList<Image> imgList = new ArrayList<>();
+        for (ImageRow row : mImageRowList) {
+            imgList.add(row.toImage());
+        }
+        mItemToSend.setImageList(imgList);
+    }
+
+    /**
      * Fills the input fields in this Fragment with the given item
      *
+     * @param view View of this fragment with input fields.
      */
     private void fillInputsWithItem(View view) {
         if (mItemToSend.getTitle() != null) {
@@ -165,11 +258,20 @@ public class CreateItemFragment extends Fragment {
         if (mItemToSend.getDescription() != null) {
             ((TextView)view.findViewById(R.id.description_edittext)).setText(mItemToSend.getDescription());
         }
+        if (mItemToSend.getStartYear() != null) {
+            ((EditText)view.findViewById(R.id.from_textedit)).setText(Integer.toString(mItemToSend.getStartYear()));
+        }
+        if (mItemToSend.getEndYear() != null) {
+            ((EditText)view.findViewById(R.id.to_textedit)).setText(Integer.toString(mItemToSend.getEndYear()));
+        }
+        if (mItemToSend.getPlaceName() != null) {
+            ((Button)view.findViewById(R.id.location_button)).setText(mItemToSend.getPlaceName());
+        }
         for (Image img : mItemToSend.getImageList()) {
             mImageRowList.add(img.toImageRow());
         }
-        mImageAdapter.notifyDataSetChanged();
         mTagList.addAll(mItemToSend.getTagList());
+        mImageAdapter.notifyDataSetChanged();
         mTagAdapter.notifyDataSetChanged();
     }
 
@@ -182,19 +284,13 @@ public class CreateItemFragment extends Fragment {
      */
     private void setAdapters(RecyclerView tagRecyclerView, ListView imageListView, AutoCompleteTextView etTags) {
         // set TagListAdapter to tagRecyclerView
-        mTagAdapter = new TagListAdapter(getActivity(), mTagList, (List<Tag> tagList, int position) -> {
-            tagList.remove(position);
-            mTagAdapter.notifyDataSetChanged();
-        });
         tagRecyclerView.setAdapter(mTagAdapter);
 
         // set ImageListAdapter to imageListView
-        mImageAdapter = new ImageListAdapter(getActivity(), mImageRowList);
         imageListView.setAdapter(mImageAdapter);
 
         // set AutoCompleteTextView String adapter
         etTags.setThreshold(2);
-        mAutoComplAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_item, mAllTagsList);
         etTags.setAdapter(mAutoComplAdapter);
     }
 
@@ -247,6 +343,85 @@ public class CreateItemFragment extends Fragment {
                 }
             }
         });
+    }
+
+    /**
+     * Set listeners that take action when entering years into text edits.
+     *
+     * @param etFrom EditText that takes the from year.
+     * @param etTo EditText that takes the to year.
+     */
+    private void setYearEnteringListeners(EditText etFrom, EditText etTo) {
+        etFrom.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String fromStr = s.toString();
+                if (fromStr.equals("") || fromStr.equals("-")) {
+                    return;
+                }
+                if (Utils.isValidYear(fromStr)) {
+                    etFrom.setTextColor(etFromOriginalColor);
+                }
+                checkYearInputs(etFrom, etTo);
+            }
+        });
+
+        etTo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String toStr = s.toString();
+                if (toStr.equals("") || toStr.equals("-")) {
+                    return;
+                }
+                if (Utils.isValidYear(toStr)) {
+                    etTo.setTextColor(etToOriginalColor);
+                }
+                checkYearInputs(etFrom, etTo);
+            }
+        });
+    }
+
+    /**
+     * Checks the year values in etFrom and etTo, highlights the EditText
+     * objects that cause a wrong state.
+     *
+     * @param etFrom EditText object getting the from year.
+     * @param etTo EditText object getting the to year.
+     */
+    private void checkYearInputs(EditText etFrom, EditText etTo) {
+        String fromStr = etFrom.getText().toString();
+        String toStr = etTo.getText().toString();
+        boolean validFromYear = Utils.isValidYear(fromStr);
+        boolean validToYear = Utils.isValidYear(toStr);
+
+        this.correctYearInputs = false;
+        if (validFromYear && validToYear) {
+            int fromYear = Integer.parseInt(fromStr);
+            int toYear = Integer.parseInt(toStr);
+            if (toYear < fromYear) {
+                etTo.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_red_light));
+            } else {
+                this.correctYearInputs = true;
+                etTo.setTextColor(etToOriginalColor);
+            }
+        } else {
+            if (!validFromYear) {
+                etFrom.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_red_light));
+            }
+            if (!validToYear) {
+                etTo.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_red_light));
+            }
+        }
     }
 
     /**
@@ -325,9 +500,7 @@ public class CreateItemFragment extends Fragment {
         // construct AlertDialog that will be called on url button
         AlertDialog urlAlertDialog = createUrlAlertDialog();
         // set listener to url button
-        btnUrl.setOnClickListener((View btnView) -> {
-            urlAlertDialog.show();
-        });
+        btnUrl.setOnClickListener((View btnView) -> urlAlertDialog.show());
     }
 
     /**
@@ -350,32 +523,26 @@ public class CreateItemFragment extends Fragment {
     public void makeRequest() {
         View view = getView();
         EditText etTitle = view.findViewById(R.id.title_edittext);
-        EditText etDescription = view.findViewById(R.id.description_edittext);
-        ProgressBar progressBar = new ProgressBar(getActivity());
+        EditText etToYear = view.findViewById(R.id.to_textedit);
+        EditText etFromYear = view.findViewById(R.id.from_textedit);
+        ProgressBar progressBar = getActivity().findViewById(R.id.fab_progress);
 
         if (etTitle.getText().length() == 0) {
             Utils.showToast(getActivity().getApplicationContext(), getResources().getString(R.string.empty_title));
             return;
         }
-        String title = etTitle.getText().toString();
-        String description = etDescription.getText().toString();
 
-        mItemToSend.setTitle(title);
-        mItemToSend.setDescription(description);
-        if (description.length() == 0)
-            mItemToSend.setDescription(null);
-
-        mItemToSend.setPublicAccessibility(true);
-
-        ArrayList<Image> imageList = new ArrayList<>();
-        for (ImageRow row : mImageRowList) {
-            Image img = new Image();
-            img.setUrl(row.getUri().toString());
-            imageList.add(img);
+        String fromYear = etFromYear.getText().toString();
+        String toYear = etToYear.getText().toString();
+        if (!(fromYear.equals("") && toYear.equals(""))) {
+            if (!this.correctYearInputs) {
+                Utils.showToast(getActivity(), getString(R.string.year_entering_warning, Constants.MIN_YEAR, Constants.MAX_YEAR));
+                return;
+            }
         }
-        mItemToSend.setImageList(imageList);
-        mItemToSend.setTagList(mTagList);
-        makeCreateRequest(progressBar);
+
+        storeInputsIntoItem(view);
+        startUploadRequest(progressBar);
     }
 
     /**
@@ -401,8 +568,8 @@ public class CreateItemFragment extends Fragment {
 
                 // set data to item
                 mItemToSend.setPlaceName(placeName);
-                mItemToSend.setLatitude(Utils.roundToDecimals(latLng.latitude, Constants.LATLONG_PRECISION));
-                mItemToSend.setLongitude(Utils.roundToDecimals(latLng.longitude, Constants.LATLONG_PRECISION));
+                mItemToSend.setLatitude(new DecimalFormat(Constants.DECIMAL_FORMAT_STRING).format(latLng.latitude));
+                mItemToSend.setLongitude(new DecimalFormat(Constants.DECIMAL_FORMAT_STRING).format(latLng.longitude));
 
                 // show data in button
                 mBtnLocation.setText(placeName);
@@ -438,15 +605,47 @@ public class CreateItemFragment extends Fragment {
      *
      * @param progressBar ProgressBar object which will be shown during request execution.
      */
-    private void makeCreateRequest(ProgressBar progressBar) {
+    private void startUploadRequest(ProgressBar progressBar) {
         progressBar.setVisibility(View.VISIBLE);
-        Activity activity = getActivity();
-        String authStr = Utils.getSharedPref(activity).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
-        if (mRequestType == REQUEST_TYPE.CREATE) {  // create request
-            APIUtils.serverAPI().createItem(authStr, mItemToSend).enqueue(new OnCreateItemResponse(this, mItemToSend.getImageList(), progressBar));
-        } else if (mRequestType == REQUEST_TYPE.UPDATE){  // edit request
-            APIUtils.serverAPI().updateItem(authStr, mItemToSend.getId(), mItemToSend).enqueue(new OnUpdateItemResponse(getActivity()));
+        // if there are any local images, first upload them
+        ArrayList<Image> imgList = mItemToSend.getImageList();
+        // find local images and its indices
+        ArrayList<Image> localImgList = new ArrayList<>();
+        ArrayList<Integer> localIndexList = new ArrayList<>();
+        for (int i = 0; i < imgList.size(); ++i) {
+            Image img = imgList.get(i);
+            if (Utils.isLocalUrl(img.getUrl())) {
+                localImgList.add(img);
+                localIndexList.add(i);
+            }
         }
+        Activity activity = getActivity();
+        // upload local images, and then make a request to the server
+        new CloudinaryUploader(activity, localImgList, new CloudinaryUploader.OnResponseCallback() {
+            @Override
+            public void onSuccess(List<Image> uploadedImgList) {
+                // replace local images with uploaded images
+                for (int i = 0; i < uploadedImgList.size(); ++i) {
+                    imgList.set(localIndexList.get(i), uploadedImgList.get(i));
+                }
+                // make a correct request to server
+                String authStr = Utils.getSharedPref(activity).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
+                if (mRequestType == REQUEST_TYPE.CREATE) {  // create request
+                    APIUtils.serverAPI()
+                            .createItem(authStr, mItemToSend)
+                            .enqueue(new OnCreateItemResponse(CreateItemFragment.this, progressBar));
+                } else if (mRequestType == REQUEST_TYPE.UPDATE){  // edit request
+                    APIUtils.serverAPI()
+                            .updateItem(authStr, mItemToSend.getId(), mItemToSend)
+                            .enqueue(new OnUpdateItemResponse(CreateItemFragment.this, progressBar));
+                }
+            }
+
+            @Override
+            public void onFail(String msg) {
+                Utils.showToast(activity, msg);
+            }
+        }).startUpload();
     }
 
     /**
@@ -492,9 +691,7 @@ public class CreateItemFragment extends Fragment {
             addImageFromUri(uri);
         });
 
-        builder.setNegativeButton(getResources().getString(R.string.cancel), (DialogInterface dialog, int i) -> {
-            dialog.cancel();
-        });
+        builder.setNegativeButton(getResources().getString(R.string.cancel), (DialogInterface dialog, int i) -> dialog.cancel());
 
         return builder.create();
     }

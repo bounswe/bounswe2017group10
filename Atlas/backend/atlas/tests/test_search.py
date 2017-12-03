@@ -253,3 +253,69 @@ class cultural_heritage_item(TestCase):
         response_content = json.loads(smart_text(response.content))
         self.assertEqual(len(response_content['results']), 3);
 
+    def test_nearby_search(self):
+        item_data = {
+            "title": "Draven montage",
+            "longitude": "23.123523",
+            "latitude": "21.123523",
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+
+        item_data = {
+            "title": "Elo"
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+
+        item_data = {
+            "title": "thresh montage",
+            "longitude": "50.123523",
+            "latitude": "23.123523",
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        item_data = {
+            "title": "Ahri montage",
+            "longitude": "-87.123523",
+            "latitude": "-85.123523",
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        location_data = {
+            'longitude': "12.51231",
+            'latitude': "11.51231",
+
+        }
+        response = self.client.get(
+            '/nearby_items',
+            location_data,
+            format ='json'
+
+        )
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(response_content['results'][0]['title'],'Draven montage')
+        self.assertEqual(response_content['results'][1]['title'],'thresh montage')
+        self.assertEqual(response_content['results'][2]['title'],'Ahri montage')
+
+

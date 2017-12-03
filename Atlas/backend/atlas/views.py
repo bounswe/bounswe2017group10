@@ -11,6 +11,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from jwt_auth.compat import json
 from django.contrib.postgres.search import SearchVector
 
+import geopy.distance
 
 
 
@@ -182,3 +183,18 @@ class item_visit_update(generics.UpdateAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return Response(serializer.data)
+
+class nearby_search(generics.ListAPIView):
+    serializer_class =  cultural_heritage_serializer
+    def get_queryset(self):
+        longitude = float(self.request.GET['longitude'])
+        latitude = float(self.request.GET['latitude'])
+        self.baseCoor = (longitude,latitude)
+        objects = Cultural_Heritage.objects.all().exclude(longitude=None).exclude(latitude=None)
+        return sorted(objects,key= self.dist)
+
+
+    def dist(self,item):
+        coord = (item.longitude,item.latitude )
+        return geopy.distance.vincenty(self.baseCoor,coord).km
+

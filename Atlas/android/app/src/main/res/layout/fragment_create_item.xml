@@ -21,9 +21,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:maxLines="4"
+        android:gravity="top"
         android:hint="@string/description"
-        android:inputType="textMultiLine" />
+        android:inputType="textMultiLine"
+        android:maxLines="4"
+        android:minLines="7" />
 
     <AutoCompleteTextView
         android:id="@+id/tag_auto_comp_textview"
@@ -31,6 +33,56 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/tags" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:weightSum="1"
+        android:layout_height="40dp">
+
+        <TextView
+            android:id="@+id/from_textview"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="5dp"
+            android:gravity="center"
+            android:layout_weight="0.15"
+            android:layout_width="0dp"
+            android:text="@string/from"
+            android:textSize="18sp"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/from_textedit"
+            android:layout_weight="0.35"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="numberSigned" />
+
+        <TextView
+            android:id="@+id/to_textview"
+            android:gravity="center"
+            android:layout_weight="0.15"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="@string/to"
+            android:textSize="18sp"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/to_textedit"
+            android:layout_weight="0.35"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="numberSigned" />
+
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -90,15 +142,16 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/tag_recyclerview"
-        android:padding="5dp"
+        android:padding="@dimen/tag_horizontal_margin"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        android:layout_height="@dimen/tag_height" />
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
     <ListView
         android:id="@+id/image_listview"
         android:layout_width="match_parent"
+        android:layout_gravity="bottom"
         android:layout_height="match_parent" />
 
 </LinearLayout>
