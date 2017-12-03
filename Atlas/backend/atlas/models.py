@@ -85,4 +85,3 @@ class item_visit(models.Model):
     user = models.ForeignKey('authentication.Account', on_delete=models.CASCADE)
     duration = models.IntegerField(default=0) #This will be stored in seconds.
     last_updated_time = models.DateTimeField(auto_now=True)
-

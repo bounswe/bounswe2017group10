@@ -3,6 +3,7 @@ from .util import hidden_tag_extractor
 from .models import Cultural_Heritage,comment as comment_model,image_media_item,item_visit,favorite_items,tag as tag_model,hidden_tag
 from authentication.serializers import AccountSerializer
 from rest_framework.utils import  model_meta
+from .tasks import extract_hidden_tags
 
 class image_media_item_serializer(serializers.ModelSerializer):
 
@@ -14,7 +15,6 @@ class tag_serializer(serializers.ModelSerializer):
         model = tag_model
         fields = '__all__'
 class hidden_tag_serializer(serializers.ModelSerializer):
-
     class Meta:
         model =  hidden_tag
         fields = '__all__'
@@ -45,19 +45,14 @@ class cultural_heritage_serializer(serializers.ModelSerializer):
          if 'tags' in validated_data.keys():
              tags= validated_data.pop('tags')
          heritage_item = Cultural_Heritage.objects.create(**validated_data)
-         if 'description' in validated_data:
-             description = validated_data['description']
-             hidden_tags = hidden_tag_extractor.extract_keywords(hidden_tag_extractor,text=description)
-             for tag in hidden_tags:
-                 new_tag, created = hidden_tag.objects.get_or_create(name=tag)
-                 if created:
-                    heritage_item.hidden_tags.add(new_tag)
-
 
          if len(tags)>0:
             for tag in tags:
                 new_tag,created = tag_model.objects.get_or_create(name=tag["name"])
                 heritage_item.tags.add(new_tag)
+
+         if 'description' in validated_data:
+             extract_hidden_tags.delay(heritage_item.id)
          return heritage_item
 
     def update(self, instance, validated_data):

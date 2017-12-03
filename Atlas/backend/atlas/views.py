@@ -11,6 +11,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from jwt_auth.compat import json
 from django.contrib.postgres.search import SearchVector
 from .util import hidden_tag_extractor
+from .tasks import add
 
 import geopy.distance
 
@@ -76,6 +77,7 @@ class cultural_heritage_item_comment(HeritageIdInterceptorMixin, generics.Create
             return result
         except BaseException as e:
             return Response(json.dumps(str(e)), status=status.HTTP_400_BAD_REQUEST)
+
 class user_favorite_item(HeritageIdInterceptorMixin,generics.CreateAPIView,mixins.DestroyModelMixin):
     queryset = favorite_items.objects.all()
     serializer_class =  favorite_item_serializer
@@ -165,8 +167,8 @@ class cultural_heritage_item_list_user_items(generics.ListAPIView):
 
     serializer_class = cultural_heritage_serializer
 
-
     def get_queryset(self):
+
         user=self.request.user;
         return Cultural_Heritage.objects.filter(user=user)
 
