@@ -13,7 +13,6 @@ class hidden_tag_serializer(serializers.ModelSerializer):
 
 @app.task
 def add(x, y):
-    print("naber")
     return x + y
 
 @app.task
