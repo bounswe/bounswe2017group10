@@ -1,8 +1,8 @@
-from .models import User,Cultural_Heritage,comment,tag,favorite_items,image_media_item as image_item
+from .models import User,Cultural_Heritage,comment,tag,favorite_items,item_visit,image_media_item as image_item
 from rest_framework import generics,mixins
 from django.http import HttpResponse, JsonResponse,HttpRequest
 from django.core import serializers
-from .serializers import cultural_heritage_serializer,image_media_item_serializer,tag_serializer,comment_serializer,favorite_item_serializer
+from .serializers import cultural_heritage_serializer,image_media_item_serializer,tag_serializer,comment_serializer,favorite_item_serializer,item_visit_serializer
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
@@ -168,6 +168,21 @@ class cultural_heritage_item_search_autocorrect(generics.ListAPIView):
         query = self.kwargs.get('query')
         return Cultural_Heritage.objects.filter(title__icontains=query)
 
+class item_visit_update(generics.UpdateAPIView):
+    serializer_class =  item_visit_serializer
+    queryset = item_visit.objects.all()
+    def update(self, request, *args, **kwargs):
+        request.data['user'] =request.user.pk
+        item = get_object_or_404(Cultural_Heritage,pk=request.data['cultural_heritage_item'])
+        previous_duration = 0
+        if item_visit.objects.filter(user=request.user,cultural_heritage_item=item,).count()>0:
+            instance = item_visit.objects.get(user=request.user,cultural_heritage_item=item)
+            previous_duration = instance.__dict__['duration']
+        request.data['duration'] = request.data['duration']+previous_duration
+        serializer = self.get_serializer(data=request.data,partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
 
 class nearby_search(generics.ListAPIView):
     serializer_class =  cultural_heritage_serializer
