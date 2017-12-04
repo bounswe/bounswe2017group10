@@ -10,8 +10,8 @@ from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from jwt_auth.compat import json
 from django.contrib.postgres.search import SearchVector
-from .util import hidden_tag_extractor
 from .tasks import extract_hidden_tags
+
 import geopy.distance
 
 
@@ -76,7 +76,6 @@ class cultural_heritage_item_comment(HeritageIdInterceptorMixin, generics.Create
             return result
         except BaseException as e:
             return Response(json.dumps(str(e)), status=status.HTTP_400_BAD_REQUEST)
-
 class user_favorite_item(HeritageIdInterceptorMixin,generics.CreateAPIView,mixins.DestroyModelMixin):
     queryset = favorite_items.objects.all()
     serializer_class =  favorite_item_serializer
@@ -142,10 +141,12 @@ class cultural_heritage_item_view_update_delete(generics.RetrieveUpdateDestroyAP
         data = request.data
         if 'description' in data:
             extract_hidden_tags.delay(instance.id,update=True)
+        instance.save()
         self.perform_update(serializer)
         return Response(serializer.data)
     def get_queryset(self):
         return Cultural_Heritage.objects.filter()
+
 
 class tags(generics.ListAPIView):
     serializer_class = tag_serializer
@@ -153,12 +154,12 @@ class tags(generics.ListAPIView):
     def get_queryset(self):
         return tag.objects.get_queryset().order_by('id')
 
+
 class cultural_heritage_item_list_user_items(generics.ListAPIView):
 
     serializer_class = cultural_heritage_serializer
 
     def get_queryset(self):
-
         user=self.request.user;
         return Cultural_Heritage.objects.filter(user=user)
 
@@ -207,4 +208,3 @@ class nearby_search(generics.ListAPIView):
     def dist(self,item):
         coord = (item.longitude,item.latitude )
         return geopy.distance.vincenty(self.baseCoor,coord).km
-
