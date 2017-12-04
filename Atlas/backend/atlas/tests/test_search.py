@@ -1,9 +1,10 @@
+from authentication.models import Account
+
 import pytest
 from django.test import TestCase
-
 from jwt_auth.compat import json, smart_text
-from authentication.models import Account
 from rest_framework.test import APIClient
+
 
 @pytest.mark.django_db
 class cultural_heritage_item(TestCase):
@@ -171,7 +172,7 @@ class cultural_heritage_item(TestCase):
                 {'name': 'adc',},
                 {'name': 'meta'}
             ],
-            'place_name' : 'meta',
+            'place_name': 'meta',
             'latitude': '22.12',
             'longitude': '23.14'
         }
@@ -326,12 +327,10 @@ class cultural_heritage_item(TestCase):
         response = self.client.get(
             '/nearby_items',
             location_data,
-            format ='json'
+            format='json'
 
         )
         response_content = json.loads(smart_text(response.content))
-        self.assertEqual(response_content['results'][0]['title'],'Draven montage')
-        self.assertEqual(response_content['results'][1]['title'],'thresh montage')
-        self.assertEqual(response_content['results'][2]['title'],'Ahri montage')
-
-
+        self.assertEqual(response_content['results'][0]['title'], 'Draven montage')
+        self.assertEqual(response_content['results'][1]['title'], 'thresh montage')
+        self.assertEqual(response_content['results'][2]['title'], 'Ahri montage')
