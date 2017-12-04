@@ -17,5 +17,14 @@ ul.navbar-nav li.nav-item {
     ul.navbar-nav li.nav-item a:hover {
       text-decoration: none; }
 
-.searchSuggestion:hover {
-  cursor: pointer; }
+.search-input {
+  float: left;
+  width: auto;
+  margin-right: 10px;
+  height: 28px; }
+
+.search-button {
+  float: left;
+  cursor: pointer;
+  height: 28px;
+  padding: 0 10px; }

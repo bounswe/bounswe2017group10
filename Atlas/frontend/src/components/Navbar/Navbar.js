@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, NavbarBrand, Collapse, NavItem, NavbarToggler, NavDropdown, DropdownToggle , DropdownMenu , DropdownItem,  Nav } from 'reactstrap';
+import { Form, FormGroup, Input, Button, Navbar, NavbarBrand, Collapse, NavItem, NavbarToggler, NavDropdown, DropdownToggle , DropdownMenu , DropdownItem,  Nav } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import './style.css';
 import AccIcon from 'react-icons/lib/md/account-circle';
@@ -8,7 +8,7 @@ import GithubIcon from 'react-icons/lib/fa/github';
 import Autocomplete from 'react-autocomplete';
 import { truncate } from '../../utils';
 
-const AtlasNavbar = ({ token, logo, user, searchSuggestions, loggedIn, dropDownOpen, searchInput, logout, closeDrop, openDrop, updateSearchInput, selectSearchValue }) => (
+const AtlasNavbar = ({ token, logo, user, searchSuggestions, loggedIn, dropDownOpen, searchInput, logout, closeDrop, openDrop, updateSearchInput, search }) => (
   <div>
     <Navbar color="transparent" expand="md">
       <NavbarBrand href="/">
@@ -25,18 +25,17 @@ const AtlasNavbar = ({ token, logo, user, searchSuggestions, loggedIn, dropDownO
           </NavItem>
           { loggedIn &&
             <NavItem>
-              <Autocomplete
-                getItemValue={(item) => String(item.id)}
-                items={searchSuggestions}
-                renderItem={(item, isHighlighted) =>
-                  <div className="searchSuggestion" key={ Math.random() } style={{ background: isHighlighted ? 'rgba(244, 173, 66, 0.3)' : 'white' }}>
-                    { truncate(item.title, 40) }
-                  </div>
-                }
-                value={searchInput}
-                onChange={(e) => updateSearchInput(token, e.target.value) }
-                onSelect={(val) => selectSearchValue(val) }
-              />
+              <Form onSubmit={ (e) => { e.preventDefault();  search(token, searchInput) } }>
+                <FormGroup>
+                  <Input
+                    className="search-input"
+                    name="search"
+                    type="text"
+                    onChange={ (e) => updateSearchInput(token, e.target.value) }
+                  />
+                  <Button className="search-button" onClick={ () => search(token, searchInput) }>Search</Button>
+                </FormGroup>
+              </Form>
             </NavItem>
           }
           { !loggedIn &&

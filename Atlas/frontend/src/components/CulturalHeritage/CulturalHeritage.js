@@ -10,10 +10,10 @@ import CHFav from './CHFav';
 import { NavLink } from 'react-router-dom';
 
 
-const CulturalHeritage = ({ culturalHeritage, shouldTruncate = false, showCommentSummary = false, showComments = false, favorite }) => (
+const CulturalHeritage = ({ returnTo, culturalHeritage, shouldTruncate = false, showCommentSummary = false, showComments = false, favorite }) => (
   <Container>
     <Row className="whitebox cultural-heritage">
-      <NavLink style={{ width: '100%' }} to={ "/cultural-heritages/" + culturalHeritage.id }>
+      <NavLink style={{ width: '100%' }} to={ "/cultural-heritages/" + culturalHeritage.id + "?returnTo=" + returnTo }>
         <div>
           <Col xs="5">
             { culturalHeritage.images.length > 0 ? (
