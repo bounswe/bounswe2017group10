@@ -12,7 +12,6 @@ from jwt_auth.compat import json
 from django.contrib.postgres.search import SearchVector
 from .util import hidden_tag_extractor
 from .tasks import extract_hidden_tags
-
 import geopy.distance
 
 
