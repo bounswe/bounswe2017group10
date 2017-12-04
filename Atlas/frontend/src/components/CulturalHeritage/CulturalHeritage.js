@@ -12,9 +12,8 @@ import { NavLink } from 'react-router-dom';
 
 const CulturalHeritage = ({ culturalHeritage, shouldTruncate = false, showCommentSummary = false, showComments = false, favorite }) => (
   <Container>
-    <Row className="whitebox cultural-heritage">
       <NavLink style={{ width: '100%' }} to={ "/cultural-heritages/" + culturalHeritage.id }>
-        <div>
+    <Row className="whitebox cultural-heritage">
           <Col xs="5">
             { culturalHeritage.images.length > 0 ? (
               <img alt="Cultural Heritage" src={ culturalHeritage.images[0].url } />
@@ -51,19 +50,20 @@ const CulturalHeritage = ({ culturalHeritage, shouldTruncate = false, showCommen
               </label>
             ))}
           </Col>
+
+        <div style={{ width: '100%', float: 'right', fontSize: 13, textAlign: 'right' }}>
+            <CHFav culturalHeritage={ culturalHeritage } favorite={ favorite } />
+            { showCommentSummary && (
+                <span>{ culturalHeritage.comments.length } Comments</span>
+            )}
         </div>
-      </NavLink>
     </Row>
-    <Row>
+      </NavLink>
       {showComments && (culturalHeritage.comments.length !== 0) &&
-        (<AtlasHeader text="Comments"/>)
+      (<AtlasHeader text="Comments"/>)
       }
-      <div style={{ width: '100%', float: 'right', fontSize: 13, textAlign: 'right' }}>
-        <CHFav culturalHeritage={ culturalHeritage } favorite={ favorite } />
-        { showCommentSummary && (
-          <span>{ culturalHeritage.comments.length } Comments</span>
-        )}
-      </div>
+    <Row>
+
     </Row>
     { showComments && culturalHeritage.comments.map(comment => (
     <Row key={ Math.random() } className="whitebox" style={ { marginTop: 20 } }>
