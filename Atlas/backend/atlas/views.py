@@ -142,19 +142,16 @@ class cultural_heritage_item_view_update_delete(generics.RetrieveUpdateDestroyAP
         data = request.data
         if 'description' in data:
             extract_hidden_tags.delay(instance.id,update=True)
-
         self.perform_update(serializer)
         return Response(serializer.data)
     def get_queryset(self):
         return Cultural_Heritage.objects.filter()
-
 
 class tags(generics.ListAPIView):
     serializer_class = tag_serializer
     pagination_class =  None
     def get_queryset(self):
         return tag.objects.get_queryset().order_by('id')
-
 
 class cultural_heritage_item_list_user_items(generics.ListAPIView):
 
