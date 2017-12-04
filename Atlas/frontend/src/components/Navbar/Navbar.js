@@ -26,7 +26,7 @@ const AtlasNavbar = ({ token, logo, user, searchSuggestions, loggedIn, dropDownO
           { loggedIn &&
             <NavItem>
               <Form onSubmit={ (e) => { e.preventDefault();  search(token, searchInput) } }>
-                <FormGroup>
+                <FormGroup style={{ margin: 0 }}>
                   <Input
                     className="search-input"
                     name="search"
