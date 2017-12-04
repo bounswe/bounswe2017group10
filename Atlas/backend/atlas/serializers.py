@@ -52,7 +52,7 @@ class cultural_heritage_serializer(serializers.ModelSerializer):
                 heritage_item.tags.add(new_tag)
 
          if 'description' in validated_data:
-             extract_hidden_tags.delay(heritage_item.id)
+             extract_hidden_tags.delay(heritage_item.id,update=False)
          return heritage_item
 
     def update(self, instance, validated_data):

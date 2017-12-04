@@ -11,15 +11,13 @@ class hidden_tag_serializer(serializers.ModelSerializer):
         model =  hidden_tag
         fields = '__all__'
 
-@app.task
-def add(x, y):
-    print("naber")
-    return x + y
 
 @app.task
-def extract_hidden_tags(item_id):
+def extract_hidden_tags(item_id,update):
     item= Cultural_Heritage.objects.get(pk=item_id)
     description = item.description
+    if update:
+        item.hidden_tags = []
     hidden_tags = hidden_tag_extractor.extract_keywords(hidden_tag_extractor, text=description)
     for tag in hidden_tags:
         new_tag, created = hidden_tag.objects.get_or_create(name=tag)
