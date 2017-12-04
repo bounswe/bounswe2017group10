@@ -56,7 +56,8 @@ class cultural_heritage_serializer(serializers.ModelSerializer):
         heritage_item = Cultural_Heritage.objects.create(**validated_data)
         if 'description' in validated_data:
             description = validated_data['description']
-            hidden_tags = hidden_tag_extractor.extract_keywords(hidden_tag_extractor, text=description)
+            extractor = hidden_tag_extractor()
+            hidden_tags = extractor.extract_keywords(text=description)
             for tag in hidden_tags:
                 new_tag, created = hidden_tag.objects.get_or_create(name=tag)
                 if created:
