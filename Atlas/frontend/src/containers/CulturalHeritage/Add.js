@@ -63,31 +63,64 @@ const mapDispatchToProps = dispatch => {
     addCH: (addCHInputs, token, imageUrl) => {
       dispatch(addCHFetch());
       axios({
-        method: 'post',
-        url: API_URL + '/cultural_heritage_item',
-        headers: { 'Authorization': 'JWT ' + token },
-        data: {
-          title: addCHInputs.title,
-          description: addCHInputs.description,
-          tags: addCHInputs.tags.map(t => ( { name: t.text } ))
-        }}).then(resp => {
-          if(addCHInputs.img_url !== undefined && addCHInputs.img_url !== "") {
-              axios({
-                  method: 'post',
-                  url: API_URL + "/cultural_heritage_item/" + resp.data.id + "/image",
-                  headers: { 'Authorization': 'JWT ' + token },
-                  data: {
-                      images: [{ url: addCHInputs.img_url }]
-                  }}
-              ).then(_resp => {
-                  addSuccess(dispatch);
-              })
-          } else{
-              addSuccess(dispatch);
+          method: 'post',
+          url: 'https://maps.googleapis.com/maps/api/geocode/json?address='+ addCHInputs.location +'&key=AIzaSyCetpOsgoVjT4YNN5TmEErlmlATHNp-Nn0'
+      }).then(response => {
+
+          var CHData = "";
+          var lng = "";
+          var lat = "";
+          if(response.data.results != []){
+              lng = JSON.stringify(response.data.results[0].geometry.location.lng);
+              lat = JSON.stringify(response.data.results[0].geometry.location.lat);
+
+              CHData = {
+                  title: addCHInputs.title,
+                  description: addCHInputs.description,
+                  tags: addCHInputs.tags.map(t => ( { name: t.text } )),
+                  langitude: lng,
+                  latitude: lat
+              };
+
+              alert(lat + " and " +lng);
+          }else{
+
+              CHData = {
+                  title: addCHInputs.title,
+                  description: addCHInputs.description,
+                  tags: addCHInputs.tags.map(t => ( { name: t.text } ))
+              };
+
+              alert("wrong location");
           }
-        }).catch(err => {
-          dispatch(addCHFail(err.response.data));
-        });
+
+
+          axios({
+              method: 'post',
+              url: API_URL + '/cultural_heritage_item',
+              headers: { 'Authorization': 'JWT ' + token },
+              data: CHData
+          }).then(resp => {
+              if(addCHInputs.img_url !== undefined && addCHInputs.img_url !== "") {
+                  axios({
+                      method: 'post',
+                      url: API_URL + "/cultural_heritage_item/" + resp.data.id + "/image",
+                      headers: { 'Authorization': 'JWT ' + token },
+                      data: {
+                          images: [{ url: addCHInputs.img_url }]
+                      }}
+                  ).then(_resp => {
+                      addSuccess(dispatch);
+                  })
+              } else{
+                  addSuccess(dispatch);
+              }
+          }).catch(err => {
+              dispatch(addCHFail(err.response.data));
+          });
+
+      });
+
     },
     addCHTag: (name) => dispatch(addCHTag(name)),
     deleteCHTag: (id) => dispatch(deleteCHTag(id))
