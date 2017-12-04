@@ -3,3 +3,4 @@ Atlas/backend/atlas/__pycache__
 Atlas/backend/atlas/migrations/0*.py
 .DS_Store
 **/*.stack-work
+.ipynb_checkpoints/
