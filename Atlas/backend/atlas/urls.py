@@ -41,6 +41,7 @@ urlpatterns = [
     url(r'^user/cultural_heritage_item/favorite/?$', views.get_user_favorite_items.as_view()),
     url(r'^user/visit_time/?$', views.item_visit_update.as_view()),
     url(r'^nearby_items/?$', views.nearby_search.as_view()),
+    url(r'^cultural_heritage_item/recommendation/?$', views.recommendation.as_view()),
 
 ]
 
