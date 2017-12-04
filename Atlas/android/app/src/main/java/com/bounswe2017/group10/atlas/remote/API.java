@@ -76,4 +76,9 @@ public interface API {
     Call<Comment> postComment(@Header("Authorization") String authStr,
                                     @Path("id") long id,
                                     @Body PostCommentRequest comment);
+
+    @GET("/cultural_heritage_item/myitems/")
+    Call<GetItemsResponse> getOwnItems(@Header("Authorization") String authStr,
+                                    @Query("limit") long limit,
+                                    @Query("offset") long offset);
 }

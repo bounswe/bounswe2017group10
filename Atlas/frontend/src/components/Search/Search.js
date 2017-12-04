@@ -1,41 +1,40 @@
 import React, { Component } from 'react';
-import {Button, Input, Col, Row} from 'reactstrap';
+import CulturalHeritage from '../CulturalHeritage/CulturalHeritage';
+import { Col, Row, Container } from 'reactstrap';
+import { NavLink } from 'react-router-dom';
+import PhotoIcon from 'react-icons/lib/md/photo-album';
+import './style.css';
 
+const Search = ({ token, culturalHeritages, favoriteItem }) => (
+  <Container>
+    <Row>
+      <Col xs="9">
+        { culturalHeritages.length === 0
+        ? (
+          <div className="search-not-found-box">
+            <span>
+              We could not find anything with your query. Try to look at all cultural heritages maybe?
+            </span>
+            <br />
+            <NavLink to="/cultural-heritages" className="atlas-button" >
+              <PhotoIcon /> Visit Cultural Heritages
+            </NavLink>
+          </div>
+        ) : (
+          <ul className="cultural-heritages">
+            { culturalHeritages && culturalHeritages
+              .sort((c1, c2) => c1.id - c2.id)
+              .map(c => (
+                <li key={ c.id }>
+                  <CulturalHeritage returnTo="/search" culturalHeritage={ c } showCommentSummary={ true } shouldTruncate ={ true } favorite={ () => favoriteItem(token, c) } />
+                </li>
+              )
+            )}
+          </ul>
+        )}
+      </Col>
+    </Row>
+  </Container>
+)
 
-export default class LoginSearch extends Component {
-
-    constructor(props){
-        super(props);
-        this.state = {searchvalue: ''};
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-
-    handleChange(event){
-        this.setState({searchvalue: event.target.searchvalue});
-    }
-
-    handleSubmit(){
-        //request server and redirect to searched page
-    }
-
-    render() {
-        return (
-            <Row>
-                <Col xs="1">
-                    <img src={ this.props.logo } alt="logo" className="logo" />
-                    Atlas
-                </Col>
-                <Col xs="9">
-                    <Input type="search" name="search" value={this.state.searchvalue} placeholder="Search" onChange={this.handleChange} />
-                </Col>
-                <Col xs="2">
-                    <Button onClick={ this.handleSubmit }>Search</Button>
-                </Col>
-            </Row>
-        );
-    }
-
-}
+export default Search;
