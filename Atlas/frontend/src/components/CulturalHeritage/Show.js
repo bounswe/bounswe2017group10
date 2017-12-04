@@ -15,7 +15,7 @@ const Show = ({ user, token, culturalHeritage, commentInput, commentInputChange,
       </NavLink>
       <Row>
         <Col xs="12">
-          <CulturalHeritage culturalHeritage={ culturalHeritage } shouldTruncate={ false } showComments={ true } favorite={ () => favoriteItem(token, culturalHeritage) }/>
+          <CulturalHeritage culturalHeritage={ culturalHeritage } shouldTruncate={ false } showComments={ true } favorite={ () => favoriteItem(token, culturalHeritage) } withLink={ false }/>
         </Col>
       </Row>
       <Row>

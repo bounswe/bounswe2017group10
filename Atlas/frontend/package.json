@@ -41,6 +41,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "moment-timezone": "^0.5.14"
+    "moment-timezone": "^0.5.14",
+    "react-google-maps": "^9.4.1"
   }
 }
