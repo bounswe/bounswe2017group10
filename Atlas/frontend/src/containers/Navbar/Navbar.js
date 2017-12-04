@@ -43,7 +43,6 @@ const mapDispatchToProps = dispatch => {
         console.log("Error when performing search:");
         console.log(err); 
       });
-      console.log("Searching... " + searchInput);
     }
   }
 }
