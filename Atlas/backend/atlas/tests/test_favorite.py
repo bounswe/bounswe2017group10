@@ -1,10 +1,9 @@
+from authentication.models import Account
+
 import pytest
 from django.test import TestCase
-
 from jwt_auth.compat import json, smart_text
-from authentication.models import Account
 from rest_framework.test import APIClient
-
 
 
 @pytest.mark.django_db
@@ -17,7 +16,7 @@ class cultural_heritage_item(TestCase):
         self.sigun_url = '/api/auth/signup/'
         self.cultural_heritage_item_url = '/cultural_heritage_item/'
         self.tags_url = '/tags/'
-        self.my_items_url= '/cultural_heritage_item/myitems'
+        self.my_items_url = '/cultural_heritage_item/myitems'
         self.user = Account.objects.create_user(
             email=self.email, password=self.password, username=self.username)
 
@@ -34,7 +33,7 @@ class cultural_heritage_item(TestCase):
             'confirm_password': self.password,
         }
         self.client = APIClient()
-        self.client.login(username=self.username,password=self.password)
+        self.client.login(username=self.username, password=self.password)
 
         self.client2 = APIClient()
         self.client2.login(username="Thresh12", password="123123AA")
@@ -58,7 +57,6 @@ class cultural_heritage_item(TestCase):
         )
 
         self.assertEqual(response.status_code, 201)
-
 
     def test_get_favorite_items(self):
         item_data = {
@@ -102,8 +100,7 @@ class cultural_heritage_item(TestCase):
         response_content = json.loads(smart_text(response.content))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response_content['results']), 2)
-        self.assertEqual(response_content['results'][0]['item_info']['title'],'Ahri mid montage' )
-
+        self.assertEqual(response_content['results'][0]['item_info']['title'], 'Ahri mid montage')
 
     def test_get_favorited_cultural_heritage_item(self):
         item_data = {
@@ -140,8 +137,7 @@ class cultural_heritage_item(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         response_content = json.loads(smart_text(response.content))
-        self.assertAlmostEqual(response_content['results'][0]['is_favorite'],True)
-
+        self.assertAlmostEqual(response_content['results'][0]['is_favorite'], True)
 
     def test_unfavorite_cultural_heritage_item(self):
         item_data = {
@@ -176,7 +172,6 @@ class cultural_heritage_item(TestCase):
         self.assertEqual(response.status_code, 200)
         response_content = json.loads(smart_text(response.content))
         self.assertEqual(response_content['is_favorite'], False)
-
 
     def test_cultural_heritage_item_favorited_amount(self):
         item_data = {
@@ -213,7 +208,6 @@ class cultural_heritage_item(TestCase):
         response_content = json.loads(smart_text(response.content))
         self.assertEqual(response_content['favorited_amount'], 2)
 
-
     def test_favorite_cultural_heritage_item_twice(self):
         item_data = {
             "title": "Ahri mid montage",
@@ -239,7 +233,6 @@ class cultural_heritage_item(TestCase):
 
         )
         self.assertEqual(response.status_code, 400)
-
 
     def test_cultural_heritage_item_favorited_amount_field_not_editable(self):
         item_data = {
