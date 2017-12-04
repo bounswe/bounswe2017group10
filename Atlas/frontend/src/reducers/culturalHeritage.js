@@ -1,5 +1,8 @@
 const initAddCHInputs = {
-  tags: []
+  tags: [],
+    lng: 10,
+    lat: 10,
+    locatioName: ""
 }
 const initState = {
   fetching: false,
@@ -146,6 +149,10 @@ const reducer = (state = initState, action) => {
           : [].concat(state.data, action.data.data),
         commentInput: ""
       }
+      case 'CLICK_MARKER':
+          return {
+              ...state
+          }
     default:
       return state;
   }

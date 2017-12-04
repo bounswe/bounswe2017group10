@@ -1,14 +1,15 @@
 import React from 'react';
 import './style.css';
-import { Form, FormGroup, Input, Col, Row, Container } from 'reactstrap';
+import {Form, FormGroup, Input, Col, Row, Container, Button} from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import PlusIcon from 'react-icons/lib/fa/plus-circle';
 import LeftIcon from 'react-icons/lib/fa/angle-left';
 import { Errors } from '../../utils';
 import Dropzone from 'react-dropzone';
 import { WithContext as ReactTags } from 'react-tag-input';
+import MapContainer from "../MapContainer";
 
-const Page = ({ user, token, addCHInputs, addCHErrors, handleCHInputChange, addCHTag, deleteCHTag, addCH, goBack, handleDrop, imageUrl }) => (
+const Page = ({ user, token, addCHInputs, addCHErrors, handleCHInputChange, addCHTag, deleteCHTag, addCH, goBack, handleDrop, imageUrl, clickMarker,searchLocation, locationName, lat, lng }) => (
   <Container>
     <NavLink className="atlas-button" onClick={goBack} to="/cultural-heritages"><LeftIcon /> Back</NavLink>
     <h1 style={{ textAlign: 'center' }}>Add Cultural Heritage</h1> 
@@ -42,6 +43,22 @@ const Page = ({ user, token, addCHInputs, addCHErrors, handleCHInputChange, addC
               </Col>
           </Row>
       </FormGroup>
+
+
+        /*<FormGroup>
+            <Row>
+                <Col xs="3">
+                    <label>Location:</label>
+                </Col>
+                <Col xs="9">
+                    <Input
+                        name="location"
+                        onChange={handleCHInputChange}
+                    />
+                </Col>
+            </Row>
+        </FormGroup>*/
+
       <FormGroup>
           <Row>
               <Col xs="3">
@@ -68,7 +85,17 @@ const Page = ({ user, token, addCHInputs, addCHErrors, handleCHInputChange, addC
         </FormGroup>
       <Errors errors={ addCHErrors } />
     </Form>
+
+      <Input type="search" name="locationName"  placeholder="Search" onChange={handleCHInputChange} />
+      <Button onClick={() => searchLocation(addCHInputs)}></Button>
+      <MapContainer locationName={locationName} lat={lat} lng={lng}></MapContainer>
+
+
+
+
+
   </Container>
 )
 
 export default Page;
+
