@@ -1,6 +1,6 @@
 const initState = {
   dropdownOpen: false,
-  searchedCulturalHeritages: []
+  searchSuggestions: []
 };
 
 const reducer = (state = initState, action) => {
@@ -28,10 +28,10 @@ const reducer = (state = initState, action) => {
         ...state,
       }
 
-    case 'UPDATE_SEARCHED_CULTURAL_HERITAGES':
+    case 'UPDATE_SEARCH_SUGGESTIONS':
       return {
         ...state,
-        searchedCulturalHeritages: action.data
+        searchSuggestions: action.data
       }
 
     default:

@@ -17,11 +17,21 @@
       <file leaf-file-name="Add.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/containers/CulturalHeritage/Add.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
+            <state relative-caret-position="228">
               <caret line="113" column="156" lean-forward="false" selection-start-line="113" selection-start-column="156" selection-end-line="113" selection-end-column="156" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CulturalHeritage.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/components/CulturalHeritage/CulturalHeritage.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="936">
+              <caret line="61" column="11" lean-forward="false" selection-start-line="61" selection-start-column="11" selection-end-line="61" selection-end-column="11" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -36,7 +46,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MapContainer.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MapContainer.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/MapContainer.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="198">
@@ -51,8 +61,8 @@
       <file leaf-file-name="culturalHeritage.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/actions/culturalHeritage.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="440">
-              <caret line="158" column="0" lean-forward="false" selection-start-line="158" selection-start-column="0" selection-end-line="158" selection-end-column="0" />
+            <state relative-caret-position="2610">
+              <caret line="145" column="0" lean-forward="true" selection-start-line="145" selection-start-column="0" selection-end-line="145" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -61,7 +71,7 @@
       <file leaf-file-name="culturalHeritage.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/reducers/culturalHeritage.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
+            <state relative-caret-position="-1264">
               <caret line="4" column="18" lean-forward="false" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
               <folding />
             </state>
@@ -114,11 +124,11 @@
         <option value="$PROJECT_DIR$/src/actions/index.js" />
         <option value="$PROJECT_DIR$/src/reducers/index.js" />
         <option value="$PROJECT_DIR$/src/components/MapCOntainer.js" />
-        <option value="$PROJECT_DIR$/src/actions/culturalHeritage.js" />
         <option value="$PROJECT_DIR$/src/reducers/culturalHeritage.js" />
         <option value="$PROJECT_DIR$/src/components/CulturalHeritage/Add.js" />
         <option value="$PROJECT_DIR$/src/containers/CulturalHeritage/Add.js" />
         <option value="$PROJECT_DIR$/src/components/MapContainer.js" />
+        <option value="$PROJECT_DIR$/src/actions/culturalHeritage.js" />
       </list>
     </option>
   </component>
@@ -195,6 +205,13 @@
               <item name="frontend" type="b2602c69:ProjectViewProjectNode" />
               <item name="frontend" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="CulturalHeritage" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="containers" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -256,12 +273,12 @@
       <workItem from="1507223762819" duration="27361000" />
       <workItem from="1507329600873" duration="7757000" />
       <workItem from="1507457896611" duration="277000" />
-      <workItem from="1512386186907" duration="21377000" />
+      <workItem from="1512386186907" duration="22153000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="60524000" />
+    <option name="totallyTimeSpent" value="61300000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="292" y="24" width="1857" height="1092" extended-state="6" />
@@ -376,16 +393,6 @@
     <entry file="file://$PROJECT_DIR$/src/components/LoginSearch.js" />
     <entry file="file://$PROJECT_DIR$/src/Components.js" />
     <entry file="file://$PROJECT_DIR$/src/MyRouter.js" />
-    <entry file="file://$PROJECT_DIR$/src/components/CulturalHeritage/CulturalHeritage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1098">
-          <caret line="61" column="11" lean-forward="false" selection-start-line="61" selection-start-column="11" selection-end-line="61" selection-end-column="11" />
-          <folding>
-            <element signature="e#0#26#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
@@ -496,32 +503,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/actions/culturalHeritage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="158" column="0" lean-forward="false" selection-start-line="158" selection-start-column="0" selection-end-line="158" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/reducers/culturalHeritage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="18" lean-forward="false" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/CulturalHeritage/Add.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="113" column="156" lean-forward="false" selection-start-line="113" selection-start-column="156" selection-end-line="113" selection-end-column="156" />
-          <folding>
-            <element signature="e#0#36#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/CulturalHeritage/Add.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1122">
@@ -537,6 +518,40 @@
           <folding>
             <element signature="e#0#76#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/reducers/culturalHeritage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1264">
+          <caret line="4" column="18" lean-forward="false" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/actions/culturalHeritage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2610">
+          <caret line="145" column="0" lean-forward="true" selection-start-line="145" selection-start-column="0" selection-end-line="145" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/CulturalHeritage/Add.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="113" column="156" lean-forward="false" selection-start-line="113" selection-start-column="156" selection-end-line="113" selection-end-column="156" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/CulturalHeritage/CulturalHeritage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="936">
+          <caret line="61" column="11" lean-forward="false" selection-start-line="61" selection-start-column="11" selection-end-line="61" selection-end-column="11" />
+          <folding />
         </state>
       </provider>
     </entry>

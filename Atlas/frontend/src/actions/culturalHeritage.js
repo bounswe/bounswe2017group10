@@ -144,11 +144,6 @@ export const updateCulturalHeritage = (id, data) => {
   }
 }
 
-export const searchLocation = (name) => {
-    return {
-        type: 'SEARCH_LOCATION'
-    }
-}
 
 export const clickMarker = () => {
     return {
