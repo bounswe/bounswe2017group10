@@ -9,7 +9,7 @@ import Dropzone from 'react-dropzone';
 import { WithContext as ReactTags } from 'react-tag-input';
 import MapContainer from "../MapContainer";
 
-const Page = ({ user, token, addCHInputs, addCHErrors, handleCHInputChange, addCHTag, deleteCHTag, addCH, goBack, handleDrop, imageUrl, clickMarker,searchLocation, locationName, lat, lng }) => (
+const Page = ({ user, token, addCHInputs, addCHErrors, handleCHInputChange, addCHTag, deleteCHTag, addCH, goBack, handleDrop, imageUrl,searchLocation, locationName, mapClick }) => (
   <Container>
     <NavLink className="atlas-button" onClick={goBack} to="/cultural-heritages"><LeftIcon /> Back</NavLink>
     <h1 style={{ textAlign: 'center' }}>Add Cultural Heritage</h1> 
@@ -43,22 +43,6 @@ const Page = ({ user, token, addCHInputs, addCHErrors, handleCHInputChange, addC
               </Col>
           </Row>
       </FormGroup>
-
-
-        /*<FormGroup>
-            <Row>
-                <Col xs="3">
-                    <label>Location:</label>
-                </Col>
-                <Col xs="9">
-                    <Input
-                        name="location"
-                        onChange={handleCHInputChange}
-                    />
-                </Col>
-            </Row>
-        </FormGroup>*/
-
       <FormGroup>
           <Row>
               <Col xs="3">
@@ -88,7 +72,7 @@ const Page = ({ user, token, addCHInputs, addCHErrors, handleCHInputChange, addC
 
       <Input type="search" name="locationName"  placeholder="Search" onChange={handleCHInputChange} />
       <Button onClick={() => searchLocation(addCHInputs)}></Button>
-      <MapContainer locationName={locationName} lat={lat} lng={lng}></MapContainer>
+      <MapContainer  mapClick={mapClick} locationName={addCHInputs.locationName} lat={addCHInputs.lat} lng={addCHInputs.lng}></MapContainer>
 
 
 

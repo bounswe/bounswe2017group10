@@ -145,12 +145,6 @@ export const updateCulturalHeritage = (id, data) => {
 }
 
 
-export const clickMarker = () => {
-    return {
-        type: 'CLICK_MARKER'
-    }
-}
-
 
 
 

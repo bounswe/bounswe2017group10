@@ -149,10 +149,6 @@ const reducer = (state = initState, action) => {
           : [].concat(state.data, action.data.data),
         commentInput: ""
       }
-      case 'CLICK_MARKER':
-          return {
-              ...state
-          }
     default:
       return state;
   }

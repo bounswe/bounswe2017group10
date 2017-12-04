@@ -11,7 +11,7 @@ import {
     addCHTag,
     deleteCHTag,
     searchLocation,
-    clickMarker
+    mapClick
 } from '../../actions/culturalHeritage';
 import axios from 'axios';
 import {API_URL} from '../../constants';
@@ -133,7 +133,10 @@ const mapDispatchToProps = dispatch => {
 
             })
         },
-        clickMarker: () => dispatch(clickMarker())
+        mapClick: (mapProps, map, clickEvent) => {
+            dispatch(updateCHInput("lat", clickEvent.latLng.lat()));
+            dispatch(updateCHInput("lng", clickEvent.latLng.lng()));
+        }
     }
 }
 
