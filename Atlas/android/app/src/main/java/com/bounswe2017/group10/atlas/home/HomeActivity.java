@@ -19,8 +19,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,30 +27,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bounswe2017.group10.atlas.R;
-import com.bounswe2017.group10.atlas.httpbody.Image;
+import com.bounswe2017.group10.atlas.adapter.ImageListAdapter;
 import com.bounswe2017.group10.atlas.profile.ProfileActivity;
 import com.bounswe2017.group10.atlas.response.OnGetItemsResponse;
 import com.bounswe2017.group10.atlas.util.Constants;
-import com.bounswe2017.group10.atlas.httpbody.UserResponse;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
 import com.bounswe2017.group10.atlas.util.Utils;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static com.bounswe2017.group10.atlas.util.Utils.getSharedPref;
 import static com.bounswe2017.group10.atlas.util.Utils.logout;
-import static com.bounswe2017.group10.atlas.util.Utils.showToast;
-
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -113,8 +97,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         String nameText = getString(R.string.fullname, firstName, lastName);
         String image = pref.getString(Constants.PROFILE_PICTURE,"");
 
-        
-        if(image!="")Picasso.with(getApplicationContext()).load(image).into(((ImageView) header.findViewById(R.id.nav_pimage)));
+        if(image!="") {
+            Glide.with(this)
+                    .load(image)
+                    .apply(new RequestOptions()
+                            .error(R.drawable.help))
+                    .into((ImageView) header.findViewById(R.id.nav_pimage));
+        }
+
         ((TextView) header.findViewById(R.id.nav_pname)).setText(nameText);
         ((TextView) header.findViewById(R.id.nav_pmail)).setText(email);
     }

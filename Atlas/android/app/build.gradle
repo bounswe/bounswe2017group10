@@ -69,9 +69,6 @@ dependencies {
     // nice progress bar and FAB
     compile 'com.dmitrymalkovich.android:progress-fab:1.6'
 
-    // imageview edit
-    compile 'com.squareup.picasso:picasso:2.5.2'
-
     // Test libraries
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.11.0'
