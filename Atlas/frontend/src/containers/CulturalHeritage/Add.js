@@ -118,12 +118,12 @@ const mapDispatchToProps = dispatch => {
                 if (response.data.status == "OK") {
                     const name1 = "lng";
                     const val1 = JSON.stringify(response.data.results[0].geometry.location.lng);
-                    dispatch(updateCHInput(name1,val1));
+                    dispatch(updateCHInput(name1,Number(val1).toFixed(5)));
                     const name2 = "lat";
                     const val2 = JSON.stringify(response.data.results[0].geometry.location.lat);
-                    dispatch(updateCHInput(name2,val2));
+                    dispatch(updateCHInput(name2,Number(val2).toFixed(5)));
 
-
+                    //alert(Number(val1).toFixed(5)+" and "+Number(val2).toFixed(5));
                     //alert(addCHInputs.lat + " and " + addCHInputs.lng + addCHInputs.locationName);
                 } else {
 
@@ -134,8 +134,8 @@ const mapDispatchToProps = dispatch => {
             })
         },
         mapClick: (mapProps, map, clickEvent) => {
-            dispatch(updateCHInput("lat", clickEvent.latLng.lat()));
-            dispatch(updateCHInput("lng", clickEvent.latLng.lng()));
+            dispatch(updateCHInput("lat", clickEvent.latLng.lat().toFixed(5)));
+            dispatch(updateCHInput("lng", clickEvent.latLng.lng().toFixed(5)));
         }
     }
 }
