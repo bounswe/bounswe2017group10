@@ -295,3 +295,99 @@ class trending_score_tester(TestCase):
         old_trending_score = trending_score(old_item)
         new_trending_score = trending_score(new_item)
         self.assertTrue(new_trending_score > old_trending_score)
+
+
+@pytest.mark.django_db
+class featured_endpoint_tester(TestCase):
+    def setUp(self):
+        self.login_url = '/api/auth/login/'
+        self.cultural_heritage_item_url = '/cultural_heritage_item/'
+
+        self.email = 'esref@gmail.com'
+        self.username = 'esref12'
+        self.password = 'passworD1ss'
+        self.user = Account.objects.create_user(
+            email=self.email, password=self.password, username=self.username)
+
+        self.client = APIClient()
+        self.client.login(username=self.username, password=self.password)
+
+    def test_featured_endpoint_item_ordering(self):
+        item_data = {
+            'title': 'Lee Sin'
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json'
+        )
+        self.assertEqual(response.status_code, 201)
+        response_content = json.loads(smart_text(response.content))
+        id = response_content['id']
+        worst_item = Cultural_Heritage.objects.filter(id=id)[0]
+
+        long_description = '''
+Sadistic and cunning, Thresh is an ambitious and restless spirit of the Shadow
+Isles. Once the custodian of countless arcane secrets, he sought a power
+greater than life or death, and now sustains himself by tormenting and breaking
+others with slow, excruciating inventiveness. His victims suffer far beyond their
+brief mortal coil as Thresh wreaks agony upon their souls, imprisoning them in
+his unholy lantern to torture for all eternity.
+'''
+        item_data = {
+            'title': 'Lee Sin',
+            'description': long_description,
+            'tags': [
+                {'name': 'tag-1'},
+                {'name': 'tag-2'}
+            ],
+            'images': [
+                {'url': 'http://imgur.com/1'}
+            ]
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json'
+        )
+        self.assertEqual(response.status_code, 201)
+        response_content = json.loads(smart_text(response.content))
+        id = response_content['id']
+        avg_item = Cultural_Heritage.objects.filter(id=id)[0]
+
+        item_data = {
+            'title': 'Lee Sin',
+            'description': long_description,
+            'tags': [
+                {'name': 'tag-1'},
+                {'name': 'tag-2'}
+            ],
+            'images': [
+                {'url': 'http://imgur.com/1'}
+            ],
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json'
+        )
+        self.assertEqual(response.status_code, 201)
+        response_content = json.loads(smart_text(response.content))
+        id = response_content['id']
+        response = self.client.post(
+            '/user/cultural_heritage_item/' + str(id) + '/favorite/',
+            format='json',
+        )
+        self.assertEqual(response.status_code, 201)
+        best_item = Cultural_Heritage.objects.filter(id=id)[0]
+
+        response = self.client.get(
+            self.cultural_heritage_item_url + 'featured/',
+        )
+        self.assertEqual(response.status_code, 200)
+        response_content = json.loads(smart_text(response.content))
+
+        response_item_list = response_content['results']
+        self.assertEqual(response_item_list[0]['id'], best_item.id)
+        self.assertEqual(response_item_list[1]['id'], avg_item.id)
+        self.assertEqual(response_item_list[2]['id'], worst_item.id)

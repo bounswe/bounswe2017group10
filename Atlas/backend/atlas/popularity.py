@@ -31,7 +31,7 @@ def popularity_score(item):
     blob = TextBlob(item.description)
     description_complete = len(blob.noun_phrases) >= COMPLETE_DESCRIPTION_NOUN_PHRASES
     tags_complete = item.tags.count() >= COMPLETE_TAG_NUM
-    imgs_complete = item.image_media_item_set.count()
+    imgs_complete = item.image_media_item_set.count() >= COMPLETE_IMG_NUM
     location_complete = item.longitude is not None
     completeness = description_complete + tags_complete + imgs_complete + location_complete
 
