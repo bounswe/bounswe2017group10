@@ -1,12 +1,12 @@
+from authentication.models import Account
+
 import pytest
+from django.conf import settings
 from django.test import TestCase
 from django.test.client import Client
-
 from jwt_auth import utils
 from jwt_auth.compat import json, smart_text
-from authentication.models import Account
 from rest_framework.test import APIClient
-from django.conf import settings
 
 
 @pytest.mark.django_db
@@ -18,19 +18,18 @@ class JSONWebTokenAuthTestCase(TestCase):
         self.login_url = '/api/auth/login/'
         self.sigun_url = '/api/auth/signup/'
         self.user = Account.objects.create_user(
-            email = self.email , password =self.password, username =self.username)
+            email=self.email, password=self.password, username=self.username)
 
         self.data = {
             'username': self.username,
-            'email'   : self.email,
+            'email': self.email,
             'password': self.password,
-            'confirm_password' :self.password,
+            'confirm_password': self.password,
         }
-        self.login_data_with_username =  {
-            'username_or_email' : self.username,
-            'password'          : self.password,
+        self.login_data_with_username = {
+            'username_or_email': self.username,
+            'password': self.password,
         }
-
 
         self.client = Client()
 
@@ -55,8 +54,8 @@ class JSONWebTokenAuthTestCase(TestCase):
         Ensure JWT login view using JSON POST works with only email and password.
         """
         data = {
-            'username_or_email'    : self.email,
-            'password' : self.password,
+            'username_or_email': self.email,
+            'password': self.password,
         }
         response = self.client.post(
             self.login_url,
@@ -69,7 +68,6 @@ class JSONWebTokenAuthTestCase(TestCase):
         decoded_payload = utils.jwt_decode_handler(response_content['token'])
 
         self.assertEqual(decoded_payload['username'], self.username)
-
 
     def test_jwt_login_json_bad_creds(self):
         """
@@ -87,7 +85,6 @@ class JSONWebTokenAuthTestCase(TestCase):
         )
 
         self.assertEqual(response.status_code, 400)
-
 
     def test_jwt_login_json_missing_fields(self):
         """
@@ -156,7 +153,7 @@ class JSONWebTokenAuthTestCase(TestCase):
             content_type='application/json'
         )
         self.assertEqual(response.status_code, 201)
-        self.login_data_with_username['username_or_email']= "Suleiman"
+        self.login_data_with_username['username_or_email'] = "Suleiman"
         response = self.client.post(
             self.login_url,
             json.dumps(self.login_data_with_username),
@@ -230,9 +227,9 @@ class JSONWebTokenAuthTestCase(TestCase):
             json.dumps(data),
             content_type='application/json'
         )
-        self.assertEqual(response.status_code,400)
+        self.assertEqual(response.status_code, 400)
 
-        #Ensure JWT fails with password that does not have any capital letter
+        # Ensure JWT fails with password that does not have any capital letter
         data['password'] = "askljqwlkeqj1312"
         data['confirm_password'] = "askljqwlkeqj1312"
         response = self.client.post(
@@ -240,7 +237,7 @@ class JSONWebTokenAuthTestCase(TestCase):
             json.dumps(data),
             content_type='application/json'
         )
-        self.assertEqual(response.status_code,400)
+        self.assertEqual(response.status_code, 400)
 
         data['password'] = "AA123"
         data['confirm_password'] = "AA123"
@@ -249,7 +246,7 @@ class JSONWebTokenAuthTestCase(TestCase):
             json.dumps(data),
             content_type='application/json'
         )
-        self.assertEqual(response.status_code,400)
+        self.assertEqual(response.status_code, 400)
 
     def test_login_regex(self):
         response = self.client.post(
@@ -277,7 +274,7 @@ class JSONWebTokenAuthTestCase(TestCase):
         response = self.client.post(
             self.login_url,
             json.dumps(self.login_data_with_username),
-            content_type ='application/json',
+            content_type='application/json',
         )
         self.assertEqual(response.status_code, 200)
         response_content = json.loads(smart_text(response.content))
@@ -287,7 +284,7 @@ class JSONWebTokenAuthTestCase(TestCase):
             HTTP_AUTHORIZATION='JWT ' + token
         )
         response_content = json.loads(smart_text(response.content))
-        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(response_content['username'], self.username)
         self.assertEqual(response_content['email'], self.email)
 
@@ -297,7 +294,8 @@ class JSONWebTokenAuthTestCase(TestCase):
             '/api/auth/me/',
             HTTP_AUTHORIZATION='JWT ' + token
         )
-        self.assertEqual(response.status_code,403)
+        self.assertEqual(response.status_code, 403)
+
     def test_me_regex(self):
         response = self.client.post(
             self.login_url,
@@ -312,6 +310,3 @@ class JSONWebTokenAuthTestCase(TestCase):
             HTTP_AUTHORIZATION='JWT ' + token
         )
         self.assertEqual(response.status_code, 200)
-
-
-

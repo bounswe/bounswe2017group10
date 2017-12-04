@@ -1,7 +1,8 @@
 from textblob import TextBlob
-class hidden_tag_extractor:
 
-    def extract_keywords(self,text,limit=0):
+
+class hidden_tag_extractor:
+    def extract_keywords(self, text, limit=0):
         '''
 
         Args:

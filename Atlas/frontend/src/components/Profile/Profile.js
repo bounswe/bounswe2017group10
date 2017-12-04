@@ -5,31 +5,36 @@ import { Card, CardBody,
 } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import PhotoIcon from 'react-icons/lib/md/photo-album';
+import unknown from '../../assets/images/unknown.png'
 
 const Profile = ({ user }) => ({
   render() {
     return (
       <Container>
-        <Row>
-          <Col xs="9">
-            <div>
-              <Card style={{ zIndex: -1 }}>
-                <CardBody>
-                  <CardTitle>Welcome
+        <Row className="whitebox-profile">
+              <Col xs="3">
+
+                      { user.profile_picture == null ? (
+                          <img alt="Profile Picture" src={ unknown} />
+                      ) : (
+                          <img alt="Profile Picture" src={ user.profile_picture} />
+                      )
+                      }
+                  </Col>
+                  <Col xs="9">
+                    <h2>
+                  Welcome
                     { user.firstname && user.lastname
                       ? " " + user.firstname + " " + user.lastname + " (" + user.username + ")"
                       : " " +user.username
                     }
-                  </CardTitle>
-                  <CardSubtitle>{ user.email }</CardSubtitle>
+                    </h2>
+                  { user.email }
                   <hr />
-                  <NavLink className="atlas-button" to="/cultural-heritages">
+                  <NavLink to="/cultural-heritages" className="atlas-button" >
                     <PhotoIcon /> Visit Cultural Heritages
                   </NavLink>
-                </CardBody>
-              </Card>
-            </div>
-          </Col>
+                  </Col>
         </Row>
     </Container>
       )

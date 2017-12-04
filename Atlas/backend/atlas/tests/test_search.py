@@ -1,9 +1,10 @@
+from authentication.models import Account
+
 import pytest
 from django.test import TestCase
-
 from jwt_auth.compat import json, smart_text
-from authentication.models import Account
 from rest_framework.test import APIClient
+
 
 @pytest.mark.django_db
 class cultural_heritage_item(TestCase):
@@ -114,7 +115,7 @@ class cultural_heritage_item(TestCase):
         )
         self.assertEqual(response.status_code, 201)
         response = self.client.get(
-            self.cultural_heritage_item_url + 'search/' + 'draven'
+            self.cultural_heritage_item_url + 'search/' + 'Draven'
         )
         response_content = json.loads(smart_text(response.content))
         self.assertEqual(len(response_content['results']), 1);
@@ -170,7 +171,10 @@ class cultural_heritage_item(TestCase):
             'tags': [
                 {'name': 'adc',},
                 {'name': 'meta'}
-            ]
+            ],
+            'place_name': 'meta',
+            'latitude': '22.12',
+            'longitude': '23.14'
         }
         response = self.client.post(
             self.cultural_heritage_item_url,
@@ -180,7 +184,20 @@ class cultural_heritage_item(TestCase):
         )
         self.assertEqual(response.status_code, 201)
         item_data = {
-            "title": "Tresh hook",
+            "title": "Zoe support",
+
+            'latitude': '26.12',
+            'longitude': '27.14'
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        item_data = {
+            "title": "Tresh hook meta",
             'tags': [
                 {'name': 'Meta'},
                 {'name': 'support'}
@@ -203,7 +220,7 @@ class cultural_heritage_item(TestCase):
             self.cultural_heritage_item_url + 'search/' + 'meta'
         )
         response_content = json.loads(smart_text(response.content))
-        self.assertEqual(len(response_content['results']), 2);
+        self.assertEqual(len(response_content['results']), 3);
 
     def test_cultural_heritage_search_contains_with_guest_user(self):
         item_data = {
@@ -310,12 +327,10 @@ class cultural_heritage_item(TestCase):
         response = self.client.get(
             '/nearby_items',
             location_data,
-            format ='json'
+            format='json'
 
         )
         response_content = json.loads(smart_text(response.content))
-        self.assertEqual(response_content['results'][0]['title'],'Draven montage')
-        self.assertEqual(response_content['results'][1]['title'],'thresh montage')
-        self.assertEqual(response_content['results'][2]['title'],'Ahri montage')
-
-
+        self.assertEqual(response_content['results'][0]['title'], 'Draven montage')
+        self.assertEqual(response_content['results'][1]['title'], 'thresh montage')
+        self.assertEqual(response_content['results'][2]['title'], 'Ahri montage')

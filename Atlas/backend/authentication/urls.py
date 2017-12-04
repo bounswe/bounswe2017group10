@@ -1,7 +1,7 @@
-from django.conf.urls import include, url
-from .views import AuthRegister,user
-from rest_framework_jwt.views import  refresh_jwt_token, verify_jwt_token,ObtainJSONWebToken
+from django.conf.urls import url
+from rest_framework_jwt.views import refresh_jwt_token, verify_jwt_token, ObtainJSONWebToken
 from .serializers import CustomJWTSerializer
+from .views import AuthRegister, user
 
 urlpatterns = [
     url(r'^login/?$', ObtainJSONWebToken.as_view(serializer_class=CustomJWTSerializer)),

@@ -1,9 +1,10 @@
+from authentication.models import Account
+
 import pytest
 from django.test import TestCase
-
 from jwt_auth.compat import json, smart_text
-from authentication.models import Account
 from rest_framework.test import APIClient
+
 
 @pytest.mark.django_db
 class cultural_heritage_item(TestCase):
@@ -144,7 +145,6 @@ class cultural_heritage_item(TestCase):
         response_content = json.loads(smart_text(response.content))
         self.assertEqual(len(response_content['comments']), 2)
 
-
     def test_create_cultural_heritage_item_with_comment_and_user(self):
         item_data = {
             "title": "Very emotional thresh hook",
@@ -174,7 +174,7 @@ class cultural_heritage_item(TestCase):
         text = 'That is a nice heritage item2'
         item_data = {
             'comment':
-                {'text': text, }
+                {'text': text,}
 
         }
         response = self.client.post(
@@ -192,4 +192,3 @@ class cultural_heritage_item(TestCase):
         response_content = json.loads(smart_text(response.content))
         self.assertEqual(response_content['results'][0]['comments'][1]['text'], text)
         self.assertEqual(response_content['results'][0]['comments'][1]['user_info']['username'], self.username)
-

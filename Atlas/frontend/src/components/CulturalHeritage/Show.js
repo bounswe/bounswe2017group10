@@ -5,7 +5,9 @@ import { NavLink } from 'react-router-dom';
 import LeftIcon from 'react-icons/lib/fa/angle-left';
 import { Button, Form, FormGroup, Input, Col, Row, Container } from 'reactstrap';
 
-const Show = ({ user, token, culturalHeritage, commentInput, commentInputChange, postComment }) => (culturalHeritage !== undefined &&
+
+const Show = ({ user, token, culturalHeritage, commentInput, commentInputChange, postComment, favoriteItem }) => (culturalHeritage !== undefined &&
+
   <Container>
     <NavLink className="atlas-button" to="/cultural-heritages">
       <LeftIcon />
@@ -13,7 +15,7 @@ const Show = ({ user, token, culturalHeritage, commentInput, commentInputChange,
     </NavLink>
     <Row>
       <Col xs="12">
-        <CulturalHeritage culturalHeritage={ culturalHeritage } shouldTruncate={ false } showComments={ true }/>
+        <CulturalHeritage culturalHeritage={ culturalHeritage } shouldTruncate={ false } showComments={ true } favorite={ () => favoriteItem(token, culturalHeritage) }/>
       </Col>
     </Row>
     <Row>
