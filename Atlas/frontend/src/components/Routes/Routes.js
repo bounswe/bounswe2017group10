@@ -14,6 +14,7 @@ import PrivateRoute from './PrivateRoute';
 import IndexCulturalHeritagesPage from '../../containers/CulturalHeritage/Index';
 import AddCulturalHeritagePage from '../../containers/CulturalHeritage/Add';
 import ShowCulturalHeritagePage from '../../containers/CulturalHeritage/Show';
+import Search from '../../containers/Search/Search';
 
 const Routes = ({ user, loggedIn }) => ({
   render() {
@@ -30,6 +31,7 @@ const Routes = ({ user, loggedIn }) => ({
                 <PrivateRoute path="/cultural-heritages/:id" user={ user } component={ <ShowCulturalHeritagePage /> } />
                 <PrivateRoute exact path="/cultural-heritages" user={ user } component={ <IndexCulturalHeritagesPage /> } />
                 <PrivateRoute exact path="/profile" user={ user } component={ <Profile /> } />
+                <PrivateRoute exact path="/search" user={ user } component={ <Search /> } />
               </Switch>
             </div>
         </Router>

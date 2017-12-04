@@ -154,7 +154,8 @@ class cultural_heritage_item_view_update_delete(generics.RetrieveUpdateDestroyAP
         if 'description' in data:
             instance.hidden_tags = []
             description = data['description']
-            hidden_tags = hidden_tag_extractor.extract_keywords(hidden_tag_extractor, text=description)
+            extractor = hidden_tag_extractor()
+            hidden_tags = extractor.extract_keywords(text=description)
             for tag in hidden_tags:
                 new_tag, created = hidden_tag.objects.get_or_create(name=tag)
                 instance.hidden_tags.add(new_tag)
@@ -227,12 +228,12 @@ class cultural_heritage_item_search(generics.ListAPIView):
         for keyword in keywords:
             matching_hidden_tags = (hidden_tag for hidden_tag in hidden_tags if
                                     keyword.lower() == hidden_tag.name.lower())
-            common_hidden_tag_amount = sum(1 for _ in matching_hidden_tags)
+            common_hidden_tag_amount += sum(1 for _ in matching_hidden_tags)
             matching_title_words = (word for word in getattr(item, 'title').split() if keyword.lower() == word.lower())
-            common_words_in_title_amount = sum(1 for _ in matching_title_words)
+            common_words_in_title_amount += sum(1 for _ in matching_title_words)
             matching_tags = (tag for tag in item.tags.all() if keyword.lower() == tag.name.lower())
-            common_tag_amount = sum(1 for _ in matching_tags)
-        if self.location != None:
+            common_tag_amount += sum(1 for _ in matching_tags)
+        if self.location != None and getattr(item, 'latitude') != None:
             coord = (item.longitude, item.latitude)
             location_distance_in_km = geopy.distance.vincenty(self.location, coord).km
             location_score = 2000 if location_distance_in_km == 0 else 2000 / location_distance_in_km
@@ -279,3 +280,55 @@ class nearby_search(generics.ListAPIView):
     def dist(self, item):
         coord = (item.longitude, item.latitude)
         return geopy.distance.vincenty(self.baseCoor, coord).km
+
+
+class recommendation(generics.ListAPIView):
+    serializer_class = cultural_heritage_serializer
+
+    def get_queryset(self):
+        item_id = self.request.GET['item_id']
+        self.base_item = get_object_or_404(Cultural_Heritage, pk=item_id)
+        objects = Cultural_Heritage.objects.exclude(pk=item_id)
+        objects_with_score = [(self.cmp(obj), obj) for obj in objects]
+        objects_with_score = sorted(objects_with_score, key=lambda x: x[0], reverse=True)
+        objects = [pair[1] for pair in objects_with_score]
+        return objects
+
+    def cmp(self, item):
+        hidden_tags = item.hidden_tags.all()
+        common_hidden_tag_amount = 0
+        common_words_in_title_amount = 0
+        common_tag_amount = 0
+        location_score = 0
+        time_score = 0
+        time_overlap_perc = 0
+        for hidden_tag_1 in self.base_item.hidden_tags.all():
+            matching_hidden_tags = (hidden_tag for hidden_tag in hidden_tags if
+                                    hidden_tag_1.name.lower() == hidden_tag.name.lower())
+            common_hidden_tag_amount += sum(1 for _ in matching_hidden_tags)
+        for word_1 in self.base_item.title.split():
+            matching_title_words = (word for word in item.title.split() if
+                                    word_1.lower() == word.lower())
+            common_words_in_title_amount += sum(1 for _ in matching_title_words)
+        for tag_1 in self.base_item.tags.all():
+            matching_tags = (tag for tag in item.tags.all() if tag_1.name.lower() == tag.name.lower())
+            common_tag_amount += sum(1 for _ in matching_tags)
+
+        if self.base_item.latitude != None:
+            coord = (item.longitude, item.latitude)
+            location = (self.base_item.longitude, self.base_item.latitude)
+            location_distance_in_km = geopy.distance.vincenty(location, coord).km
+            location_score = 2000 if location_distance_in_km == 0 else 2000 / location_distance_in_km
+        if self.base_item.start_year != None and item.start_year != None:
+            avg_time_1 = (self.base_item.start_year + self.base_item.end_year) / 2
+            avg_time_2 = (self.base_item.start_year + item.end_year) / 2
+            time_score = 10 / (abs(avg_time_1 - avg_time_2))
+
+            # Calculate overlapping percentage
+            left_boundary_of_overlapped = max(self.base_item.start_year, item.start_year)
+            left_boundary_of_union = min(self.base_item.start_year, item.start_year)
+            right_boundary_of_overlapped = min(self.base_item.end_year, item.end_year)
+            right_boundary_of_union = max(self.base_item.end_year, item.end_year)
+            time_overlap_perc = 1.0 * (right_boundary_of_overlapped - left_boundary_of_overlapped) / (
+                right_boundary_of_union - left_boundary_of_union)
+        return common_tag_amount + common_hidden_tag_amount + common_words_in_title_amount + location_score + time_score + 10 * time_overlap_perc

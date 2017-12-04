@@ -27,7 +27,7 @@ const Page = ({ user, token, culturalHeritages, helpOpen, paginationNextUrl, loa
             .sort((c1, c2) => c1.id - c2.id)
             .map(c => (
               <li key={ c.id }>
-                <CulturalHeritage culturalHeritage={ c } showCommentSummary={ true } shouldTruncate ={ true } favorite={ () => favoriteItem(token, c) } />
+                <CulturalHeritage returnTo="/cultural-heritages" culturalHeritage={ c } showCommentSummary={ true } shouldTruncate ={ true } favorite={ () => favoriteItem(token, c) } />
               </li>
             )
           )}
