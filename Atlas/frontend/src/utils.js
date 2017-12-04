@@ -46,3 +46,11 @@ export const authDelete = (token, opts) =>
     headers: { 'Authorization': 'JWT ' + token },
     data: opts.data
   })
+
+export const getUrlParam = (name) => {
+  name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+  let regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+  let results = regex.exec(window.location.search);
+  return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};
+
