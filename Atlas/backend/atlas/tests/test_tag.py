@@ -1,9 +1,10 @@
+from authentication.models import Account
+
 import pytest
 from django.test import TestCase
-
 from jwt_auth.compat import json, smart_text
-from authentication.models import Account
 from rest_framework.test import APIClient
+
 
 @pytest.mark.django_db
 class cultural_heritage_item(TestCase):

@@ -1,10 +1,9 @@
-from django.contrib.auth import update_session_auth_hash
-
-from rest_framework import serializers
-from rest_framework_jwt import serializers as jwt_serializers
 from django.contrib.auth import authenticate
 from django.utils.translation import ugettext as _
+from rest_framework import serializers
+from rest_framework_jwt import serializers as jwt_serializers
 from .models import Account
+
 
 class AccountSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True)
@@ -14,7 +13,7 @@ class AccountSerializer(serializers.ModelSerializer):
         model = Account
         fields = (
             'id', 'email', 'username', 'date_created', 'date_modified',
-            'firstname', 'lastname','profile_picture', 'password', 'confirm_password')
+            'firstname', 'lastname', 'profile_picture', 'password', 'confirm_password')
         read_only_fields = ('date_created', 'date_modified')
 
     def create(self, validated_data):
@@ -42,13 +41,14 @@ class AccountSerializer(serializers.ModelSerializer):
     def validate(self, data):
 
         email = data['email']
-        #Ensure email exists
+        # Ensure email exists
         if not email:
             raise serializers.ValidationError('Users must have a valid e-mail address')
         password = data['password']
-        #Ensure password consists of at least 1 capital letter, digit and 7 chars
+        # Ensure password consists of at least 1 capital letter, digit and 7 chars
         if not (any(x.isupper() for x in password) and any(x.isdigit() for x in password) and len(password) >= 7):
-            raise serializers.ValidationError('Password should contain at least one capital letter and digit and 7 chars.')
+            raise serializers.ValidationError(
+                'Password should contain at least one capital letter and digit and 7 chars.')
         '''
             Ensure the passwords are the same
         '''
@@ -59,15 +59,18 @@ class AccountSerializer(serializers.ModelSerializer):
                 )
         return data
 
+
 class CustomJWTSerializer(jwt_serializers.JSONWebTokenSerializer):
     username_field = 'username_or_email'
+
     def validate(self, attrs):
 
         password = attrs.get("password")
-        user_obj = Account.objects.filter(email=attrs.get("username_or_email")).first() or Account.objects.filter(username=attrs.get("username_or_email")).first()
+        user_obj = Account.objects.filter(email=attrs.get("username_or_email")).first() or Account.objects.filter(
+            username=attrs.get("username_or_email")).first()
         if user_obj is not None:
             credentials = {
-                'username':user_obj.username,
+                'username': user_obj.username,
                 'password': password
             }
             if all(credentials.values()):

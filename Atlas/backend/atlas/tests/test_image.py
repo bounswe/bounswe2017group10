@@ -1,9 +1,10 @@
+from authentication.models import Account
+
 import pytest
 from django.test import TestCase
-
 from jwt_auth.compat import json, smart_text
-from authentication.models import Account
 from rest_framework.test import APIClient
+
 
 @pytest.mark.django_db
 class cultural_heritage_item(TestCase):
@@ -222,7 +223,6 @@ class cultural_heritage_item(TestCase):
         response_content = json.loads(smart_text(response.content))
         self.assertEqual(len(response_content['images']), 2)
 
-
     def test_create_cultural_heritage_item_with_many_images_at_once_at_creation(self):
         item_data = {
             "title": "Gigantic playground for your CHILDREN",
@@ -250,5 +250,3 @@ class cultural_heritage_item(TestCase):
         self.assertEqual(response.status_code, 200)
         response_content = json.loads(smart_text(response.content))
         self.assertEqual(len(response_content['images']), 5)
-
-
