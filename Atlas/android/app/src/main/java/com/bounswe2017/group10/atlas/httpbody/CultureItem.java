@@ -70,6 +70,10 @@ public class CultureItem implements Parcelable {
     @Expose
     private boolean isFavorite;
 
+    @SerializedName("favorited_amount")
+    @Expose
+    private String favoriteCount;
+
     public CultureItem() {
         this.imageList = new ArrayList<>();
         this.tagList = new ArrayList<>();
@@ -265,7 +269,7 @@ public class CultureItem implements Parcelable {
         if (startYear != null && endYear != null) {
             year = FeedRow.toYearFormat(getStartYear(), getEndYear());
         }
-        return new FeedRow(url, getTitle(), getDescription(), getPlaceName(), year, tagList);
+        return new FeedRow(url, getTitle(), getDescription(), getPlaceName(), year, tagList, favoriteCount);
     }
 
     public ArrayList<Comment> getCommentList() {

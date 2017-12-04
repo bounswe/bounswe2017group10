@@ -43,6 +43,7 @@ public class ListItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView etDescr;
         TextView etLocation;
         TextView etYear;
+        TextView etFavorite;
         ImageView imIcon;
         LinearLayout layoutTag1;
         LinearLayout layoutTag2;
@@ -55,6 +56,7 @@ public class ListItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             this.etDescr = v.findViewById(R.id.description_textview);
             this.etLocation = v.findViewById(R.id.location_textview);
             this.etYear = v.findViewById(R.id.year_textview);
+            this.etFavorite = v.findViewById(R.id.favorite_textview);
             this.imIcon = v.findViewById(R.id.icon_imageview);
             this.layoutTag1 = v.findViewById(R.id.tag1);
             this.layoutTag2 = v.findViewById(R.id.tag2);
@@ -77,6 +79,7 @@ public class ListItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             etTitle.setText(row.getTitle());
             etDescr.setText(row.getDescription());
             etLocation.setText(row.getLocation());
+            etFavorite.setText(row.getFavoriteCount());
 
             if (row.getYear() != null) {
                 int[] yearPair = FeedRow.fromYearFormat(row.getYear());
