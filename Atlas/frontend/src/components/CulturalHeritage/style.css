@@ -113,7 +113,7 @@ ul.cultural-heritages {
     ul.cultural-heritages li img {
       width: 100%; }
   ul.cultural-heritages li:hover {
-    border: 2px solid #ce8b10;
+    border: 2px solid #122A4C;
     text-decoration: none; }
 
 body {
@@ -134,7 +134,7 @@ body {
   position: absolute;
   right: 100px;
   top: 300px;
-  background-color: #ce8b10;
+  background-color: #122A4C;
   padding: 30px;
   color: white;
   z-index: 3;

@@ -1,7 +1,8 @@
 ul.navbar-nav li.nav-item {
   margin: 10px;
-  background-color: #ce8b10;
-  padding: 5px; }
+  background-color: #122A4C;
+  padding: 5px;
+  border-radius: 10px; }
   ul.navbar-nav li.nav-item div.dropdown-menu {
     background-color: gray; }
     ul.navbar-nav li.nav-item div.dropdown-menu h6.dropdown-header {
