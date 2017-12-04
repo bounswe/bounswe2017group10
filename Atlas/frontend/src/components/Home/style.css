@@ -4,7 +4,7 @@
   src: url("../../assets/fonts/Open_Sans/OpenSans-Regular.ttf"); }
 
 .Home {
-  text-align: center; }
+  text-align: left; }
 
 .Home-logo {
   animation: App-logo-spin infinite 20s linear;
@@ -25,11 +25,11 @@
   left: -10px;
   top: -10px;
   z-index: -1;
-  -webkit-filter: blur(0.5px) brightness(80%);
-  -moz-filter: blur(0.5px) brightness(80%);
-  -o-filter: blur(0.5px) brightness(80%);
-  -ms-filter: blur(0.5px) brightness(80%);
-  filter: blur(0.5px) brightness(80%); }
+  -webkit-filter: blur(0.5px) brightness(95%);
+  -moz-filter: blur(0.5px) brightness(95%);
+  -o-filter: blur(0.5px) brightness(95%);
+  -ms-filter: blur(0.5px) brightness(95%);
+  filter: blur(0.5px) brightness(95%); }
 
 .logo {
   width: 40px;
@@ -41,16 +41,27 @@
 .navbar a.navbar-brand {
   color: #ce8b10; }
 
-header.Home-header {
-  margin-top: 150px; }
+h1 {
+  font-family: "Trebuchet MS",Helvetica, SansSerif;
+  font-size: 96px;
+  font-style: italic;
+  font-stretch: expanded; }
 
-h1.Home-title {
-  color: white;
-  font-size: 120px;
-  font-family: 'Open Sans'; }
+h2 {
+  font-family: "Trebuchet MS",Helvetica, SansSerif;
+  font-size: 108px;
+  font-weight: bold;
+  font-style: italic;
+  font-stretch: expanded; }
+
+header.Home-header {
+  color: black;
+  font-size: 72px;
+  margin-top: 50px; }
 
 footer.Home-footer {
-  margin-top: 100px; }
+  margin-top: 60px;
+  text-align: center; }
   footer.Home-footer a.down-link {
     color: white;
     font-size: 30px;

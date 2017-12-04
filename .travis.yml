@@ -17,14 +17,17 @@ matrix:
         - virtualenv atlasenv
         - source ./atlasenv/bin/activate
         - pip install -r requirements.txt
+        - python -m textblob.download_corpora
 
       before_script:
         - psql -c "CREATE DATABASE atlas;" -U postgres
         - psql -c "CREATE USER atlas WITH SUPERUSER;" -U postgres
         - psql -c "GRANT ALL PRIVILEGES ON DATABASE atlas TO atlas;" -U postgres
       script:
+        - ./manage.py makemigrations
         - ./manage.py migrate
-        - ./manage.py test
+        - cd atlas/tests
+        - ../../manage.py test
 
       # FRONTEND
     - language: python

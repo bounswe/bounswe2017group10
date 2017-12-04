@@ -77,6 +77,7 @@ public interface API {
                                     @Path("id") long id,
                                     @Body PostCommentRequest comment);
 
+
     @POST("/user/cultural_heritage_item/{id}/favorite")
     Call<CultureItem> favoriteItem(@Header("Authorization") String authStr,
                           @Path("id") long id);
@@ -84,4 +85,10 @@ public interface API {
     @DELETE("/user/cultural_heritage_item/{id}/favorite")
     Call<Void> unfavoriteItem(@Header("Authorization") String authStr,
                             @Path("id") long id);
+  
+    @GET("/cultural_heritage_item/myitems/")
+    Call<GetItemsResponse> getOwnItems(@Header("Authorization") String authStr,
+                                    @Query("limit") long limit,
+                                    @Query("offset") long offset);
+
 }
