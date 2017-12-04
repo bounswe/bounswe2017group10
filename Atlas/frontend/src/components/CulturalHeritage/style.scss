@@ -11,9 +11,41 @@ $ch-border-width: 2px;
   -moz-box-shadow: 0px 0px 42px -17px rgba(0,0,0,0.39);
   box-shadow: 0px 0px 42px -17px rgba(0,0,0,0.39);
 }
-
+.whitebox-profile {
+  background-color: white;
+  padding: 20px;
+  width: 900px;
+  color: black;
+  -webkit-box-shadow: 0px 0px 42px -17px rgba(0,0,0,0.39);
+  -moz-box-shadow: 0px 0px 42px -17px rgba(0,0,0,0.39);
+  box-shadow: 0px 0px 42px -17px rgba(0,0,0,0.39);
+  .hr{
+    width: 800px;
+  }
+}
+.whitebox-comment {
+  background-color: white;
+  color: black;
+  margin: auto;
+  .info{
+    text-align: center;
+  }
+  img{
+    width: 100px;
+    height: 100px;
+  }
+  h3{
+    padding-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+}
 .cultural-heritage {
   list-style: none;
+  a {
+    color: black;
+    text-decoration: none;
+  }
   img {
     width: 100%;
   }
@@ -96,4 +128,16 @@ body {
   width: 100%;
   height: 150px;
   border-radius: 0;
+}
+
+.fav-indicator {
+  padding: 10px;
+  margin-right: 10px;
+  svg {
+    margin-left: 5px;
+    font-size: 20px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }

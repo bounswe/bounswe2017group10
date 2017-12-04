@@ -4,6 +4,7 @@ import IndexPage from '../../components/CulturalHeritage/Index';
 import { fetchCH, finishFetchingCH, updatingGetCH, closeHelp, updateCHPaginationNext, loadMoreCH, startLoadMore, finishLoadMore, disableLoadMore, enableLoadMore } from '../../actions/culturalHeritage';
 import axios from 'axios';
 import { API_URL, CULTURAL_HERITAGE_PAGINATION_LIMIT } from '../../constants';
+import { favItem } from './Common';
 
 const mapStateToProps = state => {
   return {
@@ -60,6 +61,9 @@ const mapDispatchToProps = dispatch => {
     },
     enableLoadMore: () => {
       dispatch(enableLoadMore());
+    },
+    favoriteItem: (token, culturalHeritage) => {
+      favItem(dispatch, token, culturalHeritage);
     }
   }
 }

@@ -53,6 +53,8 @@ class Cultural_Heritage(models.Model):
     start_year = models.IntegerField(null=True)
     end_year = models.IntegerField(null=True)
     place_name = models.CharField(max_length=350,null=True)
+    hidden_tags = models.ManyToManyField('hidden_tag',blank=True)
+
 
     @property
     def is_favorite(self):
@@ -67,9 +69,6 @@ class comment(models.Model):
     updated_time = models.DateTimeField(auto_now =True)
     cultural_heritage_item = models.ForeignKey('Cultural_Heritage', on_delete=models.CASCADE, null=True)
 
-
-
-
     @property
     def user_info(self):
         user= {}
@@ -77,4 +76,13 @@ class comment(models.Model):
         user['picture']=self.user.profile_picture
         return user
 
+class hidden_tag(models.Model):
+    name = models.CharField(max_length=100)
+
+
+class item_visit(models.Model):
+    cultural_heritage_item = models.ForeignKey('Cultural_Heritage', on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey('authentication.Account', on_delete=models.CASCADE)
+    duration = models.IntegerField(default=0) #This will be stored in seconds.
+    last_updated_time = models.DateTimeField(auto_now=True)
 

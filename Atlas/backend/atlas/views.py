@@ -1,8 +1,8 @@
-from .models import User,Cultural_Heritage,comment,tag,favorite_items,image_media_item as image_item
+from .models import User,Cultural_Heritage,comment,tag,favorite_items,item_visit,image_media_item as image_item,hidden_tag
 from rest_framework import generics,mixins
 from django.http import HttpResponse, JsonResponse,HttpRequest
 from django.core import serializers
-from .serializers import cultural_heritage_serializer,image_media_item_serializer,tag_serializer,comment_serializer,favorite_item_serializer
+from .serializers import cultural_heritage_serializer,image_media_item_serializer,tag_serializer,comment_serializer,favorite_item_serializer,item_visit_serializer
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
@@ -10,6 +10,7 @@ from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from jwt_auth.compat import json
 from django.contrib.postgres.search import SearchVector
+from .util import hidden_tag_extractor
 
 import geopy.distance
 
@@ -132,6 +133,23 @@ class cultural_heritage_item_view_update_delete(generics.RetrieveUpdateDestroyAP
     serializer_class = cultural_heritage_serializer
     lookup_field = 'id'
     permission_classes = [IsAuthenticatedOrReadOnly]
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        data = request.data
+        if 'description' in data:
+            instance.hidden_tags = []
+            description = data['description']
+            hidden_tags = hidden_tag_extractor.extract_keywords(hidden_tag_extractor, text=description)
+            for tag in hidden_tags:
+                new_tag, created = hidden_tag.objects.get_or_create(name=tag)
+                instance.hidden_tags.add(new_tag)
+            instance.save()
+
+        self.perform_update(serializer)
+        return Response(serializer.data)
     def get_queryset(self):
         return Cultural_Heritage.objects.filter()
 
@@ -157,9 +175,43 @@ class cultural_heritage_item_search(generics.ListAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     def get_queryset(self):
         query = self.kwargs.get('query')
-        return Cultural_Heritage.objects.annotate(
-           search=SearchVector('tags__name', 'title','description'),
-        ).filter(search=query)
+        self.keywords = query.split()
+        objects = Cultural_Heritage.objects.all()
+        self.location = None
+        for object in objects:
+            for keyword in self.keywords:
+                if getattr(object,'place_name') and keyword.lower() == getattr(object,'place_name').lower():
+                    if getattr(object,'latitude') !=None:
+                        self.location = (getattr(object,'longitude'),getattr(object,'latitude'))
+                        break
+            if self.location != None:
+                break
+
+        objects_with_score = [(self.cmp(obj), obj) for obj in objects]
+        objects_with_score =sorted(objects_with_score,key=lambda x : x[0],reverse=True)
+        objects_with_positive_score = filter(lambda x: x[0] > 0, objects_with_score)
+        objects = [pair[1] for pair in objects_with_positive_score]
+        return objects
+    def cmp(self,item):
+        keywords = self.keywords
+        hidden_tags =item.hidden_tags.all()
+        common_hidden_tag_amount = 0
+        common_words_in_title_amount = 0
+        common_tag_amount = 0
+        location_score = 0
+        for keyword in keywords:
+            matching_hidden_tags = (hidden_tag for hidden_tag in hidden_tags if keyword.lower() == hidden_tag.name.lower())
+            common_hidden_tag_amount = sum(1 for _ in matching_hidden_tags)
+            matching_title_words = (word for word in getattr(item,'title').split() if keyword.lower() == word.lower())
+            common_words_in_title_amount = sum(1 for _ in matching_title_words)
+            matching_tags = (tag for tag in item.tags.all() if keyword.lower() == tag.name.lower())
+            common_tag_amount = sum(1 for _ in matching_tags)
+        if self.location != None:
+            coord = (item.longitude, item.latitude)
+            location_distance_in_km = geopy.distance.vincenty(self.location,coord).km
+            location_score = 2000 if location_distance_in_km == 0 else 2000/location_distance_in_km
+        return common_tag_amount+common_hidden_tag_amount+common_words_in_title_amount+location_score
+
 
 class cultural_heritage_item_search_autocorrect(generics.ListAPIView):
     serializer_class = cultural_heritage_serializer
@@ -168,6 +220,21 @@ class cultural_heritage_item_search_autocorrect(generics.ListAPIView):
         query = self.kwargs.get('query')
         return Cultural_Heritage.objects.filter(title__icontains=query)
 
+class item_visit_update(generics.UpdateAPIView):
+    serializer_class =  item_visit_serializer
+    queryset = item_visit.objects.all()
+    def update(self, request, *args, **kwargs):
+        request.data['user'] =request.user.pk
+        item = get_object_or_404(Cultural_Heritage,pk=request.data['cultural_heritage_item'])
+        previous_duration = 0
+        if item_visit.objects.filter(user=request.user,cultural_heritage_item=item,).count()>0:
+            instance = item_visit.objects.get(user=request.user,cultural_heritage_item=item)
+            previous_duration = instance.__dict__['duration']
+        request.data['duration'] = request.data['duration']+previous_duration
+        serializer = self.get_serializer(data=request.data,partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
 
 class nearby_search(generics.ListAPIView):
     serializer_class =  cultural_heritage_serializer

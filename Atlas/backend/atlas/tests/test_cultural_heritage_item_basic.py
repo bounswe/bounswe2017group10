@@ -124,7 +124,24 @@ class cultural_heritage_item(TestCase):
         item_data = {
             'country': 'America',
             'title' : 'Seattle Discovery Park',
-            'description' : 'This park is really awesome. You can play frisbee with your dog on very large fields located in the center of the park',
+            'description' : "Chinese ceramics show a continuous development since pre-dynastic times "
+                            "and are one of the most significant forms of Chinese art and ceramics globally. "
+                            "The first pottery was made during the Palaeolithic era. Chinese ceramics range from "
+                            "construction materials such as bricks and tiles, to hand-built pottery vessels fired "
+                            "in bonfires or kilns, to the sophisticated Chinese porcelain wares made for the imperial "
+                            "court and for export. Porcelain is so identified with China that it is still called \"china\" "
+                            "in everyday English usage. Most later Chinese ceramics, even of the finest quality, "
+                            "were made on an industrial scale, thus few names of individual potters were recorded. "
+                            "Many of the most important kiln workshops were owned by or reserved for the Emperor, and "
+                            "large quantities of ceramics were exported as diplomatic gifts or for trade from an early "
+                            "date, initially to East Asia and the Islamic world, and then from around the 16th century "
+                            "to Europe. Chinese ceramics have had an enormous influence on other ceramic traditions in "
+                            "these areas. Increasingly over their long history, Chinese ceramics can be classified "
+                            "between those made for the imperial court, either to use or distribute, those made "
+                            "for a discriminating Chinese market, and those for popular Chinese markets or for "
+                            "export. Some types of wares were also made only or mainly for special uses such as "
+                            "burial in tombs, or for use on altars."
+                            ,
             'continent' : 'NA',
             'city' :'Seattle',
             'public_accessibility' :True
@@ -324,6 +341,23 @@ class cultural_heritage_item(TestCase):
         title = 'Very emotional thresh hook'
         item_data = {
             "title": title,
+            'description': "Chinese ceramics show a continuous development since pre-dynastic times "
+                           "and are one of the most significant forms of Chinese art and ceramics globally. "
+                           "The first pottery was made during the Palaeolithic era. Chinese ceramics range from "
+                           "construction materials such as bricks and tiles, to hand-built pottery vessels fired "
+                           "in bonfires or kilns, to the sophisticated Chinese porcelain wares made for the imperial "
+                           "court and for export. Porcelain is so identified with China that it is still called \"china\" "
+                           "in everyday English usage. Most later Chinese ceramics, even of the finest quality, "
+                           "were made on an industrial scale, thus few names of individual potters were recorded. "
+                           "Many of the most important kiln workshops were owned by or reserved for the Emperor, and "
+                           "large quantities of ceramics were exported as diplomatic gifts or for trade from an early "
+                           "date, initially to East Asia and the Islamic world, and then from around the 16th century "
+                           "to Europe. Chinese ceramics have had an enormous influence on other ceramic traditions in "
+                           "these areas. Increasingly over their long history, Chinese ceramics can be classified "
+                           "between those made for the imperial court, either to use or distribute, those made "
+                           "for a discriminating Chinese market, and those for popular Chinese markets or for "
+                           "export. Some types of wares were also made only or mainly for special uses such as "
+                           "burial in tombs, or for use on altars."
         }
         response = self.client.post(
             self.cultural_heritage_item_url,
@@ -335,6 +369,23 @@ class cultural_heritage_item(TestCase):
         new_title = 'Akali sup montage'
         item_data = {
             "title": new_title,
+                        'description' : "Chinese ceramics show a continuous development since pre-dynastic times "
+                            "and are one of the most significant forms of Chinese art and ceramics globally. "
+                            "The first pottery was made during the Palaeolithic era. Chinese ceramics range from "
+                            "construction materials such as bricks and tiles, to hand-built pottery vessels fired "
+                            "in bonfires or kilns, to the sophisticated Chinese porcelain wares made for the imperial "
+                            "court and for export. Porcelain is so identified with China that it is still called \"china\" "
+                            "in everyday English usage. Most later Chinese ceramics, even of the finest quality, "
+                            "were made on an industrial scale, thus few names of individual potters were recorded. "
+                            "Many of the most important kiln workshops were owned by or reserved for the Emperor, and "
+                            "large quantities of ceramics were exported as diplomatic gifts or for trade from an early "
+                            "date, initially to East Asia and the Islamic world, and then from around the 16th century "
+                            "to Europe. Chinese ceramics have had an enormous influence on other ceramic traditions in "
+                            "these areas. Increasingly over their long history, Chinese ceramics can be classified "
+                            "between those made for the imperial court, either to use or distribute, those made "
+                            "for a discriminating Chinese market, and those for popular Chinese markets or for "
+                            "export. Some types of wares were also made only or mainly for special uses such as "
+                            "burial in tombs, or for use on altars."
         }
         response_content = json.loads(smart_text(response.content))
         id = response_content['id']
