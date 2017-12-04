@@ -13,6 +13,7 @@ from .models import User, Cultural_Heritage, comment, tag, favorite_items, item_
 from .serializers import cultural_heritage_serializer, image_media_item_serializer, tag_serializer, comment_serializer, \
     favorite_item_serializer, item_visit_serializer
 from .util import hidden_tag_extractor
+from .popularity import trending_score
 
 
 def users(request):
@@ -180,6 +181,16 @@ class cultural_heritage_item_list_user_items(generics.ListAPIView):
     def get_queryset(self):
         user = self.request.user;
         return Cultural_Heritage.objects.filter(user=user)
+
+
+class cultural_heritage_item_featured(generics.ListAPIView):
+    serializer_class = cultural_heritage_serializer
+
+    def get_queryset(self):
+        all_items = Cultural_Heritage.objects.all()
+        items_with_score = [(item, trending_score(item)) for item in all_items]
+        sorted_items_with_score = sorted(items_with_score, key=lambda x: x[1], reverse=True)
+        return [pair[0] for pair in sorted_items_with_score]
 
 
 class cultural_heritage_item_search(generics.ListAPIView):

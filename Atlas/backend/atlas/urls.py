@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^cultural_heritage_item/(?P<heritage_id>[0-9]+)/image/?$', views.image_media_item.as_view()),
     url(r'^cultural_heritage_item/(?P<id>\d+)/?$', views.cultural_heritage_item_view_update_delete.as_view()),
     url(r'^cultural_heritage_item/myitems/?$', views.cultural_heritage_item_list_user_items.as_view()),
+    url(r'^cultural_heritage_item/featured/?$', views.cultural_heritage_item_featured.as_view()),
     url(r'^tags/?$', views.tags.as_view()),
     url(r'^cultural_heritage_item/(?P<heritage_id>[0-9]+)/comment/?$', views.cultural_heritage_item_comment.as_view()),
     url(r'^cultural_heritage_item/(?P<heritage_id>[0-9]+)/favorite/?$', views.cultural_heritage_item_comment.as_view()),
