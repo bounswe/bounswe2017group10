@@ -3,6 +3,8 @@ package com.bounswe2017.group10.atlas.httpbody;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class UserResponse {
 
     @SerializedName("firstname")
@@ -21,9 +23,21 @@ public class UserResponse {
     @Expose
     private String username;
 
+    @SerializedName("profile_picture")
+    @Expose
+    private String image;
+
     @SerializedName("id")
     @Expose
     private long userId;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public String getFirstname() {
         return firstname;
