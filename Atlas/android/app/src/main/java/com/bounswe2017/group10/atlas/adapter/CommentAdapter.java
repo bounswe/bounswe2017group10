@@ -2,21 +2,34 @@ package com.bounswe2017.group10.atlas.adapter;
 
 
 import android.content.Context;
+import android.icu.text.SimpleDateFormat;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bounswe2017.group10.atlas.R;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class CommentAdapter extends ArrayAdapter<CommentRow> {
     private final Context context;
     private final ArrayList<CommentRow> items;
     private LayoutInflater inflater;
+
+    //TODO: this parameter needs to be updated
+
+    public static final int TIME_ZONE = 3;
 
 
     public CommentAdapter(Context context, ArrayList<CommentRow> items) {
@@ -30,8 +43,10 @@ public class CommentAdapter extends ArrayAdapter<CommentRow> {
         private TextView nameH;
         private TextView dateH;
         private TextView textH;
+        private ImageView avatarH;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View getView(int pos,View convertView, ViewGroup parent) {
         ViewHolder holder;
@@ -42,6 +57,7 @@ public class CommentAdapter extends ArrayAdapter<CommentRow> {
             holder.nameH = convertView.findViewById(R.id.commenter_name);
             holder.dateH = convertView.findViewById(R.id.comment_date);
             holder.textH = convertView.findViewById(R.id.comment_text);
+            holder.avatarH = convertView.findViewById(R.id.comment_avatar);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -49,8 +65,14 @@ public class CommentAdapter extends ArrayAdapter<CommentRow> {
 
         CommentRow row = items.get(pos);
         holder.nameH.setText(row.getName());
-        holder.dateH.setText(row.getDate());
+        holder.dateH.setText(getDateString(row.getDate()));
         holder.textH.setText(row.getText());
+
+        Glide.with(context)
+                .load(row.getAvatar())
+                .apply(new RequestOptions()
+                        .error(R.drawable.help))
+                .into(holder.avatarH);
 
         return convertView;
     }
@@ -58,5 +80,40 @@ public class CommentAdapter extends ArrayAdapter<CommentRow> {
     @Override
     public int getCount() {
         return this.items.size();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public String getDateString(String date) {
+
+
+        // Custom date format
+        SimpleDateFormat format = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+
+        Date dateObj = new Date();
+        Date  now = new Date();
+
+        try {
+            dateObj = format.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        //Time zone difference
+        dateObj.setTime(dateObj.getTime() + TimeUnit.HOURS.toMillis(TIME_ZONE) - 3000);
+
+        long diff = now.getTime() - dateObj.getTime();
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(diff);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(diff);
+        long hours = TimeUnit.MILLISECONDS.toHours(diff);
+        long days = TimeUnit.MILLISECONDS.toDays(diff);
+
+
+        if(seconds < 60) return Long.toString(seconds) + " seconds ago";
+        else if(minutes < 60) return Long.toString(minutes) + " minutes ago";
+        else if(hours < 24) return Long.toString(hours) + " hours ago";
+        else if(days < 30) return Long.toString(days) + " days ago";
+        else return format.format(dateObj);
+
+        //return format.format(dateObj) + "\n" +  format.format(now);
     }
 }

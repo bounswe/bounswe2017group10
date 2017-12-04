@@ -12,7 +12,42 @@ import java.io.Serializable;
  */
 
 
+
+
 public class Comment implements Serializable {
+
+
+
+    private class UserInfo implements Serializable {
+
+        @SerializedName("username")
+        @Expose
+        private String username;
+
+        @SerializedName("picture")
+        @Expose
+        private String picture;
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public String getPicture() {
+            return picture;
+        }
+
+        public void setPicture(String picture) {
+            this.picture = picture;
+        }
+    }
+
+    @SerializedName("user_info")
+    @Expose
+    private UserInfo userInfo;
 
     @SerializedName("user")
     @Expose
@@ -75,7 +110,15 @@ public class Comment implements Serializable {
     }
 
     public CommentRow toCommentRow() {
-        return new CommentRow(this.getUser(), this.getCreateTime(), this.getText());
+        return new CommentRow(this.getUserInfo().getUsername(), this.getCreateTime(), this.getText(), this.getUserInfo().getPicture());
+    }
+
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
     }
 
     @Override
@@ -92,3 +135,5 @@ public class Comment implements Serializable {
                 Utils.objectEquals(this.itemKey, other.itemKey);
     }
 }
+
+
