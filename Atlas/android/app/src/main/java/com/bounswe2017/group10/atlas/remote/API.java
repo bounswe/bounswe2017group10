@@ -76,4 +76,12 @@ public interface API {
     Call<Comment> postComment(@Header("Authorization") String authStr,
                                     @Path("id") long id,
                                     @Body PostCommentRequest comment);
+
+    @POST("/user/cultural_heritage_item/{id}/favorite")
+    Call<CultureItem> favoriteItem(@Header("Authorization") String authStr,
+                          @Path("id") long id);
+
+    @DELETE("/user/cultural_heritage_item/{id}/favorite")
+    Call<Void> unfavoriteItem(@Header("Authorization") String authStr,
+                            @Path("id") long id);
 }

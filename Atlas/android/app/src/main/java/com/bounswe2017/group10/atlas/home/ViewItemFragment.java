@@ -125,8 +125,13 @@ public class ViewItemFragment extends Fragment {
             menu.findItem(R.id.action_delete).setVisible(false);
         }
 
+        if (mItem.isFavorite()) {
+            menu.findItem(R.id.action_favorite).setIcon(R.drawable.ic_favorite_black_24dp);
+        }
+
         super.onCreateOptionsMenu(menu, inflater);
     }
+
 
     /**
      * Select actions to perform when one of the buttons in the action bar is clicked.
@@ -138,7 +143,14 @@ public class ViewItemFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_favorite:
-                // TODO: Favorite item feature
+                if(mItem.isFavorite())
+                    unfavoriteItem();
+
+                else if(!(mItem.isFavorite()))
+                    favoriteItem();
+
+                else
+                    Utils.showToast(mActivity, getString(R.string.error_favorite));
                 return true;
             case R.id.action_edit:
                 Intent intent = new Intent(mActivity, CreateItemActivity.class);
@@ -167,6 +179,54 @@ public class ViewItemFragment extends Fragment {
                     mActivity.onBackPressed();
                 } else {
                     Utils.showToast(mActivity, getString(R.string.unable_to_delete));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Utils.showToast(mActivity, getString(R.string.connection_failure));
+            }
+        });
+    }
+
+    private void favoriteItem() {
+        String authStr = Utils.getSharedPref(mActivity).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
+        APIUtils.serverAPI().favoriteItem(authStr, mItem.getId()).enqueue(new Callback<CultureItem>() {
+            @Override
+            public void onResponse(Call<CultureItem> call, Response<CultureItem> response) {
+                if (response.isSuccessful()) {
+                    //
+                    Utils.showToast(mActivity, getString(R.string.succesful_favorite));
+                    //menu.findItem(R.id.action_favorite).setIcon(R.drawable.ic_favorite_black_24dp);
+                    mItem.setFavorite(true);
+                    mActivity.invalidateOptionsMenu();
+                } else {
+                    //Utils.showToast(mActivity, getString(R.string.error_favorite));
+                    Utils.showToast(mActivity, "ERROR1");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CultureItem> call, Throwable t) {
+                Utils.showToast(mActivity, getString(R.string.connection_failure));
+            }
+        });
+    }
+
+    private void unfavoriteItem() {
+        String authStr = Utils.getSharedPref(mActivity).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
+        APIUtils.serverAPI().unfavoriteItem(authStr, mItem.getId()).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    //
+                    Utils.showToast(mActivity, getString(R.string.succesful_unfavorite));
+                    //menu.findItem(R.id.action_favorite).setIcon(R.drawable.ic_favorite_black_24dp);
+                    mItem.setFavorite(false);
+                    mActivity.invalidateOptionsMenu();
+                } else {
+                    //Utils.showToast(mActivity, getString(R.string.error_favorite));
+                    Utils.showToast(mActivity, "ERROR2");
                 }
             }
 

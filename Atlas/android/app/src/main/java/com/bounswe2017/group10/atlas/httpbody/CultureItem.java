@@ -66,6 +66,10 @@ public class CultureItem implements Parcelable {
     @Expose
     private boolean publicAccessibility;
 
+    @SerializedName("is_favorite")
+    @Expose
+    private boolean isFavorite;
+
     public CultureItem() {
         this.imageList = new ArrayList<>();
         this.tagList = new ArrayList<>();
@@ -212,6 +216,14 @@ public class CultureItem implements Parcelable {
 
     public void setPublicAccessibility(boolean publicAccessibility) {
         this.publicAccessibility = publicAccessibility;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 
     public ArrayList<Image> getImageList() {
