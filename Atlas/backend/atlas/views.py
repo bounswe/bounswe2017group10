@@ -294,11 +294,10 @@ class recommendation(generics.ListAPIView):
 
             # Calculate overlapping percentage
             left_boundary_of_overlapped = max(self.base_item.start_year,item.start_year)
+            left_boundary_of_union = min(self.base_item.start_year,item.start_year)
             right_boundary_of_overlapped = min(self.base_item.end_year,item.end_year)
-            overlapped_area = right_boundary_of_overlapped-left_boundary_of_overlapped
-            first_overlapped_perc =  1.0*overlapped_area/(self.base_item.end_year-self.base_item.start_year)
-            second_overlapped_perc =  1.0*overlapped_area/(item.end_year-item.start_year)
-            time_overlap_perc = max(first_overlapped_perc,second_overlapped_perc)
+            right_boundary_of_union = max(self.base_item.end_year,item.end_year)
+            time_overlap_perc = 1.0*(right_boundary_of_overlapped-left_boundary_of_overlapped)/(right_boundary_of_union-left_boundary_of_union)
         return common_tag_amount + common_hidden_tag_amount + common_words_in_title_amount + location_score +time_score+10*time_overlap_perc
 
 
