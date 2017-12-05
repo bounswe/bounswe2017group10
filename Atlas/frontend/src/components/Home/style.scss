@@ -51,21 +51,22 @@ $logo-size: 40px;
   }
 }
 
-h1 {
-  font-family: "Trebuchet MS",Helvetica, SansSerif;
-  font-size:96px;
-  font-style: italic;
-  font-stretch: expanded;
+.Home {
+  h1 {
+    font-family: "Trebuchet MS",Helvetica, SansSerif;
+    font-size:96px;
+    font-style: italic;
+    font-stretch: expanded;
 
-}
+  }
 
-
-h2 {
-  font-family: "Trebuchet MS",Helvetica, SansSerif;
-  font-size: 108px;
-  font-weight: bold;
-  font-style: italic;
-  font-stretch: expanded;
+  h2 {
+    font-family: "Trebuchet MS",Helvetica, SansSerif;
+    font-size: 108px;
+    font-weight: bold;
+    font-style: italic;
+    font-stretch: expanded;
+  }
 }
 
 header.Home-header {

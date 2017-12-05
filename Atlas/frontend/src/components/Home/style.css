@@ -41,13 +41,13 @@
 .navbar a.navbar-brand {
   color: #ce8b10; }
 
-h1 {
+.Home h1 {
   font-family: "Trebuchet MS",Helvetica, SansSerif;
   font-size: 96px;
   font-style: italic;
   font-stretch: expanded; }
 
-h2 {
+.Home h2 {
   font-family: "Trebuchet MS",Helvetica, SansSerif;
   font-size: 108px;
   font-weight: bold;

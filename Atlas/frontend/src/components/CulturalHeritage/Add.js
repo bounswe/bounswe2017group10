@@ -1,15 +1,14 @@
 import React from 'react';
 import './style.css';
-import {Form, FormGroup, Input, Col, Row, Container, Button} from 'reactstrap';
+import { Form, FormGroup, Input, Col, Row, Container } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import PlusIcon from 'react-icons/lib/fa/plus-circle';
 import LeftIcon from 'react-icons/lib/fa/angle-left';
 import { Errors } from '../../utils';
 import Dropzone from 'react-dropzone';
 import { WithContext as ReactTags } from 'react-tag-input';
-import MapContainer from "../MapContainer";
 
-const Page = ({ user, token, addCHInputs, addCHErrors, handleCHInputChange, addCHTag, deleteCHTag, addCH, goBack, handleDrop, imageUrl,searchLocation, locationName, mapClick }) => (
+const Page = ({ user, token, addCHInputs, addCHErrors, handleCHInputChange, addCHTag, deleteCHTag, addCH, goBack, handleDrop, imageUrl }) => (
   <Container>
     <NavLink className="atlas-button" onClick={goBack} to="/cultural-heritages"><LeftIcon /> Back</NavLink>
     <h1 style={{ textAlign: 'center' }}>Add Cultural Heritage</h1> 
@@ -69,17 +68,7 @@ const Page = ({ user, token, addCHInputs, addCHErrors, handleCHInputChange, addC
         </FormGroup>
       <Errors errors={ addCHErrors } />
     </Form>
-
-      <Input type="search" name="locationName"  placeholder="Search" onChange={handleCHInputChange} />
-      <Button onClick={() => searchLocation(addCHInputs)}></Button>
-      <MapContainer  mapClick={mapClick} locationName={addCHInputs.locationName} lat={addCHInputs.lat} lng={addCHInputs.lng}></MapContainer>
-
-
-
-
-
   </Container>
 )
 
 export default Page;
-
