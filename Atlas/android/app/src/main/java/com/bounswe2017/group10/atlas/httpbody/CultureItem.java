@@ -96,6 +96,8 @@ public class CultureItem implements Parcelable {
         this.tagList = (ArrayList<Tag>)in.readSerializable();
         this.commentList = (ArrayList<Comment>)in.readSerializable();
         this.publicAccessibility = in.readByte() != 0;
+        this.isFavorite = in.readByte() != 0;
+        this.favoriteCount = in.readString();
     }
 
     @Override
@@ -113,6 +115,8 @@ public class CultureItem implements Parcelable {
         out.writeSerializable(this.tagList);
         out.writeSerializable(this.commentList);
         out.writeByte((byte) (this.publicAccessibility ? 1 : 0));
+        out.writeByte((byte) (this.isFavorite ? 1 : 0));
+        out.writeString(this.favoriteCount);
     }
 
     @Override
@@ -300,6 +304,8 @@ public class CultureItem implements Parcelable {
                 Utils.objectEquals(this.imageList, other.imageList) &&
                 Utils.objectEquals(this.tagList, other.tagList) &&
                 Utils.objectEquals(this.commentList, other.commentList) &&
+                Utils.objectEquals(this.isFavorite, other.isFavorite) &&
+                Utils.objectEquals(this.favoriteCount, other.favoriteCount) &&
                 this.publicAccessibility == other.publicAccessibility;
     }
 }
