@@ -1,5 +1,8 @@
 const initAddCHInputs = {
-  tags: []
+  tags: [],
+    lng: 10,
+    lat: 10,
+    locatioName: ""
 }
 const initState = {
   fetching: false,
