@@ -22,9 +22,6 @@ from .serializers import cultural_heritage_serializer, image_media_item_serializ
 from .util import hidden_tag_extractor
 from .popularity import trending_score
 
-def users(request):
-    users_list= serializers.serialize('json',User.objects.order_by('-age')[:5])
-    return HttpResponse(users_list,content_type='application/json')
 
 class cultural_heritage_item(generics.ListCreateAPIView):
 
