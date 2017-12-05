@@ -63,11 +63,6 @@ class Cultural_Heritage(models.Model):
     place_name = models.CharField(max_length=350, null=True)
     hidden_tags = models.ManyToManyField('hidden_tag', blank=True)
 
-    @property
-    def is_favorite(self):
-        if self.user:
-            return favorite_items.objects.filter(item=self.pk, user=self.user.pk).count() > 0
-        return False
 
 
 class comment(models.Model):

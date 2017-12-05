@@ -42,12 +42,22 @@ class cultural_heritage_serializer(serializers.ModelSerializer):
     images = image_media_item_serializer(source='image_media_item_set', read_only=True, many=True)
     comments = comment_serializer(source='comment_set', read_only=True, many=True)
     tags = tag_serializer(many=True, required=False)
-    is_favorite = serializers.ReadOnlyField()
+    is_favorite = serializers.SerializerMethodField()
 
     class Meta:
         model = Cultural_Heritage
-        exclude = ['hidden_tags']
+        fields = ['user','title','description','continent','country','city','public_accessibility','created_time',
+                  'updated_time','tags','favorited_amount','longitude','latitude','start_year','end_year','place_name',
+                  'is_favorite','images','comments','id']
 
+    def get_is_favorite(self,obj):
+        user = None
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+        if user:
+            return favorite_items.objects.filter(item=obj, user=user).count() > 0
+        return False
     def create(self, validated_data):
 
         tags = []
@@ -110,6 +120,7 @@ class favorite_item_serializer(serializers.ModelSerializer):
     class Meta:
         model = favorite_items
         fields = ['item', 'user', 'item_info', 'id']
+
 
 
 class item_visit_serializer(serializers.ModelSerializer):
