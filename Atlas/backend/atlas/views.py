@@ -11,7 +11,7 @@ from .models import Cultural_Heritage, comment, tag, favorite_items, image_media
     hidden_tag
 from .popularity import *
 from .serializers import cultural_heritage_serializer, image_media_item_serializer, tag_serializer, comment_serializer, \
-    favorite_item_serializer, item_visit_serializer
+    favorite_item_serializer, item_visit_serializer,favorite_item_list_serializer
 from .util import hidden_tag_extractor
 
 
@@ -112,7 +112,7 @@ class user_favorite_item(HeritageIdInterceptorMixin, generics.CreateAPIView, mix
 
 class get_user_favorite_items(HeritageIdInterceptorMixin, generics.ListAPIView):
     queryset = favorite_items.objects.all()
-    serializer_class = favorite_item_serializer
+    serializer_class = favorite_item_list_serializer
 
     def get_queryset(self):
         return favorite_items.objects.filter(user=self.request.user.pk)
