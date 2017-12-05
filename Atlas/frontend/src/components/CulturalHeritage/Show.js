@@ -22,11 +22,13 @@ class Show extends Component {
   }
 
   componentWillUnmount() {
+    if(this.props.culturalHeritage === undefined) return;
     const secsPassed = Math.round((new Date() - this.state.date) / 1000);
     authPut(this.props.token, {
       url: API_URL + '/user/visit_time',
       data: {
-        duration: secsPassed
+        duration: secsPassed,
+        cultural_heritage_item: this.props.culturalHeritage.id
       }
     });
   }
