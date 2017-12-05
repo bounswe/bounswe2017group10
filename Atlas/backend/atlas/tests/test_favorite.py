@@ -100,7 +100,7 @@ class cultural_heritage_item(TestCase):
         response_content = json.loads(smart_text(response.content))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response_content['results']), 2)
-        self.assertEqual(response_content['results'][0]['item']['title'], 'Ahri mid montage')
+        self.assertEqual(response_content['results'][0]['title'], 'Ahri mid montage')
 
     def test_get_favorited_cultural_heritage_item(self):
         item_data = {
