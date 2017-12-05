@@ -5,22 +5,16 @@
         android:layout_height="wrap_content">
         <item
             android:id="@+id/profil"
-            android:icon="@drawable/side_nav_bar"
+            android:icon="@drawable/ic_person_black_24dp"
             android:title="@string/profilpage_nav_profil"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </group>
 
-    <item android:title="">
-        <menu
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_power_settings_new_black_24dp"
+            android:title="@string/logout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <item
-                android:id="@+id/logout"
-                android:icon="@drawable/side_nav_bar"
-                android:title="@string/logout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </menu>
-    </item>
+            android:layout_height="wrap_content" />
+    </group>
 </menu>

@@ -21,13 +21,13 @@
             android:layout_width="wrap_content"
             android:id="@+id/floatingActionButton"
             android:layout_height="wrap_content"
-            app:backgroundTint="@android:color/holo_orange_light"
+            app:backgroundTint="@color/secondaryColor"
             android:src="@drawable/ic_done_white_24dp" />
 
         <ProgressBar
             style="@style/Widget.AppCompat.ProgressBar"
             android:id="@+id/fab_progress"
-            android:indeterminateTint="@color/colorPrimaryDark"
+            android:indeterminateTint="@color/primaryDarkColor"
             android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

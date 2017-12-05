@@ -44,6 +44,7 @@ public class ListItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView etLocation;
         TextView etYear;
         TextView etFavorite;
+        TextView etCreator;
         ImageView imIcon;
         LinearLayout layoutTag1;
         LinearLayout layoutTag2;
@@ -57,6 +58,7 @@ public class ListItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             this.etLocation = v.findViewById(R.id.location_textview);
             this.etYear = v.findViewById(R.id.year_textview);
             this.etFavorite = v.findViewById(R.id.favorite_textview);
+            this.etCreator = v.findViewById(R.id.creator_textview);
             this.imIcon = v.findViewById(R.id.icon_imageview);
             this.layoutTag1 = v.findViewById(R.id.tag1);
             this.layoutTag2 = v.findViewById(R.id.tag2);
@@ -80,6 +82,7 @@ public class ListItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             etDescr.setText(row.getDescription());
             etLocation.setText(row.getLocation());
             etFavorite.setText(row.getFavoriteCount());
+            etCreator.setText(context.getString(R.string.created_by, row.getCreatorUsername()));
 
             if (row.getYear() != null) {
                 int[] yearPair = FeedRow.fromYearFormat(row.getYear());
@@ -89,9 +92,10 @@ public class ListItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             Glide.with(context)
                 .load(row.getImageUrl())
                 .apply(new RequestOptions()
-                        .placeholder(R.drawable.help)
-                        .error(R.drawable.help)
-                        .fallback(R.drawable.help))
+                        .centerCrop()
+                        .placeholder(R.drawable.ic_crop_original_black_48dp)
+                        .error(R.drawable.ic_crop_original_black_48dp)
+                        .fallback(R.drawable.ic_crop_original_black_48dp))
                 .into(imIcon);
 
             if (listener != null) {

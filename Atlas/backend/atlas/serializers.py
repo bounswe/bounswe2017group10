@@ -43,12 +43,13 @@ class cultural_heritage_serializer(serializers.ModelSerializer):
     comments = comment_serializer(source='comment_set', read_only=True, many=True)
     tags = tag_serializer(many=True, required=False)
     is_favorite = serializers.SerializerMethodField()
+    user_info = serializers.ReadOnlyField()
 
     class Meta:
         model = Cultural_Heritage
         fields = ['user','title','description','continent','country','city','public_accessibility','created_time',
                   'updated_time','tags','favorited_amount','longitude','latitude','start_year','end_year','place_name',
-                  'is_favorite','images','comments','id']
+                  'is_favorite','images','comments','id','user_info']
 
     def get_is_favorite(self,obj):
         user = None

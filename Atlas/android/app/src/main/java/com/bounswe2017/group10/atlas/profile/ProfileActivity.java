@@ -34,7 +34,9 @@ public class ProfileActivity extends AppCompatActivity {
             Glide.with(this)
                     .load(image)
                     .apply(new RequestOptions()
-                            .error(R.drawable.help))
+                            .placeholder(R.drawable.ic_person_outline_black_48dp)
+                            .error(R.drawable.ic_person_outline_black_48dp)
+                            .fallback(R.drawable.ic_person_outline_black_48dp))
                     .into((ImageButton) findViewById(R.id.user_profile_photo));
         }
 

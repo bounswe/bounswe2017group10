@@ -657,7 +657,6 @@ public class CreateItemFragment extends Fragment {
      * @param uri URL of the image.
      */
     private void addImageFromUri(Uri uri) {
-        Log.d(TAG, uri.toString());
         ImageRow row = new ImageRow();
         row.setUri(uri);
         if (!mImageRowList.contains(row)) {

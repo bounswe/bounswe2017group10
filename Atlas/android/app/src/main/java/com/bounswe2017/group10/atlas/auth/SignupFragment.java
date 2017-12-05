@@ -34,9 +34,6 @@ public class SignupFragment extends Fragment {
         EditText sEmail = view.findViewById(R.id.email_edittext);
         EditText sPassword = view.findViewById(R.id.password_pw_edittext);
         EditText sConfirmPassword = view.findViewById(R.id.confirm_pw_edittext);
-        EditText sFirstName = view.findViewById(R.id.firstname_edittext);
-        EditText sLastName = view.findViewById(R.id.lastname_edittext);
-
 
         Button btnSignUpRequest = view.findViewById(R.id.signup_request_button);
         btnSignUpRequest.setOnClickListener((View btnView) -> {
@@ -45,8 +42,6 @@ public class SignupFragment extends Fragment {
             String pw = sPassword.getText().toString();
             String email = sEmail.getText().toString();
             String confirmPw = sConfirmPassword.getText().toString();
-            String firstname = sFirstName.getText().toString();
-            String lastname = sLastName.getText().toString();
 
             // validate inputs
             Context appContext = getActivity().getApplicationContext();
@@ -55,12 +50,6 @@ public class SignupFragment extends Fragment {
                 return;
             } else if (pw.length() == 0) {
                 showToast(appContext, getResources().getString(R.string.empty_password));
-                return;
-            } else if (firstname.length() == 0) {
-                showToast(appContext, getResources().getString(R.string.empty_firstname));
-                return;
-            } else if (lastname.length() == 0) {
-                showToast(appContext, getResources().getString(R.string.empty_lastname));
                 return;
             } else if (email.length() == 0) {
                 showToast(appContext, getResources().getString(R.string.empty_email));
@@ -79,8 +68,6 @@ public class SignupFragment extends Fragment {
             signupRequest.setEmail(email);
             signupRequest.setPassword(pw);
             signupRequest.setConfirmPassword(confirmPw);
-            signupRequest.setFirstname(firstname);
-            signupRequest.setLastname(lastname);
             progress = view.findViewById(R.id.signup_progress_bar);
             progress.setVisibility(View.VISIBLE);
             OnSignupResponse signupHandler = new OnSignupResponse(getActivity(), progress, signupRequest);

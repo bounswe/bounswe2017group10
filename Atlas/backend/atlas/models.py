@@ -55,7 +55,12 @@ class Cultural_Heritage(models.Model):
     place_name = models.CharField(max_length=MAX_PLACE_NAME_SIZE, null=True)
     hidden_tags = models.ManyToManyField('hidden_tag', blank=True)
 
-
+    @property
+    def user_info(self):
+        user = {}
+        user['username'] = self.user.username
+        user['profile_picture'] = self.user.profile_picture
+        return user
 
 class comment(models.Model):
     user = models.ForeignKey('authentication.Account', on_delete=models.CASCADE)
