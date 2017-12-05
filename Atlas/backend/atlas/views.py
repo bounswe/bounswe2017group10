@@ -164,6 +164,7 @@ class cultural_heritage_item_view_update_delete(generics.RetrieveUpdateDestroyAP
         return Cultural_Heritage.objects.filter()
 
 
+
 class tags(generics.ListAPIView):
     serializer_class = tag_serializer
     pagination_class = None
@@ -251,6 +252,10 @@ class item_visit_update(generics.UpdateAPIView):
 
     def update(self, request, *args, **kwargs):
         request.data['user'] = request.user.pk
+        serializer = self.get_serializer(data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        if 'cultural_heritage_item' not in request.data:
+            return Response({'error':'cultural heritage item is required'},status=status.HTTP_400_BAD_REQUEST)
         item = get_object_or_404(Cultural_Heritage, pk=request.data['cultural_heritage_item'])
         previous_duration = 0
         if item_visit.objects.filter(user=request.user, cultural_heritage_item=item, ).count() > 0:
@@ -317,8 +322,9 @@ class recommendation(generics.ListAPIView):
             location_score = 2000 if location_distance_in_km == 0 else 2000 / location_distance_in_km
         if self.base_item.start_year != None and item.start_year != None:
             avg_time_1 = (self.base_item.start_year + self.base_item.end_year) / 2
-            avg_time_2 = (self.base_item.start_year + item.end_year) / 2
-            time_score = 10 / (abs(avg_time_1 - avg_time_2))
+            avg_time_2 = (item.start_year + item.end_year) / 2
+
+            time_score = 10 / (abs(avg_time_1 - avg_time_2)) if avg_time_1!=avg_time_1 else 10
 
             # Calculate overlapping percentage
             left_boundary_of_overlapped = max(self.base_item.start_year, item.start_year)
@@ -326,5 +332,6 @@ class recommendation(generics.ListAPIView):
             right_boundary_of_overlapped = min(self.base_item.end_year, item.end_year)
             right_boundary_of_union = max(self.base_item.end_year, item.end_year)
             time_overlap_perc = 1.0 * (right_boundary_of_overlapped - left_boundary_of_overlapped) / (
-                right_boundary_of_union - left_boundary_of_union)
+                right_boundary_of_union - left_boundary_of_union) if right_boundary_of_union != left_boundary_of_union else 1
         return common_tag_amount + common_hidden_tag_amount + common_words_in_title_amount + location_score + time_score + 10 * time_overlap_perc
+
