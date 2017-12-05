@@ -76,7 +76,7 @@ public class ViewItemFragment extends Fragment {
 
         NoScrollListView listView = view.findViewById(R.id.comment_listview);
 
-        mAdapter = new CommentAdapter(mActivity, mRowList);
+        mAdapter = new CommentAdapter(getContext(), mRowList);
         listView.setAdapter(mAdapter);
 
         for(Comment comment : mItem.getCommentList()) {
