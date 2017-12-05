@@ -70,7 +70,9 @@ public class CommentAdapter extends ArrayAdapter<CommentRow> {
         Glide.with(context)
                 .load(row.getAvatar())
                 .apply(new RequestOptions()
-                        .error(R.drawable.help))
+                        .placeholder(R.drawable.ic_person_outline_black_48dp)
+                        .error(R.drawable.ic_person_outline_black_48dp)
+                        .fallback(R.drawable.ic_person_outline_black_48dp))
                 .into(holder.avatarH);
 
         return convertView;

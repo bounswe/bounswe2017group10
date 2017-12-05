@@ -93,9 +93,9 @@ public class ListItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 .load(row.getImageUrl())
                 .apply(new RequestOptions()
                         .centerCrop()
-                        .placeholder(R.drawable.help)
-                        .error(R.drawable.help)
-                        .fallback(R.drawable.help))
+                        .placeholder(R.drawable.ic_crop_original_black_48dp)
+                        .error(R.drawable.ic_crop_original_black_48dp)
+                        .fallback(R.drawable.ic_crop_original_black_48dp))
                 .into(imIcon);
 
             if (listener != null) {
