@@ -87,7 +87,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     /**
-     * Request personal user details from the server and store them in SharedPreferences.
+     * Display personal details stored in SharedPreferences.
      */
     private void displayPersonalDetails(View header) {
         SharedPreferences pref = Utils.getSharedPref(this);

@@ -42,7 +42,6 @@ public class OnCreateItemResponse implements Callback<CreateItemResponse> {
         if (response.isSuccessful()) {
             Utils.showToast(context, context.getString(R.string.successful_create_item));
             progressBar.setVisibility(View.GONE);
-            createFragment.clearView();
             createFragment.getActivity().onBackPressed();
         } else {
             Utils.showToast(context, context.getString(R.string.failed_create_item));

@@ -30,7 +30,6 @@ public class OnUpdateItemResponse implements Callback<Void> {
         if (response.isSuccessful()) {
             Utils.showToast(context, context.getString(R.string.succesful_edit_item));
             progressBar.setVisibility(View.GONE);
-            createFragment.clearView();
             createFragment.getActivity().onBackPressed();
         } else {
             Utils.showToast(context, context.getString(R.string.error_edit_item));

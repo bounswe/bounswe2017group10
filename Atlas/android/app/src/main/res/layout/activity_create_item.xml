@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:id="@+id/floatingActionButton"
             android:layout_height="wrap_content"
-            app:backgroundTint="@android:color/holo_orange_light"
+            app:backgroundTint="@color/secondaryColor"
             android:src="@drawable/ic_done_white_24dp" />
 
         <ProgressBar

@@ -3,7 +3,7 @@
     <style name="AtlasTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="colorAccent">@color/secondaryDarkColor</item>
+        <item name="colorAccent">@color/secondaryColor</item>
         <item name="android:windowBackground">@android:color/background_light</item>
     </style>
 

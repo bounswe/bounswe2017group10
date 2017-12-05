@@ -49,7 +49,8 @@ public class ImageListAdapter extends ArrayAdapter<ImageRow> {
         Glide.with(context)
                 .load(row.getUri())
                 .apply(new RequestOptions()
-                  .error(R.drawable.help))
+                        .centerCrop()
+                        .error(R.drawable.help))
                 .into(holder.img);
 
         return convertView;

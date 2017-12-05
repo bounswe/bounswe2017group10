@@ -35,7 +35,6 @@
         android:paddingBottom="@dimen/edittext_padding_size"
         android:paddingTop="@dimen/edittext_padding_size"
         android:textAlignment="center"
-        android:textColorHint="@android:color/black"
         />
 
     <EditText
@@ -52,7 +51,6 @@
         android:paddingBottom="@dimen/edittext_padding_size"
         android:paddingTop="@dimen/edittext_padding_size"
         android:textAlignment="center"
-        android:textColorHint="@android:color/black"
         />
 
     <Button
