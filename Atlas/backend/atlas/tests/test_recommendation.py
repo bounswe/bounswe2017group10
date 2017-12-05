@@ -166,8 +166,56 @@ class cultural_heritage_item(TestCase):
             "title": "istanbul galata tower",
             'longitude': '25.523',
             'latitude': '48.232',
-            'start_year' : 1600,
-            'end_year' : 1650,
+            'start_year' : 1500,
+            'end_year' : 1700,
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        item_data = {
+            "item_id": id,
+        }
+        response = self.client.get(
+            '/cultural_heritage_item/recommendation',
+            item_data,
+            format='json'
+
+        )
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(response_content['results'][0]['title'], 'istanbul galata tower');
+
+    def test_recommendation_with_same_time(self):
+        item_data = {
+            "title": "Draven support",
+            'tags': [
+                {'name': 'lol'},
+                {'name': 'support'}
+            ],
+            'longitude': '23.523',
+            'latitude': '43.232',
+            'start_year': 1500,
+            'end_year': 1500,
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        response_content = json.loads(smart_text(response.content))
+        id = response_content['id']
+
+        item_data = {
+            "title": "istanbul galata tower",
+            'longitude': '25.523',
+            'latitude': '48.232',
+            'start_year': 1500,
+            'end_year': 1500,
         }
         response = self.client.post(
             self.cultural_heritage_item_url,
