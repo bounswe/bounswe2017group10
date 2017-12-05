@@ -5,6 +5,8 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -17,29 +19,24 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bounswe2017.group10.atlas.R;
+import com.bounswe2017.group10.atlas.adapter.ImageListAdapter;
 import com.bounswe2017.group10.atlas.profile.ProfileActivity;
 import com.bounswe2017.group10.atlas.response.OnGetItemsResponse;
 import com.bounswe2017.group10.atlas.util.Constants;
-import com.bounswe2017.group10.atlas.httpbody.UserResponse;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
 import com.bounswe2017.group10.atlas.util.Utils;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static com.bounswe2017.group10.atlas.util.Utils.getSharedPref;
 import static com.bounswe2017.group10.atlas.util.Utils.logout;
-import static com.bounswe2017.group10.atlas.util.Utils.showToast;
-
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -98,6 +95,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         String lastName = pref.getString(Constants.LASTNAME, "");
         String email = pref.getString(Constants.EMAIL, "");
         String nameText = getString(R.string.fullname, firstName, lastName);
+        String image = pref.getString(Constants.PROFILE_PICTURE,"");
+
+        if(image!="") {
+            Glide.with(this)
+                    .load(image)
+                    .apply(new RequestOptions()
+                            .error(R.drawable.help))
+                    .into((ImageView) header.findViewById(R.id.nav_pimage));
+        }
 
         ((TextView) header.findViewById(R.id.nav_pname)).setText(nameText);
         ((TextView) header.findViewById(R.id.nav_pmail)).setText(email);
@@ -222,9 +228,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.profil) {
             Intent intent = new Intent(this, ProfileActivity.class);
             this.startActivity(intent);
-        } else if(id == R.id.gallery){
-
-        } else if (id == R.id.logout) {
+        }
+        else if (id == R.id.logout) {
             logout(this);
         }
 

@@ -2,7 +2,7 @@
 @import '../../style/colors.scss';
 
 .Home {
-  text-align: center;
+  text-align: left;
 }
 
 .Home-logo {
@@ -21,7 +21,7 @@
 }
 
 $background-blur: 0.5px;
-$background-brightness: 80%;
+$background-brightness: 95%;
 $logo-size: 40px;
 
 .background-image {
@@ -51,18 +51,36 @@ $logo-size: 40px;
   }
 }
 
-header.Home-header {
-  margin-top: 150px;
+h1 {
+  font-family: "Trebuchet MS",Helvetica, SansSerif;
+  font-size:96px;
+  font-style: italic;
+  font-stretch: expanded;
+
 }
 
-h1.Home-title {
-  color: white;
-  font-size: 120px;
-  font-family: 'Open Sans';
+
+h2 {
+  font-family: "Trebuchet MS",Helvetica, SansSerif;
+  font-size: 108px;
+  font-weight: bold;
+  font-style: italic;
+  font-stretch: expanded;
 }
+
+header.Home-header {
+  color: black;
+  font-size: 72px;
+  margin-top: 50px;
+}
+
+
 
 footer.Home-footer {
-  margin-top: 100px;
+
+  margin-top: 60px;
+  text-align: center;
+
   a.down-link {
     color: white;
     font-size: 30px;
