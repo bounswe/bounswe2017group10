@@ -5,7 +5,7 @@ from rest_framework.utils import model_meta
 from .models import Cultural_Heritage, comment as comment_model, image_media_item, item_visit, favorite_items, \
     tag as tag_model, hidden_tag
 from .util import hidden_tag_extractor
-
+from .constants import *
 
 class image_media_item_serializer(serializers.ModelSerializer):
     class Meta:
@@ -42,12 +42,23 @@ class cultural_heritage_serializer(serializers.ModelSerializer):
     images = image_media_item_serializer(source='image_media_item_set', read_only=True, many=True)
     comments = comment_serializer(source='comment_set', read_only=True, many=True)
     tags = tag_serializer(many=True, required=False)
-    is_favorite = serializers.ReadOnlyField()
+    is_favorite = serializers.SerializerMethodField()
+    user_info = serializers.ReadOnlyField()
 
     class Meta:
         model = Cultural_Heritage
-        exclude = ['hidden_tags']
+        fields = ['user','title','description','continent','country','city','public_accessibility','created_time',
+                  'updated_time','tags','favorited_amount','longitude','latitude','start_year','end_year','place_name',
+                  'is_favorite','images','comments','id','user_info']
 
+    def get_is_favorite(self,obj):
+        user = None
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+        if user:
+            return favorite_items.objects.filter(item=obj, user=user).count() > 0
+        return False
     def create(self, validated_data):
 
         tags = []
@@ -59,6 +70,8 @@ class cultural_heritage_serializer(serializers.ModelSerializer):
             extractor = hidden_tag_extractor()
             hidden_tags = extractor.extract_keywords(text=description)
             for tag in hidden_tags:
+                if len(tag) > MAX_HIDDEN_TAG_SIZE:
+                    continue
                 new_tag, created = hidden_tag.objects.get_or_create(name=tag)
                 if created:
                     heritage_item.hidden_tags.add(new_tag)
@@ -110,6 +123,7 @@ class favorite_item_serializer(serializers.ModelSerializer):
     class Meta:
         model = favorite_items
         fields = ['item', 'user', 'item_info', 'id']
+
 
 
 class item_visit_serializer(serializers.ModelSerializer):

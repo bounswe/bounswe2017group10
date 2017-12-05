@@ -86,6 +86,21 @@ public class APIDelegate implements API {
     }
 
     @Override
+    public Call<CultureItem> favoriteItem(String authStr, long id) {
+        return api.favoriteItem(authStr, id);
+    }
+
+    @Override
+    public Call<Void> unfavoriteItem(String authStr, long id) {
+        return null;
+    }
+
+    @Override
+    public Call<GetItemsResponse> getOwnItems(String authStr, long limit, long offset) {
+        return api.getOwnItems(authStr, limit, offset);
+    }
+
+    @Override
     public Call<Void> deleteItem(String authStr, long id) {
         return api.deleteItem(authStr, id);
     }

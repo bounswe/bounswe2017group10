@@ -48,6 +48,21 @@ class cultural_heritage_item(TestCase):
         )
         self.assertEqual(response.status_code, 201)
 
+    def test_create_cultural_heritage_item_username(self):
+        item_data = {
+            "title": "Very emotional thresh hook",
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(response_content['user_info']['username'],self.username)
+
     def test_list_user_items(self):
         title = 'Very emotional thresh hook'
         item_data = {

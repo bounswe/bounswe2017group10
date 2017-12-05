@@ -1,6 +1,4 @@
 import geopy.distance
-from django.core import serializers
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from jwt_auth.compat import json
 from rest_framework import generics, mixins
@@ -8,17 +6,13 @@ from rest_framework import status
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
-from .models import User, Cultural_Heritage, comment, tag, favorite_items, item_visit, image_media_item as image_item, \
+from .constants import *
+from .models import Cultural_Heritage, comment, tag, favorite_items, image_media_item as image_item, \
     hidden_tag
+from .popularity import *
 from .serializers import cultural_heritage_serializer, image_media_item_serializer, tag_serializer, comment_serializer, \
     favorite_item_serializer, item_visit_serializer
 from .util import hidden_tag_extractor
-from .popularity import trending_score
-
-
-def users(request):
-    users_list = serializers.serialize('json', User.objects.order_by('-age')[:5])
-    return HttpResponse(users_list, content_type='application/json')
 
 
 class cultural_heritage_item(generics.ListCreateAPIView):
@@ -157,6 +151,8 @@ class cultural_heritage_item_view_update_delete(generics.RetrieveUpdateDestroyAP
             extractor = hidden_tag_extractor()
             hidden_tags = extractor.extract_keywords(text=description)
             for tag in hidden_tags:
+                if len(tag) > MAX_HIDDEN_TAG_SIZE:
+                    continue
                 new_tag, created = hidden_tag.objects.get_or_create(name=tag)
                 instance.hidden_tags.add(new_tag)
             instance.save()
@@ -236,8 +232,13 @@ class cultural_heritage_item_search(generics.ListAPIView):
         if self.location != None and getattr(item, 'latitude') != None:
             coord = (item.longitude, item.latitude)
             location_distance_in_km = geopy.distance.vincenty(self.location, coord).km
-            location_score = 2000 if location_distance_in_km == 0 else 2000 / location_distance_in_km
-        return common_tag_amount + common_hidden_tag_amount + common_words_in_title_amount + location_score
+            location_score = 1 if location_distance_in_km == 0 else 1 / location_distance_in_km
+        search_score = COEFF_COMMON_TAG_AMOUNT * common_tag_amount + COEFF_COMMON_HIDDEN_TAG_AMOUNT * common_hidden_tag_amount + \
+                       COEFF_COMMON_WORDS_IN_TITLE_AMOUNT * common_words_in_title_amount + COEFF_LOCATION_SCORE * location_score
+        if search_score != 0:
+            search_score += COEFF_ADMIRATION_SCORE_FOR_SEARCH * admiration_score(item) + \
+                            COEFF_COMPLETENESS_SCORE_FOR_SEARCH * completeness_score(item)
+        return search_score
 
 
 class cultural_heritage_item_search_autocorrect(generics.ListAPIView):
@@ -255,6 +256,10 @@ class item_visit_update(generics.UpdateAPIView):
 
     def update(self, request, *args, **kwargs):
         request.data['user'] = request.user.pk
+        serializer = self.get_serializer(data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        if 'cultural_heritage_item' not in request.data:
+            return Response({'error': 'cultural heritage item is required'}, status=status.HTTP_400_BAD_REQUEST)
         item = get_object_or_404(Cultural_Heritage, pk=request.data['cultural_heritage_item'])
         previous_duration = 0
         if item_visit.objects.filter(user=request.user, cultural_heritage_item=item, ).count() > 0:
@@ -318,17 +323,22 @@ class recommendation(generics.ListAPIView):
             coord = (item.longitude, item.latitude)
             location = (self.base_item.longitude, self.base_item.latitude)
             location_distance_in_km = geopy.distance.vincenty(location, coord).km
-            location_score = 2000 if location_distance_in_km == 0 else 2000 / location_distance_in_km
+            location_score = 1 if location_distance_in_km == 0 else 1 / location_distance_in_km
         if self.base_item.start_year != None and item.start_year != None:
             avg_time_1 = (self.base_item.start_year + self.base_item.end_year) / 2
-            avg_time_2 = (self.base_item.start_year + item.end_year) / 2
-            time_score = 10 / (abs(avg_time_1 - avg_time_2))
+            avg_time_2 = (item.start_year + item.end_year) / 2
+
+            time_score = 1 / (abs(avg_time_1 - avg_time_2)) if avg_time_1 != avg_time_1 else 1
 
             # Calculate overlapping percentage
             left_boundary_of_overlapped = max(self.base_item.start_year, item.start_year)
             left_boundary_of_union = min(self.base_item.start_year, item.start_year)
             right_boundary_of_overlapped = min(self.base_item.end_year, item.end_year)
             right_boundary_of_union = max(self.base_item.end_year, item.end_year)
-            time_overlap_perc = 1.0 * (right_boundary_of_overlapped - left_boundary_of_overlapped) / (
-                right_boundary_of_union - left_boundary_of_union)
-        return common_tag_amount + common_hidden_tag_amount + common_words_in_title_amount + location_score + time_score + 10 * time_overlap_perc
+            time_overlap_perc = 1 * (right_boundary_of_overlapped - left_boundary_of_overlapped) / (
+                right_boundary_of_union - left_boundary_of_union) if right_boundary_of_union != left_boundary_of_union else 1
+        return COEFF_COMMON_TAG_AMOUNT * common_tag_amount + COEFF_COMMON_HIDDEN_TAG_AMOUNT * common_hidden_tag_amount + \
+               COEFF_COMMON_WORDS_IN_TITLE_AMOUNT * common_words_in_title_amount + \
+               COEFF_LOCATION_SCORE * location_score + COEFF_TIME_SCORE * time_score + COEFF_TIME_OVERLAPPED * time_overlap_perc + \
+               COEFF_ADMIRATION_SCORE_FOR_RECOMMENDATION * admiration_score(item) + \
+               COEFF_COMPLETENESS_SCORE_FOR_RECOMMENDATION * completeness_score(item)
