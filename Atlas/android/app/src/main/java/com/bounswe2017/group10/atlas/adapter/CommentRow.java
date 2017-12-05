@@ -9,6 +9,7 @@ public class CommentRow {
     private String name;
     private String date;
     private String text;
+    private String avatar;
 
     public String getName() {
         return name;
@@ -23,7 +24,17 @@ public class CommentRow {
     }
 
     public void setDate(String date) {
+
+        String[] parts = date.split("[.]");
+        if(parts.length == 2) {
+            date = parts[0];
+        }
+        parts = date.split("T");
+        if(parts.length == 2) {
+            date = "" + parts[0] + " " + parts[1];
+        }
         this.date = date;
+
     }
 
     public String getText() {
@@ -34,14 +45,24 @@ public class CommentRow {
         this.text = text;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     public CommentRow() {
 
     }
 
-    public CommentRow(String name, String date, String text) {
+    public CommentRow(String name, String date, String text, String avatar) {
         this.name = name;
+        this.setDate(date);
         this.date = date;
         this.text = text;
+        this.avatar = avatar;
     }
 
 }

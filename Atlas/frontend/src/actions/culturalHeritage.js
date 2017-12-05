@@ -143,3 +143,8 @@ export const updateCulturalHeritage = (id, data) => {
     }
   }
 }
+
+
+
+
+

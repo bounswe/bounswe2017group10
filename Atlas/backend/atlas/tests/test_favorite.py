@@ -256,3 +256,40 @@ class cultural_heritage_item(TestCase):
         self.assertEqual(response.status_code, 200)
         response_content = json.loads(smart_text(response.content))
         self.assertEqual(response_content['favorited_amount'], 0)
+
+    def test_get_favorited_cultural_heritage_item_favorited_by_another_user(self):
+        item_data = {
+            "title": "Ahri mid montage",
+        }
+        response = self.client2.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        response_content = json.loads(smart_text(response.content))
+        id = response_content['id']
+        self.assertEqual(response.status_code, 201)
+        response = self.client2.post(
+            '/user/cultural_heritage_item/' + str(response_content['id']) + '/favorite/',
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        response = self.client.get(
+            self.cultural_heritage_item_url + str(id),
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 200)
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(response_content['is_favorite'], False)
+
+        response = self.client.get(
+            self.cultural_heritage_item_url,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 200)
+        response_content = json.loads(smart_text(response.content))
+        self.assertAlmostEqual(response_content['results'][0]['is_favorite'], False)

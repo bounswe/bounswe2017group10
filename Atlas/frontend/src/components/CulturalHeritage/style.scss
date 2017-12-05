@@ -3,11 +3,6 @@
 
 $ch-border-width: 2px;
 
-a, a:hover {
-  text-decoration: none;
-  color: black;
-}
-
 .whitebox {
   background-color: white;
   padding: 20px;
@@ -145,7 +140,4 @@ body {
       cursor: pointer;
     }
   }
-}
-img.ch-image {
-  width: 100%;
 }

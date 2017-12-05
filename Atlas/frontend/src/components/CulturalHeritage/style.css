@@ -55,10 +55,6 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
   background: #b7cfe0;
   cursor: pointer; }
 
-a, a:hover {
-  text-decoration: none;
-  color: black; }
-
 .whitebox {
   background-color: white;
   padding: 20px;
@@ -165,6 +161,3 @@ body {
     font-size: 20px; }
     .fav-indicator svg:hover {
       cursor: pointer; }
-
-img.ch-image {
-  width: 100%; }

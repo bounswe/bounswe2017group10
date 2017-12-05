@@ -24,9 +24,9 @@ export const selectSearchValue = (data) => {
   }
 }
 
-export const updateSearchedCulturalHeritages = (data) => {
+export const updateSearchSuggestions = (data) => {
   return {
-    type: 'UPDATE_SEARCHED_CULTURAL_HERITAGES',
+    type: 'UPDATE_SEARCH_SUGGESTIONS',
     data
   }
 }
