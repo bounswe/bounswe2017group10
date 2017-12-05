@@ -168,3 +168,15 @@ body {
 
 img.ch-image {
   width: 100%; }
+
+.recommended-items {
+  background-color: white;
+  padding: 10px; }
+  .recommended-items h1 {
+    font-size: 22px;
+    margin-bottom: 20px; }
+  .recommended-items h2 {
+    font-size: 15px; }
+  .recommended-items .recommended-item {
+    margin-bottom: 20px;
+    display: inline-block; }

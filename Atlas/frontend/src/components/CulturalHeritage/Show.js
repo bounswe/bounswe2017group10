@@ -5,8 +5,10 @@ import { NavLink } from 'react-router-dom';
 import LeftIcon from 'react-icons/lib/fa/angle-left';
 import { Button, Form, FormGroup, Input, Col, Row, Container } from 'reactstrap';
 import { getUrlParam } from '../../utils';
+import RecommendedItem from './RecommendedItem';
+import { RECOMMENDATION_LIMIT } from '../../constants';
 
-const Show = ({ user, token, culturalHeritage, commentInput, commentInputChange, postComment, favoriteItem }) => (
+const Show = ({ user, token, culturalHeritage, commentInput, recommendations, commentInputChange, postComment, favoriteItem }) => (
   culturalHeritage !== undefined &&
     <Container>
       <NavLink className="atlas-button" to={ getUrlParam('returnTo') }>
@@ -14,12 +16,8 @@ const Show = ({ user, token, culturalHeritage, commentInput, commentInputChange,
         Back
       </NavLink>
       <Row>
-        <Col xs="12">
-          <CulturalHeritage culturalHeritage={ culturalHeritage } shouldTruncate={ false } showComments={ true } favorite={ () => favoriteItem(token, culturalHeritage) } withLink={ false }/>
-        </Col>
-      </Row>
-      <Row>
-        <Col xs="12">
+        <Col xs="9">
+          <CulturalHeritage culturalHeritage={ culturalHeritage } shouldTruncate={ false } showComments={ true } favorite={ () => favoriteItem(token, culturalHeritage) } withLink={ false } />
           <FormGroup style={{ marginTop: 30 }}>
             <Form>
                 <Input
@@ -32,12 +30,18 @@ const Show = ({ user, token, culturalHeritage, commentInput, commentInputChange,
                 />
             </Form>
           </FormGroup>
+          <div className="atlas-button" onClick={ () => postComment(token, culturalHeritage.id, commentInput) }>Post Comment</div>
         </Col>
-      </Row>
-      <Row>
-          <Col xs="12">
-              <div className="atlas-button" onClick={ () => postComment(token, culturalHeritage.id, commentInput) }>Post Comment</div>
-          </Col>
+        <Col xs="3" className="recommended-items">
+          <Row>
+            <Col xs="12">
+              <h1>Recommended For You</h1>
+            </Col>
+          </Row>
+          { recommendations.slice(0, RECOMMENDATION_LIMIT).map(r => (
+            <RecommendedItem key={ r.id } culturalHeritage={ r } />
+          )) }
+        </Col>
       </Row>
     </Container>
 )

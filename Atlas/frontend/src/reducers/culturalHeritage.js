@@ -8,7 +8,8 @@ const initState = {
   addCHInputs: initAddCHInputs,
   data: [],
   loadingMore: false,
-  canLoadMore: true
+  canLoadMore: true,
+  recommendations: []
 };
 
 const reducer = (state = initState, action) => {
@@ -145,6 +146,11 @@ const reducer = (state = initState, action) => {
           ? state.data.map(c => parseInt(c.id, 10) === parseInt(action.data.id, 10) ? action.data.data : c)
           : [].concat(state.data, action.data.data),
         commentInput: ""
+      }
+    case 'UPDATE_RECOMMENDATIONS':
+      return {
+        ...state,
+        recommendations: action.data
       }
     default:
       return state;
