@@ -27,7 +27,7 @@
         <ProgressBar
             style="@style/Widget.AppCompat.ProgressBar"
             android:id="@+id/fab_progress"
-            android:indeterminateTint="@color/colorPrimaryDark"
+            android:indeterminateTint="@color/primaryDarkColor"
             android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

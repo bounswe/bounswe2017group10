@@ -1,18 +1,24 @@
 <resources>
 
     <style name="AtlasTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorAccent">@color/secondaryDarkColor</item>
         <item name="android:windowBackground">@android:color/background_light</item>
     </style>
 
-    <style name="Divider">
+    <style name="HorizontalDivider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">2dp</item>
         <item name="android:background">?android:attr/listDivider</item>
     </style>
-    
+
+    <style name="VerticalDivider">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">?android:attr/listDivider</item>
+    </style>
+
     <style name="AtlasTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AtlasTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 

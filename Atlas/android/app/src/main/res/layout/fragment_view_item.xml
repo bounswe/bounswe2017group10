@@ -64,7 +64,7 @@
         <View
             android:layout_marginTop="25dp"
             android:layout_marginBottom="10dp"
-            style="@style/Divider" />
+            style="@style/HorizontalDivider" />
 
         <TextView
             android:id="@+id/comments_title"
@@ -131,7 +131,7 @@
         <View
             android:layout_marginTop="25dp"
             android:layout_marginBottom="10dp"
-            style="@style/Divider" />
+            style="@style/HorizontalDivider" />
 
         <TextView
             android:id="@+id/recommendations_title"
