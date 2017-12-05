@@ -9,8 +9,7 @@ import AtlasHeader from '../utils/AtlasHeader'
 import CHFav from './CHFav';
 import { NavLink } from 'react-router-dom';
 
-
-const CulturalHeritage = ({ returnTo, culturalHeritage, shouldTruncate = false, showCommentSummary = false, showComments = false, favorite, withLink = true }) => {
+const CulturalHeritage = ({ returnTo, culturalHeritage, shouldTruncate = false, showCommentSummary = false, showComments = false, favorite, withLink = true, showFavorite = true }) => {
   const ch = (
     <Row className="whitebox">
       <Col xs="5">
@@ -60,7 +59,7 @@ const CulturalHeritage = ({ returnTo, culturalHeritage, shouldTruncate = false, 
       </NavLink>
       ) : <div>{ ch }</div>}
       <div style={{ width: '100%', float: 'right', fontSize: 13, textAlign: 'right' }}>
-        <CHFav culturalHeritage={ culturalHeritage } favorite={ favorite } />
+        { showFavorite && <CHFav culturalHeritage={ culturalHeritage } favorite={ favorite } /> }
         { showCommentSummary && (
             <span>{ culturalHeritage.comments.length } Comments</span>
         )}
