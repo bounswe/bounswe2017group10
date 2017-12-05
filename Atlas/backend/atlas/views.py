@@ -16,6 +16,14 @@ from .util import hidden_tag_extractor
 from .popularity import trending_score
 
 
+
+def is_favorite(user,item):
+    if user:
+        return favorite_items.objects.filter(item=item.pk, user=user.pk).count() > 0
+    return False
+
+
+
 def users(request):
     users_list = serializers.serialize('json', User.objects.order_by('-age')[:5])
     return HttpResponse(users_list, content_type='application/json')
@@ -165,7 +173,10 @@ class cultural_heritage_item_view_update_delete(generics.RetrieveUpdateDestroyAP
         return Response(serializer.data)
 
     def get_queryset(self):
-        return Cultural_Heritage.objects.filter()
+        items = Cultural_Heritage.objects.filter()
+        [setattr(item,'is_favorite',is_favorite(self.request.user,item)) for item in items]
+        return items
+
 
 
 class tags(generics.ListAPIView):
@@ -332,3 +343,4 @@ class recommendation(generics.ListAPIView):
             time_overlap_perc = 1.0 * (right_boundary_of_overlapped - left_boundary_of_overlapped) / (
                 right_boundary_of_union - left_boundary_of_union)
         return common_tag_amount + common_hidden_tag_amount + common_words_in_title_amount + location_score + time_score + 10 * time_overlap_perc
+
