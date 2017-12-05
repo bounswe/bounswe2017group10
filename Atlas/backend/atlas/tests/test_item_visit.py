@@ -68,8 +68,9 @@ class cultural_heritage_item(TestCase):
             item_data,
             format='json',
         )
-        self.assertEqual(response.status_code, 200)
         response_content = json.loads(smart_text(response.content))
+        self.assertEqual(response.status_code, 200)
+
         self.assertEqual(response_content['duration'], 5)
 
         response = self.client.put(
@@ -118,4 +119,34 @@ class cultural_heritage_item(TestCase):
             item_data,
             format='json',
         )
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 400)
+
+    def test_item_visit_time_with_bad_data(self):
+        title = 'Very emotional thresh hook'
+        item_data = {
+            "title": title,
+            "tags": [
+                {
+                    "name": "talha",
+                    "name": "thresh",
+                }
+            ]
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        item_data = {
+            'cultural_heritage': 15556,
+            'duration': 5
+
+        }
+        response = self.client.put(
+            '/user/visit_time',
+            item_data,
+            format='json',
+        )
+        self.assertEqual(response.status_code, 400)
