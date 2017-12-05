@@ -76,20 +76,34 @@
             android:textStyle="bold" />
 
 
-        <EditText
-            android:id="@+id/comment_edit"
-            android:labelFor="@+id/comment_edit"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="@string/write_something" />
+            android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/comment_send"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/send" />
+            <EditText
+                android:id="@+id/comment_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="5dp"
+                android:layout_toStartOf="@+id/comment_send"
+                android:ems="10"
+                android:inputType="textMultiLine"
+                android:labelFor="@+id/comment_edit"
+                android:text=" @string/write_something" />
+
+            <Button
+                android:id="@+id/comment_send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="5dp"
+                android:text="@string/send" />
+
+
+        </RelativeLayout>
 
         <Space
             android:layout_width="match_parent"
