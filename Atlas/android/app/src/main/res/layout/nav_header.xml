@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="250dp"
     android:gravity="bottom"
     android:background="@drawable/side_nav_bar"
     android:orientation="vertical"
@@ -14,7 +14,7 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="40dp"
         android:layout_weight="0.1" />
 
     <TextView
@@ -29,7 +29,7 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="1dp"
         android:layout_weight="0.1" />
 
     <ImageView
@@ -37,6 +37,9 @@
         android:id="@+id/nav_pimage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxHeight="70dp"
+        android:maxWidth="70dp"
+        android:adjustViewBounds="true"
         android:src="@mipmap/ic_launcher"/>
 
     <TextView
