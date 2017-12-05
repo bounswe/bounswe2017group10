@@ -59,17 +59,7 @@ public class CommentRow {
 
     public CommentRow(String name, String date, String text, String avatar) {
         this.name = name;
-
-        String[] parts = date.split("[.]");
-        if(parts.length == 2) {
-            date = parts[0];
-        }
-        parts = date.split("T");
-        if(parts.length == 2) {
-            date = "" + parts[0] + " " + parts[1];
-        }
-        this.date = date;
-
+        this.setDate(date);
         this.date = date;
         this.text = text;
         this.avatar = avatar;
