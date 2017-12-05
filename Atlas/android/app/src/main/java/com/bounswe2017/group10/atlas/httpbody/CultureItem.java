@@ -66,6 +66,14 @@ public class CultureItem implements Parcelable {
     @Expose
     private boolean publicAccessibility;
 
+    @SerializedName("is_favorite")
+    @Expose
+    private boolean isFavorite;
+
+    @SerializedName("favorited_amount")
+    @Expose
+    private String favoriteCount;
+
     public CultureItem() {
         this.imageList = new ArrayList<>();
         this.tagList = new ArrayList<>();
@@ -88,6 +96,8 @@ public class CultureItem implements Parcelable {
         this.tagList = (ArrayList<Tag>)in.readSerializable();
         this.commentList = (ArrayList<Comment>)in.readSerializable();
         this.publicAccessibility = in.readByte() != 0;
+        this.isFavorite = in.readByte() != 0;
+        this.favoriteCount = in.readString();
     }
 
     @Override
@@ -105,6 +115,8 @@ public class CultureItem implements Parcelable {
         out.writeSerializable(this.tagList);
         out.writeSerializable(this.commentList);
         out.writeByte((byte) (this.publicAccessibility ? 1 : 0));
+        out.writeByte((byte) (this.isFavorite ? 1 : 0));
+        out.writeString(this.favoriteCount);
     }
 
     @Override
@@ -214,6 +226,14 @@ public class CultureItem implements Parcelable {
         this.publicAccessibility = publicAccessibility;
     }
 
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
+    }
+
     public ArrayList<Image> getImageList() {
         return imageList;
     }
@@ -253,7 +273,7 @@ public class CultureItem implements Parcelable {
         if (startYear != null && endYear != null) {
             year = FeedRow.toYearFormat(getStartYear(), getEndYear());
         }
-        return new FeedRow(url, getTitle(), getDescription(), getPlaceName(), year, tagList);
+        return new FeedRow(url, getTitle(), getDescription(), getPlaceName(), year, tagList, favoriteCount);
     }
 
     public ArrayList<Comment> getCommentList() {
@@ -284,6 +304,8 @@ public class CultureItem implements Parcelable {
                 Utils.objectEquals(this.imageList, other.imageList) &&
                 Utils.objectEquals(this.tagList, other.tagList) &&
                 Utils.objectEquals(this.commentList, other.commentList) &&
+                Utils.objectEquals(this.isFavorite, other.isFavorite) &&
+                Utils.objectEquals(this.favoriteCount, other.favoriteCount) &&
                 this.publicAccessibility == other.publicAccessibility;
     }
 }

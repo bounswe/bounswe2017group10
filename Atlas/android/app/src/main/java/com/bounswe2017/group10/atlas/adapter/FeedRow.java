@@ -46,12 +46,13 @@ public class FeedRow {
     private String location;
     private String year;
     private List<String> tagList;
+    private String favoriteCount;
 
     public FeedRow() {
 
     }
 
-    public FeedRow(String imageUrl, String title, String description, String location, String year, List<String> tagList) {
+    public FeedRow(String imageUrl, String title, String description, String location, String year, List<String> tagList, String favoriteCount) {
         this.imageUrl = imageUrl;
         this.title = title;
         this.description = description;
@@ -63,6 +64,7 @@ public class FeedRow {
                 this.tagList.add(tagList.get(i));
             }
         }
+        this.favoriteCount = favoriteCount;
     }
 
     public String getImageUrl() {
@@ -111,5 +113,13 @@ public class FeedRow {
 
     public List<String> getTagList() {
         return tagList;
+    }
+
+    public String getFavoriteCount() {
+        return favoriteCount;
+    }
+
+    public void setFavoriteCount(String favoriteCount) {
+        this.favoriteCount = favoriteCount;
     }
 }
