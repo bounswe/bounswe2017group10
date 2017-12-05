@@ -83,7 +83,8 @@ const mapDispatchToProps = dispatch => {
                     description: addCHInputs.description,
                     tags: addCHInputs.tags.map(t => ( {name: t.text} )),
                     langitude: addCHInputs.lng,
-                    latitude: addCHInputs.lat
+                    latitude: addCHInputs.lat,
+                    place_name: addCHInputs.locationName
                 }
             }).then(resp => {
                 if (addCHInputs.img_url !== undefined && addCHInputs.img_url !== "") {
@@ -109,6 +110,7 @@ const mapDispatchToProps = dispatch => {
         deleteCHTag: (id) => dispatch(deleteCHTag(id)),
         searchLocation: (addCHInputs) => {
 
+            //geocoding (obtain lat and lng from given address)
             axios({
                 method: 'post',
                 url: 'https://maps.googleapis.com/maps/api/geocode/json?address=' + addCHInputs.locationName + '&key=AIzaSyCJ-k7tMf86LbMbQ-YAwi6-YAGmTx1z064'
@@ -123,6 +125,11 @@ const mapDispatchToProps = dispatch => {
                     const val2 = JSON.stringify(response.data.results[0].geometry.location.lat);
                     dispatch(updateCHInput(name2,Number(val2).toFixed(5)));
 
+
+                    const locationName = JSON.stringify(response.data.results[0].address_components[0].long_name);
+                    dispatch(updateCHInput("locationName",locationName));
+
+                    //alert(locationName);
                     //alert(Number(val1).toFixed(5)+" and "+Number(val2).toFixed(5));
                     //alert(addCHInputs.lat + " and " + addCHInputs.lng + addCHInputs.locationName);
                 } else {
@@ -136,6 +143,29 @@ const mapDispatchToProps = dispatch => {
         mapClick: (mapProps, map, clickEvent) => {
             dispatch(updateCHInput("lat", clickEvent.latLng.lat().toFixed(5)));
             dispatch(updateCHInput("lng", clickEvent.latLng.lng().toFixed(5)));
+
+            //reverse-geocoding (obtain address from lat and lng)
+            axios({
+                method: 'post',
+                url: 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + clickEvent.latLng.lat().toFixed(5) + ',' + clickEvent.latLng.lng().toFixed(5) + '&key=AIzaSyCJ-k7tMf86LbMbQ-YAwi6-YAGmTx1z064'
+            }).then(response => {
+
+
+                if (response.data.status == "OK") {
+
+                    const locationName = JSON.stringify(response.data.results[0].address_components[1].long_name);
+                    dispatch(updateCHInput("locationName",locationName));
+
+                    //alert(locationName);
+
+                } else {
+
+                    //alert("wrong location"+addCHInputs.locationName);
+                }
+
+
+            })
+
         }
     }
 }
