@@ -131,12 +131,13 @@ const mapDispatchToProps = dispatch => {
                     const locationName = JSON.stringify(response.data.results[0].address_components[0].long_name);
                     dispatch(updateCHInput("locationName",locationName));
 
-                    //alert(locationName);
-                    //alert(Number(val1).toFixed(5)+" and "+Number(val2).toFixed(5));
-                    //alert(addCHInputs.lat + " and " + addCHInputs.lng + addCHInputs.locationName);
+                    console.log(locationName);
+                    console.log(Number(val1).toFixed(5)+" and "+Number(val2).toFixed(5));
+                    console.log(addCHInputs.lat + " and " + addCHInputs.lng + addCHInputs.locationName);
                 } else {
-
-                    //alert("wrong location"+addCHInputs.locationName);
+		
+		    console.log("wrong location"+addCHInputs.locationName);
+                   
                 }
 
 
@@ -158,11 +159,11 @@ const mapDispatchToProps = dispatch => {
                     const locationName = JSON.stringify(response.data.results[0].address_components[1].long_name);
                     dispatch(updateCHInput("locationName",locationName));
 
-                    //alert(locationName);
+                    console.log(locationName);
 
                 } else {
 
-                    //alert("wrong location"+addCHInputs.locationName);
+                    console.log("wrong location"+addCHInputs.locationName);
                 }
 
 
