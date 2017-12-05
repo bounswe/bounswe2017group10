@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import Navbar from '../../components/Navbar/Navbar';
 import logo from '../../assets/images/logo.png';
 import { logout } from '../../actions/auth';
-import { toggleClosed , toggleOpen, updateSearchInput, selectSearchValue, updateSearchSuggestions } from '../../actions/navbar';
+import { toggleClosed , toggleOpen, updateSearchInput, selectSearchValue, updateSearchSuggestions, updateSearchedCulturalHeritages } from '../../actions/navbar';
 import { isLoggedIn, authGet } from '../../utils';
 import { API_URL } from '../../constants.js';
 
@@ -32,20 +32,17 @@ const mapDispatchToProps = dispatch => {
     },
     updateSearchInput: (token, val) => {
       dispatch(updateSearchInput(val));
-      (val === '')
-        ? dispatch(updateSearchSuggestions([]))
-        :
-          authGet(token, {
-            url: API_URL + '/cultural_heritage_item/search_autocorrect/' + val
-          }).then(resp =>
-            dispatch(updateSearchSuggestions(resp.data.results))
-          ).catch(err =>
-            console.log("Error on autocomplete: " + err)
-          );
     },
-    selectSearchValue: (chId) => {
-      window.location = "/cultural-heritages/" + chId;
-      // dispatch(selectSearchValue(val));
+    search: (token, searchInput) => {
+      authGet(token, {
+        url: API_URL + "/cultural_heritage_item/search/" + searchInput
+      }).then(resp => {
+        dispatch(updateSearchedCulturalHeritages(resp.data.results));
+        window.location="/search";
+      }).catch(err => {
+        console.log("Error when performing search:");
+        console.log(err); 
+      });
     }
   }
 }

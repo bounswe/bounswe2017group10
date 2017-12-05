@@ -29,8 +29,7 @@
     "react-share-icons": "^1.1.2",
     "react-tag-input": "^4.7.2",
     "reactstrap": "^5.0.0-alpha.3",
-    "redux": "^3.7.2",
-    "google-maps-react": "^1.1.2"
+    "redux": "^3.7.2"
   },
   "scripts": {
     "build-css": "node-sass-chokidar src/ -o src/",
@@ -42,6 +41,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "moment-timezone": "^0.5.14"
+    "moment-timezone": "^0.5.14",
+    "react-google-maps": "^9.4.1"
   }
 }
