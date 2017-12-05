@@ -255,6 +255,10 @@ class item_visit_update(generics.UpdateAPIView):
 
     def update(self, request, *args, **kwargs):
         request.data['user'] = request.user.pk
+        serializer = self.get_serializer(data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        if 'cultural_heritage_item' not in request.data:
+            return Response({'error':'cultural heritage item is required'},status=status.HTTP_400_BAD_REQUEST)
         item = get_object_or_404(Cultural_Heritage, pk=request.data['cultural_heritage_item'])
         previous_duration = 0
         if item_visit.objects.filter(user=request.user, cultural_heritage_item=item, ).count() > 0:
