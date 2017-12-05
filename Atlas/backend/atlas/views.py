@@ -1,6 +1,4 @@
 import geopy.distance
-from django.core import serializers
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from jwt_auth.compat import json
 from rest_framework import generics, mixins
@@ -8,25 +6,13 @@ from rest_framework import status
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
-from .models import User, Cultural_Heritage, comment, tag, favorite_items, item_visit, image_media_item as image_item, \
+from .constants import *
+from .models import Cultural_Heritage, comment, tag, favorite_items, item_visit, image_media_item as image_item, \
     hidden_tag
+from .popularity import trending_score
 from .serializers import cultural_heritage_serializer, image_media_item_serializer, tag_serializer, comment_serializer, \
     favorite_item_serializer, item_visit_serializer
 from .util import hidden_tag_extractor
-from .popularity import trending_score
-
-
-
-def is_favorite(user,item):
-    if user:
-        return favorite_items.objects.filter(item=item.pk, user=user.pk).count() > 0
-    return False
-
-
-
-def users(request):
-    users_list = serializers.serialize('json', User.objects.order_by('-age')[:5])
-    return HttpResponse(users_list, content_type='application/json')
 
 
 class cultural_heritage_item(generics.ListCreateAPIView):
@@ -165,6 +151,8 @@ class cultural_heritage_item_view_update_delete(generics.RetrieveUpdateDestroyAP
             extractor = hidden_tag_extractor()
             hidden_tags = extractor.extract_keywords(text=description)
             for tag in hidden_tags:
+                if len(tag) > MAX_HIDDEN_TAG_SIZE:
+                    continue
                 new_tag, created = hidden_tag.objects.get_or_create(name=tag)
                 instance.hidden_tags.add(new_tag)
             instance.save()
@@ -173,9 +161,7 @@ class cultural_heritage_item_view_update_delete(generics.RetrieveUpdateDestroyAP
         return Response(serializer.data)
 
     def get_queryset(self):
-        items = Cultural_Heritage.objects.filter()
-        [setattr(item,'is_favorite',is_favorite(self.request.user,item)) for item in items]
-        return items
+        return Cultural_Heritage.objects.filter()
 
 
 

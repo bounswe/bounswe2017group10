@@ -5,7 +5,7 @@ from rest_framework.utils import model_meta
 from .models import Cultural_Heritage, comment as comment_model, image_media_item, item_visit, favorite_items, \
     tag as tag_model, hidden_tag
 from .util import hidden_tag_extractor
-
+from .constants import *
 
 class image_media_item_serializer(serializers.ModelSerializer):
     class Meta:
@@ -69,6 +69,8 @@ class cultural_heritage_serializer(serializers.ModelSerializer):
             extractor = hidden_tag_extractor()
             hidden_tags = extractor.extract_keywords(text=description)
             for tag in hidden_tags:
+                if len(tag) > MAX_HIDDEN_TAG_SIZE:
+                    continue
                 new_tag, created = hidden_tag.objects.get_or_create(name=tag)
                 if created:
                     heritage_item.hidden_tags.add(new_tag)
