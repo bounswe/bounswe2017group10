@@ -4,8 +4,8 @@ import ShowPage from '../../components/CulturalHeritage/Show';
 import { withRouter } from 'react-router';
 import { authGet, authPost } from '../../utils';
 import { API_URL } from '../../constants';
-import { updateCommentInput, updateCulturalHeritage } from '../../actions/culturalHeritage';
-import { favItem } from './Common';
+import { updateCommentInput, updateCulturalHeritage, updateRecommendations } from '../../actions/culturalHeritage';
+import { favItem, getRecommendedItems } from './Common';
 
 const mapStateToProps = (state, props) => {
   const culturalHeritage = state.culturalHeritage.data.find(c => c.id === parseInt(props.match.params.id, 10));
@@ -13,20 +13,29 @@ const mapStateToProps = (state, props) => {
     user: state.auth.user,
     token: state.auth.token,
     culturalHeritage,
-    commentInput: state.culturalHeritage.commentInput
+    commentInput: state.culturalHeritage.commentInput,
+    recommendations: state.culturalHeritage.recommendations
   };
 }
 
 const mapDispatchToProps = dispatch => ({
-  loadCulturalHeritage: (token, id) => {
+  loadCulturalHeritage: (token, id, cb) => {
     authGet(token, {
       url: API_URL + '/cultural_heritage_item/' + id
     }).then(resp => {
       dispatch(updateCulturalHeritage(id, resp.data));
+      cb(resp.data);
     }).catch(err => {
       console.log("Error when fetching cultural heritage item");
       console.log(err);
     });
+  },
+  updateRecommendations: (token, culturalHeritage) => {
+    authGet(token, {
+      url: API_URL + '/cultural_heritage_item/recommendation?item_id=' + culturalHeritage.id
+    }).then(resp =>
+      dispatch(updateRecommendations(resp.data.results))
+    );
   },
   commentInputChange: (event) => {
     dispatch(updateCommentInput(event.target.value));
@@ -59,7 +68,11 @@ const mapDispatchToProps = dispatch => ({
 
 class App extends React.Component {
   componentWillMount() {
-    this.props.loadCulturalHeritage(this.props.token, this.props.match.params.id);
+    this.props.loadCulturalHeritage(
+      this.props.token,
+      this.props.match.params.id,
+      (c) => this.props.updateRecommendations(this.props.token, c)
+    );
   }
 
   render() {

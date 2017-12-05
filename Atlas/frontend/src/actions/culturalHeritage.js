@@ -143,3 +143,10 @@ export const updateCulturalHeritage = (id, data) => {
     }
   }
 }
+
+export const updateRecommendations = (data) => {
+  return {
+    type: 'UPDATE_RECOMMENDATIONS',
+    data
+  }
+}
