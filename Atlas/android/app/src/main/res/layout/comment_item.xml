@@ -12,7 +12,7 @@
         android:layout_marginStart="5dp"
         android:layout_toEndOf="@+id/comment_avatar"
         android:text="@string/commenter_name"
-        android:textColor="@android:color/black"
+        android:textColor="@color/primaryTextColor"
         android:textStyle="bold" />
 
     <TextView
@@ -38,5 +38,5 @@
         android:layout_height="75dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        app:srcCompat="@color/colorPrimary" />
+        app:srcCompat="@color/primaryDarkColor" />
 </RelativeLayout>

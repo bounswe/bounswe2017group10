@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ffffff</color>
-    <color name="colorPrimaryDark">#862915</color>
-    <color name="colorAccent">#ffd146</color>
     <color name="url_link_color">#0000ee</color>
     <color name="button_gray">#454545</color>
-    <color name="tag_background">#eec774</color>
-    <color name="card_background">#ffefce</color>
+    <color name="tag_background">@color/secondaryColor</color>
     <color name="button_background_color">#ffc0c0</color>
 </resources>

@@ -87,7 +87,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     /**
-     * Request personal user details from the server and store them in SharedPreferences.
+     * Display personal details stored in SharedPreferences.
      */
     private void displayPersonalDetails(View header) {
         SharedPreferences pref = Utils.getSharedPref(this);
@@ -101,7 +101,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             Glide.with(this)
                     .load(image)
                     .apply(new RequestOptions()
-                            .error(R.drawable.help))
+                            .placeholder(R.drawable.ic_crop_original_black_48dp)
+                            .error(R.drawable.ic_crop_original_black_48dp)
+                            .fallback(R.drawable.ic_crop_original_black_48dp))
                     .into((ImageView) header.findViewById(R.id.nav_pimage));
         }
 
