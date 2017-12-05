@@ -112,10 +112,12 @@ class user_favorite_item(HeritageIdInterceptorMixin, generics.CreateAPIView, mix
 
 class get_user_favorite_items(HeritageIdInterceptorMixin, generics.ListAPIView):
     queryset = favorite_items.objects.all()
-    serializer_class = favorite_item_list_serializer
+    serializer_class = cultural_heritage_serializer
 
     def get_queryset(self):
-        return favorite_items.objects.filter(user=self.request.user.pk)
+        items = favorite_items.objects.filter(user=self.request.user.pk)
+        return [Cultural_Heritage.objects.get(pk=cur.item.pk) for cur in items]
+
 
 
 class image_media_item(HeritageIdInterceptorMixin, generics.CreateAPIView):
