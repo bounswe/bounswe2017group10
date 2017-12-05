@@ -201,8 +201,7 @@ public class ViewItemFragment extends Fragment {
                     mItem.setFavorite(true);
                     mActivity.invalidateOptionsMenu();
                 } else {
-                    //Utils.showToast(mActivity, getString(R.string.error_favorite));
-                    Utils.showToast(mActivity, "ERROR1");
+                    Utils.showToast(mActivity, getString(R.string.error_favorite));
                 }
             }
 
@@ -225,8 +224,7 @@ public class ViewItemFragment extends Fragment {
                     mItem.setFavorite(false);
                     mActivity.invalidateOptionsMenu();
                 } else {
-                    //Utils.showToast(mActivity, getString(R.string.error_favorite));
-                    Utils.showToast(mActivity, "ERROR2");
+                    Utils.showToast(mActivity, getString(R.string.error_favorite));
                 }
             }
 
