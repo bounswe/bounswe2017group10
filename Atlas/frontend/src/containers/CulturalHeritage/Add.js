@@ -11,7 +11,8 @@ import {
     addCHTag,
     deleteCHTag,
     searchLocation,
-    mapClick
+    mapClick,
+    updateLocation
 } from '../../actions/culturalHeritage';
 import axios from 'axios';
 import {API_URL} from '../../constants';
@@ -107,6 +108,7 @@ const mapDispatchToProps = dispatch => {
             });
         },
         addCHTag: (name) => dispatch(addCHTag(name)),
+        updateGeo: (coords) => dispatch(updateLocation(coords)),
         deleteCHTag: (id) => dispatch(deleteCHTag(id)),
         searchLocation: (addCHInputs) => {
 
@@ -167,6 +169,7 @@ const mapDispatchToProps = dispatch => {
             })
 
         }
+
     }
 }
 
