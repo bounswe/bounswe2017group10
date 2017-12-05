@@ -8,13 +8,15 @@ import { getUrlParam } from '../../utils';
 import RecommendedItem from './RecommendedItem';
 import { RECOMMENDATION_LIMIT } from '../../constants';
 
-const Show = ({ user, token, culturalHeritage, commentInput, recommendations, commentInputChange, postComment, favoriteItem }) => (
+const Show = ({ user, token, culturalHeritage, commentInput, recommendations, commentInputChange, postComment, favoriteItem, removeClick }) => (
   culturalHeritage !== undefined &&
     <Container>
       <NavLink className="atlas-button" to={ getUrlParam('returnTo') }>
         <LeftIcon />
         Back
       </NavLink>
+        {(culturalHeritage.user == user.id) && <Button onClick={() => removeClick(token, culturalHeritage.id)}>Remove Item</Button>}
+
       <Row>
         <Col xs="9">
           <CulturalHeritage culturalHeritage={ culturalHeritage } shouldTruncate={ false } showComments={ true } favorite={ () => favoriteItem(token, culturalHeritage) } withLink={ false } />
