@@ -28,7 +28,7 @@ class hidden_tag_serializer(serializers.ModelSerializer):
         model = hidden_tag
         fields = '__all__'
 
-
+#Return also the info about the user
 class comment_serializer(serializers.ModelSerializer):
     text = serializers.CharField(required=True)
     user_info = serializers.ReadOnlyField()
