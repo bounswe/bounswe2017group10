@@ -51,7 +51,7 @@
             android:text="@string/description"
             android:textAlignment="viewStart"
             android:textColor="@android:color/black"
-            android:textSize="18sp"
+            android:textSize="@dimen/view_item_header_size"
             android:textStyle="bold" />
 
         <TextView
@@ -61,9 +61,32 @@
             android:text="@string/no_description"
             android:textSize="15sp" />
 
+        <View
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="10dp"
+            style="@style/Divider" />
+
+        <TextView
+            android:id="@+id/comments_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/comments"
+            android:textAlignment="viewStart"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/view_item_header_size"
+            android:textStyle="bold" />
+
+        <com.bounswe2017.group10.atlas.adapter.NoScrollListView
+            android:id="@+id/comment_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:scrollbars="horizontal|vertical" />
+
         <Space
             android:layout_width="match_parent"
-            android:layout_height="25dp" />
+            android:layout_height="15dp" />
 
         <TextView
             android:id="@+id/write_comment_title"
@@ -90,7 +113,7 @@
                 android:ems="10"
                 android:inputType="textMultiLine"
                 android:labelFor="@+id/comment_edit"
-                android:text=" @string/write_something" />
+                android:hint="@string/write_something" />
 
             <Button
                 android:id="@+id/comment_send"
@@ -105,31 +128,20 @@
 
         </RelativeLayout>
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="15dp" />
+        <View
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="10dp"
+            style="@style/Divider" />
 
         <TextView
-            android:id="@+id/comments_title"
+            android:id="@+id/recommendations_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/comments"
+            android:text="@string/you_may_also_like"
             android:textAlignment="viewStart"
             android:textColor="@android:color/black"
-            android:textSize="18sp"
+            android:textSize="@dimen/view_item_header_size"
             android:textStyle="bold" />
-
-        <com.bounswe2017.group10.atlas.adapter.NoScrollListView
-            android:id="@+id/comment_listview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:footerDividersEnabled="false"
-            android:headerDividersEnabled="false"
-            android:scrollbars="horizontal|vertical" />
-
-
-
-
     </LinearLayout>
 
 </ScrollView>
