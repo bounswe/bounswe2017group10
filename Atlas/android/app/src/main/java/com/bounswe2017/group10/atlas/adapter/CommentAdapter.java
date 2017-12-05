@@ -20,6 +20,7 @@ import com.bumptech.glide.request.RequestOptions;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 public class CommentAdapter extends ArrayAdapter<CommentRow> {
@@ -27,9 +28,7 @@ public class CommentAdapter extends ArrayAdapter<CommentRow> {
     private final ArrayList<CommentRow> items;
     private LayoutInflater inflater;
 
-    //TODO: this parameter needs to be updated
-
-    public static final int TIME_ZONE = 3;
+    public static int time_zone = TimeZone.getDefault().getRawOffset();
 
 
     public CommentAdapter(Context context, ArrayList<CommentRow> items) {
@@ -99,7 +98,8 @@ public class CommentAdapter extends ArrayAdapter<CommentRow> {
         }
 
         //Time zone difference
-        dateObj.setTime(dateObj.getTime() + TimeUnit.HOURS.toMillis(TIME_ZONE) - 3000);
+        //2000 is for preventing negative diff values.
+        dateObj.setTime(dateObj.getTime() + time_zone - 2000);
 
         long diff = now.getTime() - dateObj.getTime();
         long seconds = TimeUnit.MILLISECONDS.toSeconds(diff);
@@ -107,13 +107,16 @@ public class CommentAdapter extends ArrayAdapter<CommentRow> {
         long hours = TimeUnit.MILLISECONDS.toHours(diff);
         long days = TimeUnit.MILLISECONDS.toDays(diff);
 
-
-        if(seconds < 60) return Long.toString(seconds) + " seconds ago";
-        else if(minutes < 60) return Long.toString(minutes) + " minutes ago";
-        else if(hours < 24) return Long.toString(hours) + " hours ago";
-        else if(days < 30) return Long.toString(days) + " days ago";
+        if((int) seconds == 1) return context.getString(R.string.second_ago);
+        else if(seconds < 60) return Long.toString(seconds) + context.getString(R.string.seconds_ago);
+        else if((int)minutes == 1) return context.getString(R.string.minute_ago);
+        else if(minutes < 60) return Long.toString(minutes) + context.getString(R.string.minutes_ago);
+        else if((int)hours == 1) return context.getString(R.string.hour_ago);
+        else if(hours < 24) return Long.toString(hours) + context.getString(R.string.hours_ago);
+        else if((int)days == 1) return context.getString(R.string.yesterday);
+        else if(days < 30) return Long.toString(days) + context.getString(R.string.days_ago);
         else return format.format(dateObj);
 
-        //return format.format(dateObj) + "\n" +  format.format(now);
+        //return dateObj.toString() + "\n" +  now.toString() + "\n" + time_zone;
     }
 }

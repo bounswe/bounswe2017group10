@@ -36,8 +36,8 @@ public class CultureItemInstrumentedTest {
         mItem.setTitle("Turkish coffee");
         mItem.setDescription("...Example description...");
         mItem.setPlaceName("Istanbul");
-        mItem.setLatitude(37.48);
-        mItem.setLongitude(40.24);
+        mItem.setLatitude("37.48");
+        mItem.setLongitude("40.24");
 
         ArrayList<Image> imgList = new ArrayList<>();
         Image img = new Image();
