@@ -39,6 +39,14 @@ export const authPost = (token, opts) =>
     data: opts.data
   })
 
+export const authPut = (token, opts) =>
+  axios({
+    method: 'put',
+    url: opts.url,
+    headers: { 'Authorization': 'JWT ' + token },
+    data: opts.data
+  })
+
 export const authDelete = (token, opts) =>
   axios({
     method: 'delete',
