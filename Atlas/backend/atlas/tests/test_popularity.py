@@ -1,11 +1,12 @@
-from authentication.models import Account
+import datetime
+from math import log
+
+from atlas.models import Cultural_Heritage
 from atlas.popularity import popularity_score, trending_score
 from atlas.popularity_constants import *
-from atlas.models import Cultural_Heritage
-from math import log
-import copy
-import datetime
+from authentication.models import Account
 
+import copy
 import pytest
 from django.test import TestCase
 from jwt_auth.compat import json, smart_text
@@ -33,7 +34,7 @@ class popularity_score_tester(TestCase):
         response = self.client.post(
             self.cultural_heritage_item_url,
             {
-                'title' : 'Lee Sin'
+                'title': 'Lee Sin'
             },
             format='json'
         )
@@ -55,7 +56,7 @@ class popularity_score_tester(TestCase):
         self.assertEqual(response.status_code, 200)
         item = Cultural_Heritage.objects.all()[0]
 
-        expected_popularity = log(1 + visit_time*COEFF_VIEW_SEC)
+        expected_popularity = log(1 + visit_time * COEFF_VIEW_SEC)
         self.assertAlmostEqual(popularity_score(item), expected_popularity)
 
     def test_item_popularity_num_comments(self):
@@ -63,7 +64,7 @@ class popularity_score_tester(TestCase):
         response = self.client.post(
             self.cultural_heritage_item_url,
             {
-                'title' : 'Lee Sin'
+                'title': 'Lee Sin'
             },
             format='json'
         )
@@ -88,7 +89,7 @@ class popularity_score_tester(TestCase):
             self.assertEqual(response.status_code, 201)
 
         item = Cultural_Heritage.objects.all()[0]
-        expected_popularity = log(1 + num_comments*COEFF_NUM_COMMENTS)
+        expected_popularity = log(1 + num_comments * COEFF_NUM_COMMENTS)
         self.assertAlmostEqual(popularity_score(item), expected_popularity)
 
     def test_item_popularity_num_favorites(self):

@@ -334,3 +334,84 @@ class cultural_heritage_item(TestCase):
         self.assertEqual(response_content['results'][0]['title'], 'Draven montage')
         self.assertEqual(response_content['results'][1]['title'], 'thresh montage')
         self.assertEqual(response_content['results'][2]['title'], 'Ahri montage')
+
+    def test_cultural_heritage_search_with_tags_and_complete_items(self):
+        item_data = {
+            "title": "Ahri one shot",
+            'tags': [
+                {'name': 'adc'},
+                {'name': 'support'}
+            ]
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        item_data = {
+            "title": "Draven support",
+            'description': "Chinese ceramics show a continuous development since pre-dynastic times "
+                           "and are one of the most significant forms of Chinese art and ceramics globally. "
+                           "The first pottery was made during the Palaeolithic era. Chinese ceramics range from "
+                           "construction materials such as bricks and tiles, to hand-built pottery vessels fired "
+                           "in bonfires or kilns, to the sophisticated Chinese porcelain wares made for the imperial "
+                           "court and for export. Porcelain is so identified with China that it is still called \"china\" "
+                           "in everyday English usage. Most later Chinese ceramics, even of the finest quality, "
+                           "were made on an industrial scale, thus few names of individual potters were recorded. "
+                           "Many of the most important kiln workshops were owned by or reserved for the Emperor, and "
+                           "large quantities of ceramics were exported as diplomatic gifts or for trade from an early "
+                           "date, initially to East Asia and the Islamic world, and then from around the 16th century "
+                           "to Europe. Chinese ceramics have had an enormous influence on other ceramic traditions in "
+                           "these areas. Increasingly over their long history, Chinese ceramics can be classified "
+                           "between those made for the imperial court, either to use or distribute, those made "
+                           "for a discriminating Chinese market, and those for popular Chinese markets or for "
+                           "export. Some types of wares were also made only or mainly for special uses such as "
+                           "burial in tombs, or for use on altars.",
+            'tags': [
+                {'name': 'adc',},
+                {'name': 'meta'}
+            ]
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        item_data = {
+            "title": "Tresh hook",
+            'tags': [
+                {'name': 'adc'},
+                {'name': 'support'}
+            ]
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        item_data = {
+            "title": "Tresh hook montage",
+            'tags': [
+                {'name': 'adc'},
+                {'name': 'support'}
+            ]
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        response = self.client.get(
+            self.cultural_heritage_item_url + 'search/' + 'adc'
+        )
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(len(response_content['results']), 4);
+        self.assertEqual(response_content['results'][0]['title'], 'Draven support')
