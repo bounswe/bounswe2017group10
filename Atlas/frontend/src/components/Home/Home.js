@@ -11,8 +11,8 @@ class Home extends Component {
         <img src={atlasImg} className="background-image" alt="background" />
         <header className="Home-header">
           <h1 className="Home-title">Enhance </h1>
-      <h1 className="Home-title">The </h1>
-      <h1 className="Home-title">Culture</h1>
+          <h1 className="Home-title">The </h1>
+          <h1 className="Home-title">Culture</h1>
           <h2 className="Home-title">Together.</h2>
         </header>
         <footer className="Home-footer">
