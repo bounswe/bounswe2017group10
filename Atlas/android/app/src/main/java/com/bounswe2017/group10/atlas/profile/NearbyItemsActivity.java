@@ -3,6 +3,7 @@ package com.bounswe2017.group10.atlas.profile;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -22,6 +23,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 
+import com.bounswe2017.group10.atlas.home.ListItemsFragment;
+import com.bounswe2017.group10.atlas.remote.APIUtils;
+import com.bounswe2017.group10.atlas.response.OnGetItemsResponse;
+import com.bounswe2017.group10.atlas.util.Constants;
+import com.bounswe2017.group10.atlas.util.Utils;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -44,7 +50,7 @@ public class NearbyItemsActivity extends AppCompatActivity {
      */
     protected Location mLastLocation;
 
-    private NearbyItemsFragment mNearbyItemsFragment;
+    private ListItemsFragment mNearItemsFragment;
     private ActionBar mActionBar;
 
     @Override
@@ -57,7 +63,9 @@ public class NearbyItemsActivity extends AppCompatActivity {
         this.mActionBar = getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
 
+        mNearItemsFragment = new ListItemsFragment();
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
     }
 
     @Override
@@ -74,14 +82,27 @@ public class NearbyItemsActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
+
+    private void setupNearbyItemsFragment()
+    {
+        mNearItemsFragment.setRequestStrategy(new ListItemsFragment.RequestStrategy() {
+            @Override
+            public void requestItems(Context context, int offset, OnGetItemsResponse.GetItemCallback getItemCallback) {
+                // TODO: pagination for search results
+                String authStr = Utils.getSharedPref(getApplicationContext()).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
+                OnGetItemsResponse respHandler = new OnGetItemsResponse(context, getItemCallback);
+                APIUtils.serverAPI().getNearbyItems(authStr, Constants.PAGINATION_COUNT, offset,mLastLocation.getLatitude(),mLastLocation.getLongitude()).enqueue(respHandler);
+            }
+        });
+    }
+
     /**
      * Set up the functionality of mNearbyItemsFragment.
      */
-    private void setUpNearbyItemsFragment() {
-        mNearbyItemsFragment.setRequestStrategy(new NearbyItemsFragment.FeedStrategy());
+    private void change_fragment() {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.home_container, mNearbyItemsFragment)
+                .replace(R.id.home_container, mNearItemsFragment)
                 .commit();
     }
 
@@ -110,14 +131,9 @@ public class NearbyItemsActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Location> task) {
                         if (task.isSuccessful() && task.getResult() != null) {
                             mLastLocation = task.getResult();
-
                             setTitle(R.string.title_nearby_heritages);
-                            mNearbyItemsFragment = new NearbyItemsFragment();
-                            Bundle args = new Bundle();
-                            args.putDouble("latitude",mLastLocation.getLatitude());
-                            args.putDouble("longitude",mLastLocation.getLongitude());
-                            mNearbyItemsFragment.setArguments(args);
-                            setUpNearbyItemsFragment();
+                            setupNearbyItemsFragment();
+                            change_fragment();
                         } else {
                             Log.w(TAG, "getLastLocation:exception", task.getException());
                             showSnackbar(getString(R.string.no_location_detected));
