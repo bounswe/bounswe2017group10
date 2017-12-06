@@ -4,6 +4,12 @@ export const fetchCH = () => {
   }
 }
 
+export const fetchNearbyCH = () => {
+  return{
+    type: 'FETCH_NEARBY_CHS'
+  }
+}
+
 export const clearAddChErrors = () => {
   return{
     type: 'CLEAR_ADD_CH_ERRORS'
@@ -23,6 +29,12 @@ export const finishFetchingCH = () => {
   }
 }
 
+export const finishFetchingNearbyCH = () => {
+  return {
+    type: 'FINISH_FETCHING_NEARBY_CHS'
+  }
+}
+
 export const uploadImage = (imageLink) => {
     return {
         type: 'IMAGE_URL_UPLOADED',
@@ -34,6 +46,13 @@ export const updatingGetCH = (culturalHeritages) => {
   return {
     type: 'UPDATE_CULTURAL_HERITAGES',
     data: culturalHeritages
+  }
+}
+
+export const updatingNearbyCH = (nearbyCHS) => {
+  return {
+    type: 'UPDATE_NEARBY_CHS',
+    data: nearbyCHS
   }
 }
 
