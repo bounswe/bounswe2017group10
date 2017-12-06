@@ -6,11 +6,13 @@ import { Card, CardBody,
 import { NavLink } from 'react-router-dom';
 import PhotoIcon from 'react-icons/lib/md/photo-album';
 import unknown from '../../assets/images/unknown.png'
+import atlasImg from '../../assets/images/atlas.jpeg';
 
 const Profile = ({ user }) => ({
   render() {
     return (
       <Container>
+        <img src={atlasImg} className="background-image" alt="background" />
         <Row className="whitebox-profile">
               <Col xs="3">
 

@@ -77,7 +77,7 @@ ul.cultural-heritages {
   }
 
   li:hover {
-    border: $ch-border-width solid $atlas-orange;
+    border: $ch-border-width solid $atlas-blue;
     text-decoration: none;
   }
 }
@@ -104,7 +104,7 @@ body {
   position: absolute;
   right: 100px;
   top: 300px;
-  background-color: $atlas-orange;
+  background-color: $atlas-blue;
   padding: 30px;
   color: white;
   z-index: 3;
