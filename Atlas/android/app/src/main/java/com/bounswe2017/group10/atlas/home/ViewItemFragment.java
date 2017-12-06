@@ -128,8 +128,8 @@ public class ViewItemFragment extends Fragment {
 
         long currentUserId = Utils.getSharedPref(mActivity).getLong(Constants.USER_ID, -1);
         if (currentUserId != mItem.getUser()) {
-            menu.findItem(R.id.action_edit).setVisible(false);
-            menu.findItem(R.id.action_delete).setVisible(false);
+            //menu.findItem(R.id.action_edit).setVisible(false);
+            //menu.findItem(R.id.action_delete).setVisible(false);
         }
 
         if (mItem.isFavorite()) {
@@ -284,7 +284,9 @@ public class ViewItemFragment extends Fragment {
         ImageListAdapter adapter = new ImageListAdapter(mActivity, imageRowList, new ImageListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(List<ImageRow> rowList, int position) {
-                //TODO: show image fullscreen
+                Intent intent = new Intent(getActivity(), FullScreenImageActivity.class);
+                intent.putExtra(Constants.IMAGE_LIST, mItem.getImageList());
+                startActivity(intent);
             }
         });
         SnapHelper helper = new LinearSnapHelper();
