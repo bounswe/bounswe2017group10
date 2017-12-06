@@ -35,6 +35,78 @@
             android:orientation="horizontal"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:orientation="horizontal"
+            android:id="@+id/footer_layout"
+            android:weightSum="2" >
+
+
+            <TextView
+                android:id="@+id/location_textview_detail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="2dp"
+                android:drawableStart="@drawable/ic_place_black_24dp"
+                android:ellipsize="end"
+                android:gravity="start"
+                android:maxLines="1" />
+
+            <View
+                style="@style/VerticalDivider"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp" />
+
+            <TextView
+                android:id="@+id/year_textview_detail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                android:gravity="end" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:orientation="horizontal"
+            android:id="@+id/footer_layout"
+            android:weightSum="2" >
+
+            <TextView
+                android:id="@+id/owner_textview_detail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:drawableStart="@drawable/ic_person_black_24dp"
+                android:gravity="start" />
+
+            <View
+                style="@style/VerticalDivider"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp" />
+
+
+            <TextView
+                android:id="@+id/favorite_textview_detail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="2dp"
+                android:drawableEnd="@drawable/ic_favorite_black_24dp"
+                android:ellipsize="end"
+                android:gravity="end"
+                android:maxLines="1" />
+        </LinearLayout>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/tag_recyclerview"
 

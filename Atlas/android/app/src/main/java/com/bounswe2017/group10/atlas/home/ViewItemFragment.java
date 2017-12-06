@@ -83,7 +83,11 @@ public class ViewItemFragment extends Fragment {
 
         TextView ewTitle = view.findViewById(R.id.itemTitle);
         TextView ewDescription = view.findViewById(R.id.itemDesc);
-        setText(ewTitle, ewDescription, mItem);
+        TextView ewLocation = view.findViewById(R.id.location_textview_detail);
+        TextView ewDate = view.findViewById(R.id.year_textview_detail);
+        TextView ewOwner = view.findViewById(R.id.owner_textview_detail);
+        TextView ewFavCount = view.findViewById(R.id.favorite_textview_detail);
+        setText(ewTitle, ewDescription, ewLocation, ewDate, ewOwner, ewFavCount, mItem);
 
         RecyclerView gallery = view.findViewById(R.id.image_gallery);
         setImages(gallery, mItem);
@@ -314,9 +318,18 @@ public class ViewItemFragment extends Fragment {
      *
      * TODO: Show other text information of a CultureItem.
      */
-    private void setText(TextView twTitle, TextView twDescription, CultureItem item) {
+    private void setText(TextView twTitle, TextView twDescription, TextView twLocation,
+                         TextView twDate, TextView twOwner, TextView twFavCount, CultureItem item) {
         twTitle.setText(item.getTitle());
         twDescription.setText(item.getDescription());
+        twLocation.setText(item.getPlaceName());
+        if(item.getStartYear() != null && item.getEndYear() != null)
+            twDate.setText(getActivity().getString(R.string.year_string, item.getStartYear(), item.getEndYear()));
+        else if (item.getStartYear() != null)
+            twDate.setText(item.getStartYear());
+        twOwner.setText(item.getUserInfo().getUsername());
+        twFavCount.setText(item.getFavoriteCount());
+
     }
 
     /**

@@ -30,7 +30,6 @@ public class CommentAdapter extends ArrayAdapter<CommentRow> {
 
     public static int time_zone = TimeZone.getDefault().getRawOffset();
 
-
     public CommentAdapter(Context context, ArrayList<CommentRow> items) {
         super(context, -1, items);
         this.context = context;
@@ -110,7 +109,8 @@ public class CommentAdapter extends ArrayAdapter<CommentRow> {
         long hours = TimeUnit.MILLISECONDS.toHours(diff);
         long days = TimeUnit.MILLISECONDS.toDays(diff);
 
-        if((int) seconds == 1) return context.getString(R.string.second_ago);
+        if(seconds < 0) return format.format(dateObj);
+        else if((int) seconds == 1) return context.getString(R.string.second_ago);
         else if(seconds < 60) return Long.toString(seconds) + " " + context.getString(R.string.seconds_ago);
         else if((int)minutes == 1) return context.getString(R.string.minute_ago);
         else if(minutes < 60) return Long.toString(minutes) + " " + context.getString(R.string.minutes_ago);
