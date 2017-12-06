@@ -61,6 +61,7 @@
     <string name="search">Search</string>
     <string name="no_items">No items</string>
     <string name="title_activity_own_item">OwnItemActivity</string>
+    <string name="title_activity_getlocation">GetLocation</string>
     <string name="profile_header_img">Profile header image</string>
     <string name="user_profile_image">User profile image</string>
     <string name="take_photo_image">Take photo image</string>
@@ -96,6 +97,14 @@
     <string name="yesterday">yesterday</string>
     <string name="you_may_also_like">You May Also Like</string>
     <string name="created_by">%1$s</string>
+    <string name="profilpage_nearbyitems">Find Nearby Heritages</string>
+    <string name="profilpage_nav_nearby">Nearby Heritages</string>
+    <string name="no_location_detected">No location detected. Make sure location is enabled on the device.</string>
+    <string name="permission_rationale">Location permission is needed for core functionality</string>
+    <string name="permission_denied_explanation">Permission was denied, but is needed for core functionality.</string>
+    <string name="settings">Settings</string>
+    <string name="nearby_heritages">Nearby Heritages</string>
+    <string name="open_gps_settings">Do you want open GPS setting?</string>
     <string name="fullscreen_img">Fullscreen image</string>
     <string name="my_heritages">My Heritages</string>
     <string name="my_favourites">My Favourites</string>

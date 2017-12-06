@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.adapter.ImageListAdapter;
+import com.bounswe2017.group10.atlas.profile.NearbyItemsActivity;
 import com.bounswe2017.group10.atlas.profile.ProfileActivity;
 import com.bounswe2017.group10.atlas.response.OnGetItemsResponse;
 import com.bounswe2017.group10.atlas.util.Constants;
@@ -98,7 +99,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         String nameText = getString(R.string.fullname, firstName, lastName);
         String image = pref.getString(Constants.PROFILE_PICTURE,"");
 
-        if(image!="") {
+        if(!image.equals("")) {
             Glide.with(this)
                     .load(image)
                     .apply(new RequestOptions()
@@ -228,12 +229,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.profil) {
+        if (id == R.id.profil)
+        {
             Intent intent = new Intent(this, ProfileActivity.class);
             this.startActivity(intent);
         }
-        else if (id == R.id.logout) {
+        else if (id == R.id.logout)
+        {
             logout(this);
+        }
+        else if(id==R.id.nearbyitems)
+        {
+            Intent intent = new Intent(this, NearbyItemsActivity.class);
+            this.startActivity(intent);
         }
 
         mDrawerLayout.closeDrawer(GravityCompat.START);

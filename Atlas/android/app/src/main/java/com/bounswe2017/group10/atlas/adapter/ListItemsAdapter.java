@@ -2,6 +2,12 @@ package com.bounswe2017.group10.atlas.adapter;
 
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bounswe2017.group10.atlas.R;
+import com.bounswe2017.group10.atlas.util.Utils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
@@ -83,6 +90,12 @@ public class ListItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             etLocation.setText(row.getLocation());
             etFavorite.setText(row.getFavoriteCount());
             etCreator.setText(context.getString(R.string.created_by, row.getCreatorUsername()));
+
+            if (row.isFavorite()) {
+                etFavorite.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_favorite_black_24dp, 0, 0, 0);
+            } else {
+                etFavorite.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_favorite_border_black_24dp, 0, 0, 0);
+            }
 
             if (row.getYear() != null) {
                 int[] yearPair = FeedRow.fromYearFormat(row.getYear());
