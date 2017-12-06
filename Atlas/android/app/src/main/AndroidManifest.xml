@@ -9,11 +9,12 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <!-- Features -->
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-    
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -27,12 +28,11 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDQd6ltj0K3lmZv_6N7-T4CEcOM6UP7cdQ" />
 
-        <!--- AuthActivity -->
+        <!-- - AuthActivity -->
         <activity android:name=".auth.AuthActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -64,13 +64,15 @@
             android:name=".profile.ProfileActivity">
         </activity>
 
+        <!-- - FileProvider -->
+
         <!-- GoogleMapsActivity -->
         <activity
             android:name=".home.GoogleMapsActivity"
             android:parentActivityName=".home.GoogleMapsActivity">
         </activity>
 
-        <!--- FileProvider -->
+        <!-- - FileProvider -->
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.bounswe2017.group10.fileprovider"
@@ -85,7 +87,11 @@
             android:name=".profile.OwnItemActivity"
             android:label="@string/title_activity_own_item"
             android:parentActivityName=".profile.ProfileActivity">
-            android:theme="@style/AtlasTheme"></activity>
+            android:theme="@style/AtlasTheme">
+        </activity>
+
+        <activity
+            android:name=".profile.NearbyItemsActivity">
+        </activity>
     </application>
 </manifest>
-
