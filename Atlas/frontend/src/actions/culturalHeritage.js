@@ -23,6 +23,18 @@ export const updateLocation =(loc) =>{
   }
 }
 
+export const mouseOverItem = (id) => {
+  return {
+    type: 'MOUSE_OVER_ITEM',
+    data: id
+  }
+}
+
+export const mouseOffItem = () => {
+  return {
+    type: 'MOUSE_OFF_ITEM'
+  }
+}
 export const finishFetchingCH = () => {
   return {
     type: 'FINISH_FETCHING_CULTURAL_HERITAGES'

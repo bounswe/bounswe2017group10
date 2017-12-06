@@ -11,7 +11,8 @@ const initState = {
   nearbyData: [],
   loadingMore: false,
   canLoadMore: true,
-  recommendations: []
+  recommendations: [],
+  mouseOverOn: -1
 };
 
 const reducer = (state = initState, action) => {
@@ -26,6 +27,16 @@ const reducer = (state = initState, action) => {
         ...state,
         fetchingNearbyItems: true
       }
+      case 'MOUSE_OVER_ITEM':
+      return {
+          ...state,
+          mouseOverOn: action.data
+      }
+      case 'MOUSE_OFF_ITEM':
+        return {
+            ...state,
+            mouseOverOn: -1
+        }
     case 'UPDATE_USER_LOCATION':
       return{
           ...state,

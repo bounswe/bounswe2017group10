@@ -1,6 +1,7 @@
-import {Map, Marker, GoogleApiWrapper} from 'google-maps-react';
+import {Map, GoogleApiWrapper} from 'google-maps-react';
 import React from 'react';
 import CulturalHeritage from '../CulturalHeritage/CulturalHeritage';
+import Marker from './AtlasMarker'
 
 export class AtlasMap extends React.Component {
 
@@ -14,6 +15,8 @@ export class AtlasMap extends React.Component {
         }
     }
 
+
+
     render() {
         return (
             <Map onClick={this.props.mapClick} center={{
@@ -24,7 +27,8 @@ export class AtlasMap extends React.Component {
 
                 {this.props.items && this.props.items
                     .map(c => (
-                        <Marker title = { c.title } name={this.props.locationName} position={{"lat": c.latitude, "lng": c.longitude}} />
+                        <Marker id= { c.id } item = { c } onMouseover="handle()" mouseOnMarker={ this.props.mouseOnMarker } mouseOffMarker = { this.props.mouseOffMarker }
+                                onMouseout="handle()" activeMarker= { this.props.activeMarker } isMouseOver={ false } title = { c.title } name={ this.props.locationName } position={{"lat": c.latitude, "lng": c.longitude}} />
                     )
                     )}
 
