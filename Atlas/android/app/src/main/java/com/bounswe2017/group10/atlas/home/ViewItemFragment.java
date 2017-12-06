@@ -325,7 +325,8 @@ public class ViewItemFragment extends Fragment {
         twDescription.setText(item.getDescription());
         twLocation.setText(item.getPlaceName());
         if(item.getStartYear() != null && item.getEndYear() != null)
-            twDate.setText(getActivity().getString(R.string.year_string, item.getStartYear(), item.getEndYear()));
+            twDate.setText(getActivity().getString(R.string.year_string, Integer.toString(item.getStartYear()),
+                    Integer.toString(item.getEndYear())));
         else if (item.getStartYear() != null)
             twDate.setText(item.getStartYear());
         twOwner.setText(item.getUserInfo().getUsername());
