@@ -96,6 +96,7 @@ public interface API {
     Call<GetItemsResponse> getRecommendedItems(@Header("Authorization") String authStr,
                                                @Query("item_id") long id,
                                                @Query("limit") long limit);
+    
 
     @GET("/user/cultural_heritage_item/favorite/")
     Call<GetItemsResponse> getMyFavItems(@Header("Authorization") String authStr,
