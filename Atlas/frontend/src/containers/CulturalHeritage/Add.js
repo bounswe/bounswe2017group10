@@ -83,7 +83,7 @@ const mapDispatchToProps = dispatch => {
                     title: addCHInputs.title,
                     description: addCHInputs.description,
                     tags: addCHInputs.tags.map(t => ( {name: t.text} )),
-                    langitude: addCHInputs.lng,
+                    longitude: addCHInputs.lng,
                     latitude: addCHInputs.lat,
                     place_name: addCHInputs.locationName
                 }
