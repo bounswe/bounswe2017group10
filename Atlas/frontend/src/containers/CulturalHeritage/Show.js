@@ -6,6 +6,7 @@ import { authGet, authPost, authDelete } from '../../utils';
 import { API_URL } from '../../constants';
 import { updateCommentInput, updateCulturalHeritage, updateRecommendations, deleteCulturalHeritage, loadSingleItem } from '../../actions/culturalHeritage';
 import { favItem, getRecommendedItems } from './Common';
+import NotFoundPage from '../../components/NotFound/NotFound';
 
 const mapStateToProps = (state, props) => {
   const culturalHeritage = state.culturalHeritage.data.find(c => c.id === parseInt(props.match.params.id, 10));
@@ -29,7 +30,6 @@ const mapDispatchToProps = dispatch => ({
       cb(resp.data);
     }).catch(err => {
       console.log("Error when fetching cultural heritage item");
-      console.log(err);
     });
   },
   updateRecommendations: (token, culturalHeritage) => {
@@ -93,7 +93,11 @@ class App extends React.Component {
   }
 
   render() {
-    return <ShowPage culturalHeritage={ this.props.culturalHeritage } { ...this.props }  />
+    if(this.props.culturalHeritage !== undefined) {
+        return <ShowPage culturalHeritage={this.props.culturalHeritage} {...this.props}  />
+    }else {
+        return <NotFoundPage/>
+    }
   }
 }
 
