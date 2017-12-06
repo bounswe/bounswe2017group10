@@ -114,4 +114,9 @@ public class APIDelegate implements API {
     public Call<GetItemsResponse> search(String authStr, String query) {
         return api.search(authStr, query);
     }
+
+    @Override
+    public Call<GetItemsResponse> getRecommendedItems(String authStr, long id) {
+        return api.getRecommendedItems(authStr, id);
+    }
 }

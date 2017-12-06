@@ -20,6 +20,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Gallery;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.adapter.CommentAdapter;
@@ -129,6 +131,10 @@ public class ViewItemFragment extends Fragment {
 
         // Recommendations
 
+        LinearLayout mRecommendationPBarLayout = view.findViewById(R.id.recommendations_pbar_layout);
+
+        //ProgressBar mRecommendationPBar = view.findViewById(R.id.recommendations_pbar);
+
         mGetItemCallback = new OnGetItemsResponse.GetItemCallback() {
             @Override
             public void onGetItems(List<CultureItem> itemList) {
@@ -137,6 +143,7 @@ public class ViewItemFragment extends Fragment {
                     mRecommendedRowList.add(item.toFeedRow());
                 }
                 mRecommendAdapter.notifyDataSetChanged();
+                mRecommendationPBarLayout.setVisibility(View.GONE);
             }
         };
 
