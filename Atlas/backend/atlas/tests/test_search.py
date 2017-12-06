@@ -415,3 +415,25 @@ class cultural_heritage_item(TestCase):
         response_content = json.loads(smart_text(response.content))
         self.assertEqual(len(response_content['results']), 4);
         self.assertEqual(response_content['results'][0]['title'], 'Draven support')
+
+    def test_cultural_heritage_search_with_multiple_words(self):
+
+        item_data = {
+            "title": "gas works",
+            'tags': [
+                {'name': 'adc'},
+                {'name': 'support'}
+            ]
+        }
+        response = self.client.post(
+            self.cultural_heritage_item_url,
+            item_data,
+            format='json',
+
+        )
+        self.assertEqual(response.status_code, 201)
+        response = self.client.get(
+            self.cultural_heritage_item_url + 'search/' + 'gas works'
+        )
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(len(response_content['results']), 1);

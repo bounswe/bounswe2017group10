@@ -11,7 +11,7 @@ from .models import Cultural_Heritage, comment, tag, favorite_items, image_media
     hidden_tag
 from .popularity import *
 from .serializers import cultural_heritage_serializer, image_media_item_serializer, tag_serializer, comment_serializer, \
-    favorite_item_serializer, item_visit_serializer,favorite_item_list_serializer
+    favorite_item_serializer, item_visit_serializer
 from .util import hidden_tag_extractor
 
 
@@ -117,7 +117,6 @@ class get_user_favorite_items(HeritageIdInterceptorMixin, generics.ListAPIView):
     def get_queryset(self):
         items = favorite_items.objects.filter(user=self.request.user.pk)
         return [Cultural_Heritage.objects.get(pk=cur.item.pk) for cur in items]
-
 
 
 class image_media_item(HeritageIdInterceptorMixin, generics.CreateAPIView):
@@ -339,10 +338,10 @@ class recommendation(generics.ListAPIView):
             right_boundary_of_union = max(self.base_item.end_year, item.end_year)
             time_overlap_perc = 1 * (right_boundary_of_overlapped - left_boundary_of_overlapped) / (
                 right_boundary_of_union - left_boundary_of_union) if right_boundary_of_union != left_boundary_of_union else 1
-        recommendation_score= COEFF_COMMON_TAG_AMOUNT * common_tag_amount + COEFF_COMMON_HIDDEN_TAG_AMOUNT * common_hidden_tag_amount + \
-               COEFF_COMMON_WORDS_IN_TITLE_AMOUNT * common_words_in_title_amount + \
-               COEFF_LOCATION_SCORE * location_score + COEFF_TIME_SCORE * time_score + COEFF_TIME_OVERLAPPED * time_overlap_perc
+        recommendation_score = COEFF_COMMON_TAG_AMOUNT * common_tag_amount + COEFF_COMMON_HIDDEN_TAG_AMOUNT * common_hidden_tag_amount + \
+                               COEFF_COMMON_WORDS_IN_TITLE_AMOUNT * common_words_in_title_amount + \
+                               COEFF_LOCATION_SCORE * location_score + COEFF_TIME_SCORE * time_score + COEFF_TIME_OVERLAPPED * time_overlap_perc
         if recommendation_score >= RECOMMENDATION_THRESHOLD:
-            recommendation_score +=COEFF_ADMIRATION_SCORE_FOR_RECOMMENDATION * admiration_score(item) + \
-               COEFF_COMPLETENESS_SCORE_FOR_RECOMMENDATION * completeness_score(item)
+            recommendation_score += COEFF_ADMIRATION_SCORE_FOR_RECOMMENDATION * admiration_score(item) + \
+                                    COEFF_COMPLETENESS_SCORE_FOR_RECOMMENDATION * completeness_score(item)
         return recommendation_score
