@@ -28,7 +28,7 @@ import android.widget.TextView;
 
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.adapter.ImageListAdapter;
-import com.bounswe2017.group10.atlas.profile.GetLocation;
+import com.bounswe2017.group10.atlas.profile.NearbyItemsActivity;
 import com.bounswe2017.group10.atlas.profile.ProfileActivity;
 import com.bounswe2017.group10.atlas.response.OnGetItemsResponse;
 import com.bounswe2017.group10.atlas.util.Constants;
@@ -239,7 +239,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
         else if(id==R.id.nearbyitems)
         {
-            Intent intent = new Intent(this, GetLocation.class);
+            Intent intent = new Intent(this, NearbyItemsActivity.class);
             this.startActivity(intent);
         }
 

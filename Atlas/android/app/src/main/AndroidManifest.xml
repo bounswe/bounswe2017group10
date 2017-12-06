@@ -87,7 +87,7 @@
         </activity>
 
         <activity
-            android:name=".profile.GetLocation">
+            android:name=".profile.NearbyItemsActivity">
         </activity>
     </application>
 </manifest>

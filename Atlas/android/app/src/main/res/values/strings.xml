@@ -104,5 +104,7 @@
     <string name="permission_denied_explanation">Permission was denied, but is needed for core functionality.</string>
     <string name="settings">Settings</string>
     <string name="title_nearby_heritages">Nearby Heritages</string>
+    <string name="title_my_heritages">My Heritages</string>
+    <string name="title_myfav_heritages">My Favourite Heritages</string>
     <string name="open_gps_settings">Do you want open GPS setting?</string>
 </resources>

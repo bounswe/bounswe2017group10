@@ -2,9 +2,7 @@ package com.bounswe2017.group10.atlas.profile;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,7 +14,6 @@ import android.support.annotation.NonNull;
 import android.support.design.BuildConfig;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -31,14 +28,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.bounswe2017.group10.atlas.R;
 
-/**
- * Location sample.
- * <p>
- * Demonstrates use of the Location API to retrieve the last known location for a device.
- */
-public class GetLocation extends AppCompatActivity {
+public class NearbyItemsActivity extends AppCompatActivity {
 
-    private static final String TAG = GetLocation.class.getSimpleName();
+    private static final String TAG = NearbyItemsActivity.class.getSimpleName();
 
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
 
@@ -58,7 +50,7 @@ public class GetLocation extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_get_location);
+        setContentView(R.layout.activity_nearbyitems);
 
         Toolbar toolbar = findViewById(R.id.home_toolbar);
         setSupportActionBar(toolbar);
@@ -109,8 +101,6 @@ public class GetLocation extends AppCompatActivity {
      * applications that do not require a fine-grained location and that do not need location
      * updates. Gets the best and most recent location currently available, which may be null
      * in rare cases when a location is not available.
-     * <p>
-     * Note: this method should be called after location permission has been granted.
      */
     @SuppressWarnings("MissingPermission")
     private void getLastLocation() {
@@ -174,14 +164,14 @@ public class GetLocation extends AppCompatActivity {
     }
 
     private void startLocationPermissionRequest() {
-        ActivityCompat.requestPermissions(GetLocation.this,
+        ActivityCompat.requestPermissions(NearbyItemsActivity.this,
                 new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                 REQUEST_PERMISSIONS_REQUEST_CODE);
     }
 
     public void displayPromptForEnablingGPS()
     {
-        final AlertDialog.Builder builder =  new AlertDialog.Builder(GetLocation.this);
+        final AlertDialog.Builder builder =  new AlertDialog.Builder(NearbyItemsActivity.this);
         final String action = Settings.ACTION_LOCATION_SOURCE_SETTINGS;
 
         builder.setMessage(R.string.open_gps_settings)

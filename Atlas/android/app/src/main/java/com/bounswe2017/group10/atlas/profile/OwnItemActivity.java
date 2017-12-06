@@ -16,8 +16,7 @@ import com.bounswe2017.group10.atlas.home.ListItemsFragment;
 
 public class OwnItemActivity extends AppCompatActivity{
 
-    private ListItemsFragment mOwnItemFragment;
-    private ListItemsFragment mMyFavFragment;
+    private ListItemsFragment mOwnAndFavItemsFragment;
     private ListItemsFragment mSearchItemsFragment;
     private ActionBar mActionBar;
     private SearchView mSearchView;
@@ -37,16 +36,18 @@ public class OwnItemActivity extends AppCompatActivity{
         if(b != null)
             value = b.getInt("type");
 
+        mOwnAndFavItemsFragment = new ListItemsFragment();
+
+
+        //own item or fav item request
         if(value==1)
         {
-            setTitle("My Heritages");
-            mOwnItemFragment = new ListItemsFragment();
+            setTitle(R.string.title_my_heritages);
             setUpFeedFragment();
         }
         else if(value==2)
         {
-            setTitle("My Favourite Heritages");
-            mMyFavFragment = new ListItemsFragment();
+            setTitle(R.string.title_myfav_heritages);
             setUpMyFavFragment();
         }
 
@@ -73,10 +74,10 @@ public class OwnItemActivity extends AppCompatActivity{
      * Set up the functionality of mMyFavFragment.
      */
     private void setUpMyFavFragment() {
-        mMyFavFragment.setRequestStrategy(new ListItemsFragment.FavItemsStrategy());
+        mOwnAndFavItemsFragment.setRequestStrategy(new ListItemsFragment.FavItemsStrategy());
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.home_container, mMyFavFragment)
+                .replace(R.id.home_container, mOwnAndFavItemsFragment)
                 .commit();
     }
 
@@ -84,10 +85,10 @@ public class OwnItemActivity extends AppCompatActivity{
      * Set up the functionality of mOwnItemFragment.
      */
     private void setUpFeedFragment() {
-        mOwnItemFragment.setRequestStrategy(new ListItemsFragment.OwnItemsStrategy());
+        mOwnAndFavItemsFragment.setRequestStrategy(new ListItemsFragment.OwnItemsStrategy());
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.home_container, mOwnItemFragment)
+                .replace(R.id.home_container, mOwnAndFavItemsFragment)
                 .commit();
     }
 
