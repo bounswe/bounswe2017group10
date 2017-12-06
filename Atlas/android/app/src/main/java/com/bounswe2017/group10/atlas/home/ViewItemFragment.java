@@ -1,22 +1,29 @@
 package com.bounswe2017.group10.atlas.home;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Gallery;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.adapter.CommentAdapter;
@@ -71,7 +78,7 @@ public class ViewItemFragment extends Fragment {
         TextView ewDescription = view.findViewById(R.id.itemDesc);
         setText(ewTitle, ewDescription, mItem);
 
-        Gallery gallery = view.findViewById(R.id.image_gallery);
+        RecyclerView gallery = view.findViewById(R.id.image_gallery);
         setImages(gallery, mItem);
 
         NoScrollListView listView = view.findViewById(R.id.comment_listview);
@@ -267,17 +274,22 @@ public class ViewItemFragment extends Fragment {
      * @param gallery Gallery object responsible for showing all the media items of a given CultureItem.
      * @param item CultureItem object.
      */
-    private void setImages(Gallery gallery, CultureItem item) {
+    private void setImages(RecyclerView gallery, CultureItem item) {
         ArrayList<ImageRow> imageRowList = new ArrayList<>();
         for (Image img : item.getImageList()) {
             ImageRow row = new ImageRow();
             row.setUri(Uri.parse(img.getUrl()));
             imageRowList.add(row);
         }
-        gallery.setAdapter(new ImageListAdapter(mActivity, imageRowList));
-        gallery.setOnItemClickListener((AdapterView<?> parent, View imgView, int position, long id) -> {
-            // TODO: show image fullscreen
+        ImageListAdapter adapter = new ImageListAdapter(mActivity, imageRowList, new ImageListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(List<ImageRow> rowList, int position) {
+                //TODO: show image fullscreen
+            }
         });
+        SnapHelper helper = new LinearSnapHelper();
+        helper.attachToRecyclerView(gallery);
+        gallery.setAdapter(adapter);
     }
 
 }

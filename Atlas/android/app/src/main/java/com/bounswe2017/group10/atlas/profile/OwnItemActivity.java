@@ -26,7 +26,7 @@ public class OwnItemActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ownitem);
-        Toolbar toolbar = findViewById(R.id.home_toolbar);
+        Toolbar toolbar = findViewById(R.id.profile_toolbar);
         setSupportActionBar(toolbar);
         this.mActionBar = getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
