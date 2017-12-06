@@ -14,21 +14,17 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 
-import com.bounswe2017.group10.atlas.home.ListItemsFragment;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.bounswe2017.group10.atlas.R;
-
-import java.util.Locale;
 
 /**
  * Location sample.
@@ -52,11 +48,7 @@ public class GetLocation extends AppCompatActivity {
     protected Location mLastLocation;
 
     private NearbyItemsFragment mNearbyItemsFragment;
-    private ListItemsFragment mSearchItemsFragment;
     private ActionBar mActionBar;
-    private SearchView mSearchView;
-    private double latitute;
-    private double longitute;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,23 +68,12 @@ public class GetLocation extends AppCompatActivity {
         // Inflate the menu; this adds items to the action_home bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.action_home, menu);
-
-        // Searchable configuration
-        //SearchManager searchManager = (SearchManager)getSystemService(Context.SEARCH_SERVICE);
-        //mSearchView = (SearchView)menu.findItem(R.id.search).getActionView();
-        //mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        //setupSearchView();
-
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     @SuppressLint("RestrictedApi")
     public void onBackPressed() {
-        /*if (!mSearchView.isIconified()) {
-            mSearchView.setQuery("", false);
-            mSearchView.setIconified(true);
-        }*/
         super.onBackPressed();
     }
 
@@ -265,57 +246,5 @@ public class GetLocation extends AppCompatActivity {
             }
         }
     }
-
-    //private void requestSearchResults(String query, OnGetItemsResponse.GetItemCallback getItemCallback) {}
-
-    /**
-     * Set up the functionality of mSearchView.
-     */
-    /*private void setupSearchView() {
-        // when search icon is pressed, show mSearchItemsFragment.
-        mSearchView.setOnSearchClickListener((View v) -> {
-            Fragment currFragment = getSupportFragmentManager().findFragmentById(R.id.home_container);
-            if (!currFragment.equals(mSearchItemsFragment)) {
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.home_container, mSearchItemsFragment)
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
-        // when a query is submitted, clear and load items from mSearchItemsFragment.
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                mSearchItemsFragment.clearItems();
-                mSearchItemsFragment.loadMoreItems();
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                // TODO: implement autocompletion
-                return true;
-            }
-        });
-    }*/
-
-    /**
-     * Set up the functionality of mSearchItemsFragment. This method sets how mSearchItemsFragment
-     * requests its items from the server.
-     */
-    /*private void setUpSearchFragment() {
-        mSearchItemsFragment.setRequestStrategy(new ListItemsFragment.RequestStrategy() {
-            @Override
-            public void requestItems(Context context, int offset, OnGetItemsResponse.GetItemCallback getItemCallback) {
-                // TODO: pagination for search results
-                String authStr = Utils.getSharedPref(getApplicationContext()).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
-                String query = mSearchView.getQuery().toString();
-                OnGetItemsResponse respHandler = new OnGetItemsResponse(context, getItemCallback);
-                APIUtils.serverAPI().search(authStr, query).enqueue(respHandler);
-            }
-        });
-        mSearchItemsFragment.setRequestImmediately(false);
-    }*/
 }
 
