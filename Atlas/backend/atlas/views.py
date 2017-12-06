@@ -186,7 +186,7 @@ class cultural_heritage_item_featured(generics.ListAPIView):
 
     def get_queryset(self):
         all_items = Cultural_Heritage.objects.all()
-        items_with_score = [(item, trending_score(item)) for item in all_items]
+        items_with_score = [(item, popularity_score(item)) for item in all_items]
         sorted_items_with_score = sorted(items_with_score, key=lambda x: x[1], reverse=True)
         return [pair[0] for pair in sorted_items_with_score]
 
