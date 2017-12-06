@@ -2,6 +2,10 @@ package com.bounswe2017.group10.atlas.profile;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -12,6 +16,7 @@ import android.support.annotation.NonNull;
 import android.support.design.BuildConfig;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -116,7 +121,7 @@ public class GetLocation extends AppCompatActivity {
                         if (task.isSuccessful() && task.getResult() != null) {
                             mLastLocation = task.getResult();
 
-                            setTitle("Nearby Heritages");
+                            setTitle(R.string.title_nearby_heritages);
                             mNearbyItemsFragment = new NearbyItemsFragment();
                             Bundle args = new Bundle();
                             args.putDouble("latitude",mLastLocation.getLatitude());
@@ -126,6 +131,7 @@ public class GetLocation extends AppCompatActivity {
                         } else {
                             Log.w(TAG, "getLastLocation:exception", task.getException());
                             showSnackbar(getString(R.string.no_location_detected));
+                            displayPromptForEnablingGPS();
                         }
                     }
                 });
@@ -171,6 +177,28 @@ public class GetLocation extends AppCompatActivity {
         ActivityCompat.requestPermissions(GetLocation.this,
                 new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                 REQUEST_PERMISSIONS_REQUEST_CODE);
+    }
+
+    public void displayPromptForEnablingGPS()
+    {
+        final AlertDialog.Builder builder =  new AlertDialog.Builder(GetLocation.this);
+        final String action = Settings.ACTION_LOCATION_SOURCE_SETTINGS;
+
+        builder.setMessage(R.string.open_gps_settings)
+                .setPositiveButton(R.string.ok,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface d, int id) {
+                                startActivity(new Intent(action));
+                                d.dismiss();
+                            }
+                        })
+                .setNegativeButton(R.string.cancel,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface d, int id) {
+                                d.cancel();
+                            }
+                        });
+        builder.create().show();
     }
 
     private void requestPermissions() {
