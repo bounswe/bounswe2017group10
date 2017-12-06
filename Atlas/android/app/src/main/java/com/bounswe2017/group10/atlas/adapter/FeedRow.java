@@ -47,6 +47,7 @@ public class FeedRow {
     private String year;
     private List<String> tagList;
     private String favoriteCount;
+    private boolean isFavorite;
     private String creatorUsername;
 
     public FeedRow() {
@@ -60,6 +61,7 @@ public class FeedRow {
                    String year,
                    List<String> tagList,
                    String favoriteCount,
+                   boolean isFavorite,
                    String creatorUsername) {
         this.imageUrl = imageUrl;
         this.title = title;
@@ -73,6 +75,7 @@ public class FeedRow {
             }
         }
         this.favoriteCount = favoriteCount;
+        this.isFavorite = isFavorite;
         this.creatorUsername = creatorUsername;
     }
 
@@ -138,5 +141,13 @@ public class FeedRow {
 
     public void setCreatorUsername(String creatorUsername) {
         this.creatorUsername = creatorUsername;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 }
