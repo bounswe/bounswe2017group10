@@ -1,3 +1,5 @@
+@import '../../style/colors.scss';
+
 .login-column{
     border: 2px solid;
 }
@@ -13,6 +15,9 @@
 .signup-column, .login-column {
     border: 2px solid;
     border-radius: 2px;
+    background-color: rgba(18 ,42 ,76 ,0.3 );
+
+  box-shadow: 10px 10px 5px rgba(18,42,76,0.8);
 }
 
 .square-box {
@@ -28,6 +33,7 @@
 
 .login-buttons {
   margin-top: 10px;
+  color: rgb(255, 255, 255);
 }
 
 .background-image {
@@ -37,4 +43,23 @@
 
 .errors {
   margin-top: 10px;
+}
+
+.form-header {
+  color: rgb(255, 255, 255);
+  font-size: 32;
+  font-style:italic;
+  font-weight: bold;
+  text-shadow: -2px 2px black;
+}
+
+label {
+  color: white;
+  font-weight: bold;
+  font-style:italic;
+}
+.small-text {
+  color: white;
+  font-weight: bold;
+  text-decoration: underline;
 }
