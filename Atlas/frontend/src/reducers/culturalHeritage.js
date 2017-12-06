@@ -12,7 +12,8 @@ const initState = {
   loadingMore: false,
   canLoadMore: true,
   recommendations: [],
-  mouseOverOn: -1
+  mouseOverOn: -1,
+  mapLocation: null
 };
 
 const reducer = (state = initState, action) => {
@@ -22,6 +23,11 @@ const reducer = (state = initState, action) => {
         ...state,
         fetching: true
       }
+      case 'MAP_DRAGGED':
+        return {
+            ...state,
+            mapLocation: action.data
+        }
     case 'FETCH_NEARBY_CHS':
       return{
         ...state,

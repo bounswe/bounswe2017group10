@@ -23,6 +23,13 @@ export const updateLocation =(loc) =>{
   }
 }
 
+export const dragMap = (loc) => {
+  return{
+    type: 'MAP_DRAGGED',
+    data:loc
+  }
+}
+
 export const mouseOverItem = (id) => {
   return {
     type: 'MOUSE_OVER_ITEM',

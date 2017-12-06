@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import Near from '../../components/CulturalHeritage/NearbyItems';
-import { fetchNearbyCH, finishFetchingNearbyCH, updatingNearbyCH, mouseOverItem, mouseOffItem, closeHelp, updateCHPaginationNext, loadMoreCH, startLoadMore, finishLoadMore, disableLoadMore, enableLoadMore } from '../../actions/culturalHeritage';
+import { fetchNearbyCH, dragMap, finishFetchingNearbyCH, updatingNearbyCH, mouseOverItem, mouseOffItem, closeHelp, updateCHPaginationNext, loadMoreCH, startLoadMore, finishLoadMore, disableLoadMore, enableLoadMore } from '../../actions/culturalHeritage';
 import { updateUserLocation } from "../../actions/auth";
 import { API_URL, CULTURAL_HERITAGE_PAGINATION_LIMIT } from '../../constants';
 import { favItem } from './Common';
@@ -16,7 +16,8 @@ const mapStateToProps = state => {
         paginationNextUrl: state.culturalHeritage.paginationNextUrl,
         loadingMore: state.culturalHeritage.loadingMore,
         canLoadMore: state.culturalHeritage.canLoadMore,
-        mouseOn: state.culturalHeritage.mouseOverOn
+        mouseOn: state.culturalHeritage.mouseOverOn,
+        mapCenter: state.culturalHeritage.mapLocation,
     };
 }
 
@@ -48,6 +49,9 @@ const mapDispatchToProps = dispatch => {
                 console.log(err);
                 dispatch(finishFetchingNearbyCH());
             });
+        },
+        dragMap: (loc) => {
+            dispatch(dragMap(loc));
         },
         mouseOnMarker: (id) => {
             dispatch(mouseOverItem(id));

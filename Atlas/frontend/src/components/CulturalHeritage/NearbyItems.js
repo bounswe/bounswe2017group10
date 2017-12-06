@@ -7,7 +7,7 @@ import AtlasHeader from '../utils/AtlasHeader';
 import AtlasMap from '../Maps/NearbyMap';
 import LeftIcon from 'react-icons/lib/fa/angle-left';
 
-const Page = ({ user, token, location, mouseOn, loadUserLocation, mouseOnMarker, mouseOffMarker, nearbyItems, loadNearbyCulturalHeritages, closeHelp, loadMore, enableLoadMore, favoriteItem }) => (
+const Page = ({ user, token, mapCenter, dragMap, location, mouseOn, loadUserLocation, mouseOnMarker, mouseOffMarker, nearbyItems, loadNearbyCulturalHeritages, closeHelp, loadMore, enableLoadMore, favoriteItem }) => (
     <Container>
 
         <Row className="atlas-map">
@@ -18,7 +18,7 @@ const Page = ({ user, token, location, mouseOn, loadUserLocation, mouseOnMarker,
                     <LeftIcon />
                     Back
                 </NavLink>
-                <AtlasMap token={ token } activeMarker= { mouseOn } mouseOnMarker={ mouseOnMarker } mouseOffMarker = { mouseOffMarker } items= { nearbyItems } getUserLoc = {loadUserLocation} loadHeritages={ loadNearbyCulturalHeritages }center={ user.location }></AtlasMap>
+                <AtlasMap token={ token } mapCenter={ mapCenter } dragMap={ dragMap } activeMarker= { mouseOn } mouseOnMarker={ mouseOnMarker } mouseOffMarker = { mouseOffMarker } items= { nearbyItems } getUserLoc = {loadUserLocation} loadHeritages={ loadNearbyCulturalHeritages }center={ user.location }></AtlasMap>
             </Col>
 
         </Row>

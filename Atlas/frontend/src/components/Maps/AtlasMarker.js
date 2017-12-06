@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CulturalHeritage from '../CulturalHeritage/CulturalHeritage';
+import { Row } from 'reactstrap';
+import './style.css';
 
 const camelize = function(str) {
     return str.split(' ').map(function(word) {
@@ -94,7 +96,9 @@ export class Marker extends React.Component {
         return (e) => {
             const evtName = `on${camelize(evt)}`
             if (this.props[evtName]) {
-                if(evtName=='onMouseover'){
+                if(evtName=='onClick'){
+                    console.log("naber");
+                }else if(evtName=='onMouseover'){
                     this.props.mouseOnMarker(this.props.item.id);
                     console.log(this.props.item.id);
                 }else if(evtName=='onMouseout'){
@@ -107,9 +111,9 @@ export class Marker extends React.Component {
 
     render() {
        if(this.props.activeMarker == this.props.item.id){ return(
-
-        <CulturalHeritage returnTo="/cultural-heritages" culturalHeritage={ this.props.item } showCommentSummary={ true } shouldTruncate ={ true }  />
-
+        <Row className="MapTooltip">
+        <CulturalHeritage returnTo="/cultural-heritages" className="hovering-item" culturalHeritage={ this.props.item } showCommentSummary={ true } shouldTruncate ={ true }  />
+        </Row>
         );}else{
            return null;
        }
