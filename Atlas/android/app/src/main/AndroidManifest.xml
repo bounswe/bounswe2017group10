@@ -25,7 +25,6 @@
         android:theme="@style/AtlasTheme"
         tools:replace="android:fullBackupContent">
 
-        <!-- - AuthActivity -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -48,6 +47,12 @@
             android:parentActivityName=".auth.AuthActivity">
         </activity>
 
+        <!-- FullScreenActivity -->
+        <activity
+            android:name=".home.FullScreenImageActivity"
+            android:parentActivityName=".home.HomeActivity">
+        </activity>
+
         <!-- CreateItemActivity -->
         <activity
             android:name=".home.CreateItemActivity"
@@ -60,7 +65,6 @@
         </activity>
 
         <!-- - FileProvider -->
-
 
         <!-- GoogleMapsActivity -->
         <activity

@@ -16,12 +16,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Gallery;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.adapter.CommentAdapter;
@@ -88,7 +85,7 @@ public class ViewItemFragment extends Fragment {
         TextView ewDescription = view.findViewById(R.id.itemDesc);
         setText(ewTitle, ewDescription, mItem);
 
-        Gallery gallery = view.findViewById(R.id.image_gallery);
+        RecyclerView gallery = view.findViewById(R.id.image_gallery);
         setImages(gallery, mItem);
 
         NoScrollListView listView = view.findViewById(R.id.comment_listview);
@@ -182,8 +179,8 @@ public class ViewItemFragment extends Fragment {
 
         long currentUserId = Utils.getSharedPref(mActivity).getLong(Constants.USER_ID, -1);
         if (currentUserId != mItem.getUser()) {
-            menu.findItem(R.id.action_edit).setVisible(false);
-            menu.findItem(R.id.action_delete).setVisible(false);
+            //menu.findItem(R.id.action_edit).setVisible(false);
+            //menu.findItem(R.id.action_delete).setVisible(false);
         }
 
         if (mItem.isFavorite()) {
@@ -328,17 +325,24 @@ public class ViewItemFragment extends Fragment {
      * @param gallery Gallery object responsible for showing all the media items of a given CultureItem.
      * @param item CultureItem object.
      */
-    private void setImages(Gallery gallery, CultureItem item) {
+    private void setImages(RecyclerView gallery, CultureItem item) {
         ArrayList<ImageRow> imageRowList = new ArrayList<>();
         for (Image img : item.getImageList()) {
             ImageRow row = new ImageRow();
             row.setUri(Uri.parse(img.getUrl()));
             imageRowList.add(row);
         }
-        gallery.setAdapter(new ImageListAdapter(mActivity, imageRowList));
-        gallery.setOnItemClickListener((AdapterView<?> parent, View imgView, int position, long id) -> {
-            // TODO: show image fullscreen
+        ImageListAdapter adapter = new ImageListAdapter(mActivity, imageRowList, new ImageListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(List<ImageRow> rowList, int position) {
+                Intent intent = new Intent(getActivity(), FullScreenImageActivity.class);
+                intent.putExtra(Constants.IMAGE_LIST, mItem.getImageList());
+                startActivity(intent);
+            }
         });
+        SnapHelper helper = new LinearSnapHelper();
+        helper.attachToRecyclerView(gallery);
+        gallery.setAdapter(adapter);
     }
 
     public void requestRecommendedItems(Context context, OnGetItemsResponse.GetItemCallback getItemCallback) {

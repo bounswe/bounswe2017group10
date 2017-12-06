@@ -99,7 +99,13 @@ public class CreateItemFragment extends Fragment {
      */
     private void initAdapters() {
         // adapters
-        mImageAdapter = new ImageListAdapter(getActivity(), mImageRowList);
+        mImageAdapter = new ImageListAdapter(getActivity(), mImageRowList, new ImageListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(List<ImageRow> rowList, int position) {
+                rowList.remove(position);
+                mImageAdapter.notifyDataSetChanged();
+            }
+        });
         mAutoComplAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_item, allTagsList);
         mTagAdapter = new TagListAdapter(getActivity(), mTagList, (List<Tag> tagList, int position) -> {
             tagList.remove(position);
@@ -125,10 +131,10 @@ public class CreateItemFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_create_item, container, false);
 
         // set adapters
-        ListView imageListView = view.findViewById(R.id.image_listview);
+        RecyclerView imageRecyclerView = view.findViewById(R.id.image_recyclerview);
         RecyclerView tagRecyclerview = view.findViewById(R.id.tag_recyclerview);
         AutoCompleteTextView etTags = view.findViewById(R.id.tag_auto_comp_textview);
-        setAdapters(tagRecyclerview, imageListView, etTags);
+        setAdapters(tagRecyclerview, imageRecyclerView, etTags);
 
         // handle tags
         setTagChoosingListener(etTags);
@@ -282,14 +288,14 @@ public class CreateItemFragment extends Fragment {
      * Sets the adapters required by ListView or RecyclerView objects in this fragment.
      *
      * @param tagRecyclerView RecyclerView object responsible for viewing tags horizontally.
-     * @param imageListView ListView object responsible for viewing added images vertically.
+     * @param imageRecyclerView ListView object responsible for viewing added images vertically.
      */
-    private void setAdapters(RecyclerView tagRecyclerView, ListView imageListView, AutoCompleteTextView etTags) {
+    private void setAdapters(RecyclerView tagRecyclerView, RecyclerView imageRecyclerView, AutoCompleteTextView etTags) {
         // set TagListAdapter to tagRecyclerView
         tagRecyclerView.setAdapter(mTagAdapter);
 
         // set ImageListAdapter to imageListView
-        imageListView.setAdapter(mImageAdapter);
+        imageRecyclerView.setAdapter(mImageAdapter);
 
         // set AutoCompleteTextView String adapter
         etTags.setThreshold(2);

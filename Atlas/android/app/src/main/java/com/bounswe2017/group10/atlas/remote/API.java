@@ -55,7 +55,7 @@ public interface API {
                                    @Path("id") long id,
                                    @Body ImageUploadRequest imageList);
 
-    @GET("/cultural_heritage_item")
+    @GET("/cultural_heritage_item/featured")
     Call<GetItemsResponse> getItems(@Header("Authorization") String authStr,
                                     @Query("limit") long limit,
                                     @Query("offset") long offset);

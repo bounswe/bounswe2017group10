@@ -76,19 +76,11 @@ public class NearbyItemsActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    @SuppressLint("RestrictedApi")
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
-
     private void setupNearbyItemsFragment()
     {
         mNearItemsFragment.setRequestStrategy(new ListItemsFragment.RequestStrategy() {
             @Override
             public void requestItems(Context context, int offset, OnGetItemsResponse.GetItemCallback getItemCallback) {
-                // TODO: pagination for search results
                 String authStr = Utils.getSharedPref(getApplicationContext()).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
                 OnGetItemsResponse respHandler = new OnGetItemsResponse(context, getItemCallback);
                 APIUtils.serverAPI().getNearbyItems(authStr, Constants.PAGINATION_COUNT, offset,mLastLocation.getLatitude(),mLastLocation.getLongitude()).enqueue(respHandler);
@@ -99,7 +91,7 @@ public class NearbyItemsActivity extends AppCompatActivity {
     /**
      * Set up the functionality of mNearbyItemsFragment.
      */
-    private void change_fragment() {
+    private void changeFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.home_container, mNearItemsFragment)
@@ -133,7 +125,7 @@ public class NearbyItemsActivity extends AppCompatActivity {
                             mLastLocation = task.getResult();
                             setTitle(R.string.title_nearby_heritages);
                             setupNearbyItemsFragment();
-                            change_fragment();
+                            changeFragment();
                         } else {
                             Log.w(TAG, "getLastLocation:exception", task.getException());
                             showSnackbar(getString(R.string.no_location_detected));
