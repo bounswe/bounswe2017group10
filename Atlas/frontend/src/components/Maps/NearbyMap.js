@@ -17,8 +17,8 @@ export class AtlasMap extends React.Component {
     render() {
         return (
             <Map onClick={this.props.mapClick} center={{
-                lat: (typeof this.props.center.ltd != 'undefined') ? this.props.center.ltd:48,
-                lng: (typeof this.props.center.lng != 'undefined') ? this.props.center.lng:2
+                lat: (this.props.center != null) ? this.props.center.ltd:48,
+                lng: (this.props.center != null) ? this.props.center.lng:2
             }} google={this.props.google} zoom={8}
                  style={{height:'800px', width: '1110px'}}>
 

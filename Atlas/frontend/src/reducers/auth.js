@@ -7,7 +7,9 @@ const initState = {
   signupErrors: null,
   signupSuccess: false,
   signupInputs: {},
-  user: {}
+  user: {
+    location:null
+  }
 };
 const reducer = (state = initState, action) => {
   switch(action.type) {
