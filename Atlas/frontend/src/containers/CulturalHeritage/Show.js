@@ -4,7 +4,7 @@ import ShowPage from '../../components/CulturalHeritage/Show';
 import { withRouter } from 'react-router';
 import { authGet, authPost, authDelete } from '../../utils';
 import { API_URL } from '../../constants';
-import { updateCommentInput, updateCulturalHeritage, updateRecommendations, deleteCulturalHeritage } from '../../actions/culturalHeritage';
+import { updateCommentInput, updateCulturalHeritage, updateRecommendations, deleteCulturalHeritage, loadSingleItem } from '../../actions/culturalHeritage';
 import { favItem, getRecommendedItems } from './Common';
 
 const mapStateToProps = (state, props) => {
@@ -13,6 +13,7 @@ const mapStateToProps = (state, props) => {
     user: state.auth.user,
     token: state.auth.token,
     culturalHeritage,
+    currentItem: state.culturalHeritage.currentItem,
     commentInput: state.culturalHeritage.commentInput,
     recommendations: state.culturalHeritage.recommendations
   };
@@ -24,6 +25,7 @@ const mapDispatchToProps = dispatch => ({
       url: API_URL + '/cultural_heritage_item/' + id
     }).then(resp => {
       dispatch(updateCulturalHeritage(id, resp.data));
+      //dispatch(loadSingleItem(resp.data));
       cb(resp.data);
     }).catch(err => {
       console.log("Error when fetching cultural heritage item");
@@ -82,7 +84,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class App extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.loadCulturalHeritage(
       this.props.token,
       this.props.match.params.id,

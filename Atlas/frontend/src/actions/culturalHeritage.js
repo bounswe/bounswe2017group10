@@ -17,6 +17,12 @@ export const updateLocation =(loc) =>{
   }
 }
 
+export const loadSingleItem = () => {
+  return {
+    type: 'LOAD_CULTURAL_HERITAGE',
+  }
+}
+
 export const finishFetchingCH = () => {
   return {
     type: 'FINISH_FETCHING_CULTURAL_HERITAGES'

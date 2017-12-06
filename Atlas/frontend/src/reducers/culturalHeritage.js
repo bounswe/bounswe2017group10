@@ -9,7 +9,7 @@ const initState = {
   data: [],
   loadingMore: false,
   canLoadMore: true,
-  recommendations: []
+  recommendations: [],
 };
 
 const reducer = (state = initState, action) => {
@@ -28,6 +28,10 @@ const reducer = (state = initState, action) => {
               lat: action.data.ltd
           }
       }
+      case 'LOAD_CULTURAL_HERITAGE':
+        return{
+            ...state,
+        }
     case 'IMAGE_URL_UPLOADED':
       return {
           ...state,

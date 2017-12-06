@@ -8,9 +8,10 @@ import Comment from './Comment';
 import AtlasHeader from '../utils/AtlasHeader'
 import CHFav from './CHFav';
 import { NavLink } from 'react-router-dom';
+import { loadSingleItem } from '../../actions/culturalHeritage';
 
 const CulturalHeritage = ({ culturalHeritage }) => (
-  <NavLink className="recommended-item" to={ "/cultural-heritages/" + culturalHeritage.id }>
+  <NavLink className="recommended-item" to={ "/cultural-heritages/" + culturalHeritage.id } onClick ={ loadSingleItem() } >
     <Row>
       <Col xs="12">
         { culturalHeritage.images.length > 0 ? (
