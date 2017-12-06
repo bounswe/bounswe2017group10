@@ -9,7 +9,9 @@
 
 .signup-column, .login-column {
   border: 2px solid;
-  border-radius: 2px; }
+  border-radius: 2px;
+  background-color: rgba(18, 42, 76, 0.3);
+  box-shadow: 10px 10px 5px rgba(18, 42, 76, 0.8); }
 
 .square-box {
   padding: 20px; }
@@ -18,7 +20,8 @@
     font-size: 15px; }
 
 .login-buttons {
-  margin-top: 10px; }
+  margin-top: 10px;
+  color: white; }
 
 .background-image {
   opacity: 0.8;
@@ -26,3 +29,21 @@
 
 .errors {
   margin-top: 10px; }
+
+.form-header {
+  color: white;
+  font-size: 32;
+  font-style: italic;
+  font-weight: bold;
+  text-shadow: -2px 2px black; }
+
+label {
+  color: white;
+  font-weight: bold;
+  font-style: italic;
+  text-shadow: -1px 1px  1px black; }
+
+.small-text {
+  color: white;
+  font-weight: bold;
+  text-decoration: underline; }

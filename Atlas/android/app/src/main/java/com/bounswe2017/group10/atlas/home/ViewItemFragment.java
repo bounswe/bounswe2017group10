@@ -1,7 +1,7 @@
 package com.bounswe2017.group10.atlas.home;
 
 import android.app.Activity;
-import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
@@ -16,20 +16,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Gallery;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.bounswe2017.group10.atlas.R;
 import com.bounswe2017.group10.atlas.adapter.CommentAdapter;
 import com.bounswe2017.group10.atlas.adapter.CommentRow;
+import com.bounswe2017.group10.atlas.adapter.FeedRow;
 import com.bounswe2017.group10.atlas.adapter.ImageListAdapter;
 import com.bounswe2017.group10.atlas.adapter.ImageRow;
+import com.bounswe2017.group10.atlas.adapter.ListItemsAdapter;
 import com.bounswe2017.group10.atlas.adapter.NoScrollListView;
 import com.bounswe2017.group10.atlas.adapter.TagListAdapter;
 import com.bounswe2017.group10.atlas.httpbody.Comment;
@@ -38,6 +35,7 @@ import com.bounswe2017.group10.atlas.httpbody.Image;
 import com.bounswe2017.group10.atlas.httpbody.PostCommentRequest;
 import com.bounswe2017.group10.atlas.httpbody.Tag;
 import com.bounswe2017.group10.atlas.remote.APIUtils;
+import com.bounswe2017.group10.atlas.response.OnGetItemsResponse;
 import com.bounswe2017.group10.atlas.response.OnPostCommentResponse;
 import com.bounswe2017.group10.atlas.util.Constants;
 import com.bounswe2017.group10.atlas.util.Utils;
@@ -49,6 +47,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.bounswe2017.group10.atlas.util.Utils.getSharedPref;
+
 public class ViewItemFragment extends Fragment {
 
     private CultureItem mItem;
@@ -57,6 +57,13 @@ public class ViewItemFragment extends Fragment {
     private final ArrayList<Comment> mCommentList = new ArrayList<>();
     boolean isFirstTimeClickToEdit = true;
     private Activity mActivity;
+
+
+    private final ArrayList<CultureItem> mRecommendedItemList = new ArrayList<>();
+    private final ArrayList<FeedRow> mRecommendedRowList = new ArrayList<>();
+    private ListItemsAdapter mRecommendAdapter;
+    private OnGetItemsResponse.GetItemCallback mGetItemCallback;
+    private ArrayList<ListItemsFragment.AfterItemClickedListener> mListenerList = new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -111,6 +118,50 @@ public class ViewItemFragment extends Fragment {
             requestBody.setComment(pack);
             APIUtils.serverAPI().postComment(authStr,mItem.getId(), requestBody).enqueue(respHandler);
         });
+
+
+        // Recommendations
+
+        LinearLayout mRecommendationPBarLayout = view.findViewById(R.id.recommendations_pbar_layout);
+
+        mGetItemCallback = new OnGetItemsResponse.GetItemCallback() {
+            @Override
+            public void onGetItems(List<CultureItem> itemList) {
+                for (CultureItem item : itemList) {
+                    mRecommendedItemList.add(item);
+                    mRecommendedRowList.add(item.toFeedRow());
+                }
+                mRecommendAdapter.notifyDataSetChanged();
+                mRecommendationPBarLayout.setVisibility(View.GONE);
+            }
+        };
+
+        requestRecommendedItems(getActivity(),mGetItemCallback);
+
+
+        RecyclerView recyclerView = view.findViewById(R.id.recommendations_recyclerview);
+        SnapHelper helper = new LinearSnapHelper();
+        helper.attachToRecyclerView(recyclerView);
+
+        mRecommendAdapter = new ListItemsAdapter(getActivity(), mRecommendedRowList, (List<FeedRow> rowList, int position) -> {
+            // put item to bundle
+            Bundle itemBundle = new Bundle();
+            itemBundle.putParcelable(Constants.CULTURE_ITEM, mRecommendedItemList.get(position));
+            // put bundle to fragment
+            ViewItemFragment viewItemFragment = new ViewItemFragment();
+            viewItemFragment.setArguments(itemBundle);
+            // go to fragment
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.home_container, viewItemFragment)
+                    .addToBackStack(null)
+                    .commit();
+            for (ListItemsFragment.AfterItemClickedListener listener : mListenerList) {
+                listener.afterClicked();
+            }
+        });
+        recyclerView.setAdapter(mRecommendAdapter);
+
 
         return view;
     }
@@ -292,6 +343,12 @@ public class ViewItemFragment extends Fragment {
         SnapHelper helper = new LinearSnapHelper();
         helper.attachToRecyclerView(gallery);
         gallery.setAdapter(adapter);
+    }
+
+    public void requestRecommendedItems(Context context, OnGetItemsResponse.GetItemCallback getItemCallback) {
+        String authStr = getSharedPref(context).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
+        OnGetItemsResponse respHandler = new OnGetItemsResponse(context, getItemCallback);
+        APIUtils.serverAPI().getRecommendedItems(authStr, mItem.getId(),Constants.RECOMMENDATION_AMOUNT).enqueue(respHandler);
     }
 
 }

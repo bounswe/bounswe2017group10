@@ -49,8 +49,10 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -574,8 +576,10 @@ public class CreateItemFragment extends Fragment {
 
                 // set data to item
                 mItemToSend.setPlaceName(placeName);
-                mItemToSend.setLatitude(new DecimalFormat(Constants.DECIMAL_FORMAT_STRING).format(latLng.latitude));
-                mItemToSend.setLongitude(new DecimalFormat(Constants.DECIMAL_FORMAT_STRING).format(latLng.longitude));
+                DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
+                symbols.setDecimalSeparator('.');
+                mItemToSend.setLatitude(new DecimalFormat(Constants.DECIMAL_FORMAT_STRING, symbols).format(latLng.latitude));
+                mItemToSend.setLongitude(new DecimalFormat(Constants.DECIMAL_FORMAT_STRING, symbols).format(latLng.longitude));
 
                 // show data in button
                 mBtnLocation.setText(placeName);
