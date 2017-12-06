@@ -163,7 +163,7 @@ const mapDispatchToProps = dispatch => {
 
                 } else {
 
-                    console.log("wrong location"+addCHInputs.locationName);
+                    console.log("Could not find a location within map.");
                 }
 
 
