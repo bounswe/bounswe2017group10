@@ -44,6 +44,7 @@ public class CommentAdapter extends ArrayAdapter<CommentRow> {
         private ImageView avatarH;
     }
 
+    @NonNull
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View getView(int pos,View convertView, ViewGroup parent) {
