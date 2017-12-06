@@ -40,7 +40,8 @@
 label {
   color: white;
   font-weight: bold;
-  font-style: italic; }
+  font-style: italic;
+  text-shadow: -1px 1px  1px black; }
 
 .small-text {
   color: white;

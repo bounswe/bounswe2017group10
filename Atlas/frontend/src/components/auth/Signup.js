@@ -48,7 +48,7 @@ const Signup = ({ signupInputs, signupErrors, inputChanged, attemptSignup }) => 
           <Row>
               <Col xs="3">
                   <label>
-                      User name:
+                      Username:
                   </label>
               </Col>
               <Col xs="9">
@@ -72,7 +72,7 @@ const Signup = ({ signupInputs, signupErrors, inputChanged, attemptSignup }) => 
           <Row>
               <Col xs="3">
                   <label>
-                      Confirm password:
+                      Confirm Password:
                   </label>
               </Col>
               <Col xs="9">
