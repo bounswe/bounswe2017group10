@@ -19,6 +19,15 @@ const reducer = (state = initState, action) => {
         ...state,
         fetching: true
       }
+      case 'UPDATE_USER_LOCATION':
+      return{
+          ...state,
+          addCHInputs: {
+              ...(state.addCHInputs),
+              lng: action.data.lng,
+              lat: action.data.ltd
+          }
+      }
     case 'IMAGE_URL_UPLOADED':
       return {
           ...state,

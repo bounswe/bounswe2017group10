@@ -122,11 +122,11 @@ class cultural_heritage_serializer(serializers.ModelSerializer):
 
 
 class favorite_item_list_serializer(serializers.ModelSerializer):
-    item = cultural_heritage_serializer()
+    cultural_heritage_item = cultural_heritage_serializer(source='item')
 
     class Meta:
         model = favorite_items
-        fields = ['item', 'user', 'id']
+        fields = ['cultural_heritage_item', 'user', 'id']
 
 
 class favorite_item_serializer(serializers.ModelSerializer):
