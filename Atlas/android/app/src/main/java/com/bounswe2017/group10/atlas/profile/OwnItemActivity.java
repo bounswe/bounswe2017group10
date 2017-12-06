@@ -18,6 +18,7 @@ public class OwnItemActivity extends AppCompatActivity{
 
     private ListItemsFragment mOwnItemFragment;
     private ListItemsFragment mMyFavFragment;
+    private NearbyItemsFragment mNearbyItemsFragment;
     private ListItemsFragment mSearchItemsFragment;
     private ActionBar mActionBar;
     private SearchView mSearchView;
@@ -32,34 +33,39 @@ public class OwnItemActivity extends AppCompatActivity{
         mActionBar.setDisplayHomeAsUpEnabled(true);
 
         Bundle b = getIntent().getExtras();
-        int value = -1; // or other values
+        int value = -1;
+
         if(b != null)
             value = b.getInt("type");
 
         if(value==1)
         {
-            setTitle("My Items");
+            setTitle("My Heritages");
             mOwnItemFragment = new ListItemsFragment();
             setUpFeedFragment();
         }
         else if(value==2)
         {
-            setTitle("My Favourite Items");
+            setTitle("My Favourite Heritages");
             mMyFavFragment = new ListItemsFragment();
             setUpMyFavFragment();
         }
         else if(value==3)
         {
+            setTitle("Nearby Heritages");
+            mNearbyItemsFragment = new NearbyItemsFragment();
 
+            //TODO take geolocation
+            Bundle args = new Bundle();
+            args.putDouble("latitude",41.015137 );
+            args.putDouble("longitude",28.979530);
+            mNearbyItemsFragment.setArguments(args);
+            setUpNearbyItemsFragment();
         }
 
         //mSearchItemsFragment = new ListItemsFragment();
         //setUpSearchFragment();
-
-
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -74,6 +80,17 @@ public class OwnItemActivity extends AppCompatActivity{
         //setupSearchView();
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    /**
+     * Set up the functionality of mNearbyItemsFragment.
+     */
+    private void setUpNearbyItemsFragment() {
+        mNearbyItemsFragment.setRequestStrategy(new NearbyItemsFragment.FeedStrategy());
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.home_container, mNearbyItemsFragment)
+                .commit();
     }
 
     /**

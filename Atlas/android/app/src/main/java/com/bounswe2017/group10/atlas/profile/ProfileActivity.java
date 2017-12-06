@@ -66,5 +66,14 @@ public class ProfileActivity extends AppCompatActivity {
             intent.putExtras(b);
             startActivity(intent);
         } );
+
+        TextView nearbyItems = findViewById(R.id.pnearbyitems);
+        nearbyItems.setOnClickListener((View btnview)->{
+            Intent intent = new Intent(this, OwnItemActivity.class);
+            Bundle b = new Bundle();
+            b.putInt("type",3);
+            intent.putExtras(b);
+            startActivity(intent);
+        } );
     }
 }
