@@ -1,5 +1,6 @@
 package com.bounswe2017.group10.atlas.profile;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.bounswe2017.group10.atlas.R;
+import com.bounswe2017.group10.atlas.home.HomeActivity;
 import com.bounswe2017.group10.atlas.util.Constants;
 import com.bounswe2017.group10.atlas.util.Utils;
 import com.bumptech.glide.Glide;
@@ -69,10 +71,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         TextView nearbyItems = findViewById(R.id.pnearbyitems);
         nearbyItems.setOnClickListener((View btnview)->{
-            Intent intent = new Intent(this, OwnItemActivity.class);
-            Bundle b = new Bundle();
-            b.putInt("type",3);
-            intent.putExtras(b);
+            Intent intent = new Intent(this, GetLocation.class);
             startActivity(intent);
         } );
     }

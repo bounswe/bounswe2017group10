@@ -1,6 +1,8 @@
 package com.bounswe2017.group10.atlas.profile;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -22,6 +24,8 @@ public class OwnItemActivity extends AppCompatActivity{
     private ListItemsFragment mSearchItemsFragment;
     private ActionBar mActionBar;
     private SearchView mSearchView;
+    private double latitute;
+    private double longitute;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,19 +54,6 @@ public class OwnItemActivity extends AppCompatActivity{
             mMyFavFragment = new ListItemsFragment();
             setUpMyFavFragment();
         }
-        else if(value==3)
-        {
-            setTitle("Nearby Heritages");
-            mNearbyItemsFragment = new NearbyItemsFragment();
-
-            //TODO take geolocation
-            Bundle args = new Bundle();
-            args.putDouble("latitude",41.015137 );
-            args.putDouble("longitude",28.979530);
-            mNearbyItemsFragment.setArguments(args);
-            setUpNearbyItemsFragment();
-        }
-
         //mSearchItemsFragment = new ListItemsFragment();
         //setUpSearchFragment();
     }
