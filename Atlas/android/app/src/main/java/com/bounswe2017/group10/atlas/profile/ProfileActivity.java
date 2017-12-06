@@ -52,6 +52,18 @@ public class ProfileActivity extends AppCompatActivity {
         TextView myItem = findViewById(R.id.pmyitem);
         myItem.setOnClickListener((View btnview)->{
             Intent intent = new Intent(this, OwnItemActivity.class);
+            Bundle b = new Bundle();
+            b.putInt("type",1);
+            intent.putExtras(b);
+            startActivity(intent);
+        } );
+
+        TextView myFavItems = findViewById(R.id.pmyfavitems);
+        myFavItems.setOnClickListener((View btnview)->{
+            Intent intent = new Intent(this, OwnItemActivity.class);
+            Bundle b = new Bundle();
+            b.putInt("type",2);
+            intent.putExtras(b);
             startActivity(intent);
         } );
     }

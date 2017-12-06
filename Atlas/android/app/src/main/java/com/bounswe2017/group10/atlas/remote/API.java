@@ -91,4 +91,8 @@ public interface API {
                                     @Query("limit") long limit,
                                     @Query("offset") long offset);
 
+    @GET("/user/cultural_heritage_item/favorite/")
+    Call<GetItemsResponse> getMyFavItems(@Header("Authorization") String authStr,
+                                       @Query("limit") long limit,
+                                       @Query("offset") long offset);
 }
