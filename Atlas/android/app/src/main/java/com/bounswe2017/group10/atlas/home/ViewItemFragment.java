@@ -65,13 +65,7 @@ public class ViewItemFragment extends Fragment {
     private final ArrayList<CultureItem> mRecommendedItemList = new ArrayList<>();
     private final ArrayList<FeedRow> mRecommendedRowList = new ArrayList<>();
     private ListItemsAdapter mRecommendAdapter;
-    //private ListItemsFragment.RequestStrategy requestStrategy = new ListItemsFragment.FeedStrategy();
     private OnGetItemsResponse.GetItemCallback mGetItemCallback;
-    private boolean requestImmediately = true;
-    //private boolean isLoading = false;
-    //private boolean isLastPage = false;
-    //private int currentOffset = 0;
-    //private SwipeRefreshLayout mSwipeLayout;
     private ArrayList<ListItemsFragment.AfterItemClickedListener> mListenerList = new ArrayList<>();
 
     @Override
@@ -132,8 +126,6 @@ public class ViewItemFragment extends Fragment {
         // Recommendations
 
         LinearLayout mRecommendationPBarLayout = view.findViewById(R.id.recommendations_pbar_layout);
-
-        //ProgressBar mRecommendationPBar = view.findViewById(R.id.recommendations_pbar);
 
         mGetItemCallback = new OnGetItemsResponse.GetItemCallback() {
             @Override
@@ -352,7 +344,7 @@ public class ViewItemFragment extends Fragment {
     public void requestRecommendedItems(Context context, OnGetItemsResponse.GetItemCallback getItemCallback) {
         String authStr = getSharedPref(context).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
         OnGetItemsResponse respHandler = new OnGetItemsResponse(context, getItemCallback);
-        APIUtils.serverAPI().getRecommendedItems(authStr, mItem.getId()).enqueue(respHandler);
+        APIUtils.serverAPI().getRecommendedItems(authStr, mItem.getId(),Constants.RECOMMENDATION_AMOUNT).enqueue(respHandler);
     }
 
 }

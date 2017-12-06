@@ -116,7 +116,12 @@ public class APIDelegate implements API {
     }
 
     @Override
-    public Call<GetItemsResponse> getRecommendedItems(String authStr, long id) {
-        return api.getRecommendedItems(authStr, id);
+    public Call<GetItemsResponse> getRecommendedItems(String authStr, long id,long limit) {
+        return api.getRecommendedItems(authStr, id, limit);
+    }
+
+    @Override
+    public Call<GetItemsResponse> getMyFavItems(String authStr, long limit, long offset) {
+        return api.getMyFavItems(authStr, limit, offset);
     }
 }
