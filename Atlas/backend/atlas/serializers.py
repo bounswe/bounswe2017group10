@@ -2,10 +2,11 @@ from authentication.serializers import AccountSerializer
 
 from rest_framework import serializers
 from rest_framework.utils import model_meta
+from .constants import *
 from .models import Cultural_Heritage, comment as comment_model, image_media_item, item_visit, favorite_items, \
     tag as tag_model, hidden_tag
 from .util import hidden_tag_extractor
-from .constants import *
+
 
 class image_media_item_serializer(serializers.ModelSerializer):
     class Meta:
@@ -47,11 +48,13 @@ class cultural_heritage_serializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cultural_Heritage
-        fields = ['user','title','description','continent','country','city','public_accessibility','created_time',
-                  'updated_time','tags','favorited_amount','longitude','latitude','start_year','end_year','place_name',
-                  'is_favorite','images','comments','id','user_info']
+        fields = ['user', 'title', 'description', 'continent', 'country', 'city', 'public_accessibility',
+                  'created_time',
+                  'updated_time', 'tags', 'favorited_amount', 'longitude', 'latitude', 'start_year', 'end_year',
+                  'place_name',
+                  'is_favorite', 'images', 'comments', 'id', 'user_info']
 
-    def get_is_favorite(self,obj):
+    def get_is_favorite(self, obj):
         user = None
         request = self.context.get("request")
         if request and hasattr(request, "user"):
@@ -59,6 +62,7 @@ class cultural_heritage_serializer(serializers.ModelSerializer):
         if user:
             return favorite_items.objects.filter(item=obj, user=user).count() > 0
         return False
+
     def create(self, validated_data):
 
         tags = []
@@ -117,13 +121,18 @@ class cultural_heritage_serializer(serializers.ModelSerializer):
         return instance
 
 
-class favorite_item_serializer(serializers.ModelSerializer):
-    item_info = cultural_heritage_serializer(source='item', read_only=True)
+class favorite_item_list_serializer(serializers.ModelSerializer):
+    cultural_heritage_item = cultural_heritage_serializer(source='item')
 
     class Meta:
         model = favorite_items
-        fields = ['item', 'user', 'item_info', 'id']
+        fields = ['cultural_heritage_item', 'user', 'id']
 
+
+class favorite_item_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = favorite_items
+        fields = ['item', 'user', 'id']
 
 
 class item_visit_serializer(serializers.ModelSerializer):

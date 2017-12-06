@@ -74,6 +74,10 @@ public class CultureItem implements Parcelable {
     @Expose
     private String favoriteCount;
 
+    @SerializedName("user_info")
+    @Expose
+    private UserResponse userInfo;
+
     public CultureItem() {
         this.imageList = new ArrayList<>();
         this.tagList = new ArrayList<>();
@@ -98,6 +102,7 @@ public class CultureItem implements Parcelable {
         this.publicAccessibility = in.readByte() != 0;
         this.isFavorite = in.readByte() != 0;
         this.favoriteCount = in.readString();
+        this.userInfo = (UserResponse)in.readSerializable();
     }
 
     @Override
@@ -117,6 +122,7 @@ public class CultureItem implements Parcelable {
         out.writeByte((byte) (this.publicAccessibility ? 1 : 0));
         out.writeByte((byte) (this.isFavorite ? 1 : 0));
         out.writeString(this.favoriteCount);
+        out.writeSerializable(this.userInfo);
     }
 
     @Override
@@ -258,6 +264,22 @@ public class CultureItem implements Parcelable {
         this.publicAccessibility = publicAccessibility;
     }
 
+    public String getFavoriteCount() {
+        return favoriteCount;
+    }
+
+    public void setFavoriteCount(String favoriteCount) {
+        this.favoriteCount = favoriteCount;
+    }
+
+    public UserResponse getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserResponse userInfo) {
+        this.userInfo = userInfo;
+    }
+
     public FeedRow toFeedRow() {
         List<Image> imgList = this.getImageList();
         String url = null;
@@ -273,7 +295,14 @@ public class CultureItem implements Parcelable {
         if (startYear != null && endYear != null) {
             year = FeedRow.toYearFormat(getStartYear(), getEndYear());
         }
-        return new FeedRow(url, getTitle(), getDescription(), getPlaceName(), year, tagList, favoriteCount);
+        return new FeedRow(url,
+                title,
+                description,
+                placeName,
+                year,
+                tagList,
+                favoriteCount,
+                userInfo.getUsername());
     }
 
     public ArrayList<Comment> getCommentList() {
@@ -306,6 +335,7 @@ public class CultureItem implements Parcelable {
                 Utils.objectEquals(this.commentList, other.commentList) &&
                 Utils.objectEquals(this.isFavorite, other.isFavorite) &&
                 Utils.objectEquals(this.favoriteCount, other.favoriteCount) &&
-                this.publicAccessibility == other.publicAccessibility;
+                this.publicAccessibility == other.publicAccessibility &&
+                Utils.objectEquals(this.userInfo, other.userInfo);
     }
 }

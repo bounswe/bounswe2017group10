@@ -11,7 +11,8 @@ import {
     addCHTag,
     deleteCHTag,
     searchLocation,
-    mapClick
+    mapClick,
+    updateLocation
 } from '../../actions/culturalHeritage';
 import axios from 'axios';
 import {API_URL} from '../../constants';
@@ -82,7 +83,7 @@ const mapDispatchToProps = dispatch => {
                     title: addCHInputs.title,
                     description: addCHInputs.description,
                     tags: addCHInputs.tags.map(t => ( {name: t.text} )),
-                    langitude: addCHInputs.lng,
+                    longitude: addCHInputs.lng,
                     latitude: addCHInputs.lat,
                     place_name: addCHInputs.locationName
                 }
@@ -107,6 +108,7 @@ const mapDispatchToProps = dispatch => {
             });
         },
         addCHTag: (name) => dispatch(addCHTag(name)),
+        updateGeo: (coords) => dispatch(updateLocation(coords)),
         deleteCHTag: (id) => dispatch(deleteCHTag(id)),
         searchLocation: (addCHInputs) => {
 
@@ -129,12 +131,13 @@ const mapDispatchToProps = dispatch => {
                     const locationName = JSON.stringify(response.data.results[0].address_components[0].long_name);
                     dispatch(updateCHInput("locationName",locationName));
 
-                    //alert(locationName);
-                    //alert(Number(val1).toFixed(5)+" and "+Number(val2).toFixed(5));
-                    //alert(addCHInputs.lat + " and " + addCHInputs.lng + addCHInputs.locationName);
+                    console.log(locationName);
+                    console.log(Number(val1).toFixed(5)+" and "+Number(val2).toFixed(5));
+                    console.log(addCHInputs.lat + " and " + addCHInputs.lng + addCHInputs.locationName);
                 } else {
-
-                    //alert("wrong location"+addCHInputs.locationName);
+		
+		    console.log("wrong location"+addCHInputs.locationName);
+                   
                 }
 
 
@@ -156,17 +159,18 @@ const mapDispatchToProps = dispatch => {
                     const locationName = JSON.stringify(response.data.results[0].address_components[1].long_name);
                     dispatch(updateCHInput("locationName",locationName));
 
-                    //alert(locationName);
+                    console.log(locationName);
 
                 } else {
 
-                    //alert("wrong location"+addCHInputs.locationName);
+                    console.log("Could not find a location within map.");
                 }
 
 
             })
 
         }
+
     }
 }
 

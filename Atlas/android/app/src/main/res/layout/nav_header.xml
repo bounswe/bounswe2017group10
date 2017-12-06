@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="250dp"
     android:gravity="bottom"
-    android:background="@drawable/side_nav_bar"
+    android:background="@color/secondaryColor"
     android:orientation="vertical"
     android:paddingBottom="16dp"
     android:paddingLeft="16dp"
@@ -17,20 +17,12 @@
         android:layout_height="40dp"
         android:layout_weight="0.1" />
 
-    <TextView
-        android:layout_gravity="center"
-        android:textColor="@color/button_gray"
-        android:textSize="20sp"
-        android:fontFamily="serif"
+    <ImageView
+        android:src="@drawable/atlas_icon"
+        android:layout_weight="0.50"
+        android:layout_gravity="bottom"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:text="@string/app_name"/>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_weight="0.1" />
+        android:layout_height="wrap_content" />
 
     <ImageView
         android:contentDescription="@string/user_profile_image"
@@ -47,10 +39,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/username"
+        android:textColor="@color/primaryTextColor"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
     <TextView
         android:id="@+id/nav_pmail"
+        android:textColor="@color/primaryTextColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/email" />

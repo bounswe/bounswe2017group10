@@ -10,6 +10,13 @@ export const clearAddChErrors = () => {
   }
 }
 
+export const updateLocation =(loc) =>{
+  return{
+    type: 'UPDATE_USER_LOCATION',
+    data: loc
+  }
+}
+
 export const finishFetchingCH = () => {
   return {
     type: 'FINISH_FETCHING_CULTURAL_HERITAGES'
