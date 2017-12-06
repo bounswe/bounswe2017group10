@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import CulturalHeritage from '../CulturalHeritage/CulturalHeritage';
 import { Row } from 'reactstrap';
 import './style.css';
+import { InfoWindow } from 'react-google-maps';
 
 const camelize = function(str) {
     return str.split(' ').map(function(word) {
@@ -97,12 +98,12 @@ export class Marker extends React.Component {
             const evtName = `on${camelize(evt)}`
             if (this.props[evtName]) {
                 if(evtName=='onClick'){
-                    console.log("naber");
-                }else if(evtName=='onMouseover'){
                     this.props.mouseOnMarker(this.props.item.id);
+                }else if(evtName=='onMouseover'){
+
                     console.log(this.props.item.id);
                 }else if(evtName=='onMouseout'){
-                    this.props.mouseOffMarker();
+                    //this.props.mouseOffMarker();
                 }
             }
         }
@@ -111,8 +112,9 @@ export class Marker extends React.Component {
 
     render() {
        if(this.props.activeMarker == this.props.item.id){ return(
+
         <Row className="MapTooltip">
-        <CulturalHeritage returnTo="/cultural-heritages" className="hovering-item" culturalHeritage={ this.props.item } showCommentSummary={ true } shouldTruncate ={ true }  />
+        <CulturalHeritage returnTo="/nearby-items" close={ this.props.mouseOffMarker } withCloseButton={ true } withLink={ true } className="hovering-item" culturalHeritage={ this.props.item } showCommentSummary={ true } shouldTruncate ={ true }  />
         </Row>
         );}else{
            return null;

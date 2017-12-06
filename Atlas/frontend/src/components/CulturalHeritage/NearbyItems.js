@@ -12,13 +12,13 @@ const Page = ({ user, token, mapCenter, dragMap, location, mouseOn, loadUserLoca
 
         <Row className="atlas-map">
 
-            <Col xs="11">
+            <Col xs="12">
                 <AtlasHeader text="Nearby Items"/>
                 <NavLink className="atlas-button" to="/profile">
                     <LeftIcon />
                     Back
                 </NavLink>
-                <AtlasMap token={ token } mapCenter={ mapCenter } dragMap={ dragMap } activeMarker= { mouseOn } mouseOnMarker={ mouseOnMarker } mouseOffMarker = { mouseOffMarker } items= { nearbyItems } getUserLoc = {loadUserLocation} loadHeritages={ loadNearbyCulturalHeritages }center={ user.location }></AtlasMap>
+                <AtlasMap token={ token }  mapCenter={ mapCenter } dragMap={ dragMap } activeMarker= { mouseOn } mouseOnMarker={ mouseOnMarker } mouseOffMarker = { mouseOffMarker } items= { nearbyItems } getUserLoc = {loadUserLocation} loadHeritages={ loadNearbyCulturalHeritages }center={ user.location }></AtlasMap>
             </Col>
 
         </Row>

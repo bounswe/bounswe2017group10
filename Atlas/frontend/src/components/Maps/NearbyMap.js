@@ -18,6 +18,7 @@ export class AtlasMap extends React.Component {
     getCenter = (mapProps,map) =>{
         console.log(map.center.lat());
         this.props.getUserLoc({ltd:map.center.lat(),lng:map.center.lng()});
+        this.props.mouseOffMarker();
     }
 
 
@@ -27,7 +28,7 @@ export class AtlasMap extends React.Component {
                 lat: (this.props.center != null) ? this.props.center.ltd:48,
                 lng: (this.props.center != null) ? this.props.center.lng:2
             }} google={this.props.google} zoom={8}
-                 style={{height:'800px', width: '1110px'}}
+                 style={{height:'800px', width: '1120px'}}
             onDragend={ this.getCenter }>
 
                 {this.props.items && this.props.items
