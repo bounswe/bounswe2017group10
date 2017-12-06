@@ -26,14 +26,14 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
-        <Gallery
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/image_gallery"
             android:layout_width="match_parent"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
-            android:layout_height="wrap_content">
-
-        </Gallery>
+            android:layout_height="250dp"
+            android:orientation="horizontal"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/tag_recyclerview"
@@ -134,6 +134,10 @@
             android:layout_marginBottom="10dp"
             style="@style/HorizontalDivider" />
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="15dp" />
+
         <TextView
             android:id="@+id/recommendations_title"
             android:layout_width="match_parent"
@@ -143,6 +147,38 @@
             android:textColor="@color/primaryTextColor"
             android:textSize="@dimen/view_item_header_size"
             android:textStyle="bold" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recommendations_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:orientation="horizontal"
+            android:scrollbars="horizontal"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            tools:splitMotionEvents="false" />
+
+    <LinearLayout
+        android:id="@+id/recommendations_pbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:orientation="vertical"
+        android:visibility="visible"
+        android:weightSum="1">
+
+        <ProgressBar
+            android:id="@+id/recommendations_pbar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center_horizontal"
+            android:fitsSystemWindows="false" />
     </LinearLayout>
+
+
+    </LinearLayout>
+
+
 
 </ScrollView>

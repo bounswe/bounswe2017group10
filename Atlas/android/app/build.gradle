@@ -1,4 +1,4 @@
-    apply plugin: 'com.android.application'
+apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
@@ -48,7 +48,8 @@ dependencies {
     implementation 'com.android.support:cardview-v7:26.1.0'
     implementation 'com.android.support:design:26.1.0'
     // Google Places API
-    implementation 'com.google.android.gms:play-services-maps:11.6.2'
+    implementation 'com.google.android.gms:play-services-maps:11.6.0'
+    implementation 'com.google.android.gms:play-services-location:11.6.0'
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
@@ -67,7 +68,8 @@ dependencies {
     // Image uploading
     implementation group: 'com.cloudinary', name: 'cloudinary-android', version: '1.20.0'
     // nice progress bar and FAB
-    compile 'com.dmitrymalkovich.android:progress-fab:1.6'
+    implementation 'com.dmitrymalkovich.android:progress-fab:1.6'
+
 
     // Test libraries
     testImplementation 'junit:junit:4.12'

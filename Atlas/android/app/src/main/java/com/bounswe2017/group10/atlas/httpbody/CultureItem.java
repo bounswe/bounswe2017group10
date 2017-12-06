@@ -303,6 +303,7 @@ public class CultureItem implements Parcelable {
                     year,
                     tagList,
                     favoriteCount,
+                    isFavorite,
                     "");
 
         return new FeedRow(url,
@@ -312,6 +313,7 @@ public class CultureItem implements Parcelable {
                 year,
                 tagList,
                 favoriteCount,
+                isFavorite,
                 userInfo.getUsername());
     }
 
