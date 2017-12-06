@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ShowPage from '../../components/CulturalHeritage/Show';
 import { withRouter } from 'react-router';
-import { authGet, authPost } from '../../utils';
+import { authGet, authPost, authDelete } from '../../utils';
 import { API_URL } from '../../constants';
-import { updateCommentInput, updateCulturalHeritage, updateRecommendations } from '../../actions/culturalHeritage';
+import { updateCommentInput, updateCulturalHeritage, updateRecommendations, deleteCulturalHeritage } from '../../actions/culturalHeritage';
 import { favItem, getRecommendedItems } from './Common';
 
 const mapStateToProps = (state, props) => {
@@ -63,7 +63,22 @@ const mapDispatchToProps = dispatch => ({
   },
   favoriteItem: (token, culturalHeritage) => {
     favItem(dispatch, token, culturalHeritage);
-  }
+  },
+    removeClick: (token, culturalHeritageId) => {
+
+        authDelete(token, {
+            url: API_URL + '/cultural_heritage_item/' + culturalHeritageId ,
+        }).then(resp => {
+            dispatch(deleteCulturalHeritage(culturalHeritageId));
+            window.location = '/cultural-heritages';
+        }).catch(err => {
+                console.log("Error when trying to remove a cultural heritage");
+        });
+
+        dispatch(deleteCulturalHeritage(culturalHeritageId));
+        window.location = '/cultural-heritages';
+
+    }
 });
 
 class App extends React.Component {

@@ -157,3 +157,11 @@ export const updateRecommendations = (data) => {
     data
   }
 }
+
+
+export const deleteCulturalHeritage = (data) => {
+    return {
+        type: 'DELETE_CULTURAL_HERITAGE',
+        data
+    }
+}
