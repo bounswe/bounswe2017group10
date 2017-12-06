@@ -91,4 +91,8 @@ public interface API {
                                     @Query("limit") long limit,
                                     @Query("offset") long offset);
 
+    @GET("/cultural_heritage_item/recommendation")
+    Call<GetItemsResponse> getRecommendedItems(@Header("Authorization") String authStr,
+                                   @Query("item_id") long id);
+
 }
