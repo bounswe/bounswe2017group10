@@ -243,6 +243,7 @@ public class ListItemsFragment extends Fragment {
      * Clear the items shown on this ListItemsFragment.
      */
     public void clearItems() {
+        this.currentOffset = 0;
         mItemList.clear();
         mRowList.clear();
         mAdapter.notifyDataSetChanged();

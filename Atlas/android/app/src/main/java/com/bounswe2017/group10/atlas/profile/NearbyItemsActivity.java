@@ -126,6 +126,8 @@ public class NearbyItemsActivity extends AppCompatActivity {
                             mLastLocation = task.getResult();
                             setTitle(R.string.nearby_heritages);
                             setupNearbyItemsFragment();
+                            mNearItemsFragment.clearItems();
+                            mNearItemsFragment.loadMoreItems();
                         } else {
                             Log.w(TAG, "getLastLocation:exception", task.getException());
                             showSnackbar(getString(R.string.no_location_detected));
