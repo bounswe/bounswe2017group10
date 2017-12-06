@@ -71,7 +71,7 @@ const Page = ({ user, token, addCHInputs, addCHErrors, handleCHInputChange, upda
     </Form>
 
       <Input type="search" name="locationName"  placeholder="Search" onChange={handleCHInputChange} />
-      <Button onClick={() => searchLocation(addCHInputs)}></Button>
+      <span className="atlas-button" style={{ marginTop: 10, marginBottom: 10 }} onClick={() => searchLocation(addCHInputs)}>Search Location</span>
       <MapContainer  mapClick={mapClick} getUser = {updateGeo} locationName={addCHInputs.locationName} lat={addCHInputs.lat} lng={addCHInputs.lng}></MapContainer>
 
 
