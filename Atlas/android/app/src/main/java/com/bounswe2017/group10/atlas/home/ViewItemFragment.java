@@ -175,6 +175,7 @@ public class ViewItemFragment extends Fragment {
      */
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
         inflater.inflate(R.menu.action_view_item, menu);
 
         long currentUserId = Utils.getSharedPref(mActivity).getLong(Constants.USER_ID, -1);

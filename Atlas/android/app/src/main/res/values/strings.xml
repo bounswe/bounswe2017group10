@@ -97,4 +97,7 @@
     <string name="you_may_also_like">You May Also Like</string>
     <string name="created_by">%1$s</string>
     <string name="fullscreen_img">Fullscreen image</string>
+    <string name="my_heritages">My Heritages</string>
+    <string name="my_favourites">My Favourites</string>
+    <string name="featured">Featured</string>
 </resources>

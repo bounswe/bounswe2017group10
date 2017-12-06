@@ -38,13 +38,13 @@ public class OwnItemActivity extends AppCompatActivity{
 
         if(value==1)
         {
-            setTitle("My Items");
+            setTitle(getString(R.string.my_heritages));
             mOwnItemFragment = new ListItemsFragment();
             setUpFeedFragment();
         }
         else if(value==2)
         {
-            setTitle("My Favourite Items");
+            setTitle(getString(R.string.my_favourites));
             mMyFavFragment = new ListItemsFragment();
             setUpMyFavFragment();
         }
