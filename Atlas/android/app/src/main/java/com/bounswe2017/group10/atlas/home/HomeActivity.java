@@ -97,7 +97,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         String nameText = getString(R.string.fullname, firstName, lastName);
         String image = pref.getString(Constants.PROFILE_PICTURE,"");
 
-        if(image!="") {
+        if(!image.equals("")) {
             Glide.with(this)
                     .load(image)
                     .apply(new RequestOptions()
