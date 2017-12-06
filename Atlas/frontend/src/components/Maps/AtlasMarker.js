@@ -113,10 +113,10 @@ export class Marker extends React.Component {
     render() {
        if(this.props.activeMarker == this.props.item.id){ return(
 
-        <Row className="MapTooltip">
-        <CulturalHeritage returnTo="/nearby-items" close={ this.props.mouseOffMarker } withCloseButton={ true } withLink={ true } className="hovering-item" culturalHeritage={ this.props.item } showCommentSummary={ true } shouldTruncate ={ true }  />
+        <Row style={{ marginTop:'450px' }}>
+        <CulturalHeritage returnTo="/nearby-items"  withLink={ true } className="hovering-item" culturalHeritage={ this.props.item } showCommentSummary={ true } shouldTruncate ={ true }  />
         </Row>
-        );}else{
+            );}else{
            return null;
        }
     }

@@ -6,7 +6,7 @@ import Marker from './AtlasMarker'
 export class AtlasMap extends React.Component {
 
     componentDidMount() {
-
+        this.props.mouseOffMarker();
         if (navigator && navigator.geolocation && this.props.center==null) {
             navigator.geolocation.getCurrentPosition((pos) => {
                 this.props.getUserLoc({ltd:pos.coords.latitude.toFixed(5),lng:pos.coords.longitude.toFixed(5)});
@@ -28,7 +28,7 @@ export class AtlasMap extends React.Component {
                 lat: (this.props.center != null) ? this.props.center.ltd:48,
                 lng: (this.props.center != null) ? this.props.center.lng:2
             }} google={this.props.google} zoom={8}
-                 style={{height:'800px', width: '1120px'}}
+                 style={this.props.activeMarker==-1? {height:'900px', width: '1130px'}:{height:'400px', width: '1130px'}}
             onDragend={ this.getCenter }>
 
                 {this.props.items && this.props.items
