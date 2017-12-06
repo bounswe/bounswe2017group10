@@ -26,14 +26,14 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
-        <Gallery
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/image_gallery"
             android:layout_width="match_parent"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
-            android:layout_height="wrap_content">
-
-        </Gallery>
+            android:layout_height="250dp"
+            android:orientation="horizontal"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/tag_recyclerview"

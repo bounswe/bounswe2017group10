@@ -67,7 +67,8 @@ dependencies {
     // Image uploading
     implementation group: 'com.cloudinary', name: 'cloudinary-android', version: '1.20.0'
     // nice progress bar and FAB
-    compile 'com.dmitrymalkovich.android:progress-fab:1.6'
+    implementation 'com.dmitrymalkovich.android:progress-fab:1.6'
+
 
     // Test libraries
     testImplementation 'junit:junit:4.12'
