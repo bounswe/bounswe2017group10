@@ -11,11 +11,18 @@ import { RECOMMENDATION_LIMIT } from '../../constants';
 const Show = ({ user, token, culturalHeritage, commentInput, recommendations, commentInputChange, postComment, favoriteItem, removeClick }) => (
   culturalHeritage !== undefined &&
     <Container>
-      <NavLink className="atlas-button" to={ getUrlParam('returnTo') }>
-        <LeftIcon />
-        Back
-      </NavLink>
-        {(culturalHeritage.user == user.id) && <Button onClick={() => removeClick(token, culturalHeritage.id)}>Remove Item</Button>}
+      <Row>
+        <Col xs="3">
+          <NavLink className="atlas-button" to={ getUrlParam('returnTo') }>
+            <LeftIcon />
+            Back
+          </NavLink>
+        </Col>
+        <Col xs="6">
+            {(culturalHeritage.user == user.id) && <Button style={{ background:'red', float: 'right', fontSize: 18, textAlign: 'right' }} onClick={() => removeClick(token, culturalHeritage.id)}>Remove Item</Button>}
+        </Col>
+      </Row>
+
 
       <Row>
         <Col xs="9">
