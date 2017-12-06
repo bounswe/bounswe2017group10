@@ -6,7 +6,7 @@ import { Errors } from '../../utils';
 const Signup = ({ signupInputs, signupErrors, inputChanged, attemptSignup }) => (
   <Container className="square-box">
     <Form onKeyPress={ (event) => event.key === 'Enter' ? attemptSignup(signupInputs) : null } className="signup-panel"  onSubmit={attemptSignup}>
-      <h3>Sign-up</h3>
+      <h3 class="form-header">Sign-up</h3>
       <hr/>
       <FormGroup>
           <Row>
@@ -48,7 +48,7 @@ const Signup = ({ signupInputs, signupErrors, inputChanged, attemptSignup }) => 
           <Row>
               <Col xs="3">
                   <label>
-                      User name:
+                      Username:
                   </label>
               </Col>
               <Col xs="9">
@@ -72,7 +72,7 @@ const Signup = ({ signupInputs, signupErrors, inputChanged, attemptSignup }) => 
           <Row>
               <Col xs="3">
                   <label>
-                      Confirm password:
+                      Confirm Password:
                   </label>
               </Col>
               <Col xs="9">
