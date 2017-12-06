@@ -42,12 +42,12 @@ public class OwnItemActivity extends AppCompatActivity{
         //own item or fav item request
         if(value==1)
         {
-            setTitle(R.string.title_my_heritages);
+            setTitle(getString(R.string.my_heritages));
             setUpFeedFragment();
         }
         else if(value==2)
         {
-            setTitle(R.string.title_myfav_heritages);
+            setTitle(getString(R.string.my_favourites));
             setUpMyFavFragment();
         }
 

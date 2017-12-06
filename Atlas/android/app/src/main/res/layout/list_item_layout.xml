@@ -67,6 +67,8 @@
             layout="@layout/tag_recyclerview_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:layout_below="@+id/icon_imageview"
             android:layout_alignParentStart="true"
             android:layout_marginEnd="@dimen/tag_horizontal_margin"
@@ -78,6 +80,8 @@
             layout="@layout/tag_recyclerview_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:layout_marginEnd="5dp"
             android:layout_below="@+id/icon_imageview"
             android:layout_toEndOf="@+id/tag1"
@@ -88,6 +92,8 @@
             layout="@layout/tag_recyclerview_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:layout_below="@+id/icon_imageview"
             android:layout_toEndOf="@+id/tag2"
             android:padding="3dp" />
@@ -121,18 +127,18 @@
             android:layout_marginStart="5dp"
             android:orientation="horizontal"
             android:id="@+id/footer_layout"
-            android:weightSum="3" >
+            android:weightSum="4" >
 
 
             <TextView
                 android:id="@+id/location_textview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="1.25"
                 android:layout_marginTop="2dp"
                 android:drawableStart="@drawable/ic_place_black_24dp"
-                android:ellipsize="end"
                 android:gravity="start"
+                android:ellipsize="end"
                 android:maxLines="1" />
 
             <View
@@ -143,8 +149,10 @@
             <TextView
                 android:id="@+id/year_textview"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:layout_marginTop="2dp"
                 android:drawableStart="@drawable/ic_date_range_black_24dp"
                 android:gravity="center" />
@@ -157,8 +165,10 @@
             <TextView
                 android:id="@+id/creator_textview"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="1.25"
                 android:layout_marginTop="2dp"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_person_black_24dp"
                 android:textStyle="italic" />

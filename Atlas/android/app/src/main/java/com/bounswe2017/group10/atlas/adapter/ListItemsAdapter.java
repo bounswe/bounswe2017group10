@@ -99,7 +99,15 @@ public class ListItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             if (row.getYear() != null) {
                 int[] yearPair = FeedRow.fromYearFormat(row.getYear());
-                etYear.setText(context.getString(R.string.year_string, yearPair[0], yearPair[1]));
+                String start = Integer.toString(yearPair[0]);
+                if (yearPair[0] < 0) {
+                    start = start.substring(1) + "BC";
+                }
+                String end = Integer.toString(yearPair[1]);
+                if (yearPair[1] < 0) {
+                    end = end.substring(1) + "BC";
+                }
+                etYear.setText(context.getString(R.string.year_string, start, end));
             }
 
             Glide.with(context)

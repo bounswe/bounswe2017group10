@@ -66,6 +66,7 @@ public class NearbyItemsActivity extends AppCompatActivity {
         mNearItemsFragment = new ListItemsFragment();
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+        changeFragment();
     }
 
     @Override
@@ -123,9 +124,10 @@ public class NearbyItemsActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Location> task) {
                         if (task.isSuccessful() && task.getResult() != null) {
                             mLastLocation = task.getResult();
-                            setTitle(R.string.title_nearby_heritages);
+                            setTitle(R.string.nearby_heritages);
                             setupNearbyItemsFragment();
-                            changeFragment();
+                            mNearItemsFragment.clearItems();
+                            mNearItemsFragment.loadMoreItems();
                         } else {
                             Log.w(TAG, "getLastLocation:exception", task.getException());
                             showSnackbar(getString(R.string.no_location_detected));
