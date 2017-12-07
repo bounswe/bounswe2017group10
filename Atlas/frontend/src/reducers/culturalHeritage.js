@@ -7,9 +7,13 @@ const initState = {
   helpOpen: true,
   addCHInputs: initAddCHInputs,
   data: [],
+  fetchingNearbyItems: false,
+  nearbyData: [],
   loadingMore: false,
   canLoadMore: true,
   recommendations: [],
+  mouseOverOn: -1,
+  mapLocation: null,
   recommendationLoadCompleted: false
 };
 
@@ -20,7 +24,27 @@ const reducer = (state = initState, action) => {
         ...state,
         fetching: true
       }
-      case 'UPDATE_USER_LOCATION':
+      case 'MAP_DRAGGED':
+        return {
+            ...state,
+            mapLocation: action.data
+        }
+    case 'FETCH_NEARBY_CHS':
+      return{
+        ...state,
+        fetchingNearbyItems: true
+      }
+      case 'MOUSE_OVER_ITEM':
+      return {
+          ...state,
+          mouseOverOn: action.data
+      }
+      case 'MOUSE_OFF_ITEM':
+        return {
+            ...state,
+            mouseOverOn: -1
+        }
+    case 'UPDATE_USER_LOCATION':
       return{
           ...state,
           addCHInputs: {
@@ -28,11 +52,15 @@ const reducer = (state = initState, action) => {
               lng: action.data.lng,
               lat: action.data.ltd
           }
+
+    }
+
       }
       case 'LOAD_CULTURAL_HERITAGE':
         return{
             ...state,
         }
+
     case 'IMAGE_URL_UPLOADED':
       return {
           ...state,
@@ -41,15 +69,25 @@ const reducer = (state = initState, action) => {
             img_url: action.data
           }
       }
+    case 'UPDATE_NEARBY_CHS':
+      return{
+          ...state,
+          nearbyData: action.data
+      }
     case 'UPDATE_CULTURAL_HERITAGES':
       return {
         ...state,
         data: action.data
-      }
+    }
     case 'FINISH_FETCHING_CULTURAL_HERITAGES':
       return {
         ...state,
         fetching: false
+      }
+      case 'FINISH_FETCHING_NEARBY_CHS':
+      return {
+          ...state,
+          fetchingNearbyItems: false
       }
     case 'UPDATE_CULTURAL_HERITAGE_INPUT':
       return {

@@ -63,6 +63,9 @@ const AtlasNavbar = ({ token, logo, user, searchSuggestions, loggedIn, dropDownO
           <NavItem>
             <NavLink to="/cultural-heritages"><PhotoIcon /> Cultural Heritages</NavLink>
           </NavItem>
+          <NavItem>
+            <NavLink to="/nearby-items"><PhotoIcon /> Nearby Cultural Heritages</NavLink>
+          </NavItem>
         </Nav>
       </Collapse>
     </Navbar>

@@ -7,7 +7,9 @@ const initState = {
   signupErrors: null,
   signupSuccess: false,
   signupInputs: {},
-  user: {}
+  user: {
+    location:null
+  }
 };
 const reducer = (state = initState, action) => {
   switch(action.type) {
@@ -24,6 +26,14 @@ const reducer = (state = initState, action) => {
           ...(state.loginInputs),
           [action.name]: action.value // TODO(Yigit): Do name checking
         }
+      }
+      case 'UPDATE_USER_LOCATION':
+      return{
+          ...state,
+          user:{
+          ...(state.user),
+          location:action.data
+          }
       }
     case 'LOGIN_FETCHING':
       return {

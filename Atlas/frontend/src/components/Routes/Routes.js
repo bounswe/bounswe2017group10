@@ -16,7 +16,11 @@ import IndexCulturalHeritagesPage from '../../containers/CulturalHeritage/Index'
 import AddCulturalHeritagePage from '../../containers/CulturalHeritage/Add';
 import ShowCulturalHeritagePage from '../../containers/CulturalHeritage/Show';
 import Search from '../../containers/Search/Search';
+<<<<<<< HEAD
+import NearbyItemsPage from '../../containers/CulturalHeritage/Nearby';
+=======
 import NotFound from '../../components/NotFound/NotFound';
+>>>>>>> master
 
 const Routes = ({ user, loggedIn }) => ({
   render() {
@@ -34,6 +38,7 @@ const Routes = ({ user, loggedIn }) => ({
                 <PrivateRoute exact path="/cultural-heritages" user={ user } component={ <IndexCulturalHeritagesPage /> } />
                 <PrivateRoute exact path="/profile" user={ user } component={ <Profile /> } />
                 <PrivateRoute exact path="/search" user={ user } component={ <Search /> } />
+                <PrivateRoute exact path="/nearby-items" user={ user } component={ <NearbyItemsPage /> } />
                 <Route exact path="/404" component={ NotFound } />
                 <Redirect to="/404" />
               </Switch>
