@@ -7,6 +7,8 @@ import { API_URL } from '../../constants';
 import { updateCommentInput, updateCulturalHeritage, updateRecommendations, deleteCulturalHeritage, loadSingleItem } from '../../actions/culturalHeritage';
 import { favItem, getRecommendedItems } from './Common';
 import NotFoundPage from '../../components/NotFound/NotFound';
+import Spinner from 'react-icons/lib/fa/spinner';
+import '../../components/CulturalHeritage/style.css';
 
 const mapStateToProps = (state, props) => {
   const culturalHeritage = state.culturalHeritage.data.find(c => c.id === parseInt(props.match.params.id, 10));
@@ -93,11 +95,15 @@ class App extends React.Component {
   }
 
   render() {
-    if(this.props.culturalHeritage !== undefined) {
-        return <ShowPage culturalHeritage={this.props.culturalHeritage} {...this.props}  />
-    }else {
-        return <NotFoundPage/>
-    }
+    return (
+      this.props.culturalHeritage !== undefined
+        ? ( <ShowPage culturalHeritage={this.props.culturalHeritage} {...this.props}  /> )
+        : ( <div className="spinner">
+          <Spinner />
+          <span>Loading</span>
+        </div>
+        )
+    )
   }
 }
 

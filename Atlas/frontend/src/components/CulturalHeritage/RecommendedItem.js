@@ -10,25 +10,27 @@ import CHFav from './CHFav';
 import { NavLink } from 'react-router-dom';
 import { loadSingleItem } from '../../actions/culturalHeritage';
 
-const CulturalHeritage = ({ culturalHeritage }) => (
-  <NavLink className="recommended-item" to={ "/cultural-heritages/" + culturalHeritage.id } onClick ={ loadSingleItem() } >
-    <Row>
-      <Col xs="12">
-        { culturalHeritage.images.length > 0 ? (
-          <img className="ch-image" alt="Cultural Heritage" src={ culturalHeritage.images[0].url } />
-          ) : (
-          <span>No Image</span>
-          )
-        }
-      </Col>
-    </Row>
-    <Row>
-      <Col xs="12">
-        <h2>{ culturalHeritage.title }</h2>
-      </Col>
-    </Row>
-  </NavLink>
-)
+const CulturalHeritage = ({ culturalHeritage }) => {
+  return (
+    <a href={ "/cultural-heritages/" + culturalHeritage.id + "?returnTo=wow" } className="recommended-item" >
+      <Row>
+        <Col xs="12">
+          { culturalHeritage.images.length > 0 ? (
+            <img className="ch-image" alt="Cultural Heritage" src={ culturalHeritage.images[0].url } />
+            ) : (
+            <span>No Image</span>
+            )
+          }
+        </Col>
+      </Row>
+      <Row>
+        <Col xs="12">
+          <h2>{ culturalHeritage.title }</h2>
+        </Col>
+      </Row>
+    </a>
+  )
+}
 
 export default CulturalHeritage;
 
