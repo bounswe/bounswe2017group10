@@ -58,7 +58,7 @@ public class ViewItemFragment extends Fragment {
     boolean isFirstTimeClickToEdit = true;
     private Activity mActivity;
 
-
+    private boolean hasRequestedRecommendations = false;
     private final ArrayList<CultureItem> mRecommendedItemList = new ArrayList<>();
     private final ArrayList<FeedRow> mRecommendedRowList = new ArrayList<>();
     private ListItemsAdapter mRecommendAdapter;
@@ -119,49 +119,45 @@ public class ViewItemFragment extends Fragment {
             APIUtils.serverAPI().postComment(authStr,mItem.getId(), requestBody).enqueue(respHandler);
         });
 
+        if (!hasRequestedRecommendations) {
+            hasRequestedRecommendations = true;
 
-        // Recommendations
-
-        LinearLayout mRecommendationPBarLayout = view.findViewById(R.id.recommendations_pbar_layout);
-
-        mGetItemCallback = new OnGetItemsResponse.GetItemCallback() {
-            @Override
-            public void onGetItems(List<CultureItem> itemList) {
+            LinearLayout mRecommendationPBarLayout = view.findViewById(R.id.recommendations_pbar_layout);
+            mGetItemCallback = (List<CultureItem> itemList) -> {
                 for (CultureItem item : itemList) {
                     mRecommendedItemList.add(item);
                     mRecommendedRowList.add(item.toFeedRow());
                 }
                 mRecommendAdapter.notifyDataSetChanged();
                 mRecommendationPBarLayout.setVisibility(View.GONE);
-            }
-        };
+            };
+            requestRecommendedItems(getActivity(),mGetItemCallback);
 
-        requestRecommendedItems(getActivity(),mGetItemCallback);
-
-
+            mRecommendAdapter = new ListItemsAdapter(getActivity(), mRecommendedRowList, (List<FeedRow> rowList, int position) -> {
+                // put item to bundle
+                Bundle itemBundle = new Bundle();
+                itemBundle.putParcelable(Constants.CULTURE_ITEM, mRecommendedItemList.get(position));
+                // put bundle to fragment
+                ViewItemFragment viewItemFragment = new ViewItemFragment();
+                viewItemFragment.setArguments(itemBundle);
+                // go to fragment
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.home_container, viewItemFragment)
+                        .addToBackStack(null)
+                        .commit();
+                for (ListItemsFragment.AfterItemClickedListener listener : mListenerList) {
+                    listener.afterClicked();
+                }
+            });
+        } else {
+            LinearLayout mRecommendationPBarLayout = view.findViewById(R.id.recommendations_pbar_layout);
+            mRecommendationPBarLayout.setVisibility(View.GONE);
+        }
         RecyclerView recyclerView = view.findViewById(R.id.recommendations_recyclerview);
         SnapHelper helper = new LinearSnapHelper();
         helper.attachToRecyclerView(recyclerView);
-
-        mRecommendAdapter = new ListItemsAdapter(getActivity(), mRecommendedRowList, (List<FeedRow> rowList, int position) -> {
-            // put item to bundle
-            Bundle itemBundle = new Bundle();
-            itemBundle.putParcelable(Constants.CULTURE_ITEM, mRecommendedItemList.get(position));
-            // put bundle to fragment
-            ViewItemFragment viewItemFragment = new ViewItemFragment();
-            viewItemFragment.setArguments(itemBundle);
-            // go to fragment
-            getActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.home_container, viewItemFragment)
-                    .addToBackStack(null)
-                    .commit();
-            for (ListItemsFragment.AfterItemClickedListener listener : mListenerList) {
-                listener.afterClicked();
-            }
-        });
         recyclerView.setAdapter(mRecommendAdapter);
-
 
         return view;
     }
