@@ -24,7 +24,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(fetchCH());
       axios({
         method: 'get',
-        url: API_URL + '/cultural_heritage_item',
+        url: API_URL + '/cultural_heritage_item/featured',
         headers: { 'Authorization': 'JWT ' + token },
         params: { limit: CULTURAL_HERITAGE_PAGINATION_LIMIT }
       }).then(resp => {
