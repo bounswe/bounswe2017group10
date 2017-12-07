@@ -7,9 +7,11 @@ export class AtlasMap extends React.Component {
 
     componentDidMount() {
         this.props.mouseOffMarker();
-        if (navigator && navigator.geolocation && this.props.center==null) {
+        if (navigator && navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((pos) => {
+              if(this.props.center==null) {
                 this.props.getUserLoc({ltd:pos.coords.latitude.toFixed(5),lng:pos.coords.longitude.toFixed(5)});
+              }
                 this.props.loadHeritages(this.props.token, this.props.center);
             })
         }
