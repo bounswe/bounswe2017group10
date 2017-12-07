@@ -9,7 +9,7 @@ import AtlasHeader from '../utils/AtlasHeader'
 import CHFav from './CHFav';
 import { NavLink } from 'react-router-dom';
 
-const CulturalHeritage = ({ withCloseButton=false ,returnTo, close, culturalHeritage, shouldTruncate = false, showCommentSummary = false, showComments = false, favorite, withLink = true, showFavorite = true }) => {
+const CulturalHeritage = ({ returnTo, culturalHeritage, shouldTruncate = false, showCommentSummary = false, showComments = false, favorite, withLink = true, showFavorite = true }) => {
   const ch = (
     <Row className="whitebox">
       <Col xs="5">
@@ -52,22 +52,17 @@ const CulturalHeritage = ({ withCloseButton=false ,returnTo, close, culturalHeri
   );
   return (
     <Container>
-        { withCloseButton &&
-        <span className="atlas-button" style={{ marginTop: 10, marginBottom: 10 }} onClick={ close }>Close</span>}
       { withLink
       ? (
       <NavLink style={{ width: '100%' }} to={ "/cultural-heritages/" + culturalHeritage.id + "?returnTo=" + returnTo } className="cultural-heritage">
         { ch }
       </NavLink>
-
-
       ) : <div>{ ch }</div>}
       <div style={{ width: '100%', float: 'right', fontSize: 13, textAlign: 'right' }}>
         { showFavorite && <CHFav culturalHeritage={ culturalHeritage } favorite={ favorite } /> }
         { showCommentSummary && (
             <span>{ culturalHeritage.comments.length } Comments</span>
         )}
-
       </div>
       {showComments && (culturalHeritage.comments.length !== 0) &&
         (<AtlasHeader text="Comments"/>)

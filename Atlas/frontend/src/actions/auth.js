@@ -13,13 +13,6 @@ export const updateLoginInput = (name, value) => {
   }
 }
 
-export const updateUserLocation = (data) => {
-  return{
-    type: 'UPDATE_USER_LOCATION',
-      data
-  }
-}
-
 export const fetchingLogin = () => {
   return {
     type: 'LOGIN_FETCHING'
