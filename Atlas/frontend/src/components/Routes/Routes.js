@@ -2,7 +2,8 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  Redirect
 } from 'react-router-dom'
 import Home from "../Home/Home";
 import LoginRoute from "../../routes/Login/LoginRoute";
@@ -15,6 +16,7 @@ import IndexCulturalHeritagesPage from '../../containers/CulturalHeritage/Index'
 import AddCulturalHeritagePage from '../../containers/CulturalHeritage/Add';
 import ShowCulturalHeritagePage from '../../containers/CulturalHeritage/Show';
 import Search from '../../containers/Search/Search';
+import NotFound from '../../components/NotFound/NotFound';
 
 const Routes = ({ user, loggedIn }) => ({
   render() {
@@ -32,6 +34,8 @@ const Routes = ({ user, loggedIn }) => ({
                 <PrivateRoute exact path="/cultural-heritages" user={ user } component={ <IndexCulturalHeritagesPage /> } />
                 <PrivateRoute exact path="/profile" user={ user } component={ <Profile /> } />
                 <PrivateRoute exact path="/search" user={ user } component={ <Search /> } />
+                <Route exact path="/404" component={ NotFound } />
+                <Redirect to="/404" />
               </Switch>
             </div>
         </Router>

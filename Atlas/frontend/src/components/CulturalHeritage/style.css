@@ -134,7 +134,7 @@ body {
   position: absolute;
   right: 100px;
   top: 300px;
-  background-color: #ce8b10;
+  background-color: #122A4C;
   padding: 30px;
   color: white;
   z-index: 3;
@@ -180,3 +180,13 @@ img.ch-image {
   .recommended-items .recommended-item {
     margin-bottom: 20px;
     display: inline-block; }
+
+.spinner {
+  text-align: center;
+  width: 100%;
+  margin-top: 200px; }
+  .spinner svg {
+    font-size: 50px; }
+  .spinner span {
+    font-size: 30px;
+    margin-left: 10px; }

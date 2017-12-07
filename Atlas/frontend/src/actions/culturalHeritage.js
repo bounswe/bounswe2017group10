@@ -17,6 +17,12 @@ export const updateLocation =(loc) =>{
   }
 }
 
+export const loadSingleItem = () => {
+  return {
+    type: 'LOAD_CULTURAL_HERITAGE',
+  }
+}
+
 export const finishFetchingCH = () => {
   return {
     type: 'FINISH_FETCHING_CULTURAL_HERITAGES'
@@ -163,5 +169,11 @@ export const deleteCulturalHeritage = (data) => {
     return {
         type: 'DELETE_CULTURAL_HERITAGE',
         data
+    }
+}
+
+export const startUpdateRecommendation = () => {
+    return {
+        type: 'START_UPDATE_RECOMMENDATION',
     }
 }

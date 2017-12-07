@@ -9,7 +9,8 @@ const initState = {
   data: [],
   loadingMore: false,
   canLoadMore: true,
-  recommendations: []
+  recommendations: [],
+  recommendationLoadCompleted: false
 };
 
 const reducer = (state = initState, action) => {
@@ -28,6 +29,10 @@ const reducer = (state = initState, action) => {
               lat: action.data.ltd
           }
       }
+      case 'LOAD_CULTURAL_HERITAGE':
+        return{
+            ...state,
+        }
     case 'IMAGE_URL_UPLOADED':
       return {
           ...state,
@@ -159,21 +164,28 @@ const reducer = (state = initState, action) => {
     case 'UPDATE_RECOMMENDATIONS':
       return {
         ...state,
-        recommendations: action.data
+        recommendations: action.data,
+        recommendationLoadCompleted: true
       }
-      case 'DELETE_CULTURAL_HERITAGE':
-          //state.data =
-          //alert(JSON.stringify(state.data));
-          //alert(JSON.stringify(state.data.find(c => c.id == 1161)));
-          //state.data.find(c => c.id == action.data);
-          //let heritageItems = state.data;
-          //heritageItems.splice(state.data.find(c => c.id == action.data), 1);
-          return {
-              ...state,
-              data: state.data.filter( function(c) {
-                  return !(c.id == action.data);
-              })
-          }
+    case 'DELETE_CULTURAL_HERITAGE':
+        //state.data =
+        //alert(JSON.stringify(state.data));
+        //alert(JSON.stringify(state.data.find(c => c.id == 1161)));
+        //state.data.find(c => c.id == action.data);
+        //let heritageItems = state.data;
+        //heritageItems.splice(state.data.find(c => c.id == action.data), 1);
+        return {
+            ...state,
+            data: state.data.filter( function(c) {
+                return !(c.id == action.data);
+            })
+        }
+
+    case 'START_UPDATE_RECOMMENDATION':
+      return {
+        ...state,
+        recommendationLoadCompleted: false
+      }
     default:
       return state;
   }

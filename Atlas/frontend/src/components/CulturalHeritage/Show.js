@@ -8,7 +8,7 @@ import { getUrlParam } from '../../utils';
 import RecommendedItem from './RecommendedItem';
 import { RECOMMENDATION_LIMIT } from '../../constants';
 
-const Show = ({ user, token, culturalHeritage, commentInput, recommendations, commentInputChange, postComment, favoriteItem, removeClick }) => (
+const Show = ({ user, token, culturalHeritage, commentInput, recommendations, recommendationLoadCompleted, commentInputChange, postComment, favoriteItem, removeClick }) => (
   culturalHeritage !== undefined &&
     <Container>
       <Row>
@@ -47,9 +47,12 @@ const Show = ({ user, token, culturalHeritage, commentInput, recommendations, co
               <h1>Recommended For You</h1>
             </Col>
           </Row>
-          { recommendations.slice(0, RECOMMENDATION_LIMIT).map(r => (
-            <RecommendedItem key={ r.id } culturalHeritage={ r } />
-          )) }
+          { recommendationLoadCompleted
+            ? recommendations.slice(0, RECOMMENDATION_LIMIT).map(r => (
+                <RecommendedItem key={ r.id } culturalHeritage={ r } />
+              ))
+            : <div>Loading...</div>
+          }
         </Col>
       </Row>
     </Container>
