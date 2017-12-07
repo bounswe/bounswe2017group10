@@ -1,3 +1,20 @@
 .login-container {
   margin-top: 50px;
 }
+
+$background-blur: 0.5px;
+$background-brightness: 95%;
+$logo-size: 40px;
+
+.background-image {
+  position: absolute;
+  left: -10px;
+  opacity: 0.85;
+  top: -10px;
+  z-index: -1;
+  -webkit-filter: blur($background-blur) brightness($background-brightness);
+  -moz-filter: blur($background-blur) brightness($background-brightness);
+  -o-filter: blur($background-blur) brightness($background-brightness);
+  -ms-filter: blur($background-blur) brightness($background-brightness);
+  filter: blur($background-blur) brightness($background-brightness);
+}

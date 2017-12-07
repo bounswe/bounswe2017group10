@@ -16,7 +16,7 @@ import com.bounswe2017.group10.atlas.home.ListItemsFragment;
 
 public class OwnItemActivity extends AppCompatActivity{
 
-    private ListItemsFragment mFeedFragment;
+    private ListItemsFragment mOwnAndFavItemsFragment;
     private ListItemsFragment mSearchItemsFragment;
     private ActionBar mActionBar;
     private SearchView mSearchView;
@@ -25,17 +25,34 @@ public class OwnItemActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ownitem);
-        Toolbar toolbar = findViewById(R.id.home_toolbar);
+        Toolbar toolbar = findViewById(R.id.profile_toolbar);
         setSupportActionBar(toolbar);
-        setTitle("My Items");
         this.mActionBar = getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
 
+        Bundle b = getIntent().getExtras();
+        int value = -1;
+
+        if(b != null)
+            value = b.getInt("type");
+
+        mOwnAndFavItemsFragment = new ListItemsFragment();
+
+
+        //own item or fav item request
+        if(value==1)
+        {
+            setTitle(getString(R.string.my_heritages));
+            setUpFeedFragment();
+        }
+        else if(value==2)
+        {
+            setTitle(getString(R.string.my_favourites));
+            setUpMyFavFragment();
+        }
+
         //mSearchItemsFragment = new ListItemsFragment();
         //setUpSearchFragment();
-
-        mFeedFragment = new ListItemsFragment();
-        setUpFeedFragment();
     }
 
     @Override
@@ -54,13 +71,24 @@ public class OwnItemActivity extends AppCompatActivity{
     }
 
     /**
-     * Set up the functionality of mFeedFragment.
+     * Set up the functionality of mMyFavFragment.
      */
-    private void setUpFeedFragment() {
-        mFeedFragment.setRequestStrategy(new ListItemsFragment.OwnItemsStrategy());
+    private void setUpMyFavFragment() {
+        mOwnAndFavItemsFragment.setRequestStrategy(new ListItemsFragment.FavItemsStrategy());
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.home_container, mFeedFragment)
+                .replace(R.id.home_container, mOwnAndFavItemsFragment)
+                .commit();
+    }
+
+    /**
+     * Set up the functionality of mOwnItemFragment.
+     */
+    private void setUpFeedFragment() {
+        mOwnAndFavItemsFragment.setRequestStrategy(new ListItemsFragment.OwnItemsStrategy());
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.home_container, mOwnAndFavItemsFragment)
                 .commit();
     }
 

@@ -24,7 +24,7 @@
         android:gravity="top"
         android:hint="@string/description"
         android:inputType="textMultiLine"
-        android:maxLines="4"
+        android:maxLines="7"
         android:minLines="7" />
 
     <AutoCompleteTextView
@@ -145,13 +145,16 @@
         android:padding="@dimen/tag_horizontal_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:orientation="horizontal"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
-    <ListView
-        android:id="@+id/image_listview"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/image_recyclerview"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="bottom"
-        android:layout_height="match_parent" />
+        android:orientation="vertical"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
 </LinearLayout>

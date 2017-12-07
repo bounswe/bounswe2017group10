@@ -3,5 +3,4 @@
     <color name="url_link_color">#0000ee</color>
     <color name="button_gray">#454545</color>
     <color name="tag_background">@color/secondaryColor</color>
-    <color name="button_background_color">#ffc0c0</color>
 </resources>

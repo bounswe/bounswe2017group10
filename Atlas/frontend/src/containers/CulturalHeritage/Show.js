@@ -2,10 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ShowPage from '../../components/CulturalHeritage/Show';
 import { withRouter } from 'react-router';
-import { authGet, authPost } from '../../utils';
+import { authGet, authPost, authDelete } from '../../utils';
 import { API_URL } from '../../constants';
-import { updateCommentInput, updateCulturalHeritage, updateRecommendations } from '../../actions/culturalHeritage';
+import { updateCommentInput, updateCulturalHeritage, updateRecommendations, deleteCulturalHeritage, loadSingleItem, startUpdateRecommendation } from '../../actions/culturalHeritage';
 import { favItem, getRecommendedItems } from './Common';
+import NotFoundPage from '../../components/NotFound/NotFound';
+import Spinner from 'react-icons/lib/fa/spinner';
+import '../../components/CulturalHeritage/style.css';
 
 const mapStateToProps = (state, props) => {
   const culturalHeritage = state.culturalHeritage.data.find(c => c.id === parseInt(props.match.params.id, 10));
@@ -13,8 +16,10 @@ const mapStateToProps = (state, props) => {
     user: state.auth.user,
     token: state.auth.token,
     culturalHeritage,
+    currentItem: state.culturalHeritage.currentItem,
     commentInput: state.culturalHeritage.commentInput,
-    recommendations: state.culturalHeritage.recommendations
+    recommendations: state.culturalHeritage.recommendations,
+    recommendationLoadCompleted: state.culturalHeritage.recommendationLoadCompleted
   };
 }
 
@@ -24,13 +29,14 @@ const mapDispatchToProps = dispatch => ({
       url: API_URL + '/cultural_heritage_item/' + id
     }).then(resp => {
       dispatch(updateCulturalHeritage(id, resp.data));
+      //dispatch(loadSingleItem(resp.data));
       cb(resp.data);
     }).catch(err => {
       console.log("Error when fetching cultural heritage item");
-      console.log(err);
     });
   },
   updateRecommendations: (token, culturalHeritage) => {
+    dispatch(startUpdateRecommendation());
     authGet(token, {
       url: API_URL + '/cultural_heritage_item/recommendation?item_id=' + culturalHeritage.id
     }).then(resp =>
@@ -63,11 +69,26 @@ const mapDispatchToProps = dispatch => ({
   },
   favoriteItem: (token, culturalHeritage) => {
     favItem(dispatch, token, culturalHeritage);
-  }
+  },
+    removeClick: (token, culturalHeritageId) => {
+
+        authDelete(token, {
+            url: API_URL + '/cultural_heritage_item/' + culturalHeritageId ,
+        }).then(resp => {
+            dispatch(deleteCulturalHeritage(culturalHeritageId));
+            window.location = '/cultural-heritages';
+        }).catch(err => {
+                console.log("Error when trying to remove a cultural heritage");
+        });
+
+        dispatch(deleteCulturalHeritage(culturalHeritageId));
+        window.location = '/cultural-heritages';
+
+    }
 });
 
 class App extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.loadCulturalHeritage(
       this.props.token,
       this.props.match.params.id,
@@ -76,7 +97,15 @@ class App extends React.Component {
   }
 
   render() {
-    return <ShowPage culturalHeritage={ this.props.culturalHeritage } { ...this.props }  />
+    return (
+      this.props.culturalHeritage !== undefined
+        ? ( <ShowPage culturalHeritage={this.props.culturalHeritage} {...this.props}  /> )
+        : ( <div className="spinner">
+          <Spinner />
+          <span>Loading</span>
+        </div>
+        )
+    )
   }
 }
 

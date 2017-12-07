@@ -295,6 +295,17 @@ public class CultureItem implements Parcelable {
         if (startYear != null && endYear != null) {
             year = FeedRow.toYearFormat(getStartYear(), getEndYear());
         }
+        if(userInfo==null)
+            return new FeedRow(url,
+                    title,
+                    description,
+                    placeName,
+                    year,
+                    tagList,
+                    favoriteCount,
+                    isFavorite,
+                    "");
+
         return new FeedRow(url,
                 title,
                 description,
@@ -302,6 +313,7 @@ public class CultureItem implements Parcelable {
                 year,
                 tagList,
                 favoriteCount,
+                isFavorite,
                 userInfo.getUsername());
     }
 

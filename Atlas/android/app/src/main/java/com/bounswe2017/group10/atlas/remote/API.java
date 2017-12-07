@@ -5,7 +5,6 @@ import com.bounswe2017.group10.atlas.httpbody.Comment;
 import com.bounswe2017.group10.atlas.httpbody.CreateItemResponse;
 import com.bounswe2017.group10.atlas.httpbody.CultureItem;
 import com.bounswe2017.group10.atlas.httpbody.GetItemsResponse;
-import com.bounswe2017.group10.atlas.httpbody.Image;
 import com.bounswe2017.group10.atlas.httpbody.ImageUploadRequest;
 import com.bounswe2017.group10.atlas.httpbody.LoginRequest;
 import com.bounswe2017.group10.atlas.httpbody.LoginResponse;
@@ -22,7 +21,6 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -57,7 +55,7 @@ public interface API {
                                    @Path("id") long id,
                                    @Body ImageUploadRequest imageList);
 
-    @GET("/cultural_heritage_item")
+    @GET("/cultural_heritage_item/featured")
     Call<GetItemsResponse> getItems(@Header("Authorization") String authStr,
                                     @Query("limit") long limit,
                                     @Query("offset") long offset);
@@ -90,5 +88,21 @@ public interface API {
     Call<GetItemsResponse> getOwnItems(@Header("Authorization") String authStr,
                                     @Query("limit") long limit,
                                     @Query("offset") long offset);
+    
+    @GET("/cultural_heritage_item/recommendation")
+    Call<GetItemsResponse> getRecommendedItems(@Header("Authorization") String authStr,
+                                               @Query("item_id") long id,
+                                               @Query("limit") long limit);
 
+    @GET("/user/cultural_heritage_item/favorite/")
+    Call<GetItemsResponse> getMyFavItems(@Header("Authorization") String authStr,
+                                       @Query("limit") long limit,
+                                       @Query("offset") long offset);
+
+    @GET("/nearby_items")
+    Call<GetItemsResponse> getNearbyItems(@Header("Authorization") String authStr,
+                                          @Query("limit") long limit,
+                                          @Query("offset") long offset,
+                                          @Query("latitude") double latitude,
+                                          @Query("longitude") double longitude);
 }

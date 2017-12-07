@@ -13,7 +13,7 @@ const AtlasNavbar = ({ token, logo, user, searchSuggestions, loggedIn, dropDownO
     <Navbar color="transparent" expand="md">
       <NavbarBrand href="/">
         <img src={ logo } alt="logo" className="logo" />
-        Atlas
+    &nbsp; Atlas
       </NavbarBrand>
       <NavbarToggler onClick={this.toggle} />
       <Collapse isOpen={true} navbar>

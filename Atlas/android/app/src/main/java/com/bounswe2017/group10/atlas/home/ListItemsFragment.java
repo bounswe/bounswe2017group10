@@ -95,6 +95,18 @@ public class ListItemsFragment extends Fragment {
     }
 
     /**
+     * RequestStrategy for getting a user's favourite items.
+     */
+    public static class FavItemsStrategy implements RequestStrategy {
+        @Override
+        public void requestItems(Context context, int offset, OnGetItemsResponse.GetItemCallback getItemCallback) {
+            String authStr = getSharedPref(context).getString(Constants.AUTH_STR, Constants.NO_AUTH_STR);
+            OnGetItemsResponse respHandler = new OnGetItemsResponse(context, getItemCallback);
+            APIUtils.serverAPI().getMyFavItems(authStr, Constants.PAGINATION_COUNT, offset).enqueue(respHandler);
+        }
+    }
+
+    /**
      * Set the current RequestStrategy to be used by this Fragment.
      *
      * @param strategy RequestStrategy whose requestItems method will be called when requesting items.
@@ -231,6 +243,7 @@ public class ListItemsFragment extends Fragment {
      * Clear the items shown on this ListItemsFragment.
      */
     public void clearItems() {
+        this.currentOffset = 0;
         mItemList.clear();
         mRowList.clear();
         mAdapter.notifyDataSetChanged();

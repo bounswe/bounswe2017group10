@@ -26,4 +26,6 @@ public class Constants {
     public static final int MAX_YEAR = 2100;
     public static final String DECIMAL_FORMAT_STRING = "###.000000";
     public static final String PROFILE_PICTURE = "PROFILE_PICTURE";
+    public static final String IMAGE_LIST = "IMAGE_LIST";
+    public static final int RECOMMENDATION_AMOUNT = 5;
 }

@@ -103,7 +103,7 @@ body {
   position: absolute;
   right: 100px;
   top: 300px;
-  background-color: $atlas-orange;
+  background-color: $atlas-blue;
   padding: 30px;
   color: white;
   z-index: 3;
@@ -163,5 +163,19 @@ img.ch-image {
   .recommended-item {
     margin-bottom: 20px;
     display: inline-block;
+  }
+}
+
+.spinner {
+  text-align: center;
+  width: 100%;
+  margin-top: 200px;
+
+  svg {
+    font-size: 50px;
+  }
+  span {
+    font-size: 30px;
+    margin-left: 10px;
   }
 }

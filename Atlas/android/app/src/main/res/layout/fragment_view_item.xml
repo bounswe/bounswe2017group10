@@ -26,14 +26,88 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
-        <Gallery
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/image_gallery"
             android:layout_width="match_parent"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
-            android:layout_height="wrap_content">
+            android:layout_height="250dp"
+            android:orientation="horizontal"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
-        </Gallery>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:orientation="horizontal"
+            android:id="@+id/footer_layout_detail_1"
+            android:weightSum="2" >
+
+
+            <TextView
+                android:id="@+id/location_textview_detail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/no_location"
+                android:layout_weight="1"
+                android:layout_marginTop="2dp"
+                android:drawableStart="@drawable/ic_place_black_24dp"
+                android:ellipsize="end"
+                android:gravity="start"
+                android:maxLines="1" />
+
+            <View
+                style="@style/VerticalDivider"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp" />
+
+            <TextView
+                android:id="@+id/owner_textview_detail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:drawableEnd="@drawable/ic_person_black_24dp"
+                android:gravity="end" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:orientation="horizontal"
+            android:id="@+id/footer_layout_detail_2"
+            android:weightSum="2" >
+
+            <TextView
+                android:id="@+id/year_textview_detail"
+                android:layout_width="0dp"
+                android:text="@string/no_date"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:drawableStart="@drawable/ic_date_range_black_24dp"
+                android:gravity="start" />
+
+            <View
+                style="@style/VerticalDivider"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp" />
+
+
+            <TextView
+                android:id="@+id/favorite_textview_detail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="2dp"
+                android:drawableEnd="@drawable/ic_favorite_black_24dp"
+                android:ellipsize="end"
+                android:gravity="end"
+                android:maxLines="1" />
+        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/tag_recyclerview"
@@ -134,6 +208,10 @@
             android:layout_marginBottom="10dp"
             style="@style/HorizontalDivider" />
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="15dp" />
+
         <TextView
             android:id="@+id/recommendations_title"
             android:layout_width="match_parent"
@@ -143,6 +221,38 @@
             android:textColor="@color/primaryTextColor"
             android:textSize="@dimen/view_item_header_size"
             android:textStyle="bold" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recommendations_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:orientation="horizontal"
+            android:scrollbars="horizontal"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            tools:splitMotionEvents="false" />
+
+    <LinearLayout
+        android:id="@+id/recommendations_pbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:orientation="vertical"
+        android:visibility="visible"
+        android:weightSum="1">
+
+        <ProgressBar
+            android:id="@+id/recommendations_pbar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center_horizontal"
+            android:fitsSystemWindows="false" />
     </LinearLayout>
+
+
+    </LinearLayout>
+
+
 
 </ScrollView>
