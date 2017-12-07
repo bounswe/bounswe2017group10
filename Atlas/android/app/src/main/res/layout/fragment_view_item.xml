@@ -61,12 +61,12 @@
                 android:layout_marginEnd="2dp" />
 
             <TextView
-                android:id="@+id/year_textview_detail"
+                android:id="@+id/owner_textview_detail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:layout_weight="1"
-                android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                android:drawableEnd="@drawable/ic_person_black_24dp"
                 android:gravity="end" />
 
 
@@ -81,12 +81,12 @@
             android:weightSum="2" >
 
             <TextView
-                android:id="@+id/owner_textview_detail"
+                android:id="@+id/year_textview_detail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:layout_weight="1"
-                android:drawableStart="@drawable/ic_person_black_24dp"
+                android:drawableStart="@drawable/ic_date_range_black_24dp"
                 android:gravity="start" />
 
             <View
