@@ -55,11 +55,10 @@ const reducer = (state = initState, action) => {
 
     }
 
+    case 'LOAD_CULTURAL_HERITAGE':
+      return{
+          ...state,
       }
-      case 'LOAD_CULTURAL_HERITAGE':
-        return{
-            ...state,
-        }
 
     case 'IMAGE_URL_UPLOADED':
       return {

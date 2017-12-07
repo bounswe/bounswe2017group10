@@ -16,11 +16,8 @@ import IndexCulturalHeritagesPage from '../../containers/CulturalHeritage/Index'
 import AddCulturalHeritagePage from '../../containers/CulturalHeritage/Add';
 import ShowCulturalHeritagePage from '../../containers/CulturalHeritage/Show';
 import Search from '../../containers/Search/Search';
-<<<<<<< HEAD
 import NearbyItemsPage from '../../containers/CulturalHeritage/Nearby';
-=======
 import NotFound from '../../components/NotFound/NotFound';
->>>>>>> master
 
 const Routes = ({ user, loggedIn }) => ({
   render() {
