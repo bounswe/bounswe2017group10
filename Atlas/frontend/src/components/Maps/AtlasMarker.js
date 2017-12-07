@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CulturalHeritage from '../CulturalHeritage/CulturalHeritage';
 import { Row } from 'reactstrap';
-import './style.css';
 import { InfoWindow } from 'react-google-maps';
 
 const camelize = function(str) {
@@ -114,7 +113,7 @@ export class Marker extends React.Component {
        if(this.props.activeMarker == this.props.item.id){ return(
 
         <Row style={{ marginTop:'450px' }}>
-        <CulturalHeritage returnTo="/nearby-items"  withLink={ true } className="hovering-item" culturalHeritage={ this.props.item } showCommentSummary={ true } shouldTruncate ={ true }  />
+          <CulturalHeritage returnTo="/nearby-items"  withLink={ true } className="hovering-item" culturalHeritage={ this.props.item } showCommentSummary={ true } shouldTruncate ={ true }  />
         </Row>
             );}else{
            return null;
