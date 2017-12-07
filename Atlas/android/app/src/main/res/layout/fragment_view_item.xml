@@ -48,6 +48,7 @@
                 android:id="@+id/location_textview_detail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:text="@string/no_location"
                 android:layout_weight="1"
                 android:layout_marginTop="2dp"
                 android:drawableStart="@drawable/ic_place_black_24dp"
@@ -83,6 +84,7 @@
             <TextView
                 android:id="@+id/year_textview_detail"
                 android:layout_width="0dp"
+                android:text="@string/no_date"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:layout_weight="1"
