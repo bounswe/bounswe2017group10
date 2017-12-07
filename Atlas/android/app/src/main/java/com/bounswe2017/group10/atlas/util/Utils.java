@@ -197,4 +197,19 @@ public class Utils {
         }
         return year >= Constants.MIN_YEAR && year <= Constants.MAX_YEAR;
     }
+
+    /**
+     * Given a negative or positive year, this function converts the year to
+     * the format <abs(year)>BC if year is negative, and <year> if not.
+     *
+     * @param year An integer representing a year.
+     * @return A string representation of the year with BC suffix if needed.
+     */
+    public static String yearString(int year) {
+        String yearStr = Integer.toString(year);
+        if (year < 0) {
+            yearStr = yearStr.substring(1) + "BC";
+        }
+        return yearStr;
+    }
 }

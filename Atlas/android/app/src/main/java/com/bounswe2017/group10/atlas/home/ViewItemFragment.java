@@ -316,19 +316,17 @@ public class ViewItemFragment extends Fragment {
      * @param twTitle TextView responsible for showing the title of the CultureItem.
      * @param twDescription TextView responsible for showing the description of the CultureItem.
      * @param item CultureItem object.
-     *
-     * TODO: Show other text information of a CultureItem.
      */
     private void setText(TextView twTitle, TextView twDescription, TextView twLocation,
                          TextView twDate, TextView twOwner, TextView twFavCount, CultureItem item) {
         twTitle.setText(item.getTitle());
         twDescription.setText(item.getDescription());
         twLocation.setText(item.getPlaceName());
-        if(item.getStartYear() != null && item.getEndYear() != null)
-            twDate.setText(getActivity().getString(R.string.year_string, Integer.toString(item.getStartYear()),
-                    Integer.toString(item.getEndYear())));
-        else if (item.getStartYear() != null)
-            twDate.setText(item.getStartYear());
+        if(item.getStartYear() != null && item.getEndYear() != null) {
+            String startYearStr = Utils.yearString(item.getStartYear());
+            String endYearStr = Utils.yearString(item.getEndYear());
+            twDate.setText(getString(R.string.year_string, startYearStr, endYearStr));
+        }
         twOwner.setText(item.getUserInfo().getUsername());
         twFavCount.setText(item.getFavoriteCount());
 

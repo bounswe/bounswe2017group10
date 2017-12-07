@@ -87,7 +87,9 @@ public class ListItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
             etTitle.setText(row.getTitle());
             etDescr.setText(row.getDescription());
-            etLocation.setText(row.getLocation());
+            if (row.getLocation() != null) {
+                etLocation.setText(row.getLocation());
+            }
             etFavorite.setText(row.getFavoriteCount());
             etCreator.setText(context.getString(R.string.created_by, row.getCreatorUsername()));
 
@@ -99,14 +101,8 @@ public class ListItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             if (row.getYear() != null) {
                 int[] yearPair = FeedRow.fromYearFormat(row.getYear());
-                String start = Integer.toString(yearPair[0]);
-                if (yearPair[0] < 0) {
-                    start = start.substring(1) + "BC";
-                }
-                String end = Integer.toString(yearPair[1]);
-                if (yearPair[1] < 0) {
-                    end = end.substring(1) + "BC";
-                }
+                String start = Utils.yearString(yearPair[0]);
+                String end = Utils.yearString(yearPair[1]);
                 etYear.setText(context.getString(R.string.year_string, start, end));
             }
 

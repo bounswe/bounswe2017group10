@@ -134,6 +134,7 @@
                 android:id="@+id/location_textview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:text="@string/no_location"
                 android:layout_weight="1.25"
                 android:layout_marginTop="2dp"
                 android:drawableStart="@drawable/ic_place_black_24dp"
@@ -153,6 +154,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:ellipsize="end"
+                android:text="@string/no_date"
                 android:layout_marginTop="2dp"
                 android:drawableStart="@drawable/ic_date_range_black_24dp"
                 android:gravity="center" />
