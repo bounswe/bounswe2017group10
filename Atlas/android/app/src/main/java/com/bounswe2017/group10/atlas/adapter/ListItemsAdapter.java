@@ -89,6 +89,8 @@ public class ListItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             etDescr.setText(row.getDescription());
             if (row.getLocation() != null) {
                 etLocation.setText(row.getLocation());
+            } else {
+                etLocation.setText(context.getString(R.string.no_location));
             }
             etFavorite.setText(row.getFavoriteCount());
             etCreator.setText(context.getString(R.string.created_by, row.getCreatorUsername()));
@@ -104,6 +106,8 @@ public class ListItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 String start = Utils.yearString(yearPair[0]);
                 String end = Utils.yearString(yearPair[1]);
                 etYear.setText(context.getString(R.string.year_string, start, end));
+            } else {
+                etYear.setText(context.getString(R.string.no_date));
             }
 
             Glide.with(context)
