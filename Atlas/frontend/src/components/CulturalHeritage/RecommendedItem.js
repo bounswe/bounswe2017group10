@@ -12,7 +12,7 @@ import { loadSingleItem } from '../../actions/culturalHeritage';
 
 const CulturalHeritage = ({ culturalHeritage }) => {
   return (
-    <a href={ "/cultural-heritages/" + culturalHeritage.id + "?returnTo=wow" } className="recommended-item" >
+    <a href={ "/cultural-heritages/" + culturalHeritage.id } className="recommended-item" >
       <Row>
         <Col xs="12">
           { culturalHeritage.images.length > 0 ? (
@@ -33,4 +33,3 @@ const CulturalHeritage = ({ culturalHeritage }) => {
 }
 
 export default CulturalHeritage;
-

@@ -4,7 +4,7 @@ import ShowPage from '../../components/CulturalHeritage/Show';
 import { withRouter } from 'react-router';
 import { authGet, authPost, authDelete } from '../../utils';
 import { API_URL } from '../../constants';
-import { updateCommentInput, updateCulturalHeritage, updateRecommendations, deleteCulturalHeritage, loadSingleItem } from '../../actions/culturalHeritage';
+import { updateCommentInput, updateCulturalHeritage, updateRecommendations, deleteCulturalHeritage, loadSingleItem, startUpdateRecommendation } from '../../actions/culturalHeritage';
 import { favItem, getRecommendedItems } from './Common';
 import NotFoundPage from '../../components/NotFound/NotFound';
 import Spinner from 'react-icons/lib/fa/spinner';
@@ -18,7 +18,8 @@ const mapStateToProps = (state, props) => {
     culturalHeritage,
     currentItem: state.culturalHeritage.currentItem,
     commentInput: state.culturalHeritage.commentInput,
-    recommendations: state.culturalHeritage.recommendations
+    recommendations: state.culturalHeritage.recommendations,
+    recommendationLoadCompleted: state.culturalHeritage.recommendationLoadCompleted
   };
 }
 
@@ -35,6 +36,7 @@ const mapDispatchToProps = dispatch => ({
     });
   },
   updateRecommendations: (token, culturalHeritage) => {
+    dispatch(startUpdateRecommendation());
     authGet(token, {
       url: API_URL + '/cultural_heritage_item/recommendation?item_id=' + culturalHeritage.id
     }).then(resp =>

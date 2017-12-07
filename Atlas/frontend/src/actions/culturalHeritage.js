@@ -171,3 +171,9 @@ export const deleteCulturalHeritage = (data) => {
         data
     }
 }
+
+export const startUpdateRecommendation = () => {
+    return {
+        type: 'START_UPDATE_RECOMMENDATION',
+    }
+}
