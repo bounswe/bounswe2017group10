@@ -193,7 +193,7 @@ const reducer = (state = initState, action) => {
     case 'UPDATE_CULTURAL_HERITAGE':
       return {
         ...state,
-        data: state.data.find(c => c.id == action.data.id)
+        data: state.data.find(c => c.id === action.data.id)
           ? state.data.map(c => parseInt(c.id, 10) === parseInt(action.data.id, 10) ? action.data.data : c)
           : [].concat(state.data, action.data.data),
         commentInput: ""
@@ -214,7 +214,7 @@ const reducer = (state = initState, action) => {
         return {
             ...state,
             data: state.data.filter( function(c) {
-                return !(c.id == action.data);
+                return !(c.id === action.data);
             })
         }
 

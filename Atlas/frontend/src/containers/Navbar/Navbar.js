@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import Navbar from '../../components/Navbar/Navbar';
 import logo from '../../assets/images/logo.png';
 import { logout } from '../../actions/auth';
-import { toggleClosed , toggleOpen, updateSearchInput, selectSearchValue, updateSearchSuggestions, updateSearchedCulturalHeritages } from '../../actions/navbar';
+import { toggleClosed , toggleOpen, updateSearchInput, updateSearchedCulturalHeritages } from '../../actions/navbar';
 import { isLoggedIn, authGet } from '../../utils';
 import { API_URL } from '../../constants.js';
 

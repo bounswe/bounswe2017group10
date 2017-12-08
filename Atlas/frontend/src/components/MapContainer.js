@@ -18,8 +18,8 @@ export class MapContainer extends React.Component {
         return (
 
             <Map onClick={this.props.mapClick} center={{
-                lat: (typeof this.props.lat != 'undefined') ? this.props.lat:48,
-                lng: (typeof this.props.lng != 'undefined') ? this.props.lng:2
+                lat: (typeof this.props.lat !== 'undefined') ? this.props.lat:48,
+                lng: (typeof this.props.lng !== 'undefined') ? this.props.lng:2
             }} google={this.props.google} zoom={8}
             style={{height:'800px', width: '1110px'}}>
 

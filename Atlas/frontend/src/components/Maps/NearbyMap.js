@@ -1,6 +1,5 @@
 import {Map, GoogleApiWrapper} from 'google-maps-react';
 import React from 'react';
-import CulturalHeritage from '../CulturalHeritage/CulturalHeritage';
 import Marker from './AtlasMarker'
 
 export class AtlasMap extends React.Component {
@@ -9,7 +8,7 @@ export class AtlasMap extends React.Component {
         this.props.mouseOffMarker();
         if (navigator && navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((pos) => {
-              if(this.props.center==null) {
+              if(this.props.center===null) {
                 this.props.getUserLoc({ltd:pos.coords.latitude.toFixed(5),lng:pos.coords.longitude.toFixed(5)});
               }
                 this.props.loadHeritages(this.props.token, this.props.center);
@@ -30,7 +29,7 @@ export class AtlasMap extends React.Component {
                 lat: (this.props.center != null) ? this.props.center.ltd:48,
                 lng: (this.props.center != null) ? this.props.center.lng:2
             }} google={this.props.google} zoom={8}
-                 style={this.props.activeMarker==-1? {height:'900px', width: '1130px'}:{height:'400px', width: '1130px'}}
+                 style={this.props.activeMarker===-1? {height:'900px', width: '1130px'}:{height:'400px', width: '1130px'}}
             onDragend={ this.getCenter }>
 
                 {this.props.items && this.props.items

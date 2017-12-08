@@ -1,11 +1,8 @@
 import React from 'react';
-import CulturalHeritage from './CulturalHeritage';
 import './style.css';
 import { Col, Row, Container } from 'reactstrap';
-import { NavLink } from 'react-router-dom';
 import AtlasHeader from '../utils/AtlasHeader';
 import AtlasMap from '../Maps/NearbyMap';
-import LeftIcon from 'react-icons/lib/fa/angle-left';
 
 const Page = ({ user, token, mapCenter, dragMap, location, mouseOn, loadUserLocation, mouseOnMarker, mouseOffMarker, nearbyItems, loadNearbyCulturalHeritages, closeHelp, loadMore, enableLoadMore, favoriteItem }) => (
     <Container>

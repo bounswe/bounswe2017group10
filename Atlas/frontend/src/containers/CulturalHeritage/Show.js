@@ -4,9 +4,8 @@ import ShowPage from '../../components/CulturalHeritage/Show';
 import { withRouter } from 'react-router';
 import { authGet, authPost, authDelete } from '../../utils';
 import { API_URL } from '../../constants';
-import { updateCommentInput, updateCulturalHeritage, updateRecommendations, deleteCulturalHeritage, loadSingleItem, startUpdateRecommendation } from '../../actions/culturalHeritage';
-import { favItem, getRecommendedItems } from './Common';
-import NotFoundPage from '../../components/NotFound/NotFound';
+import { updateCommentInput, updateCulturalHeritage, updateRecommendations, deleteCulturalHeritage, startUpdateRecommendation } from '../../actions/culturalHeritage';
+import { favItem } from './Common';
 import Spinner from 'react-icons/lib/fa/spinner';
 import '../../components/CulturalHeritage/style.css';
 

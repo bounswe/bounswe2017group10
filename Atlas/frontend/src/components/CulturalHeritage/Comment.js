@@ -1,15 +1,17 @@
 import React from 'react';
 import ClockIcon from 'react-icons/lib/fa/clock-o';
 import Moment from 'react-moment'
-import { Container, Row, Col } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import unknown from '../../assets/images/unknown.png'
 
 const Comment = ({ comment }) => (
   <Row className="whitebox-comment">
       <Col xs="2" className="info">
           { comment.user_info.picture == null ? (
+            // eslint-disable-next-line
               <img alt="Profile Picture" src={ unknown } />
           ) : (
+            // eslint-disable-next-line
               <img alt="Profile Picture" src={ comment.user_info.picture } />
           )
           }

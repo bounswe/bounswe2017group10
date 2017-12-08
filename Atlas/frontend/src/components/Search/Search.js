@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import CulturalHeritage from '../CulturalHeritage/CulturalHeritage';
 import { Col, Row, Container } from 'reactstrap';
 import { NavLink } from 'react-router-dom';

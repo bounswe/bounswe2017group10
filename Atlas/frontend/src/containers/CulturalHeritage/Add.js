@@ -10,8 +10,6 @@ import {
     uploadImage,
     addCHTag,
     deleteCHTag,
-    searchLocation,
-    mapClick,
     updateLocation
 } from '../../actions/culturalHeritage';
 import axios from 'axios';
@@ -119,7 +117,7 @@ const mapDispatchToProps = dispatch => {
             }).then(response => {
 
 
-                if (response.data.status == "OK") {
+                if (response.data.status === "OK") {
                     const name1 = "lng";
                     const val1 = JSON.stringify(response.data.results[0].geometry.location.lng);
                     dispatch(updateCHInput(name1,Number(val1).toFixed(5)));
@@ -154,7 +152,7 @@ const mapDispatchToProps = dispatch => {
             }).then(response => {
 
 
-                if (response.data.status == "OK") {
+                if (response.data.status === "OK") {
 
                     const locationName = JSON.stringify(response.data.results[0].address_components[1].long_name);
                     dispatch(updateCHInput("locationName",locationName));

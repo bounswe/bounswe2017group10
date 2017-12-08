@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CulturalHeritage from '../CulturalHeritage/CulturalHeritage';
 import { Row } from 'reactstrap';
-import { InfoWindow } from 'react-google-maps';
 
 const camelize = function(str) {
     return str.split(' ').map(function(word) {
@@ -60,7 +59,7 @@ export class Marker extends React.Component {
 
     renderMarker() {
         let {
-            map, google, position, mapCenter, icon, label, draggable, title, item,
+            map, google, position, mapCenter, icon, label, draggable, title,
         } = this.props;
         if (!google) {
             return null
@@ -96,12 +95,12 @@ export class Marker extends React.Component {
         return (e) => {
             const evtName = `on${camelize(evt)}`
             if (this.props[evtName]) {
-                if(evtName=='onClick'){
+                if(evtName==='onClick'){
                     this.props.mouseOnMarker(this.props.item.id);
-                }else if(evtName=='onMouseover'){
+                }else if(evtName==='onMouseover'){
 
                     console.log(this.props.item.id);
-                }else if(evtName=='onMouseout'){
+                }else if(evtName==='onMouseout'){
                     //this.props.mouseOffMarker();
                 }
             }
@@ -110,7 +109,7 @@ export class Marker extends React.Component {
 
 
     render() {
-       if(this.props.activeMarker == this.props.item.id){ return(
+       if(this.props.activeMarker === this.props.item.id){ return(
 
         <Row style={{ marginTop:'450px' }}>
           <CulturalHeritage returnTo="/nearby-items"  withLink={ true } className="hovering-item" culturalHeritage={ this.props.item } showCommentSummary={ true } shouldTruncate ={ true }  />

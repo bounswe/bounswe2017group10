@@ -25,10 +25,6 @@ const mapDispatchToProps = dispatch => {
     return {
         loadNearbyCulturalHeritages: (token, location) => {
             dispatch(fetchNearbyCH());
-            var locationdata= {
-                'longitude': location.lng ,
-                'latitude': location.ltd,
-            }
             axios({
                 method: 'get',
                 url: API_URL + '/nearby_items',

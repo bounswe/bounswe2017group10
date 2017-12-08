@@ -19,7 +19,7 @@ const Show = ({ user, token, culturalHeritage, commentInput, recommendations, re
           </NavLink>
         </Col>
         <Col xs="6">
-            {(culturalHeritage.user == user.id) && <Button style={{ background:'red', float: 'right', fontSize: 18, textAlign: 'right' }} onClick={() => removeClick(token, culturalHeritage.id)}>Remove Item</Button>}
+            {(culturalHeritage.user === user.id) && <Button style={{ background:'red', float: 'right', fontSize: 18, textAlign: 'right' }} onClick={() => removeClick(token, culturalHeritage.id)}>Remove Item</Button>}
         </Col>
       </Row>
 

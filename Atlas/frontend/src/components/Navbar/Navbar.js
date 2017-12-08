@@ -5,8 +5,6 @@ import './style.css';
 import AccIcon from 'react-icons/lib/md/account-circle';
 import PhotoIcon from 'react-icons/lib/md/photo-album';
 import GithubIcon from 'react-icons/lib/fa/github';
-import Autocomplete from 'react-autocomplete';
-import { truncate } from '../../utils';
 
 const AtlasNavbar = ({ token, logo, user, searchSuggestions, loggedIn, dropDownOpen, searchInput, logout, closeDrop, openDrop, updateSearchInput, search }) => (
   <div>

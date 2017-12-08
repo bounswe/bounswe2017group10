@@ -3,9 +3,6 @@ import { Button, Form, FormGroup, Input, Col, Row, Container } from 'reactstrap'
 import './style.css';
 import { withRouter } from 'react-router-dom';
 import { Errors } from '../../utils';
-import atlasImg from '../../assets/images/atlas.jpeg';
-
-
 
 const Login = ({ history, token, loginInputs, loginErrors, attemptLogin, handleInputChange }) => (
   <Container className="square-box">

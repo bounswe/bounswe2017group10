@@ -1,6 +1,5 @@
 import React from 'react';
-import { Card, CardBody,
-  CardTitle, CardSubtitle,
+import { 
   Container, Row, Col
 } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
@@ -15,8 +14,10 @@ const Profile = ({ user }) => ({
               <Col xs="3">
 
                       { user.profile_picture == null ? (
+                          // eslint-disable-next-line
                           <img alt="Profile Picture" src={ unknown} />
                       ) : (
+                          // eslint-disable-next-line
                           <img alt="Profile Picture" src={ user.profile_picture} />
                       )
                       }

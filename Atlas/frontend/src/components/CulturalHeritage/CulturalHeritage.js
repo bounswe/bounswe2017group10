@@ -28,7 +28,7 @@ const CulturalHeritage = ({ withCloseButton=false ,returnTo, close, culturalHeri
           : culturalHeritage.description
           }
         </p> 
-        { (culturalHeritage.country || culturalHeritage.city || culturalHeritage.tags.length != 0) && <hr /> }
+        { (culturalHeritage.country || culturalHeritage.city || culturalHeritage.tags.length !== 0) && <hr /> }
         { culturalHeritage.country &&
           <label className="small-label">
             <BankIcon />

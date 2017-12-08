@@ -1,14 +1,5 @@
 import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
-import { truncate } from '../../utils';
-import HomeIcon from 'react-icons/lib/fa/home';
-import BankIcon from 'react-icons/lib/fa/bank';
-import TagIcon from 'react-icons/lib/fa/tag';
-import Comment from './Comment';
-import AtlasHeader from '../utils/AtlasHeader'
-import CHFav from './CHFav';
-import { NavLink } from 'react-router-dom';
-import { loadSingleItem } from '../../actions/culturalHeritage';
+import { Row, Col } from 'reactstrap';
 
 const CulturalHeritage = ({ culturalHeritage }) => {
   return (
