@@ -180,8 +180,8 @@ public class ViewItemFragment extends Fragment {
 
         long currentUserId = Utils.getSharedPref(mActivity).getLong(Constants.USER_ID, -1);
         if (currentUserId != mItem.getUser()) {
-            //menu.findItem(R.id.action_edit).setVisible(false);
-            //menu.findItem(R.id.action_delete).setVisible(false);
+            menu.findItem(R.id.action_edit).setVisible(false);
+            menu.findItem(R.id.action_delete).setVisible(false);
         }
 
         if (mItem.isFavorite()) {

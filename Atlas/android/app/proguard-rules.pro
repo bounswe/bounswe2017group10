@@ -40,5 +40,7 @@
   public *;
 }
 
-# for DexGuard only
--keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+-keep public class com.cloudinary.**
+-keep class android.support.v7.widget.SearchView { *; }
+
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
