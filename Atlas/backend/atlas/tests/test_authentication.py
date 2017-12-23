@@ -17,6 +17,7 @@ class JSONWebTokenAuthTestCase(TestCase):
         self.password = 'passworD1'
         self.login_url = '/api/auth/login/'
         self.sigun_url = '/api/auth/signup/'
+        self.update_profile = '/api/auth/me/'
         self.user = Account.objects.create_user(
             email=self.email, password=self.password, username=self.username)
 
@@ -307,6 +308,162 @@ class JSONWebTokenAuthTestCase(TestCase):
         token = response_content['token']
         response = APIClient().get(
             '/api/auth/me',
+            HTTP_AUTHORIZATION='JWT ' + token
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_account_update_with_firstname_and_picture(self):
+        response = self.client.post(
+            self.login_url,
+            json.dumps(self.login_data_with_username),
+            content_type='application/json',
+        )
+        self.assertEqual(response.status_code, 200)
+        response_content = json.loads(smart_text(response.content))
+        token = response_content['token']
+
+        data = {
+            'profile_picture' : 'http://i.imgur.com/3OLTFVq.jpg',
+            'firstname' : 'hayri',
+        }
+        response = APIClient().patch(
+            self.update_profile + self.username + '/',
+            json.dumps(data),
+            content_type='application/json',
+            HTTP_AUTHORIZATION='JWT ' + token
+        )
+        self.assertEqual(response.status_code, 200)
+
+        response = APIClient().get(
+            '/api/auth/me',
+            HTTP_AUTHORIZATION='JWT ' + token
+        )
+        self.assertEqual(response.status_code, 200)
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(response_content['profile_picture'], 'http://i.imgur.com/3OLTFVq.jpg')
+        self.assertEqual(response_content['firstname'], 'hayri')
+
+    """
+        When username is changed, current JWT becomes invalid. I could not 
+        find a workaround for this. So username is not updatable for now.
+    """
+    def test_account_update_with_email_and_not_username(self):
+        response = self.client.post(
+            self.login_url,
+            json.dumps(self.login_data_with_username),
+            content_type='application/json',
+        )
+        self.assertEqual(response.status_code, 200)
+        response_content = json.loads(smart_text(response.content))
+        token = response_content['token']
+
+        data = {
+            'email' : 'newmail@gmail.com',
+            'username' : 'newname'
+        }
+        response = APIClient().patch(
+            self.update_profile + self.username + '/',
+            json.dumps(data),
+            content_type='application/json',
+            HTTP_AUTHORIZATION='JWT ' + token
+        )
+        self.assertEqual(response.status_code, 200)
+
+        response = APIClient().get(
+            '/api/auth/me',
+            HTTP_AUTHORIZATION='JWT ' + token
+        )
+        self.assertEqual(response.status_code, 200)
+        response_content = json.loads(smart_text(response.content))
+        self.assertEqual(response_content['email'], 'newmail@gmail.com')
+        self.assertEqual(response_content['username'], 'heisenberg1')
+
+    def test_account_update_with_seized_username_and_valid_token(self):
+        response = self.client.post(
+            self.login_url,
+            json.dumps(self.login_data_with_username),
+            content_type='application/json',
+        )
+        self.assertEqual(response.status_code, 200)
+        response_content = json.loads(smart_text(response.content))
+        token = response_content['token']
+
+        data = {
+            'email' : 'altered@gmail.com'
+        }
+        response = APIClient().patch(
+            self.update_profile + 'regularuser' + '/',
+            json.dumps(data),
+            content_type='application/json',
+            HTTP_AUTHORIZATION='JWT ' + token
+        )
+        self.assertEqual(response.status_code, 403)
+
+    def test_account_update_with_invalid_password(self):
+        response = self.client.post(
+            self.login_url,
+            json.dumps(self.login_data_with_username),
+            content_type='application/json',
+        )
+        self.assertEqual(response.status_code, 200)
+        response_content = json.loads(smart_text(response.content))
+        token = response_content['token']
+
+        data = {
+            'old_password' : 'passworD1',
+            'password' : 'newpassword',
+            'confirm_password' : 'newpassword'
+        }
+        response = APIClient().patch(
+            self.update_profile + self.username + '/',
+            json.dumps(data),
+            content_type='application/json',
+            HTTP_AUTHORIZATION='JWT ' + token
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_account_update_with_new_password(self):
+        response = self.client.post(
+            self.login_url,
+            json.dumps(self.login_data_with_username),
+            content_type='application/json',
+        )
+        self.assertEqual(response.status_code, 200)
+        response_content = json.loads(smart_text(response.content))
+        token = response_content['token']
+
+        data = {
+            'old_password' : 'passworD1',
+            'password' : 'newpassworD1',
+            'confirm_password' : 'newpassworD1'
+        }
+        response = APIClient().patch(
+            self.update_profile + self.username + '/',
+            json.dumps(data),
+            content_type='application/json',
+            HTTP_AUTHORIZATION='JWT ' + token
+        )
+        self.assertEqual(response.status_code, 200)
+
+        self.login_data_with_username['password'] = 'newpassworD1'
+        response = self.client.post(
+            self.login_url,
+            json.dumps(self.login_data_with_username),
+            content_type='application/json',
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_account_update_regex(self):
+        response = self.client.post(
+            self.login_url,
+            json.dumps(self.login_data_with_username),
+            content_type='application/json',
+        )
+        self.assertEqual(response.status_code, 200)
+        response_content = json.loads(smart_text(response.content))
+        token = response_content['token']
+        response = APIClient().patch(
+            '/api/auth/me/' + self.username + '/',
             HTTP_AUTHORIZATION='JWT ' + token
         )
         self.assertEqual(response.status_code, 200)
