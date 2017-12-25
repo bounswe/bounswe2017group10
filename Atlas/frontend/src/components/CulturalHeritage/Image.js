@@ -14,7 +14,7 @@ const Image = ({ src, annotations, showAnnotation, hideAnnotation, annotationInp
           <div className="annotation-input" style={{ marginLeft: annotationInput.x, marginTop: annotationInput.y }}>
             <CloseButton onClick={ (e) => { e.preventDefault(); closeAnnotationInput(); } }/>
             <Input type="text" value={ annotationInput.text } onChange={ updateAnnotationInput }/>
-            <Button onClick={ () => createAnnotation(annotationInput.text) }>Create</Button>
+            <Button onClick={ () => createAnnotation(annotationInput.x, annotationInput.y, annotationInput.text) }>Create</Button>
           </div>
         }
         <div className="annotations">
