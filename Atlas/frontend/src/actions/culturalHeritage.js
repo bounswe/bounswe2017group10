@@ -260,3 +260,9 @@ export const closeAnnotationInput = () => {
     type: 'CLOSE_ANNOTATION_INPUT'
   }
 }
+
+export const hideAnnotations = () => {
+  return {
+    type: 'HIDE_ANNOTATIONS'
+  }
+}

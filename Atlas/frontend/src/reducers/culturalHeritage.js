@@ -251,7 +251,7 @@ const reducer = (state = initState, action) => {
     case 'CREATE_ANNOTATION':
       return {
         ...state,
-        annotations: state.annotations.concat({ id: state.annotations.length + 1, title: action.data })
+        annotations: state.annotations.concat({ id: state.annotations.length + 1, title: action.data.text, x: action.data.x, y: action.data.y })
       }
     case 'OPEN_ANNOTATION_INPUT':
       return {
@@ -264,6 +264,11 @@ const reducer = (state = initState, action) => {
       return {
         ...state,
         annotationInputOpen: false
+      }
+    case 'HIDE_ANNOTATIONS':
+      return {
+        ...state,
+        annotations: state.annotations.map(a => ({ ...a, display: false }))
       }
     default:
       return state;
