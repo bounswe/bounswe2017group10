@@ -230,3 +230,17 @@ export const hideAnnotation = (a) => {
     data: a.id
   }
 }
+
+export const updateAnnotationInput = (data) => {
+  return {
+    type: 'UPDATE_ANNOTATION_INPUT',
+    data
+  }
+}
+
+export const createAnnotation = (data) => {
+  return {
+    type: 'CREATE_ANNOTATION',
+    data
+  }
+}

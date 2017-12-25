@@ -15,7 +15,9 @@ const initState = {
   mouseOverOn: -1,
   mapLocation: null,
   recommendationLoadCompleted: false,
-  annotations: [{ id: 1, title: "wowannot", x: 30, y: 20, display: false }, { id: 2, title: "wowannot 2", x: 100, y: 50, display: false }]
+  annotations: [{ id: 1, title: "wowannot", x: 30, y: 20, display: false }, { id: 2, title: "wowannot 2", x: 100, y: 50, display: false }],
+  annotationInputOpen: true,
+  annotationInputText: "wow"
 };
 
 const reducer = (state = initState, action) => {
@@ -224,6 +226,11 @@ const reducer = (state = initState, action) => {
         ...state,
         recommendationLoadCompleted: false
       }
+    case 'START_UPDATE_RECOMMENDATION':
+      return {
+        ...state,
+        recommendationLoadCompleted: false
+      }
     case 'SHOW_ANNOTATION':
       return {
         ...state,
@@ -234,10 +241,15 @@ const reducer = (state = initState, action) => {
         ...state,
         annotations: state.annotations.map(a => a.id === action.data ? { ...a, display: false } : a)
       }
-    case 'START_UPDATE_RECOMMENDATION':
+    case 'UPDATE_ANNOTATION_INPUT':
       return {
         ...state,
-        recommendationLoadCompleted: false
+        annotationInputText: action.data
+      }
+    case 'CREATE_ANNOTATION':
+      return {
+        ...state,
+        annotations: state.annotations.concat({ id: state.annotations.length + 1, title: action.data })
       }
     default:
       return state;
