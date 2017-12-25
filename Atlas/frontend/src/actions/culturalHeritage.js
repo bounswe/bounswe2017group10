@@ -216,3 +216,17 @@ export const startUpdateRecommendation = () => {
         type: 'START_UPDATE_RECOMMENDATION',
     }
 }
+
+export const showAnnotation = (a) => {
+  return {
+    type: 'SHOW_ANNOTATION',
+    data: a.id
+  }
+}
+
+export const hideAnnotation = (a) => {
+  return {
+    type: 'HIDE_ANNOTATION',
+    data: a.id
+  }
+}

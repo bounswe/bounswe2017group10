@@ -14,7 +14,8 @@ const initState = {
   recommendations: [],
   mouseOverOn: -1,
   mapLocation: null,
-  recommendationLoadCompleted: false
+  recommendationLoadCompleted: false,
+  annotations: [{ id: 1, title: "wowannot", x: 30, y: 20, display: false }, { id: 2, title: "wowannot 2", x: 100, y: 50, display: false }]
 };
 
 const reducer = (state = initState, action) => {
@@ -218,6 +219,21 @@ const reducer = (state = initState, action) => {
             })
         }
 
+    case 'START_UPDATE_RECOMMENDATION':
+      return {
+        ...state,
+        recommendationLoadCompleted: false
+      }
+    case 'SHOW_ANNOTATION':
+      return {
+        ...state,
+        annotations: state.annotations.map(a => a.id === action.data ? { ...a, display: true } : a)
+      }
+    case 'HIDE_ANNOTATION':
+      return {
+        ...state,
+        annotations: state.annotations.map(a => a.id === action.data ? { ...a, display: false } : a)
+      }
     case 'START_UPDATE_RECOMMENDATION':
       return {
         ...state,

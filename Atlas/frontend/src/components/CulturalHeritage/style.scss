@@ -179,3 +179,20 @@ img.ch-image {
     margin-left: 10px;
   }
 }
+
+.annotations {
+  position: relative;
+  .annotation {
+    svg {
+      color: cyan;
+      font-size: 30px;
+    }
+    position: absolute;
+    .annotation-title {
+      background-color: white;
+      padding: 5px;
+      position: absolute;
+      z-index: 2;
+    }
+  }
+}

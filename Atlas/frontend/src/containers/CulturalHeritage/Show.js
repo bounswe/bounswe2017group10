@@ -4,7 +4,7 @@ import ShowPage from '../../components/CulturalHeritage/Show';
 import { withRouter } from 'react-router';
 import { authGet, authPost, authDelete } from '../../utils';
 import { API_URL } from '../../constants';
-import { updateCommentInput, updateCulturalHeritage, updateRecommendations, deleteCulturalHeritage, loadSingleItem, startUpdateRecommendation } from '../../actions/culturalHeritage';
+import { updateCommentInput, updateCulturalHeritage, updateRecommendations, deleteCulturalHeritage, loadSingleItem, startUpdateRecommendation, showAnnotation, hideAnnotation } from '../../actions/culturalHeritage';
 import { favItem, getRecommendedItems } from './Common';
 import NotFoundPage from '../../components/NotFound/NotFound';
 import Spinner from 'react-icons/lib/fa/spinner';
@@ -19,7 +19,8 @@ const mapStateToProps = (state, props) => {
     currentItem: state.culturalHeritage.currentItem,
     commentInput: state.culturalHeritage.commentInput,
     recommendations: state.culturalHeritage.recommendations,
-    recommendationLoadCompleted: state.culturalHeritage.recommendationLoadCompleted
+    recommendationLoadCompleted: state.culturalHeritage.recommendationLoadCompleted,
+    annotations: state.culturalHeritage.annotations
   };
 }
 
@@ -84,7 +85,9 @@ const mapDispatchToProps = dispatch => ({
         dispatch(deleteCulturalHeritage(culturalHeritageId));
         window.location = '/cultural-heritages';
 
-    }
+    },
+  showAnnotation: (a) => dispatch(showAnnotation(a)),
+  hideAnnotation: (a) => dispatch(hideAnnotation(a))
 });
 
 class App extends React.Component {
