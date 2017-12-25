@@ -3,7 +3,7 @@ from django.db import models
 
 class annotation(models.Model):
     context = models.CharField(max_length=100)
-    IRI = models.URLField(null=False, max_length=200)
+    IRI = models.URLField(null=True, max_length=200)
     motivation = models.CharField(max_length=100)
     creator = models.URLField(null=True)
 
@@ -15,8 +15,15 @@ class body(models.Model):
     text = models.CharField(max_length=200, null=True)
 
     @property
-    def meta_data(self):
-        pass
+    def info(self):
+        info={}
+        info['type'] = self.type
+        if(self.type == 'image'):
+            info['IRI'] = self.IRI
+        elif(self.type == 'text'):
+            info['textualBody'] = self.text
+            pass
+        return info
 
 class target(models.Model):
     annotation = models.ForeignKey('annotation', on_delete=models.CASCADE, null=True)

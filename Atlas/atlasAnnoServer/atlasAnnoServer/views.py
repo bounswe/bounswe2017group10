@@ -2,7 +2,7 @@ from rest_framework import generics, mixins
 from rest_framework import status
 from rest_framework.response import Response
 from .models import annotation, target, body
-from .serializers import  annotation_serializer, target_serializer
+from .serializers import  annotation_serializer, target_serializer, body_serializer
 
 class annotationView(generics.ListCreateAPIView):
 
@@ -20,19 +20,31 @@ class annotationView(generics.ListCreateAPIView):
         targets=[]
         if 'targets' in request.data:
             targets = request.data['targets']
+        body = {}
+        if 'body' in request.data:
+            body = request.data['body']
 
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
 
+        if (body!=None):
+
+            id_body = serializer.data['id']
+            body['annotation'] = id_body
+            body_serial = body_serializer(data=body)
+            body_serial.is_valid(raise_exception=True)
+            body_serial.save()
+
         if len(targets) > 0:
             id = serializer.data['id']
             for targ in targets:
-
+                print(targ)
                 targ['annotation'] = id
                 targ_serializer = target_serializer(data=targ)
                 targ_serializer.is_valid(raise_exception=True)
                 targ_serializer.save()
+
 
         headers = self.get_success_headers(serializer.data)
 
