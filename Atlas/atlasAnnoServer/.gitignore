@@ -1,0 +1,3 @@
+atlasenv
+*.pyc
+atlasAnnoServer/migrations
