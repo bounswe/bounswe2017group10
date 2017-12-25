@@ -17,7 +17,6 @@ class annotationView(generics.ListCreateAPIView):
         return annotation.objects.get_queryset().order_by('id')
 
     def create(self, request, *args, **kwargs):
-
         targets=[]
         if 'targets' in request.data:
             targets = request.data['targets']
