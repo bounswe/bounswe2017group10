@@ -190,3 +190,18 @@ img.ch-image {
   .spinner span {
     font-size: 30px;
     margin-left: 10px; }
+
+.annotations-container {
+  position: relative; }
+  .annotations-container .annotation {
+    position: absolute; }
+    .annotations-container .annotation svg {
+      color: cyan;
+      font-size: 30px; }
+    .annotations-container .annotation .annotation-title {
+      background-color: white;
+      padding: 5px;
+      position: absolute;
+      z-index: 2; }
+  .annotations-container .annotation-input {
+    position: absolute; }

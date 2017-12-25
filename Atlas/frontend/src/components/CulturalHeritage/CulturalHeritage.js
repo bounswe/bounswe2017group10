@@ -8,13 +8,34 @@ import Comment from './Comment';
 import AtlasHeader from '../utils/AtlasHeader'
 import CHFav from './CHFav';
 import { NavLink } from 'react-router-dom';
+import Image from './Image';
 
-const CulturalHeritage = ({ withCloseButton=false ,returnTo, close, culturalHeritage, shouldTruncate = false, showCommentSummary = false, showComments = false, favorite, withLink = true, showFavorite = true }) => {
+const CulturalHeritage = ({
+  withCloseButton=false,
+  returnTo,
+  close,
+  culturalHeritage,
+  shouldTruncate = false,
+  showCommentSummary = false,
+  showComments = false,
+  favorite,
+  withLink = true,
+  showFavorite = true,
+  showAnnotations = false,
+  annotations,
+  showAnnotation,
+  hideAnnotation,
+  annotationInput,
+  updateAnnotationInput,
+  createAnnotation,
+  openAnnotationInput,
+  closeAnnotationInput
+}) => {
   const ch = (
     <Row className="whitebox">
       <Col xs="5">
         { culturalHeritage.images.length > 0 ? (
-          <img className="ch-image" alt="Cultural Heritage" src={ culturalHeritage.images[0].url } />
+          <Image src={ culturalHeritage.images[0].url } annotations={ annotations } showAnnotations={ showAnnotations } showAnnotation={ showAnnotation } hideAnnotation={ hideAnnotation } annotationInput={ annotationInput } updateAnnotationInput={ updateAnnotationInput } createAnnotation={ createAnnotation } openAnnotationInput={ openAnnotationInput } closeAnnotationInput={ closeAnnotationInput }/>
           ) : (
           <span>No Image</span>
           )
