@@ -191,15 +191,17 @@ img.ch-image {
     font-size: 30px;
     margin-left: 10px; }
 
-.annotations {
+.annotations-container {
   position: relative; }
-  .annotations .annotation {
+  .annotations-container .annotation {
     position: absolute; }
-    .annotations .annotation svg {
+    .annotations-container .annotation svg {
       color: cyan;
       font-size: 30px; }
-    .annotations .annotation .annotation-title {
+    .annotations-container .annotation .annotation-title {
       background-color: white;
       padding: 5px;
       position: absolute;
       z-index: 2; }
+  .annotations-container .annotation-input {
+    position: absolute; }

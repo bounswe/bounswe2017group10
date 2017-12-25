@@ -244,3 +244,19 @@ export const createAnnotation = (data) => {
     data
   }
 }
+
+export const openAnnotationInput = (x, y) => {
+  return {
+    type: 'OPEN_ANNOTATION_INPUT',
+    data: {
+      x,
+      y
+    }
+  }
+}
+
+export const closeAnnotationInput = () => {
+  return {
+    type: 'CLOSE_ANNOTATION_INPUT'
+  }
+}

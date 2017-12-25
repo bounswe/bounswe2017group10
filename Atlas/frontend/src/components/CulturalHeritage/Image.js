@@ -1,13 +1,18 @@
 import React from 'react';
 import Annotation from './Annotation';
 import { Input, Button } from 'reactstrap';
+import CloseButton from 'react-icons/lib/ti/times';
 
-const Image = ({ src, annotations, showAnnotation, hideAnnotation, annotationInput, updateAnnotationInput, createAnnotation, showAnnotations }) => (
-  <div onClick={ (e) => { console.log(e.nativeEvent.offsetX);} }>
+const Image = ({ src, annotations, showAnnotation, hideAnnotation, annotationInput, updateAnnotationInput, createAnnotation, showAnnotations, openAnnotationInput, closeAnnotationInput }) => (
+  <div
+    className="annotations-container"
+    onClick={ (e) => !annotationInput.open && openAnnotationInput(e.nativeEvent.offsetX, e.nativeEvent.offsetY) }
+  >
     { showAnnotations &&
       <div>
         { annotationInput.open &&
-          <div className="annotation-input">
+          <div className="annotation-input" style={{ marginLeft: annotationInput.x, marginTop: annotationInput.y }}>
+            <CloseButton onClick={ (e) => { e.preventDefault(); closeAnnotationInput(); } }/>
             <Input type="text" value={ annotationInput.text } onChange={ updateAnnotationInput }/>
             <Button onClick={ () => createAnnotation(annotationInput.text) }>Create</Button>
           </div>

@@ -17,7 +17,9 @@ const initState = {
   recommendationLoadCompleted: false,
   annotations: [{ id: 1, title: "wowannot", x: 30, y: 20, display: false }, { id: 2, title: "wowannot 2", x: 100, y: 50, display: false }],
   annotationInputOpen: true,
-  annotationInputText: "wow"
+  annotationInputText: "wow",
+  annotationInputX: 0,
+  annotationInputY: 0
 };
 
 const reducer = (state = initState, action) => {
@@ -250,6 +252,18 @@ const reducer = (state = initState, action) => {
       return {
         ...state,
         annotations: state.annotations.concat({ id: state.annotations.length + 1, title: action.data })
+      }
+    case 'OPEN_ANNOTATION_INPUT':
+      return {
+        ...state,
+        annotationInputOpen: true,
+        annotationInputX: action.data.x,
+        annotationInputY: action.data.y
+      }
+    case 'CLOSE_ANNOTATION_INPUT':
+      return {
+        ...state,
+        annotationInputOpen: false
       }
     default:
       return state;

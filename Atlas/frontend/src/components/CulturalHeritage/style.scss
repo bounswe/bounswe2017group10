@@ -180,7 +180,7 @@ img.ch-image {
   }
 }
 
-.annotations {
+.annotations-container {
   position: relative;
   .annotation {
     svg {
@@ -194,5 +194,8 @@ img.ch-image {
       position: absolute;
       z-index: 2;
     }
+  }
+  .annotation-input {
+    position: absolute;
   }
 }
