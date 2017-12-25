@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^swagger/', schema_view),
     url(r'^admin/', admin.site.urls),
     url(r'^annotation/?$', views.annotationView.as_view()),
+    url(r'^annotation/(?P<query>[\w\W]+)?$', views.annotationRetrieve.as_view())
 ]
 
 urlpatterns += staticfiles_urlpatterns()

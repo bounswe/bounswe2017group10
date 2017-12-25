@@ -15,7 +15,7 @@ class body(models.Model):
     text = models.CharField(max_length=200, null=True)
 
     @property
-    def info(self):
+    def body(self):
         info={}
         info['type'] = self.type
         if(self.type == 'image'):
@@ -26,7 +26,9 @@ class body(models.Model):
         return info
 
 class target(models.Model):
+
     annotation = models.ForeignKey('annotation', on_delete=models.CASCADE, null=True)
+    context = models.URLField(default='http://www.w3.org/ns/anno.jsonld', max_length=100)
     type = models.CharField(max_length=100, null = True)
     IRI = models.URLField(null=False, max_length=200)
     x = models.IntegerField(default=0)

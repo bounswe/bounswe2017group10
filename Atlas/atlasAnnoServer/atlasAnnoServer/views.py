@@ -10,6 +10,7 @@ class annotationView(generics.ListCreateAPIView):
     serializer_class = annotation_serializer
 
     def perform_create(self, serializer):
+
         serializer.save()
 
     def get_queryset(self):
@@ -39,7 +40,6 @@ class annotationView(generics.ListCreateAPIView):
         if len(targets) > 0:
             id = serializer.data['id']
             for targ in targets:
-                print(targ)
                 targ['annotation'] = id
                 targ_serializer = target_serializer(data=targ)
                 targ_serializer.is_valid(raise_exception=True)
@@ -49,3 +49,13 @@ class annotationView(generics.ListCreateAPIView):
         headers = self.get_success_headers(serializer.data)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+class annotationRetrieve(generics.ListAPIView):
+    serializer_class = annotation_serializer
+    lookup_field = target.IRI
+
+    def get_queryset(self):
+        query = self.kwargs.get('query')[:-1]
+        annots = annotation.objects.filter(target__IRI=query)
+        return annots
+

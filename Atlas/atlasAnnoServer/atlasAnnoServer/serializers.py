@@ -11,7 +11,7 @@ class body_return_serializer(serializers.ModelSerializer):
     class Meta:
         model = body
         info = serializers.ReadOnlyField()
-        fields=['IRI','type','info']
+        fields=['IRI','type']
 
 class target_serializer(serializers.ModelSerializer):
     class Meta:
@@ -27,20 +27,21 @@ class target_return_serializer(serializers.ModelSerializer):
         fields = ['type', 'IRI', 'selector']
 
 class annotation_serializer(serializers.ModelSerializer):
-    context = serializers.CharField(required=False)
+    context = serializers.CharField(required=False, default='http://www.w3.org/ns/anno.jsonld')
     IRI = serializers.URLField(required=False)
     motivation = serializers.CharField(required=False)
     creator = serializers.URLField(required=False)
     target = target_return_serializer(source= 'target_set',read_only=True, many=True)
     body = body_return_serializer(source = 'body_set', read_only=True, many=True)
+    id = serializers.URLField(source='IRI',)
 
     class Meta:
         model = annotation
         fields = ['id', 'context', 'motivation', 'creator', 'motivation', 'IRI', 'target', 'body']
 
     def create(self, validated_data):
-
         anno = annotation.objects.create(**validated_data)
-        anno.IRI = 'http://atlasAnno/anno' + str(anno.id)
+        anno.IRI = 'http://www.atlasAnno.org/anno/' + str(anno.id)
+        anno.save()
         return anno
 
