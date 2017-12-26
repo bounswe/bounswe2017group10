@@ -99,6 +99,7 @@ const mapDispatchToProps = dispatch => ({
   hideAnnotation: (a) => dispatch(hideAnnotation(a)),
   updateAnnotationInput: (ev) => dispatch(updateAnnotationInput(ev.target.value)),
   createAnnotation: (x, y, text) => {
+    dispatch(updateAnnotationInput(""));
     dispatch(closeAnnotationInput());
     dispatch(createAnnotation({ x, y, text }));
   },
