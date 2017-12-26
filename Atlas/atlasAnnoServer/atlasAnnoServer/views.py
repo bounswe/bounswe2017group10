@@ -20,7 +20,7 @@ class annotationView(generics.ListCreateAPIView):
         targets=[]
         if 'targets' in request.data:
             targets = request.data['targets']
-        body = {}
+        body = None
         if 'body' in request.data:
             body = request.data['body']
 
@@ -28,16 +28,17 @@ class annotationView(generics.ListCreateAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
 
-        if (body!=None):
-
-            id_body = serializer.data['id']
+        if (body is not None):
+            print("naber")
+            print(body)
+            id_body = annotation.objects.filter(IRI=serializer.data['id'])
             body['annotation'] = id_body
             body_serial = body_serializer(data=body)
             body_serial.is_valid(raise_exception=True)
             body_serial.save()
 
         if len(targets) > 0:
-            id = serializer.data['id']
+            id = annotation.objects.filter(IRI=serializer.data['id'])
             for targ in targets:
                 targ['annotation'] = id
                 targ_serializer = target_serializer(data=targ)
@@ -54,7 +55,9 @@ class annotationRetrieve(generics.ListAPIView):
     lookup_field = target.IRI
 
     def get_queryset(self):
-        query = self.kwargs.get('query')[:-1]
+        query = self.kwargs.get('query')
+        print(query)
         annots = annotation.objects.filter(target__IRI=query)
+        print(len(annots))
         return annots
 

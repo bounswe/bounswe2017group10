@@ -8,10 +8,10 @@ class body_serializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class body_return_serializer(serializers.ModelSerializer):
+    value = serializers.ReadOnlyField()
     class Meta:
         model = body
-        info = serializers.ReadOnlyField()
-        fields=['IRI','type']
+        fields=['type','value']
 
 class target_serializer(serializers.ModelSerializer):
     class Meta:
@@ -21,10 +21,11 @@ class target_serializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class target_return_serializer(serializers.ModelSerializer):
+    id = serializers.URLField(source='IRI')
     class Meta:
         model = target
         selector = serializers.ReadOnlyField()
-        fields = ['type', 'IRI', 'selector']
+        fields = ['id', 'type', 'selector']
 
 class annotation_serializer(serializers.ModelSerializer):
     context = serializers.CharField(required=False, default='http://www.w3.org/ns/anno.jsonld')
@@ -33,7 +34,7 @@ class annotation_serializer(serializers.ModelSerializer):
     creator = serializers.URLField(required=False)
     target = target_return_serializer(source= 'target_set',read_only=True, many=True)
     body = body_return_serializer(source = 'body_set', read_only=True, many=True)
-    id = serializers.URLField(source='IRI',)
+    id = serializers.URLField(source='IRI',required=False)
 
     class Meta:
         model = annotation

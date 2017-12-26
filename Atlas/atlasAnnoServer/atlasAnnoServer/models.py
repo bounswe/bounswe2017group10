@@ -15,13 +15,12 @@ class body(models.Model):
     text = models.CharField(max_length=200, null=True)
 
     @property
-    def body(self):
+    def value(self):
         info={}
-        info['type'] = self.type
         if(self.type == 'image'):
             info['IRI'] = self.IRI
         elif(self.type == 'text'):
-            info['textualBody'] = self.text
+            info['text'] = self.text
             pass
         return info
 
