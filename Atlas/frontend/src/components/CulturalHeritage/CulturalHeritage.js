@@ -9,6 +9,8 @@ import AtlasHeader from '../utils/AtlasHeader'
 import CHFav from './CHFav';
 import { NavLink } from 'react-router-dom';
 import Image from './Image';
+import { ANNOT_IMG_SELECTOR_KEY, ANNOT_TXT_SELECTOR_KEY } from '../../constants';
+import AnnotatedText from './AnnotatedText';
 
 const CulturalHeritage = ({
   withCloseButton=false,
@@ -31,11 +33,16 @@ const CulturalHeritage = ({
   openAnnotationInput,
   closeAnnotationInput
 }) => {
+  const imageAnnotations = annotations ? annotations.filter(a => a.selector.type == ANNOT_IMG_SELECTOR_KEY) : []
+  const textAnnotations = annotations ? annotations.filter(a => a.selector.type == ANNOT_TXT_SELECTOR_KEY) : []
+  const description = shouldTruncate
+                        ? truncate(culturalHeritage.description)
+                        : culturalHeritage.description
   const ch = (
     <Row className="whitebox">
       <Col xs="5">
         { culturalHeritage.images.length > 0 ? (
-          <Image src={ culturalHeritage.images[0].url } annotations={ annotations } showAnnotations={ showAnnotations } showAnnotation={ showAnnotation } hideAnnotation={ hideAnnotation } annotationInput={ annotationInput } updateAnnotationInput={ updateAnnotationInput } createAnnotation={ createAnnotation } openAnnotationInput={ openAnnotationInput } closeAnnotationInput={ closeAnnotationInput }/>
+          <Image src={ culturalHeritage.images[0].url } annotations={ imageAnnotations } showAnnotations={ showAnnotations } showAnnotation={ showAnnotation } hideAnnotation={ hideAnnotation } annotationInput={ annotationInput } updateAnnotationInput={ updateAnnotationInput } createAnnotation={ createAnnotation } openAnnotationInput={ openAnnotationInput } closeAnnotationInput={ closeAnnotationInput }/>
           ) : (
           <span>No Image</span>
           )
@@ -43,12 +50,13 @@ const CulturalHeritage = ({
       </Col>
       <Col xs="7">
         <h2>{ culturalHeritage.title }</h2>
+        { showAnnotations ? (
+          <AnnotatedText text={ description } annotations={ textAnnotations } />
+          ) : (
+            <p>{ description } </p> 
+          )
+        }
         <hr />
-        <p>{ shouldTruncate
-          ? truncate(culturalHeritage.description)
-          : culturalHeritage.description
-          }
-        </p> 
         { (culturalHeritage.country || culturalHeritage.city || culturalHeritage.tags.length != 0) && <hr /> }
         { culturalHeritage.country &&
           <label className="small-label">
