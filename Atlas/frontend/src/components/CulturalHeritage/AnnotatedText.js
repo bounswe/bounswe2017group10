@@ -1,7 +1,19 @@
 import React from 'react';
 import Paragraph from 'react-annotated-paragraph'
 
-const AnnotatedText = ({ text, annotations }) => {
+const AnnotatedText = ({ text, annotationInput, updateAnnotationInput, annotations }) => {
+
+  const showSelectedText = e => {
+    var text = '';
+    if (window.getSelection) {
+        text = window.getSelection();
+    } else if (document.getSelection) {
+        text = document.getSelection();
+    } else if (document.selection) {
+        text = document.selection.createRange().text;
+    }
+    if(text.toString() !== "") updateAnnotationInput({ ...annotationInput, text: text });
+  }
   const mySimpleRenderer = (text, annotation) => {
     let explanation = annotation.tooltip
     let highlighted = text.substr(annotation.offset, annotation.length);
@@ -19,7 +31,7 @@ const AnnotatedText = ({ text, annotations }) => {
       tooltipRenderer={ mySimpleRenderer }
     />
   return (
-    <div>
+    <div onMouseUp={ showSelectedText }>
       { annotatedDescription }
     </div>
   )

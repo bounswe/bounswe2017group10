@@ -9,7 +9,7 @@ import AtlasHeader from '../utils/AtlasHeader'
 import CHFav from './CHFav';
 import { NavLink } from 'react-router-dom';
 import Image from './Image';
-import { ANNOT_IMG_SELECTOR_KEY, ANNOT_TXT_SELECTOR_KEY } from '../../constants';
+import { ANNOT_IMG_SELECTOR_KEY, ANNOT_TXT_SELECTOR_KEY, ANNOTATION_IMG_INPUT, ANNOTATION_TXT_INPUT } from '../../constants';
 import AnnotatedText from './AnnotatedText';
 
 const CulturalHeritage = ({
@@ -49,8 +49,8 @@ const CulturalHeritage = ({
           showAnnotations       = { showAnnotations }
           showAnnotation        = { showAnnotation }
           hideAnnotation        = { hideAnnotation }
-          annotationInput       = { annotationInput }
-          updateAnnotationInput = { updateAnnotationInput }
+          annotationInput       = { annotationInput && annotationInput.image }
+          updateAnnotationInput = { imgInput => updateAnnotationInput(ANNOTATION_IMG_INPUT, imgInput) }
           createAnnotation      = { createAnnotation }
           openAnnotationInput   = { openAnnotationInput }
           closeAnnotationInput  = { closeAnnotationInput }
@@ -65,7 +65,12 @@ const CulturalHeritage = ({
       <Col xs="7">
         <h2>{ culturalHeritage.title }</h2>
         { showAnnotations ? (
-          <AnnotatedText text={ description } annotations={ textAnnotations } />
+          <AnnotatedText
+            text={ description }
+            annotationInput={ annotationInput && annotationInput.text }
+            updateAnnotationInput = { txtInput => updateAnnotationInput(ANNOTATION_TXT_INPUT, txtInput) }
+            annotations={ textAnnotations }
+          />
           ) : (
             <p>{ description } </p> 
           )

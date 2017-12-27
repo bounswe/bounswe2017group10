@@ -2,6 +2,7 @@ import React from 'react';
 import Annotation from './Annotation';
 import { Input, Button } from 'reactstrap';
 import CloseButton from 'react-icons/lib/ti/times';
+import { ANNOTATION_IMG_INPUT } from '../../constants';
 
 const Image = ({ src, annotations, showAnnotation, hideAnnotation, annotationInput, updateAnnotationInput, createAnnotation, showAnnotations, openAnnotationInput, closeAnnotationInput, token, culturalHeritage }) => (
   <div
@@ -13,7 +14,11 @@ const Image = ({ src, annotations, showAnnotation, hideAnnotation, annotationInp
         { annotationInput.open &&
           <div className="annotation-input" style={{ marginLeft: annotationInput.x, marginTop: annotationInput.y }}>
             <CloseButton onClick={ (e) => { e.preventDefault(); closeAnnotationInput(); } }/>
-            <Input type="text" value={ annotationInput.text } onChange={ updateAnnotationInput }/>
+            <Input
+              type="text"
+              value={ annotationInput.text }
+              onChange={ (e) => updateAnnotationInput({...annotationInput, text: e.target.value}) }
+            />
             <Button onClick={ () => createAnnotation(token, culturalHeritage.id, annotationInput.x, annotationInput.y, annotationInput.text) }>Create</Button>
           </div>
         }

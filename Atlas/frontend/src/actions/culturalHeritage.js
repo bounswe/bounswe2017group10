@@ -231,10 +231,13 @@ export const hideAnnotation = (a) => {
   }
 }
 
-export const updateAnnotationInput = (data) => {
+export const updateAnnotationInput = (input_type, newInput) => {
   return {
     type: 'UPDATE_ANNOTATION_INPUT',
-    data
+    data: {
+      input_type,
+      newInput
+    }
   }
 }
 

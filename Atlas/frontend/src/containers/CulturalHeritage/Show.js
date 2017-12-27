@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ShowPage from '../../components/CulturalHeritage/Show';
 import { withRouter } from 'react-router';
 import { authGet, authPost, authDelete } from '../../utils';
-import { API_URL, ANNOTATION_SERVER_URL } from '../../constants';
+import { API_URL, ANNOTATION_SERVER_URL, ANNOTATION_TXT_INPUT, ANNOTATION_IMG_INPUT } from '../../constants';
 import {
   updateCommentInput,
   updateCulturalHeritage,
@@ -36,12 +36,7 @@ const mapStateToProps = (state, props) => {
     recommendations: state.culturalHeritage.recommendations,
     recommendationLoadCompleted: state.culturalHeritage.recommendationLoadCompleted,
     annotations: state.culturalHeritage.annotations,
-    annotationInput: {
-      open: state.culturalHeritage.annotationInputOpen,
-      text: state.culturalHeritage.annotationInputText,
-      x: state.culturalHeritage.annotationInputX,
-      y: state.culturalHeritage.annotationInputY
-    }
+    annotationInput: state.culturalHeritage.annotationInput
   };
 }
 
@@ -125,7 +120,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(showAnnotation(a));
   },
   hideAnnotation: (a) => dispatch(hideAnnotation(a)),
-  updateAnnotationInput: (ev) => dispatch(updateAnnotationInput(ev.target.value)),
+  updateAnnotationInput: (input_type, newInput) =>
+    dispatch(updateAnnotationInput(input_type, newInput)),
   fetchAnnotations_: (token, culturalHeritageId, cb) =>
     fetchAnnotations(dispatch, token, culturalHeritageId, cb),
   createAnnotation: (token, culturalHeritageId, x, y, text) => {
