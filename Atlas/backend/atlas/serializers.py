@@ -4,7 +4,7 @@ from rest_framework import serializers
 from rest_framework.utils import model_meta
 from .constants import *
 from .models import Cultural_Heritage, comment as comment_model, image_media_item, item_visit, favorite_items, \
-    tag as tag_model, hidden_tag
+    tag as tag_model, hidden_tag, tag_user_score, hidden_tag_user_score
 from .util import hidden_tag_extractor
 
 
@@ -138,4 +138,16 @@ class favorite_item_serializer(serializers.ModelSerializer):
 class item_visit_serializer(serializers.ModelSerializer):
     class Meta:
         model = item_visit
+        fields = '__all__'
+
+class tag_user_score_serializer(serializers.ModelSerializer):
+    user = serializers.IntegerField(required=True)
+    class Meta:
+        model = tag_user_score
+        fields = '__all__'
+
+class hidden_tag_user_score_serializer(serializers.ModelSerializer):
+    user = serializers.IntegerField(required=True)
+    class Meta:
+        model = hidden_tag_user_score
         fields = '__all__'
