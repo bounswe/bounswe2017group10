@@ -70,6 +70,9 @@ const CulturalHeritage = ({
             annotationInput={ annotationInput && annotationInput.text }
             updateAnnotationInput = { txtInput => updateAnnotationInput(ANNOTATION_TXT_INPUT, txtInput) }
             annotations={ textAnnotations }
+            token={ token }
+            createAnnotation={ createAnnotation }
+            culturalHeritage={ culturalHeritage }
           />
           ) : (
             <p>{ description } </p> 

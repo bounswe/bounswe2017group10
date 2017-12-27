@@ -25,7 +25,7 @@ const Image = ({ src, annotations, showAnnotation, hideAnnotation, annotationInp
               value={ annotationInput.text }
               onChange={ (e) => updateAnnotationInput({...annotationInput, text: e.target.value}) }
             />
-            <Button onClick={ (e) => createAnnotation(token, culturalHeritage.id, annotationInput) }>Create</Button>
+            <Button onClick={ (e) => createAnnotation(ANNOTATION_IMG_INPUT, token, culturalHeritage.id, annotationInput) }>Create</Button>
           </div>
         }
         <div className="annotations">

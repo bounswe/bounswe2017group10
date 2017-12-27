@@ -28,8 +28,8 @@ const initState = {
     text: {
       open: false,
       text: "",
-      x: 0,
-      y: 0
+      start: 0,
+      end: 0
     }
   }
 };
