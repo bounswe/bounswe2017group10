@@ -68,8 +68,10 @@ const mapDispatchToProps = dispatch => ({
       console.log("Error when fetching cultural heritage item");
     });
   },
-  updateRecommendations: (token, culturalHeritage) => {
+  startLoadingRecommendations: () => {
     dispatch(startUpdateRecommendation());
+  },
+  updateRecommendations: (token, culturalHeritage) => {
     authGet(token, {
       url: API_URL + '/cultural_heritage_item/recommendation?item_id=' + culturalHeritage.id
     }).then(resp =>
@@ -152,10 +154,13 @@ const mapDispatchToProps = dispatch => ({
   },
   openAnnotationInput: (x, y) => dispatch(openAnnotationInput(x, y)),
   closeAnnotationInput: () => dispatch(closeAnnotationInput()),
+  clearAnnotations: () => dispatch(updateAnnotations([]))
 });
 
 class App extends React.Component {
   componentDidMount() {
+    this.props.clearAnnotations();
+    this.props.startLoadingRecommendations();
     this.props.loadCulturalHeritage(
       this.props.token,
       this.props.match.params.id,

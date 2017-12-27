@@ -6,7 +6,7 @@ import CloseButton from 'react-icons/lib/ti/times';
 const Image = ({ src, annotations, showAnnotation, hideAnnotation, annotationInput, updateAnnotationInput, createAnnotation, showAnnotations, openAnnotationInput, closeAnnotationInput, token, culturalHeritage }) => (
   <div
     className="annotations-container"
-    onClick={ (e) => !annotationInput.open && openAnnotationInput(e.nativeEvent.offsetX, e.nativeEvent.offsetY) }
+    onClick={ (e) => showAnnotations && !annotationInput.open && openAnnotationInput(e.nativeEvent.offsetX, e.nativeEvent.offsetY) }
   >
     { showAnnotations &&
       <div>
