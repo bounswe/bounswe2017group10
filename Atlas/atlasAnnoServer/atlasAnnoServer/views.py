@@ -10,7 +10,6 @@ class annotationView(generics.ListCreateAPIView):
     serializer_class = annotation_serializer
 
     def perform_create(self, serializer):
-
         serializer.save()
 
     def get_queryset(self):
@@ -29,8 +28,6 @@ class annotationView(generics.ListCreateAPIView):
         self.perform_create(serializer)
 
         if (body is not None):
-            print("naber")
-            print(body)
             id_body = annotation.objects.filter(IRI=serializer.data['id'])
             body['annotation'] = id_body
             body_serial = body_serializer(data=body)
@@ -56,8 +53,6 @@ class annotationRetrieve(generics.ListAPIView):
 
     def get_queryset(self):
         query = self.kwargs.get('query')
-        print(query)
         annots = annotation.objects.filter(target__IRI=query)
-        print(len(annots))
         return annots
 
