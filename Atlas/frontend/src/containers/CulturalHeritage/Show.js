@@ -124,9 +124,9 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updateAnnotationInput(input_type, newInput)),
   fetchAnnotations_: (token, culturalHeritageId, cb) =>
     fetchAnnotations(dispatch, token, culturalHeritageId, cb),
-  createAnnotation: (token, culturalHeritageId, x, y, text) => {
-    dispatch(updateAnnotationInput(""));
+  createAnnotation: (token, culturalHeritageId, annotationInput) => {
     dispatch(closeAnnotationInput());
+    dispatch(updateAnnotationInput(ANNOTATION_IMG_INPUT, { ...annotationInput, open: false, text: "" }));
     authPost(token, {
       url: ANNOTATION_SERVER_URL + '/annotation',
       data: {
@@ -135,13 +135,13 @@ const mapDispatchToProps = dispatch => ({
           {
             IRI: "https://atlas.org/" + culturalHeritageId,
             type: "image",
-            x,
-            y
+            x: annotationInput.x,
+            y: annotationInput.y
           }
         ],
         body: {
           type: "text",
-          text: text
+          text: annotationInput.text
         }
       }
     }).then(resp => {

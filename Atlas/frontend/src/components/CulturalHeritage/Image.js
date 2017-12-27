@@ -7,19 +7,25 @@ import { ANNOTATION_IMG_INPUT } from '../../constants';
 const Image = ({ src, annotations, showAnnotation, hideAnnotation, annotationInput, updateAnnotationInput, createAnnotation, showAnnotations, openAnnotationInput, closeAnnotationInput, token, culturalHeritage }) => (
   <div
     className="annotations-container"
-    onClick={ (e) => showAnnotations && !annotationInput.open && openAnnotationInput(e.nativeEvent.offsetX, e.nativeEvent.offsetY) }
+    onClick={
+      (e) =>
+      showAnnotations &&
+      !annotationInput.open &&
+      updateAnnotationInput({ ...annotationInput, open: true, x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY })
+    }
+
   >
     { showAnnotations &&
       <div>
         { annotationInput.open &&
           <div className="annotation-input" style={{ marginLeft: annotationInput.x, marginTop: annotationInput.y }}>
-            <CloseButton onClick={ (e) => { e.preventDefault(); closeAnnotationInput(); } }/>
+            <CloseButton onClick={ (e) => { updateAnnotationInput({ ...annotationInput, open: false }); } }/>
             <Input
               type="text"
               value={ annotationInput.text }
               onChange={ (e) => updateAnnotationInput({...annotationInput, text: e.target.value}) }
             />
-            <Button onClick={ () => createAnnotation(token, culturalHeritage.id, annotationInput.x, annotationInput.y, annotationInput.text) }>Create</Button>
+            <Button onClick={ (e) => createAnnotation(token, culturalHeritage.id, annotationInput) }>Create</Button>
           </div>
         }
         <div className="annotations">

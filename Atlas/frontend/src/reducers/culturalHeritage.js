@@ -266,7 +266,7 @@ const reducer = (state = initState, action) => {
       }
       return {
         ...state,
-        annotationInputText: f(state.annotationInputText)
+        annotationInput: f(state.annotationInput)
       }
     case 'CREATE_ANNOTATION':
       return {
@@ -284,7 +284,7 @@ const reducer = (state = initState, action) => {
       }
       return {
         ...state,
-        annotationInputText: f_(state.annotationInputText)
+        annotationInput: f_(state.annotationInput)
       }
     case 'CLOSE_ANNOTATION_INPUT':
       return {
