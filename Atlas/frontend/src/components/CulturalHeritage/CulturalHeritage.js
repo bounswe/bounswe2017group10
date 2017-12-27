@@ -34,8 +34,8 @@ const CulturalHeritage = ({
   openAnnotationInput,
   closeAnnotationInput
 }) => {
-  const imageAnnotations = annotations.filter(a => a.target.type == "image")
-  const textAnnotations = annotations.filter(a => a.target.type == "text")
+  const imageAnnotations = annotations.filter(a => a.target[0].type == "image")
+  const textAnnotations = annotations.filter(a => a.target[0].type == "text")
   const description = shouldTruncate
                         ? truncate(culturalHeritage.description)
                         : culturalHeritage.description

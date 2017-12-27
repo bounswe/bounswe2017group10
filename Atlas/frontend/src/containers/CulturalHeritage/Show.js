@@ -45,6 +45,17 @@ const mapStateToProps = (state, props) => {
   };
 }
 
+const fetchAnnotations = (dispatch, token, culturalHeritageId, cb) => {
+  authGet(token, {
+    url: ANNOTATION_SERVER_URL + '/annotation/' + 'https://atlas.org/' + culturalHeritageId
+  }).then(resp => {
+    dispatch(updateAnnotations(resp.data));
+    cb();
+  }).catch(err =>
+    console.log("Error when fetching annotations for cultural heritage with id " + culturalHeritageId)
+  );
+}
+
 const mapDispatchToProps = dispatch => ({
   loadCulturalHeritage: (token, id, cb) => {
     authGet(token, {
@@ -63,16 +74,6 @@ const mapDispatchToProps = dispatch => ({
       url: API_URL + '/cultural_heritage_item/recommendation?item_id=' + culturalHeritage.id
     }).then(resp =>
       dispatch(updateRecommendations(resp.data.results))
-    );
-  },
-  updateAnnotations: (token, culturalHeritageId, cb) => {
-    authGet(token, {
-      url: ANNOTATION_SERVER_URL + '/annotation/' + 'https://atlas.org/images/' + culturalHeritageId
-    }).then(resp => {
-      dispatch(updateAnnotations(resp.data));
-      cb();
-    }).catch(err =>
-      console.log("Error when fetching annotations for cultural heritage with id " + culturalHeritageId)
     );
   },
   commentInputChange: (event) => {
@@ -123,6 +124,8 @@ const mapDispatchToProps = dispatch => ({
   },
   hideAnnotation: (a) => dispatch(hideAnnotation(a)),
   updateAnnotationInput: (ev) => dispatch(updateAnnotationInput(ev.target.value)),
+  fetchAnnotations_: (token, culturalHeritageId, cb) =>
+    fetchAnnotations(dispatch, token, culturalHeritageId, cb),
   createAnnotation: (token, culturalHeritageId, x, y, text) => {
     dispatch(updateAnnotationInput(""));
     dispatch(closeAnnotationInput());
@@ -130,28 +133,21 @@ const mapDispatchToProps = dispatch => ({
       url: ANNOTATION_SERVER_URL + '/annotation',
       data: {
         motivation: "Referral",
-        target: [
+        targets: [
           {
-            id: "https://atlas.org/" + culturalHeritageId,
+            IRI: "https://atlas.org/" + culturalHeritageId,
             type: "image",
-            selector: {
-              x,
-              y,
-              type: "imageSelector"
-            }
+            x,
+            y
           }
         ],
-        body: [
-          {
-            type: "text",
-            value: {
-              "text": text
-            }
-          }
-        ]
+        body: {
+          type: "text",
+          text: text
+        }
       }
     }).then(resp => {
-      updateAnnotations(token, culturalHeritageId, () => {})
+      fetchAnnotations(dispatch, token, culturalHeritageId, () => {})
     });
   },
   openAnnotationInput: (x, y) => dispatch(openAnnotationInput(x, y)),
@@ -164,7 +160,7 @@ class App extends React.Component {
       this.props.token,
       this.props.match.params.id,
       (c) =>
-        this.props.updateAnnotations(this.props.token, c.id, () =>
+        this.props.fetchAnnotations_(this.props.token, c.id, () =>
           this.props.updateRecommendations(this.props.token, c)
         )
     );
