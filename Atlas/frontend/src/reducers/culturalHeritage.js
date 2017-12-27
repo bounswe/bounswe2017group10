@@ -15,12 +15,7 @@ const initState = {
   mouseOverOn: -1,
   mapLocation: null,
   recommendationLoadCompleted: false,
-  annotations:
-    [
-      { id: 1, body: [{ type: "text", value: { text: "wow" }}], selector: { type: "imageSelector", x: 30, y: 20 }, display: false },
-      { id: 2, body: [{ type: "text", value: { text: "wow annot" }}], selector: { type: "imageSelector", x: 100, y: 50 }, display: false },
-      { id: 2, type: "text", body: [{ type: "text", value: { text: "wow annot 2" }}],  selector: { type: "textSelector", start: 10, end: 20 }, display: false }
-    ],
+  annotations: [],
   annotationInputOpen: true,
   annotationInputText: "wow",
   annotationInputX: 0,
@@ -274,6 +269,11 @@ const reducer = (state = initState, action) => {
       return {
         ...state,
         annotations: state.annotations.map(a => ({ ...a, display: false }))
+      }
+    case 'UPDATE_ANNOTATIONS':
+      return {
+        ...state,
+        annotations: action.data
       }
     default:
       return state;

@@ -266,3 +266,10 @@ export const hideAnnotations = () => {
     type: 'HIDE_ANNOTATIONS'
   }
 }
+
+export const updateAnnotations = (data) => {
+  return {
+    type: 'UPDATE_ANNOTATIONS',
+    data
+  }
+}

@@ -3,7 +3,7 @@ import Annotation from './Annotation';
 import { Input, Button } from 'reactstrap';
 import CloseButton from 'react-icons/lib/ti/times';
 
-const Image = ({ src, annotations, showAnnotation, hideAnnotation, annotationInput, updateAnnotationInput, createAnnotation, showAnnotations, openAnnotationInput, closeAnnotationInput }) => (
+const Image = ({ src, annotations, showAnnotation, hideAnnotation, annotationInput, updateAnnotationInput, createAnnotation, showAnnotations, openAnnotationInput, closeAnnotationInput, token, culturalHeritage }) => (
   <div
     className="annotations-container"
     onClick={ (e) => !annotationInput.open && openAnnotationInput(e.nativeEvent.offsetX, e.nativeEvent.offsetY) }
@@ -14,7 +14,7 @@ const Image = ({ src, annotations, showAnnotation, hideAnnotation, annotationInp
           <div className="annotation-input" style={{ marginLeft: annotationInput.x, marginTop: annotationInput.y }}>
             <CloseButton onClick={ (e) => { e.preventDefault(); closeAnnotationInput(); } }/>
             <Input type="text" value={ annotationInput.text } onChange={ updateAnnotationInput }/>
-            <Button onClick={ () => createAnnotation(annotationInput.x, annotationInput.y, annotationInput.text) }>Create</Button>
+            <Button onClick={ () => createAnnotation(token, culturalHeritage.id, annotationInput.x, annotationInput.y, annotationInput.text) }>Create</Button>
           </div>
         }
         <div className="annotations">

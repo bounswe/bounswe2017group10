@@ -13,6 +13,7 @@ import { ANNOT_IMG_SELECTOR_KEY, ANNOT_TXT_SELECTOR_KEY } from '../../constants'
 import AnnotatedText from './AnnotatedText';
 
 const CulturalHeritage = ({
+  token,
   withCloseButton=false,
   returnTo,
   close,
@@ -24,7 +25,7 @@ const CulturalHeritage = ({
   withLink = true,
   showFavorite = true,
   showAnnotations = false,
-  annotations,
+  annotations = [],
   showAnnotation,
   hideAnnotation,
   annotationInput,
@@ -33,8 +34,8 @@ const CulturalHeritage = ({
   openAnnotationInput,
   closeAnnotationInput
 }) => {
-  const imageAnnotations = annotations ? annotations.filter(a => a.selector.type == ANNOT_IMG_SELECTOR_KEY) : []
-  const textAnnotations = annotations ? annotations.filter(a => a.selector.type == ANNOT_TXT_SELECTOR_KEY) : []
+  const imageAnnotations = annotations.filter(a => a.target.type == "image")
+  const textAnnotations = annotations.filter(a => a.target.type == "text")
   const description = shouldTruncate
                         ? truncate(culturalHeritage.description)
                         : culturalHeritage.description
@@ -42,7 +43,20 @@ const CulturalHeritage = ({
     <Row className="whitebox">
       <Col xs="5">
         { culturalHeritage.images.length > 0 ? (
-          <Image src={ culturalHeritage.images[0].url } annotations={ imageAnnotations } showAnnotations={ showAnnotations } showAnnotation={ showAnnotation } hideAnnotation={ hideAnnotation } annotationInput={ annotationInput } updateAnnotationInput={ updateAnnotationInput } createAnnotation={ createAnnotation } openAnnotationInput={ openAnnotationInput } closeAnnotationInput={ closeAnnotationInput }/>
+        <Image
+          src                   = { culturalHeritage.images[0].url }
+          annotations           = { imageAnnotations }
+          showAnnotations       = { showAnnotations }
+          showAnnotation        = { showAnnotation }
+          hideAnnotation        = { hideAnnotation }
+          annotationInput       = { annotationInput }
+          updateAnnotationInput = { updateAnnotationInput }
+          createAnnotation      = { createAnnotation }
+          openAnnotationInput   = { openAnnotationInput }
+          closeAnnotationInput  = { closeAnnotationInput }
+          culturalHeritage      = { culturalHeritage }
+          token                 = { token }
+        />
           ) : (
           <span>No Image</span>
           )

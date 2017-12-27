@@ -3,8 +3,23 @@ import { connect } from 'react-redux';
 import ShowPage from '../../components/CulturalHeritage/Show';
 import { withRouter } from 'react-router';
 import { authGet, authPost, authDelete } from '../../utils';
-import { API_URL } from '../../constants';
-import { updateCommentInput, updateCulturalHeritage, updateRecommendations, deleteCulturalHeritage, loadSingleItem, startUpdateRecommendation, showAnnotation, hideAnnotation, hideAnnotations, updateAnnotationInput, createAnnotation, openAnnotationInput, closeAnnotationInput } from '../../actions/culturalHeritage';
+import { API_URL, ANNOTATION_SERVER_URL } from '../../constants';
+import {
+  updateCommentInput,
+  updateCulturalHeritage,
+  updateRecommendations,
+  deleteCulturalHeritage,
+  loadSingleItem,
+  startUpdateRecommendation,
+  showAnnotation,
+  hideAnnotation,
+  hideAnnotations,
+  updateAnnotationInput,
+  createAnnotation,
+  openAnnotationInput,
+  closeAnnotationInput,
+  updateAnnotations
+} from '../../actions/culturalHeritage';
 import { favItem, getRecommendedItems } from './Common';
 import NotFoundPage from '../../components/NotFound/NotFound';
 import Spinner from 'react-icons/lib/fa/spinner';
@@ -48,6 +63,16 @@ const mapDispatchToProps = dispatch => ({
       url: API_URL + '/cultural_heritage_item/recommendation?item_id=' + culturalHeritage.id
     }).then(resp =>
       dispatch(updateRecommendations(resp.data.results))
+    );
+  },
+  updateAnnotations: (token, culturalHeritageId, cb) => {
+    authGet(token, {
+      url: ANNOTATION_SERVER_URL + '/annotation/' + 'https://atlas.org/images/' + culturalHeritageId
+    }).then(resp => {
+      dispatch(updateAnnotations(resp.data));
+      cb();
+    }).catch(err =>
+      console.log("Error when fetching annotations for cultural heritage with id " + culturalHeritageId)
     );
   },
   commentInputChange: (event) => {
@@ -98,10 +123,36 @@ const mapDispatchToProps = dispatch => ({
   },
   hideAnnotation: (a) => dispatch(hideAnnotation(a)),
   updateAnnotationInput: (ev) => dispatch(updateAnnotationInput(ev.target.value)),
-  createAnnotation: (x, y, text) => {
+  createAnnotation: (token, culturalHeritageId, x, y, text) => {
     dispatch(updateAnnotationInput(""));
     dispatch(closeAnnotationInput());
-    dispatch(createAnnotation({ x, y, text }));
+    authPost(token, {
+      url: ANNOTATION_SERVER_URL + '/annotation',
+      data: {
+        motivation: "Referral",
+        target: [
+          {
+            id: "https://atlas.org/" + culturalHeritageId,
+            type: "image",
+            selector: {
+              x,
+              y,
+              type: "imageSelector"
+            }
+          }
+        ],
+        body: [
+          {
+            type: "text",
+            value: {
+              "text": text
+            }
+          }
+        ]
+      }
+    }).then(resp => {
+      updateAnnotations(token, culturalHeritageId, () => {})
+    });
   },
   openAnnotationInput: (x, y) => dispatch(openAnnotationInput(x, y)),
   closeAnnotationInput: () => dispatch(closeAnnotationInput()),
@@ -112,7 +163,10 @@ class App extends React.Component {
     this.props.loadCulturalHeritage(
       this.props.token,
       this.props.match.params.id,
-      (c) => this.props.updateRecommendations(this.props.token, c)
+      (c) =>
+        this.props.updateAnnotations(this.props.token, c.id, () =>
+          this.props.updateRecommendations(this.props.token, c)
+        )
     );
   }
 
