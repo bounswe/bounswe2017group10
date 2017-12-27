@@ -6,9 +6,9 @@ from rest_framework import status
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
-from .constants import *
 from .models import Cultural_Heritage, comment, tag, favorite_items, image_media_item as image_item, \
     hidden_tag
+from .personalized_recommendation import *
 from .popularity import *
 from .serializers import cultural_heritage_serializer, image_media_item_serializer, tag_serializer, comment_serializer, \
     favorite_item_serializer, item_visit_serializer
@@ -65,6 +65,13 @@ class cultural_heritage_item_comment(HeritageIdInterceptorMixin, generics.Create
         try:
             comment_data = request.data['comment']
             request.data['cultural_heritage_item'] = self.current_heritage_item.pk
+
+            item = Cultural_Heritage.objects.get(id=self.current_heritage_item.pk)
+            user = request.user
+            # Update user's score for personalized recommendation
+            update_tag_user_score(item, user, 1)
+            update_hidden_tag_user_score(item, user, 1)
+
             for k, v in comment_data.items():
                 request.data[k] = v
             request.data['user'] = request.user.pk
@@ -82,6 +89,10 @@ class user_favorite_item(HeritageIdInterceptorMixin, generics.CreateAPIView, mix
         try:
             item = Cultural_Heritage.objects.get(id=self.current_heritage_item.pk)
             user = request.user
+            # Update user's score for personalized recommendation
+            update_tag_user_score(item, user, 1)
+            update_hidden_tag_user_score(item, user, 1)
+
             request.data['item'] = item.pk
             request.data['user'] = user.pk
             if favorite_items.objects.filter(item=item.pk, user=user.pk).count() > 0:
@@ -96,6 +107,10 @@ class user_favorite_item(HeritageIdInterceptorMixin, generics.CreateAPIView, mix
     def delete(self, request, *args, **kwargs):
         item = Cultural_Heritage.objects.get(id=self.current_heritage_item.pk)
         user = request.user
+        # Update user's score for personalized recommendation
+        update_tag_user_score(item, user, -1)
+        update_hidden_tag_user_score(item, user, -1)
+
         request.data['item'] = item.pk
         request.data['user'] = user.pk
         result = self.destroy(request, *args, **kwargs)
@@ -186,7 +201,7 @@ class cultural_heritage_item_featured(generics.ListAPIView):
 
     def get_queryset(self):
         all_items = Cultural_Heritage.objects.all()
-        items_with_score = [(item, popularity_score(item)) for item in all_items]
+        items_with_score = [(item, popularity_score(item)+item_score_for_user(item,self.request.user)) for item in all_items]
         sorted_items_with_score = sorted(items_with_score, key=lambda x: x[1], reverse=True)
         return [pair[0] for pair in sorted_items_with_score]
 
@@ -341,7 +356,18 @@ class recommendation(generics.ListAPIView):
         recommendation_score = COEFF_COMMON_TAG_AMOUNT * common_tag_amount + COEFF_COMMON_HIDDEN_TAG_AMOUNT * common_hidden_tag_amount + \
                                COEFF_COMMON_WORDS_IN_TITLE_AMOUNT * common_words_in_title_amount + \
                                COEFF_LOCATION_SCORE * location_score + COEFF_TIME_SCORE * time_score + COEFF_TIME_OVERLAPPED * time_overlap_perc
+        for tag in item.tags.all():
+            if tag_user_score.objects.filter(tag=tag,
+                                             user=self.request.user.id).count() > 0 and self.base_item.tags.all().filter(
+                    name=tag.name).count() > 0:
+                recommendation_score += tag_user_score.objects.get(tag=tag, user=self.request.user.id).score
+        for hidden_tag in item.hidden_tags.all():
+            if hidden_tag_user_score.objects.filter(hidden_tag=hidden_tag, user=self.request.user.id).count() > 0 and self.base_item.hidden_tags.all().filter(
+                    name=tag.name).count() > 0:
+                recommendation_score += hidden_tag_user_score.objects.get(hidden_tag=hidden_tag,
+                                                                                user=self.request.user.id).score
         if recommendation_score >= RECOMMENDATION_THRESHOLD:
             recommendation_score += COEFF_ADMIRATION_SCORE_FOR_RECOMMENDATION * admiration_score(item) + \
                                     COEFF_COMPLETENESS_SCORE_FOR_RECOMMENDATION * completeness_score(item)
+
         return recommendation_score
