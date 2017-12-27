@@ -220,3 +220,6 @@ img.ch-image {
       font-size: 15px;
       border-radius: 0;
       padding: 2px; }
+
+a.annotation {
+  color: red; }

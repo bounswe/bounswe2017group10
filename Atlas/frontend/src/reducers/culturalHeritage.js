@@ -15,7 +15,7 @@ const initState = {
   mouseOverOn: -1,
   mapLocation: null,
   recommendationLoadCompleted: false,
-  annotations: [{ id: 1, title: "wowannot", x: 30, y: 20, display: false }, { id: 2, title: "wowannot 2", x: 100, y: 50, display: false }],
+  annotations: [],
   annotationInputOpen: true,
   annotationInputText: "wow",
   annotationInputX: 0,
@@ -269,6 +269,11 @@ const reducer = (state = initState, action) => {
       return {
         ...state,
         annotations: state.annotations.map(a => ({ ...a, display: false }))
+      }
+    case 'UPDATE_ANNOTATIONS':
+      return {
+        ...state,
+        annotations: action.data
       }
     default:
       return state;
