@@ -201,7 +201,8 @@ class cultural_heritage_item_featured(generics.ListAPIView):
 
     def get_queryset(self):
         all_items = Cultural_Heritage.objects.all()
-        items_with_score = [(item, popularity_score(item)+item_score_for_user(item,self.request.user)) for item in all_items]
+        items_with_score = [(item, popularity_score(item) + item_score_for_user(item, self.request.user)) for item in
+                            all_items]
         sorted_items_with_score = sorted(items_with_score, key=lambda x: x[1], reverse=True)
         return [pair[0] for pair in sorted_items_with_score]
 
@@ -359,13 +360,14 @@ class recommendation(generics.ListAPIView):
         for tag in item.tags.all():
             if tag_user_score.objects.filter(tag=tag,
                                              user=self.request.user.id).count() > 0 and self.base_item.tags.all().filter(
-                    name=tag.name).count() > 0:
+                name=tag.name).count() > 0:
                 recommendation_score += tag_user_score.objects.get(tag=tag, user=self.request.user.id).score
         for hidden_tag in item.hidden_tags.all():
-            if hidden_tag_user_score.objects.filter(hidden_tag=hidden_tag, user=self.request.user.id).count() > 0 and self.base_item.hidden_tags.all().filter(
-                    name=tag.name).count() > 0:
+            if hidden_tag_user_score.objects.filter(hidden_tag=hidden_tag,
+                                                    user=self.request.user.id).count() > 0 and self.base_item.hidden_tags.all().filter(
+                    name=hidden_tag.name).count() > 0:
                 recommendation_score += hidden_tag_user_score.objects.get(hidden_tag=hidden_tag,
-                                                                                user=self.request.user.id).score
+                                                                          user=self.request.user.id).score
         if recommendation_score >= RECOMMENDATION_THRESHOLD:
             recommendation_score += COEFF_ADMIRATION_SCORE_FOR_RECOMMENDATION * admiration_score(item) + \
                                     COEFF_COMPLETENESS_SCORE_FOR_RECOMMENDATION * completeness_score(item)
