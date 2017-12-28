@@ -216,3 +216,63 @@ export const startUpdateRecommendation = () => {
         type: 'START_UPDATE_RECOMMENDATION',
     }
 }
+
+export const showAnnotation = (a) => {
+  return {
+    type: 'SHOW_ANNOTATION',
+    data: a.id
+  }
+}
+
+export const hideAnnotation = (a) => {
+  return {
+    type: 'HIDE_ANNOTATION',
+    data: a.id
+  }
+}
+
+export const updateAnnotationInput = (input_type, newInput) => {
+  return {
+    type: 'UPDATE_ANNOTATION_INPUT',
+    data: {
+      input_type,
+      newInput
+    }
+  }
+}
+
+export const createAnnotation = (data) => {
+  return {
+    type: 'CREATE_ANNOTATION',
+    data
+  }
+}
+
+export const openAnnotationInput = (x, y) => {
+  return {
+    type: 'OPEN_ANNOTATION_INPUT',
+    data: {
+      x,
+      y
+    }
+  }
+}
+
+export const closeAnnotationInput = () => {
+  return {
+    type: 'CLOSE_ANNOTATION_INPUT'
+  }
+}
+
+export const hideAnnotations = () => {
+  return {
+    type: 'HIDE_ANNOTATIONS'
+  }
+}
+
+export const updateAnnotations = (data) => {
+  return {
+    type: 'UPDATE_ANNOTATIONS',
+    data
+  }
+}
