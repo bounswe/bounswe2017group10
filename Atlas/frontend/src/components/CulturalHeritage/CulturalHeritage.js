@@ -73,6 +73,7 @@ const CulturalHeritage = ({
             token={ token }
             createAnnotation={ createAnnotation }
             culturalHeritage={ culturalHeritage }
+            showAnnotations={ showAnnotations }
           />
           ) : (
             <p>{ description } </p> 

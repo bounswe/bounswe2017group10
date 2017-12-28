@@ -4,7 +4,7 @@ import CloseButton from 'react-icons/lib/ti/times';
 import { Input, Button } from 'reactstrap';
 import { ANNOTATION_TXT_INPUT } from '../../constants';
 
-const AnnotatedText = ({ text, annotationInput, updateAnnotationInput, annotations, token, createAnnotation, culturalHeritage }) => {
+const AnnotatedText = ({ text, annotationInput, updateAnnotationInput, annotations, token, createAnnotation, culturalHeritage, showAnnotations }) => {
 
   function getCaretCharacterOffsetWithin(element) {
       var caretOffset = 0;
@@ -63,31 +63,34 @@ const AnnotatedText = ({ text, annotationInput, updateAnnotationInput, annotatio
       highlighted
     }
   }
-  const annots = annotations.map(a => ({ offset: a.target[0].selector.start, length: a.target[0].selector.end - a.target[0].selector.start, tooltip: a.body[0].value.text }))
-  const annotatedDescription =
-    <div className="annotated-description">
-      { annotationInput.open &&
-        <div className="annotation-input" style={{ left: annotationInput.boxX, top: annotationInput.boxY + 70 }}>
-          <CloseButton onClick={ (e) => { updateAnnotationInput({ ...annotationInput, open: false }); } }/>
-          <Input
-            type="text"
-            value={ annotationInput.text }
-            onChange={ (e) => updateAnnotationInput({...annotationInput, text: e.target.value}) }
-          />
-          <Button onClick={ (e) => createAnnotation(ANNOTATION_TXT_INPUT, token, culturalHeritage.id, annotationInput) }>Create</Button>
-        </div>
-      }
-      <Paragraph
-        paragraph={{
-          text: text,
-          annotations: annots
-        }}
-        tooltipRenderer={ mySimpleRenderer }
-      />
-    </div>
   return (
     <div onMouseUp={ showSelectedText }>
-      { annotatedDescription }
+      <div className="annotated-description">
+        { annotationInput.open &&
+          <div className="annotation-input" style={{ left: annotationInput.boxX, top: annotationInput.boxY + 70 }}>
+            <CloseButton onClick={ (e) => { updateAnnotationInput({ ...annotationInput, open: false }); } }/>
+            <Input
+              type="text"
+              value={ annotationInput.text }
+              onChange={ (e) => updateAnnotationInput({...annotationInput, text: e.target.value}) }
+            />
+            <Button onClick={ (e) => createAnnotation(ANNOTATION_TXT_INPUT, token, culturalHeritage.id, annotationInput) }>Create</Button>
+          </div>
+        }
+        { (showAnnotations && annotations.length !== 0)
+        ? (
+          <Paragraph
+            paragraph={{
+              text: text,
+              annotations: annotations.map(a => ({ offset: a.target[0].selector.start, length: a.target[0].selector.end - a.target[0].selector.start, tooltip: a.body[0].value.text }))
+            }}
+            tooltipRenderer={ mySimpleRenderer }
+          />
+          ) : (
+            <div>{ text }</div>
+          )
+        }
+      </div>
     </div>
   )
 }
