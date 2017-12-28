@@ -1,13 +1,17 @@
 import React from 'react';
 import CulturalHeritage from './CulturalHeritage';
 import './style.css';
+import atlasImg from '../../assets/images/atlas.jpeg';
 import { Col, Row, Container } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import PlusIcon from 'react-icons/lib/fa/plus-circle';
 import CloseIcon from 'react-icons/lib/fa/times-circle';
 
 const Page = ({ user, token, culturalHeritages, helpOpen, paginationNextUrl, loadingMore, canLoadMore, loadCulturalHeritages, closeHelp, loadMore, enableLoadMore, favoriteItem }) => (
-  <Container>
+
+    <Container>
+
+<img src={atlasImg} className="background-image" alt="background" />
     { helpOpen &&
       <div className="help-1">
         <span className="close-help" onClick={ closeHelp }><CloseIcon /></span>

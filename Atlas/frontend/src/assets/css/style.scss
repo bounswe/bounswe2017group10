@@ -3,12 +3,12 @@
 $atlas-button-text-color: white;
 
 .atlas-button {
-  background-color: $atlas-orange;
+  background-color: $atlas-blue;
   padding: 10px;
   color: $atlas-button-text-color;
   margin-bottom: 20px;
   display: inline-block;
-  border: 2px solid $atlas-orange;
+  border: 2px solid $atlas-blue;
 
   svg {
     margin-top: -2px;
@@ -18,7 +18,7 @@ $atlas-button-text-color: white;
     cursor: pointer;
     text-decoration: none;
     color: $atlas-button-text-color;
-    border: 2px solid $atlas-orange-bolder;
+    border: 2px solid $atlas-blue-bolder;
   }
 }
 
