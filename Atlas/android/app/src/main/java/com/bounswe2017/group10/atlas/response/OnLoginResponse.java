@@ -78,6 +78,7 @@ public class OnLoginResponse implements Callback<LoginResponse> {
                     editor.putString(Constants.EMAIL, body.getEmail()).apply();
                     editor.putLong(Constants.USER_ID, body.getUserId()).apply();
                     editor.putString(Constants.PROFILE_PICTURE,body.getImage()).apply();
+                    editor.putString(Constants.USERNAME,body.getUsername()).apply();
 
                     // go to home
                     goToHomeActivity();

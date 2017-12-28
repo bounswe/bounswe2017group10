@@ -111,4 +111,9 @@
     <string name="featured">Featured</string>
     <string name="no_date">No date</string>
     <string name="no_location">No location</string>
+    <string name="old_password">Old password</string>
+    <string name="new_password">New password</string>
+    <string name="update">Update!</string>
+    <string name="edit_successful">Successfully edited!</string>
+    <string name="edit_profile_title">Profile Settings</string>
 </resources>

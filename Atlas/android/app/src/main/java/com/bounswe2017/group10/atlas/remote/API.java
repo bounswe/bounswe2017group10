@@ -12,6 +12,7 @@ import com.bounswe2017.group10.atlas.httpbody.PostCommentRequest;
 import com.bounswe2017.group10.atlas.httpbody.SignupRequest;
 import com.bounswe2017.group10.atlas.httpbody.SignupResponse;
 import com.bounswe2017.group10.atlas.httpbody.Tag;
+import com.bounswe2017.group10.atlas.httpbody.UpdateProfileRequest;
 import com.bounswe2017.group10.atlas.httpbody.UserResponse;
 
 import java.util.List;
@@ -21,6 +22,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -105,4 +107,9 @@ public interface API {
                                           @Query("offset") long offset,
                                           @Query("latitude") double latitude,
                                           @Query("longitude") double longitude);
+
+    @PATCH("/api/auth/me/{username}/")
+    Call<Void> updateProfile(@Header("Authorization") String authStr,
+                              @Path("username") String username,
+                              @Body UpdateProfileRequest values);
 }

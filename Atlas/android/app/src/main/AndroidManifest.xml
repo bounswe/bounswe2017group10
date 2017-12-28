@@ -93,5 +93,10 @@
         <activity
             android:name=".profile.NearbyItemsActivity">
         </activity>
+
+        <!-- EditProfileActivity -->
+        <activity
+            android:name=".profile.EditProfileActivity">
+        </activity>
     </application>
 </manifest>
