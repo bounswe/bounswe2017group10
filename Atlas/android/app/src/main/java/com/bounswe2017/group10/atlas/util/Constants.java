@@ -28,4 +28,5 @@ public class Constants {
     public static final String PROFILE_PICTURE = "PROFILE_PICTURE";
     public static final String IMAGE_LIST = "IMAGE_LIST";
     public static final int RECOMMENDATION_AMOUNT = 5;
+    public static final String USERNAME = "USERNAME";
 }

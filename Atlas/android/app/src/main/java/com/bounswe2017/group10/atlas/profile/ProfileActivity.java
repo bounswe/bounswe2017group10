@@ -72,5 +72,11 @@ public class ProfileActivity extends AppCompatActivity {
             Intent intent = new Intent(this, NearbyItemsActivity.class);
             startActivity(intent);
         } );
+
+        TextView editProfile = findViewById(R.id.psettings);
+        editProfile.setOnClickListener((View btnview)->{
+            Intent intent = new Intent(this, EditProfileActivity.class);
+            startActivity(intent);
+        } );
     }
 }
