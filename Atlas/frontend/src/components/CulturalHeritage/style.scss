@@ -198,22 +198,23 @@ img.ch-image {
       width: auto;
     }
   }
-  .annotation-input {
-    position: absolute;
-    background-color: $atlas-orange;
-    padding: 10px;
-    z-index: 4;
-    input {
-      width: 100px;
-      height: 30px;
-      border-radius: 0;
-    }
-    button {
-      height: 25px;
-      font-size: 15px;
-      border-radius: 0;
-      padding: 2px;
-    }
+}
+
+.annotation-input {
+  position: absolute;
+  background-color: $atlas-orange;
+  padding: 10px;
+  z-index: 4;
+  input {
+    width: 100px;
+    height: 30px;
+    border-radius: 0;
+  }
+  button {
+    height: 25px;
+    font-size: 15px;
+    border-radius: 0;
+    padding: 2px;
   }
 }
 

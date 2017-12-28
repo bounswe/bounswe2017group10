@@ -151,7 +151,9 @@ const mapDispatchToProps = dispatch => ({
         }
       }
     }).then(resp => {
-      fetchAnnotations(dispatch, token, culturalHeritageId, () => {})
+      fetchAnnotations(dispatch, token, culturalHeritageId, () => {
+        if(input_type == ANNOTATION_TXT_INPUT) window.location = '/cultural-heritages/' + culturalHeritageId; 
+      })
     });
   },
   openAnnotationInput: (x, y) => dispatch(openAnnotationInput(x, y)),

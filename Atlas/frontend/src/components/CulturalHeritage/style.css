@@ -206,20 +206,21 @@ img.ch-image {
       position: absolute;
       z-index: 2;
       width: auto; }
-  .annotations-container .annotation-input {
-    position: absolute;
-    background-color: #ce8b10;
-    padding: 10px;
-    z-index: 4; }
-    .annotations-container .annotation-input input {
-      width: 100px;
-      height: 30px;
-      border-radius: 0; }
-    .annotations-container .annotation-input button {
-      height: 25px;
-      font-size: 15px;
-      border-radius: 0;
-      padding: 2px; }
+
+.annotation-input {
+  position: absolute;
+  background-color: #ce8b10;
+  padding: 10px;
+  z-index: 4; }
+  .annotation-input input {
+    width: 100px;
+    height: 30px;
+    border-radius: 0; }
+  .annotation-input button {
+    height: 25px;
+    font-size: 15px;
+    border-radius: 0;
+    padding: 2px; }
 
 a.annotation {
   color: red; }

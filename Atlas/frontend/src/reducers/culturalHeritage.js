@@ -29,7 +29,9 @@ const initState = {
       open: false,
       text: "",
       start: 0,
-      end: 0
+      end: 0,
+      boxX: 0,
+      boxY: 0
     }
   }
 };

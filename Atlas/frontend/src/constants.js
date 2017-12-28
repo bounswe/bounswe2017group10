@@ -1,6 +1,6 @@
 // export const API_URL = 'http://174.129.53.155:81';
-export const API_URL = 'http://localhost:8001';
-export const ANNOTATION_SERVER_URL = 'http://localhost:8000';
+export const API_URL = 'http://localhost:8000';
+export const ANNOTATION_SERVER_URL = 'http://localhost:8001';
 
 export const TRUNCATE_LENGTH = 200;
 export const CULTURAL_HERITAGE_PAGINATION_LIMIT = 5;
