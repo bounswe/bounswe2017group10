@@ -1,3 +1,5 @@
+import { ANNOTATION_TXT_INPUT, ANNOTATION_IMG_INPUT } from '../constants';
+
 const initAddCHInputs = {
   tags: []
 }
@@ -14,7 +16,24 @@ const initState = {
   recommendations: [],
   mouseOverOn: -1,
   mapLocation: null,
-  recommendationLoadCompleted: false
+  recommendationLoadCompleted: false,
+  annotations: [],
+  annotationInput: {
+    image: {
+      open: false,
+      text: "",
+      x: 0,
+      y: 0
+    },
+    text: {
+      open: false,
+      text: "",
+      start: 0,
+      end: 0,
+      boxX: 0,
+      boxY: 0
+    }
+  }
 };
 
 const reducer = (state = initState, action) => {
@@ -222,6 +241,67 @@ const reducer = (state = initState, action) => {
       return {
         ...state,
         recommendationLoadCompleted: false
+      }
+    case 'START_UPDATE_RECOMMENDATION':
+      return {
+        ...state,
+        recommendationLoadCompleted: false
+      }
+    case 'SHOW_ANNOTATION':
+      return {
+        ...state,
+        annotations: state.annotations.map(a => a.id === action.data ? { ...a, display: true } : a)
+      }
+    case 'HIDE_ANNOTATION':
+      return {
+        ...state,
+        annotations: state.annotations.map(a => a.id === action.data ? { ...a, display: false } : a)
+      }
+    case 'UPDATE_ANNOTATION_INPUT':
+      const f = (i) => {
+        switch(action.data.input_type) {
+          case ANNOTATION_TXT_INPUT:
+            return { ...i, text: action.data.newInput }
+          case ANNOTATION_IMG_INPUT:
+            return { ...i, image: action.data.newInput }
+        }
+      }
+      return {
+        ...state,
+        annotationInput: f(state.annotationInput)
+      }
+    case 'CREATE_ANNOTATION':
+      return {
+        ...state,
+        annotations: state.annotations.concat({ id: state.annotations.length + 1, title: action.data.text, x: action.data.x, y: action.data.y })
+      }
+    case 'OPEN_ANNOTATION_INPUT':
+      const f_ = (i) => {
+        switch(action.data.input_type) {
+          case ANNOTATION_TXT_INPUT:
+            return { ...i, text: { ...i.text, x: action.data.x, y: action.data.y, open: true } }
+          case ANNOTATION_IMG_INPUT:
+            return { ...i, image: { ...i.text, x: action.data.x, y: action.data.y, open: true } }
+        }
+      }
+      return {
+        ...state,
+        annotationInput: f_(state.annotationInput)
+      }
+    case 'CLOSE_ANNOTATION_INPUT':
+      return {
+        ...state,
+        annotationInputOpen: false
+      }
+    case 'HIDE_ANNOTATIONS':
+      return {
+        ...state,
+        annotations: state.annotations.map(a => ({ ...a, display: false }))
+      }
+    case 'UPDATE_ANNOTATIONS':
+      return {
+        ...state,
+        annotations: action.data
       }
     default:
       return state;
