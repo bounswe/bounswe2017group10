@@ -98,3 +98,47 @@ class CustomJWTSerializer(jwt_serializers.JSONWebTokenSerializer):
         else:
             msg = _('Account with this email/username does not exists')
             raise serializers.ValidationError(msg)
+
+class AccountUpdateSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, required=True)
+    confirm_password = serializers.CharField(write_only=True, required=True)
+    old_password = serializers.CharField(write_only=True, required=True)
+
+    class Meta:
+        model = Account
+        fields = (
+            'id', 'email', 'username', 'date_created', 'date_modified',
+            'firstname', 'lastname', 'profile_picture', 'password', 'confirm_password', 'old_password')
+        read_only_fields = ('date_created', 'date_modified')
+
+    def update(self, instance, validated_data):
+        instance.email = validated_data.get('email', instance.email)
+        """
+            When username is changed, current JWT becomes invalid. I could not 
+            find a workaround for this problem. So username is not updatable for now.
+        """
+        #instance.username = validated_data.get('username', instance.username)
+        instance.firstname = validated_data.get('firstname',
+                                                instance.firstname)
+        instance.lastname = validated_data.get('lastname',
+                                               instance.lastname)
+        instance.profile_picture = validated_data.get('profile_picture', instance.profile_picture)
+
+        old_password = validated_data.get('old_password', None)
+        password = validated_data.get('password', None)
+        confirm_password = validated_data.get('confirm_password', None)
+
+        if old_password:
+            if not (any(x.isupper() for x in password) and any(x.isdigit() for x in password) and len(password) >= 7):
+                raise serializers.ValidationError(
+                    'Password should contain at least one capital letter and digit and 7 chars.')
+            if password==confirm_password:
+                if instance.check_password(old_password):
+                    instance.set_password(password)
+                else:
+                    raise serializers.ValidationError('Password is incorrect')
+            else:
+                raise serializers.ValidationError('The passwords have to be the same')
+
+        instance.save()
+        return instance

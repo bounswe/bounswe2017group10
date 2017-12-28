@@ -8,7 +8,7 @@ import { getUrlParam } from '../../utils';
 import RecommendedItem from './RecommendedItem';
 import { RECOMMENDATION_LIMIT } from '../../constants';
 
-const Show = ({ user, token, culturalHeritage, commentInput, recommendations, recommendationLoadCompleted, commentInputChange, postComment, favoriteItem, removeClick }) => (
+const Show = ({ user, token, culturalHeritage, commentInput, recommendations, recommendationLoadCompleted, commentInputChange, postComment, favoriteItem, removeClick, annotations, showAnnotation, hideAnnotation, annotationInput, updateAnnotationInput, createAnnotation, openAnnotationInput, closeAnnotationInput }) => (
   culturalHeritage !== undefined &&
     <Container>
       <Row>
@@ -26,7 +26,7 @@ const Show = ({ user, token, culturalHeritage, commentInput, recommendations, re
 
       <Row>
         <Col xs="9">
-          <CulturalHeritage culturalHeritage={ culturalHeritage } shouldTruncate={ false } showComments={ true } favorite={ () => favoriteItem(token, culturalHeritage) } withLink={ false } />
+          <CulturalHeritage token={ token } culturalHeritage={ culturalHeritage } shouldTruncate={ false } showComments={ true } favorite={ () => favoriteItem(token, culturalHeritage) } withLink={ false } showAnnotations={ true } annotations={ annotations } showAnnotation={ showAnnotation } hideAnnotation={ hideAnnotation } annotationInput={ annotationInput } updateAnnotationInput={ updateAnnotationInput } createAnnotation={ createAnnotation } openAnnotationInput={ openAnnotationInput } closeAnnotationInput={ closeAnnotationInput }/>
           <FormGroup style={{ marginTop: 30 }}>
             <Form>
                 <Input

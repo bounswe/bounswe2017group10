@@ -1,12 +1,13 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Account
-from .serializers import AccountSerializer
+from .serializers import AccountSerializer, AccountUpdateSerializer
+from .permissions import KWArgCheck
 
 
 class AuthRegister(APIView):
@@ -31,3 +32,24 @@ def user(request):
     user = get_object_or_404(Account, username=username)
     serializer = AccountSerializer(user)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class AccountUpdate(generics.UpdateAPIView):
+    """
+    Update user profile.
+    """
+    serializer_class = AccountUpdateSerializer
+    permission_classes = (IsAuthenticated, KWArgCheck,)
+    lookup_field = 'username'
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def get_queryset(self):
+        return Account.objects.filter()
