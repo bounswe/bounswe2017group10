@@ -397,7 +397,7 @@ class JSONWebTokenAuthTestCase(TestCase):
             content_type='application/json',
             HTTP_AUTHORIZATION='JWT ' + token
         )
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 404)
 
     def test_account_update_with_invalid_password(self):
         response = self.client.post(
